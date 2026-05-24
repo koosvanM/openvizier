@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Het Open Vizier — Aanmelden / Anmelden / Subscribe / Подписаться</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Meld u aan voor Het Open Vizier — maandelijkse onafhankelijke krant. Aanmelden in NL / DE / EN / RU.">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .lang-picker {
+      max-width: 600px;
+      margin: 4rem auto;
+      padding: 2rem;
+      text-align: center;
+    }
+    .lang-picker h1 {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .lang-picker__intro {
+      font-family: var(--sans);
+      color: var(--ink-soft);
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+    .lang-picker__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    @media (min-width: 640px) {
+      .lang-picker__grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .lang-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.5rem 1rem;
+      background: #4a90c8;
+      color: #ffffff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      border: 2px solid #1d4f7a;
+    }
+    .lang-btn:hover {
+      background: #1d4f7a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(29, 79, 122, 0.3);
+    }
+    .lang-btn__flag {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .lang-btn__code {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      opacity: 0.9;
+    }
+  </style>
+  <script>
+    // Detecteer browsertaal en stuur direct door (met fallback naar Engels)
+    (function() {
+      var lang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var target = 'en';
+      if (lang.indexOf('nl') === 0) target = 'nl';
+      else if (lang.indexOf('de') === 0) target = 'de';
+      else if (lang.indexOf('ru') === 0) target = 'ru';
+      else if (lang.indexOf('en') === 0) target = 'en';
+      
+      // Alleen redirecten als de gebruiker niet handmatig op deze pagina kwam (geen #manual)
+      if (window.location.hash !== '#kies') {
+        window.location.replace(target + '/');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header style="background: #1d4f7a; color: #fff; padding: 0.75rem 1.5rem; text-align: center; font-family: var(--sans); font-size: 0.9rem;">
+    <strong>Het Open Vizier</strong> — Maandelijkse onafhankelijke krant
+  </header>
+  
+  <main class="lang-picker">
+    <h1>Het Open Vizier</h1>
+    <p class="lang-picker__intro">
+      Welkom · Willkommen · Welcome · Добро пожаловать<br>
+      <span style="font-size: 0.95rem;">Kies uw taal · Wählen Sie Ihre Sprache · Choose your language · Выберите язык</span>
+    </p>
+    
+    <div class="lang-picker__grid">
+      <a href="nl/" class="lang-btn">
+        <span class="lang-btn__flag">🇳🇱</span>
+        <span>Nederlands</span>
+        <span class="lang-btn__code">NL</span>
+      </a>
+      <a href="de/" class="lang-btn">
+        <span class="lang-btn__flag">🇩🇪</span>
+        <span>Deutsch</span>
+        <span class="lang-btn__code">DE</span>
+      </a>
+      <a href="en/" class="lang-btn">
+        <span class="lang-btn__flag">🇬🇧</span>
+        <span>English</span>
+        <span class="lang-btn__code">EN</span>
+      </a>
+      <a href="ru/" class="lang-btn">
+        <span class="lang-btn__flag">🇷🇺</span>
+        <span>Русский</span>
+        <span class="lang-btn__code">RU</span>
+      </a>
+    </div>
+    
+    <p style="margin-top: 3rem; font-family: var(--sans); font-size: 0.85rem; color: var(--ink-muted);">
+      <a href="../" style="color: var(--accent-dark);">← openvizier.org</a>
+    </p>
+  </main>
+</body>
+</html>
