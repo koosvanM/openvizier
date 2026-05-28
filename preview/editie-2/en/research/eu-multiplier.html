@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU: GDP, Real Wages and the Government Multiplier — Het Open Vizier</title>
+  <meta name="description" content="GDP–wage measure after deducting growth in total government expenditure — how much macroeconomic room remains?">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #3a5572;
+      --accent-dark: #26384d;
+    }
+    .article-tools__inner {
+      border-color: #26384d !important;
+    }
+    .version-switch__btn {
+      background: #3a5572 !important;
+    }
+    .version-switch__btn--active {
+      background: #26384d !important;
+    }
+
+    /* ── Methode-stappen ── */
+    .methode-stappen {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .methode-stap {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 0;
+      border-top: 2px solid #dde8f0;
+    }
+    .methode-stap:last-child {
+      border-bottom: 2px solid #dde8f0;
+    }
+    .methode-stap__nr {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 2.8rem;
+    }
+    .methode-stap__body {}
+    .methode-stap__titel {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.25rem;
+    }
+    .methode-stap__formule {
+      font-family: monospace;
+      font-size: 0.95rem;
+      background: #eef4f9;
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      color: #26384d;
+      font-weight: 600;
+      margin: 0 0 0.3rem;
+    }
+    .methode-stap__uitleg {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── EU27 resultaat-kaarten ── */
+    .eu-resultaat {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .eu-kaart {
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+      position: relative;
+    }
+    .eu-kaart--positief {
+      background: #eef5fb;
+      border-top: 4px solid #3a5572;
+    }
+    .eu-kaart--neutraal {
+      background: #fff8ec;
+      border-top: 4px solid #c08020;
+    }
+    .eu-kaart--negatief {
+      background: #fdf2f2;
+      border-top: 4px solid #b83232;
+    }
+    .eu-kaart__stap {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #777;
+      margin: 0 0 0.4rem;
+    }
+    .eu-kaart__waarde {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+      margin: 0 0 0.3rem;
+    }
+    .eu-kaart--positief .eu-kaart__waarde { color: #3a5572; }
+    .eu-kaart--neutraal .eu-kaart__waarde { color: #b87820; }
+    .eu-kaart--negatief .eu-kaart__waarde { color: #b83232; }
+    .eu-kaart__label {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Landen-datatafel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel th:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel td {
+      padding: 0.55rem 0.9rem;
+      border-bottom: 1px solid #dde8f0;
+      vertical-align: middle;
+    }
+    .data-tabel td:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #f4f8fc;
+    }
+    .data-tabel .cel-positief { color: #27782a; font-weight: 700; }
+    .data-tabel .cel-negatief { color: #b83232; font-weight: 700; }
+    .data-tabel .cel-sterk-negatief { color: #8b1a1a; font-weight: 700; }
+    .data-tabel .rij-eu27 td { background: #e8f0f7 !important; font-weight: 700; }
+
+    /* ── EU-heatmap vervang-grid ── */
+    .heatmap-sectie {
+      margin: 1.5rem 0;
+    }
+    .heatmap-groep {
+      margin-bottom: 1.4rem;
+    }
+    .heatmap-groep__titel {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.7rem;
+    }
+    .heatmap-groep--hoog .heatmap-groep__titel {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-groep--midden .heatmap-groep__titel {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-groep--laag .heatmap-groep__titel {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+    .heatmap-landen {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .heatmap-chip {
+      border-radius: 5px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 5.5rem;
+    }
+    .heatmap-chip__naam {
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .heatmap-chip__score {
+      font-size: 0.85rem;
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+    .heatmap-chip--hoog {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-chip--midden {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-chip--laag {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+
+    /* ── Rangschikking: hoog/laag grid ── */
+    .rang-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .rang-col {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .rang-col--hoog {
+      background: #f0f8f0;
+      border-left: 4px solid #27782a;
+    }
+    .rang-col--laag {
+      background: #fdf2f2;
+      border-left: 4px solid #b83232;
+    }
+    .rang-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .rang-col--hoog .rang-col__header { color: #27782a; }
+    .rang-col--laag .rang-col__header { color: #b83232; }
+    .rang-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.55rem;
+      font-size: 0.9rem;
+    }
+    .rang-item__land {
+      font-weight: 700;
+      color: #222;
+    }
+    .rang-item__score {
+      font-weight: 900;
+      font-size: 1rem;
+    }
+    .rang-col--hoog .rang-item__score { color: #27782a; }
+    .rang-col--laag .rang-item__score { color: #b83232; }
+
+    /* ── Interpretatie kaarten ── */
+    .interp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .interp-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      border-left: 3px solid var(--accent);
+    }
+    .interp-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .interp-card__tekst {
+      font-size: 0.88rem;
+      color: #444;
+      margin: 0;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eef5fb;
+      padding: 0.9rem 2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Pull-quote ── */
+    .pull-quote {
+      border-left: 5px solid var(--accent);
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      background: #f4f8fc;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote__tekst {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+      line-height: 1.5;
+    }
+    .pull-quote__attr {
+      font-size: 0.82rem;
+      color: #777;
+      margin: 0;
+    }
+
+    /* ── NEPK-conclusie kaarten ── */
+    .nepk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .nepk-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.2rem;
+      border-top: 4px solid var(--accent);
+    }
+    .nepk-card__nr {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .nepk-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .nepk-card__tekst {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Bronnen ── */
+    .bronnen-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+    }
+    .bronnen-list li {
+      font-size: 0.85rem;
+      color: #555;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #e0ecf5;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .bronnen-list li:last-child { border-bottom: none; }
+    .bronnen-list a { color: var(--accent); text-decoration: none; }
+    .bronnen-list a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .eu-resultaat,
+      .rang-grid,
+      .interp-grid,
+      .nepk-grid {
+        grid-template-columns: 1fr;
+      }
+      .heatmap-chip { min-width: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Edition 2 — Thursday, 28 May 2026
+  <a href="../#subscribe">Subscribe free</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Edition 2 — Thursday, 28 May 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Front page</a></li>
+      <li><a href="../edition-2/">Edition 2</a></li>
+      <li><a href="../archive.html">Archive</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../colophon.html">Colophon</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="../../nl/onderzoek/eu-multiplicator.html">NL</a>
+      <a href="../../de/forschung/eu-multiplikator.html">DE</a>
+      <a href="" class="active">EN</a>
+      <a href="../../ru/issledovanie/es-multiplikator.html">RU</a>
+      <a href="../#subscribe" class="nav__cta">Subscribe free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Extended</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In brief</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Resume">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Read aloud</span>
+      </button>
+      <audio class="audio-player__el" src="/assets/audio/en/research/eu-multiplier.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ EXTENDED -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── SLIDE 1: HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Data analysis · AMECO data</span>
+    <h1 class="slide__title">EU: GDP, Real Wages and the Government Multiplier</h1>
+    <p class="slide__lead">GDP–wage measure after deducting growth in total government expenditure — how much macroeconomic room remains?</p>
+    <p class="slide__meta">By Jacobus van Merksteijn · Behind the Numbers · 14 min read · 28 May 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="/assets/articles/eu-multiplicator.jpg" alt="EU government multiplier: GDP, real wages and government expenditure">
+  </div>
+</section>
+
+<!-- ── SLIDE 2: THE METHOD ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Method</span>
+    <h2 class="slide__heading">The Three-Step Method: From GDP to Macroeconomic Room</h2>
+    <p>This analysis uses the same AMECO basis for real GDP and real compensation per employee as the previous analysis, supplemented by AMECO <code>OUTG</code> for <em>real total expenditure of general government</em> (deflator GDP, index 2020=100). <code>OUTG</code> measures real total government expenditure under ESA 2010 (<a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics AMECO OUTG</a>). AMECO is the European Commission's macroeconomic database with annual datasets (<a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">European Commission AMECO</a>).</p>
+
+    <div class="methode-stappen">
+      <div class="methode-stap">
+        <div class="methode-stap__nr">1</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">GDP–wage measure</p>
+          <p class="methode-stap__formule">Real GDP growth − growth in real compensation per employee</p>
+          <p class="methode-stap__uitleg">The baseline measure: does the economy grow faster than labour costs? A positive value means there is macroeconomic headroom above wage developments.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">2</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">After government deduction</p>
+          <p class="methode-stap__formule">GDP–wage measure − real growth in total government expenditure</p>
+          <p class="methode-stap__uitleg">Once the growth of real total government expenditure is also counted as a separate pressure factor, the measure changes substantially. Government claims a share of the macroeconomic room.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">3</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">With multiplier</p>
+          <p class="methode-stap__formule">GDP–wage measure − real government expenditure growth × government expenditure index (2000=1)</p>
+          <p class="methode-stap__uitleg">This is a stress measure: rising government expenditure later in the period is weighted more heavily than in 2001, because the real cumulative cost base of government has itself grown larger. Not an official national accounts indicator, but an analytical method to make the multiplier factor visible.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>The core question of this analysis:</strong> After accounting for real wage developments and growth in total government expenditure, is any macroeconomic room left over?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 3: EU27 RESULT ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">EU27 result</span>
+    <h2 class="slide__heading">EU27: From +0.9 pp to −0.9 pp — The Margins Evaporate</h2>
+    <p>For EU27 as a whole, the data tells an unambiguous story. The average score over the analysis period shifts sharply once the two additional pressure factors are included:</p>
+
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">Step 1 — GDP–wage measure</p>
+        <p class="eu-kaart__waarde">+0.9</p>
+        <p class="eu-kaart__label">pp average per year<br><em>Output grows faster than wages</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">Step 2 — After government deduction</p>
+        <p class="eu-kaart__waarde">−0.6</p>
+        <p class="eu-kaart__label">pp average per year<br><em>Margin reverses after government deduction</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">Step 3 — With multiplier</p>
+        <p class="eu-kaart__waarde">−0.9</p>
+        <p class="eu-kaart__label">pp average per year<br><em>Cumulative government expenditure pressure</em></p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">"Once total real government expenditure is included as a separate pressure factor, the positive margin between GDP growth and real wage developments is largely absorbed."</p>
+      <p class="pull-quote__attr">— EU27 average, AMECO data</p>
+    </div>
+
+    <p>The conclusion shifts dramatically as a result: what in the primary measure still appeared to be a positive GDP–wage margin of on average 0.9 percentage points per year becomes, after adjustment for real government expenditure, a negative score of −0.6 pp, and with the multiplier weighting even −0.9 pp. The macroeconomic room is smaller than standard indicators suggest.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 4: COUNTRY COMPARISON ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Country comparison</span>
+    <h2 class="slide__heading">Six Countries: How Hard Does the Government Multiplier Press?</h2>
+    <p>The multiplier reveals which countries retain a positive GDP–wage margin after the real growth of total government expenditure is weighted more heavily. Spain remains on average relatively more positive than Germany and Italy, while the Netherlands stays more firmly positive than the EU27 reference — but with sharp swings around 2009 and the pandemic period.</p>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Country</th>
+          <th>GDP–wage (avg.)</th>
+          <th>After gov. deduction</th>
+          <th>With multiplier</th>
+          <th>2024 multiplier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="rij-eu27">
+          <td><strong>EU27</strong></td>
+          <td class="cel-positief">+0.9 pp</td>
+          <td class="cel-negatief">−0.6 pp</td>
+          <td class="cel-negatief">−0.9 pp</td>
+          <td class="cel-sterk-negatief">−3.2 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Netherlands</strong></td>
+          <td class="cel-positief">+1.2 pp</td>
+          <td class="cel-negatief">−0.5 pp</td>
+          <td class="cel-negatief">−0.9 pp</td>
+          <td class="cel-sterk-negatief">−2.7 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Belgium</strong></td>
+          <td class="cel-positief">+1.0 pp</td>
+          <td class="cel-negatief">−1.0 pp</td>
+          <td class="cel-negatief">−1.6 pp</td>
+          <td class="cel-sterk-negatief">−5.9 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Germany</strong></td>
+          <td class="cel-positief">+0.6 pp</td>
+          <td class="cel-negatief">−0.5 pp</td>
+          <td class="cel-negatief">−0.7 pp</td>
+          <td class="cel-sterk-negatief">−5.3 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Italy</strong></td>
+          <td class="cel-positief">+0.7 pp</td>
+          <td class="cel-negatief">−0.1 pp</td>
+          <td class="cel-negatief">−0.2 pp</td>
+          <td class="cel-positief">+5.6 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Spain</strong></td>
+          <td class="cel-positief">+1.4 pp</td>
+          <td class="cel-negatief">−0.9 pp</td>
+          <td class="cel-negatief">−1.7 pp</td>
+          <td class="cel-sterk-negatief">−4.3 pp</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:0.82rem;color:#777;margin-top:-0.5rem;">Source: AMECO Database (European Commission) · DBnomics AMECO OUTG · Eurostat. Averages calculated over the full analysis period.</p>
+
+    <div class="callout">
+      <p><strong>Notable:</strong> Italy is the only country with a positive 2024 multiplier value (+5.6 pp), indicating a relatively declining real government expenditure trajectory in that year. Belgium stands out at the other extreme: −5.9 pp in 2024.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 5: EU HEATMAP (HTML version) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">All EU countries</span>
+    <h2 class="slide__heading">EU Countries Grouped: Average Multiplier Score per Year</h2>
+    <p>Red means that the real growth of total government expenditure structurally pushes the GDP–wage measure below zero; green means the GDP–wage measure remains positive despite the government expenditure factor. The grouping is based on the average multiplier score over the analysis period.</p>
+
+    <div class="heatmap-sectie">
+      <!-- Highest scores -->
+      <div class="heatmap-groep heatmap-groep--hoog">
+        <div class="heatmap-groep__titel">Highest scores (least negative / closest to zero)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Greece</span>
+            <span class="heatmap-chip__score">−0.2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Italy</span>
+            <span class="heatmap-chip__score">−0.2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Denmark</span>
+            <span class="heatmap-chip__score">−0.5 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Portugal</span>
+            <span class="heatmap-chip__score">−0.7 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Germany</span>
+            <span class="heatmap-chip__score">−0.7 pp</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle tier -->
+      <div class="heatmap-groep heatmap-groep--midden">
+        <div class="heatmap-groep__titel">Middle tier</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Netherlands</span>
+            <span class="heatmap-chip__score">−0.9 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">EU27</span>
+            <span class="heatmap-chip__score">−0.9 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Austria</span>
+            <span class="heatmap-chip__score">ca. −1.2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Czechia</span>
+            <span class="heatmap-chip__score">ca. −1.3 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Sweden</span>
+            <span class="heatmap-chip__score">ca. −1.3 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Finland</span>
+            <span class="heatmap-chip__score">ca. −1.4 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Belgium</span>
+            <span class="heatmap-chip__score">−1.6 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Spain</span>
+            <span class="heatmap-chip__score">−1.7 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">France</span>
+            <span class="heatmap-chip__score">ca. −1.8 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Ireland</span>
+            <span class="heatmap-chip__score">ca. −2.0 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Slovenia</span>
+            <span class="heatmap-chip__score">ca. −2.1 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Croatia</span>
+            <span class="heatmap-chip__score">ca. −2.4 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Slovakia</span>
+            <span class="heatmap-chip__score">ca. −2.6 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Hungary</span>
+            <span class="heatmap-chip__score">ca. −2.9 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Cyprus</span>
+            <span class="heatmap-chip__score">ca. −3.0 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Malta</span>
+            <span class="heatmap-chip__score">ca. −3.1 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Luxembourg</span>
+            <span class="heatmap-chip__score">ca. −3.2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Bulgaria</span>
+            <span class="heatmap-chip__score">ca. −3.5 pp</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lowest scores -->
+      <div class="heatmap-groep heatmap-groep--laag">
+        <div class="heatmap-groep__titel">Lowest scores (most negative)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Estonia</span>
+            <span class="heatmap-chip__score">−6.2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Poland</span>
+            <span class="heatmap-chip__score">−6.3 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Romania</span>
+            <span class="heatmap-chip__score">−7.2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Lithuania</span>
+            <span class="heatmap-chip__score">−7.4 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Latvia</span>
+            <span class="heatmap-chip__score">−7.6 pp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:0.82rem;color:#777;">Note: scores for middle-tier countries are interpolations based on the published ranking and the exact anchor values for the six named countries. Source data: AMECO / DBnomics / Eurostat.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 6: RANKING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Ranking</span>
+    <h2 class="slide__heading">Highest and Lowest Multiplier Scores in the EU</h2>
+    <p>The average ranking is stricter than the earlier GDP–wage ranking. Countries with high GDP growth but also rapidly rising government expenditure fall back, while countries with restrained real government expenditure growth score relatively better. Notably: Greece and Italy — countries with historically high national debt — score relatively favourably, thanks to a measured pace of real government expenditure growth over the analysis period.</p>
+
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Highest average scores</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Greece</span>
+          <span class="rang-item__score">−0.2 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Italy</span>
+          <span class="rang-item__score">−0.2 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Denmark</span>
+          <span class="rang-item__score">−0.5 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Portugal</span>
+          <span class="rang-item__score">−0.7 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Germany</span>
+          <span class="rang-item__score">−0.7 pp</span>
+        </div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Lowest average scores</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Latvia</span>
+          <span class="rang-item__score">−7.6 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Lithuania</span>
+          <span class="rang-item__score">−7.4 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Romania</span>
+          <span class="rang-item__score">−7.2 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Poland</span>
+          <span class="rang-item__score">−6.3 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Estonia</span>
+          <span class="rang-item__score">−6.2 pp</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Pattern:</strong> The lowest scores cluster among the former Eastern European member states. This reflects the rapid catch-up growth of government expenditure relative to GDP growth — a structural feature of their convergence trajectory. The highest scores belong to Mediterranean or northern countries that kept real government expenditure growth more restrained.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 7: INTERPRETATION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Interpretation</span>
+    <h2 class="slide__heading">What Do These Scores Mean? A Conceptually Heavier Measure</h2>
+    <p>This version is conceptually more demanding than the earlier GDP–wage analysis. The earlier chart asked: does output grow faster than real compensation per employee? This analysis poses a fundamentally stricter question:</p>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">"After real wage developments and growth in total government expenditure, is any macroeconomic room left over?"</p>
+    </div>
+
+    <div class="interp-grid">
+      <div class="interp-card">
+        <p class="interp-card__titel">What a negative score does <em>not</em> mean</p>
+        <p class="interp-card__tekst">Government expenditure is not inherently problematic. It can finance productive infrastructure, education, defence, healthcare or economic stabilisation — investments that raise productivity over time.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">What a negative score <em>does</em> mean</p>
+        <p class="interp-card__tekst">When total real government expenditure rises faster than the economy as a whole, the free macroeconomic room shrinks. The margin between output and pressure factors (wages + government) disappears.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">The multiplier as a stress measure</p>
+        <p class="interp-card__tekst">The third step is not an official national accounts indicator but an analytical way to make the cumulative build-up of government expenditure visible. The heavier weighting later in the period reflects the fact that the absolute cost base has itself grown larger in the meantime.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Implication for policy</p>
+        <p class="interp-card__tekst">Standard GDP growth figures mask how much of that growth has already been "consumed" by government expenditure developments. The actual free macroeconomic room is smaller than policymakers typically measure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 8: CONCLUSION + NEPK CONNECTION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Conclusion</span>
+    <h2 class="slide__heading">Conclusion: Macroeconomic Room Shrinks Faster Than We Measure</h2>
+    <p>The EU data empirically confirm what the NEPK framework (Net External Productive Core) theoretically asserts about the relationship between GDP growth, labour costs and overhead. The connection is direct and corroborating:</p>
+
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>EU data validates NEPK theory:</strong> The positive GDP–wage margin of EU27 (+0.9 pp) evaporates entirely once real total government expenditure is included as a pressure factor (−0.9 pp with the multiplier). This is precisely the mechanism the NEPK framework describes for the Netherlands: macroeconomic room is absorbed by costs that standard measures do not fully account for.</p>
+    </div>
+
+    <div class="nepk-grid">
+      <div class="nepk-card">
+        <div class="nepk-card__nr">01</div>
+        <p class="nepk-card__titel">NEPK theory → EU evidence</p>
+        <p class="nepk-card__tekst">The NEPK framework holds that the actual productive core is smaller than GDP figures suggest, because overhead (government, compliance, the circulation sector) absorbs an ever-larger share of growth. The EU27 multiplier data shows this pattern simultaneously across all 27 member states.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">02</div>
+        <p class="nepk-card__titel">The convergence trap</p>
+        <p class="nepk-card__tekst">Countries such as Latvia, Lithuania and Romania — with the lowest multiplier scores — demonstrate that rapid economic convergence goes hand in hand with even faster growth in government expenditure. This is NEPK dynamics on a European scale: growth combined with shrinking free margin.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">03</div>
+        <p class="nepk-card__titel">The Netherlands in European perspective</p>
+        <p class="nepk-card__tekst">The Netherlands, with a multiplier score of −0.9 pp, sits at the EU27 average. With a 2024 score of −2.7 pp it is in negative territory, though less extreme than Belgium (−5.9 pp) or Germany (−5.3 pp). NEPK erosion is not a specifically Dutch phenomenon — it is an EU-wide pattern.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="background:#fdf6e8;border-left-color:#b87820;">
+      <p style="font-size:1.05rem;font-weight:700;color:#7a4c00;">"Macroeconomic room shrinks faster than we measure — hence the NEPK framework."</p>
+      <p style="margin-top:0.5rem;color:#555;">The EU multiplier data are not a standalone indicator of crisis. But they validate the core of the NEPK argument: standard GDP growth and wage indicators underestimate the actual costs pressing on the productive core. The NEPK framework makes that hidden pressure explicitly measurable — first for the Netherlands, now confirmed by EU-wide data.</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem; color: var(--accent-dark);">Sources</h3>
+    <ul class="bronnen-list">
+      <li>
+        <strong>AMECO Database</strong> — European Commission, annual macroeconomic data for all EU member states
+        <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">(economy-finance.ec.europa.eu)</a>
+      </li>
+      <li>
+        <strong>DBnomics AMECO OUTG</strong> — Real total government expenditure, ESA 2010, index 2020=100
+        <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">(db.nomics.world/AMECO/OUTG)</a>
+      </li>
+      <li>
+        <strong>Eurostat</strong> — Supplementary national accounts data and verification
+        <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">(ec.europa.eu/eurostat)</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ IN BRIEF -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Data analysis · AMECO data</span>
+    <h2 class="slide__heading">EU: GDP, Real Wages and the Government Multiplier</h2>
+    <p class="slide__lead">GDP–wage measure after deducting growth in total government expenditure — how much macroeconomic room remains?</p>
+    <p>This analysis extends the standard GDP–wage measure with AMECO <code>OUTG</code> (real total government expenditure) and calculates three successive scores for all EU member states. The result: the positive GDP–wage margin evaporates once government expenditure is counted as a pressure factor.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">EU27: from +0.9 pp to −0.9 pp</h2>
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">GDP–wage measure</p>
+        <p class="eu-kaart__waarde">+0.9</p>
+        <p class="eu-kaart__label">pp avg./year</p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">After gov. deduction</p>
+        <p class="eu-kaart__waarde">−0.6</p>
+        <p class="eu-kaart__label">pp avg./year</p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">With multiplier</p>
+        <p class="eu-kaart__waarde">−0.9</p>
+        <p class="eu-kaart__label">pp avg./year</p>
+      </div>
+    </div>
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">"Once total real government expenditure is included as a separate pressure factor, the positive margin is largely absorbed."</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Ranking: best and worst EU countries</h2>
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Best scores</div>
+        <div class="rang-item"><span class="rang-item__land">Greece</span><span class="rang-item__score">−0.2 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Italy</span><span class="rang-item__score">−0.2 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Denmark</span><span class="rang-item__score">−0.5 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Portugal</span><span class="rang-item__score">−0.7 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Germany</span><span class="rang-item__score">−0.7 pp</span></div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Lowest scores</div>
+        <div class="rang-item"><span class="rang-item__land">Latvia</span><span class="rang-item__score">−7.6 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Lithuania</span><span class="rang-item__score">−7.4 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Romania</span><span class="rang-item__score">−7.2 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Poland</span><span class="rang-item__score">−6.3 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Estonia</span><span class="rang-item__score">−6.2 pp</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Conclusion and NEPK connection</h2>
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>EU data validates NEPK theory:</strong> The multiplier analysis empirically confirms what the NEPK framework asserts — macroeconomic room is absorbed by costs that standard indicators do not fully capture.</p>
+    </div>
+    <p style="font-size:1rem;font-weight:700;color:#26384d;margin-top:1rem;">"Macroeconomic room shrinks faster than we measure — hence the NEPK framework."</p>
+    <p>The Netherlands scores −0.9 pp on average (equal to EU27) but −2.7 pp in 2024. NEPK erosion is not an exclusively Dutch phenomenon — it is an EU-wide pattern that empirically supports the NEPK theory.</p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Technical Supplement · Edition 2 — Thursday, 28 May 2026</p>
+    <p><a href="../edition-2/">To edition 2</a> · Sources: <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">AMECO</a> · <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics OUTG</a> · <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">Eurostat</a></p>
+  </div>
+</footer>
+
+<script src="/assets/article-tools.js"></script>
+</body>
+</html>

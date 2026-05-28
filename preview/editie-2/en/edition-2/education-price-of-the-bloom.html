@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Price of the Bloom — Het Open Vizier</title>
+  <meta name="description" content="Education Trilogy · Part II — What it costs to restore Dutch education. On money, comfort, and who feels the bill.">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #a8392c;
+      --accent-dark: #8b2e23;
+    }
+    .article-tools__inner {
+      border-color: #8b2e23;
+    }
+    .version-switch__btn--active {
+      background: #8b2e23 !important;
+    }
+    .version-switch__btn {
+      background: #a8392c !important;
+    }
+
+    /* Trilogy navigator (identical to part III) */
+    .trilogie-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 720px) {
+      .trilogie-nav { grid-template-columns: 1fr; }
+    }
+    .trilogie-card {
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      background: #faf8f7;
+      text-decoration: none;
+      color: inherit;
+      transition: background .15s ease;
+    }
+    .trilogie-card:hover {
+      background: #f5ebe9;
+    }
+    .trilogie-card--active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .trilogie-card__label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .85;
+      display: block;
+      margin-bottom: .35rem;
+    }
+    .trilogie-card__titel {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.35;
+    }
+
+    /* Price table: what is gained, what is lost */
+    .prijs-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: .94rem;
+    }
+    .prijs-tabel thead th {
+      background: var(--accent);
+      color: #fff;
+      padding: .85rem 1rem;
+      text-align: left;
+      font-size: .82rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .prijs-tabel tbody td {
+      padding: .85rem 1rem;
+      border-bottom: 1px solid #e0d6d3;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .prijs-tabel tbody tr:nth-child(even) td {
+      background: #faf8f7;
+    }
+    .prijs-tabel td:first-child {
+      font-weight: 600;
+      color: var(--accent-dark);
+      width: 28%;
+    }
+
+    /* Groups grid (who pays what) */
+    .groep-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+    .groep-card {
+      background: #fdf9f8;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 1.25rem 1.5rem;
+    }
+    .groep-card__wie {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 .35rem;
+      display: block;
+    }
+    .groep-card__betaalt {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 .6rem;
+      font-style: italic;
+    }
+    .groep-card__uitleg {
+      font-size: .9rem;
+      color: #333;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Cost items grid */
+    .kosten-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .kosten-card {
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      padding: 1.25rem;
+      background: #faf8f7;
+      text-align: center;
+    }
+    .kosten-card__bedrag {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      display: block;
+      line-height: 1.1;
+      margin-bottom: .35rem;
+    }
+    .kosten-card__post {
+      font-size: .85rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    .kosten-card__horizon {
+      font-size: .7rem;
+      color: #888;
+      display: block;
+      margin-top: .5rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    /* Closing frame */
+    .slot-kader {
+      background: var(--accent);
+      color: #fff;
+      padding: 2rem;
+      border-radius: 6px;
+      text-align: center;
+      margin: 2rem 0;
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+    .pull-quote {
+      font-size: 1.25rem;
+      line-height: 1.55;
+      color: var(--accent-dark);
+      border-left: 4px solid var(--accent);
+      padding: .6rem 0 .6rem 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+    }
+    .slide__tag--trilogie {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Design note */
+    .opzet-notitie {
+      background: #fff7e8;
+      border: 1px dashed #d4a017;
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      font-size: .88rem;
+      color: #6b4f00;
+      margin: 1.5rem 0;
+      line-height: 1.55;
+    }
+    .opzet-notitie strong {
+      color: #8a6500;
+    }
+  </style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead__date">Edition 2 — Thursday, 28 May 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Front page</a></li>
+      <li><a href="">Edition 2</a></li>
+      <li><a href="../archive.html">Archive</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../colophon.html">Colophon</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="../../nl/editie-2/onderwijs-prijs-van-de-bloei.html">NL</a>
+      <a href="" class="active">EN</a>
+      <a href="../#subscribe" class="nav__cta">Subscribe free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Extended</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In brief</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Resume">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Read aloud</span>
+      </button>
+      <audio class="audio-player__el" src="/assets/audio/en/edition-2/education-price-of-the-bloom.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     EXTENDED VERSION
+════════════════════════════════════════════ -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- HERO -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag slide__tag--trilogie">Education Trilogy · Part II</span>
+    <h1 class="slide__title">The Price of the Bloom</h1>
+    <p class="slide__lead">What it costs to restore Dutch education — and why the bill cannot be avoided.</p>
+    <p class="slide__meta">By Jacobus van Merksteijn · 14 min read · 28 May 2026 · Edition 2</p>
+    <p class="slide__meta" style="margin-top:.25rem; font-style:italic; color: var(--accent);">Second part of the education trilogy</p>
+  </div>
+  <div class="slide__visual">
+    <img src="/assets/articles/onderwijs-prijs-van-de-bloei.jpg" alt="An oak in bloom above unspoken sacrifices among its roots — Dutch broadsheet illustration">
+  </div>
+</section>
+
+<!-- TRILOGY NAVIGATOR -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">The complete series</span>
+    <h2 class="slide__heading">A trilogy on education</h2>
+    <nav class="trilogie-nav" aria-label="Education Trilogy">
+      <a href="education-back-to-the-workbench.html" class="trilogie-card">
+        <span class="trilogie-card__label">Part I</span>
+        <p class="trilogie-card__titel">Back to the Workbench, Forward to Thought</p>
+      </a>
+      <a href="education-price-of-the-bloom.html" class="trilogie-card trilogie-card--active">
+        <span class="trilogie-card__label">Part II · you are reading this</span>
+        <p class="trilogie-card__titel">The Price of the Bloom</p>
+      </a>
+      <a href="education-choose-a-side.html" class="trilogie-card">
+        <span class="trilogie-card__label">Part III</span>
+        <p class="trilogie-card__titel">Choose a Side</p>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- § 01 — THE BLOOM AND THE SILENCE -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 01</span>
+    <h2 class="slide__heading">The bloom we want — and the silence around it</h2>
+    <p>In the first part of this series I described what Dutch education must look like in order to give the next generation the formation this age demands. Three tracks — craftsmanship, broad knowledge, classical pre-university preparation — existing side by side, each with federal recognition and its own examination. Funding tied to outcomes. Teachers selected. A Broad Knowledge School that cultivates polymaths. A Higher Maritime Academy restored to existence.</p>
+    <p>In that first part I said little about what this costs. Not from ignorance — but from sequencing. First it had to be clear <em>why</em>. Only then does the question <em>what does it cost</em> carry meaning.</p>
+    <p>This second part is about that question. Not to discourage the reader, but to arm him. For it is a law of political discourse: the moment a reform becomes concrete, it becomes expensive. And the moment it becomes expensive, it is abandoned — not because it has been rejected, but because no one has the courage to take the bill on.</p>
+    <blockquote class="pull-quote">Whoever refuses to name the price pretends the bloom is free. And what seems free, no one ever receives.</blockquote>
+    <p>I therefore want to do three things in this piece. One: name the cost items in order of magnitude. Two: identify who pays them — not abstract "the Netherlands", but concretely which group makes which sacrifice. Three: show why delay is more expensive than the reform itself.</p>
+  </div>
+</section>
+
+<!-- § 02 — THE COST ITEMS -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 02</span>
+    <h2 class="slide__heading">The cost items in order of magnitude</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Not exact figures — orders of magnitude, to make the conversation possible.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <div class="kosten-grid">
+      <div class="kosten-card">
+        <span class="kosten-card__bedrag">€ 2–3 bn</span>
+        <p class="kosten-card__post">Teacher salaries raised to the level that justifies selection — the Finnish model</p>
+        <span class="kosten-card__horizon">annual · structural</span>
+      </div>
+      <div class="kosten-card">
+        <span class="kosten-card__bedrag">€ 1–2 bn</span>
+        <p class="kosten-card__post">Restoration of vocational institutions as independent institutes — MTS, HTS, HZS, HLS, HHS</p>
+        <span class="kosten-card__horizon">first 5 years · investment</span>
+      </div>
+      <div class="kosten-card">
+        <span class="kosten-card__bedrag">€ 500 m</span>
+        <p class="kosten-card__post">Broad Knowledge School pilot — three locations, four year groups, final-examination infrastructure</p>
+        <span class="kosten-card__horizon">first 5 years · investment</span>
+      </div>
+      <div class="kosten-card">
+        <span class="kosten-card__bedrag">€ 300 m</span>
+        <p class="kosten-card__post">Independent inspectorate and central examinations board — random, unannounced</p>
+        <span class="kosten-card__horizon">annual · structural</span>
+      </div>
+      <div class="kosten-card">
+        <span class="kosten-card__bedrag">€ 1–2 bn</span>
+        <p class="kosten-card__post">Light civic service — six to twelve months, study bursary</p>
+        <span class="kosten-card__horizon">annual · structural</span>
+      </div>
+      <div class="kosten-card">
+        <span class="kosten-card__bedrag">€ 5–7 bn</span>
+        <p class="kosten-card__post">Total order of magnitude — first five years combined, thereafter partly self-sustaining through outcome-based funding</p>
+        <span class="kosten-card__horizon">cumulative · rough</span>
+      </div>
+    </div>
+
+    <p>These are rough orders of magnitude, not budgetary rules. Anyone who wants precise figures should ask a minister — and who knows whether they will ever receive an honest answer. But the order is right. We are talking here about several billion per year, structurally, plus an investment of comparable scale over a period of five to ten years.</p>
+
+    <p>For perspective: the Dutch education budget amounts to well over € 45 billion per year. The restoration therefore costs somewhere between 10 and 20 per cent of what we already spend. Not unaffordable. But unavoidably visible.</p>
+
+    <p style="font-size:.78rem; color:#999; margin-top:1rem;">Sources: National Budget OCW · CPB projection on teacher salaries (2024) · OECD Education at a Glance · own estimate</p>
+  </div>
+</section>
+
+<!-- § 03 — WHO PAYS WHAT -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 03</span>
+    <h2 class="slide__heading">Who pays what</h2>
+    <p>Money is the smallest part of the price. Any reform that only costs money is not a reform — it is an expenditure. The real price lies in what people must <em>give up</em>. And that differs by group.</p>
+
+    <div class="groep-grid">
+      <div class="groep-card">
+        <span class="groep-card__wie">The parent</span>
+        <p class="groep-card__betaalt">Gives up: the comfort of giving in.</p>
+        <p class="groep-card__uitleg">Under the new system the teacher has the final word. Not the parent who complains. Not the child who cries. The parental contribution is paid partly in time — employers facilitate that. Whoever allows their child to be raised with rigour surrenders their own evenings. That is the price of a child who can think twenty years from now.</p>
+      </div>
+      <div class="groep-card">
+        <span class="groep-card__wie">The teacher</span>
+        <p class="groep-card__betaalt">Gives up: the shelter of the curriculum.</p>
+        <p class="groep-card__uitleg">In the old system the curriculum was a shield — whoever followed it bore no responsibility for the outcome. In the new system the teacher is a master. A salary befitting a master. But also accountability befitting a master: what the pupil knows is what the teacher has conveyed.</p>
+      </div>
+      <div class="groep-card">
+        <span class="groep-card__wie">The pupil</span>
+        <p class="groep-card__betaalt">Gives up: the phone, the content-free diploma, the outsourcing.</p>
+        <p class="groep-card__uitleg">No phone at school under the age of sixteen. Oral examination as the primary form — no multiple choice on which the algorithm tips. Whoever fails, fails. For the first time in thirty years a diploma stands for something again. The gain in capability is great. The cost in convenience too.</p>
+      </div>
+      <div class="groep-card">
+        <span class="groep-card__wie">The school</span>
+        <p class="groep-card__betaalt">Gives up: the guarantee of funding by headcount.</p>
+        <p class="groep-card__uitleg">A school receives money for every pupil who passes at target level — not for every pupil who enrols. Whoever lowers standards to push everyone through loses money. Some school boards will go bankrupt. That is not a flaw of the system — that is precisely the intention.</p>
+      </div>
+      <div class="groep-card">
+        <span class="groep-card__wie">The employer</span>
+        <p class="groep-card__betaalt">Gives up: the inflow of poorly-educated paper graduates at low cost.</p>
+        <p class="groep-card__uitleg">Under the new system there are fewer paper graduates and more genuinely skilled professionals. Employers who have built their business model on cheap, poorly-trained HBO graduates must either pay a higher price for real knowledge, or become more productive with fewer people. Both options are better for the country. Not always for the individual employer.</p>
+      </div>
+      <div class="groep-card">
+        <span class="groep-card__wie">The politician</span>
+        <p class="groep-card__betaalt">Gives up: the electoral reward of delay.</p>
+        <p class="groep-card__uitleg">A politician who implements this reform will not reap the fruits. The first cohort emerges from the system in 2031 — two cabinets from now. The party that reforms today hands the electoral gains to its successor. Whoever refuses to accept this chooses against the country and for themselves. That is what Part III will call: <em>choose a side</em>.</p>
+      </div>
+      <div class="groep-card">
+        <span class="groep-card__wie">The taxpayer</span>
+        <p class="groep-card__betaalt">Gives up: a few billion per year — which he would otherwise waste elsewhere.</p>
+        <p class="groep-card__uitleg">Five to seven billion per year sounds like a lot. It is less than what the Netherlands spends in an average year on subsidies no one can name. It is less than what we lose annually in productivity through a workforce that can no longer read what it signs. It is a reallocation of resources we already spend — not a new burden.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 04 — THE HIDDEN COSTS OF NOT REFORMING -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 04</span>
+    <h2 class="slide__heading">The hidden costs of not reforming</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Whoever says it is too expensive is comparing against zero. But zero does not exist — we are already paying, only without receiving anything in return.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <table class="prijs-tabel">
+      <thead>
+        <tr>
+          <th>Cost item of non-reform</th>
+          <th>What it costs us now — per year, rough</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Productivity loss from a functionally illiterate workforce</td>
+          <td>€ 8–12 bn · CPB estimate based on PISA trend</td>
+        </tr>
+        <tr>
+          <td>Retraining and upskilling of workers whose initial education no longer matches the labour market</td>
+          <td>€ 3–5 bn · UWV and sector training funds</td>
+        </tr>
+        <tr>
+          <td>Social benefits for young people with degrees of no labour-market value</td>
+          <td>€ 2–4 bn · CBS, youth unemployment</td>
+        </tr>
+        <tr>
+          <td>Healthcare and mental health costs of a generation raised on its phone</td>
+          <td>€ 1–3 bn · Trimbos, GGZ Nederland</td>
+        </tr>
+        <tr>
+          <td>Loss of international competitiveness — the Netherlands from top-5 to the middle of the field</td>
+          <td>Immeasurable — but real · IMD World Competitiveness</td>
+        </tr>
+        <tr>
+          <td><strong>Total hidden costs</strong></td>
+          <td><strong>€ 14–24 bn per year · structural</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The comparison speaks for itself. The reform costs five to seven billion per year in the first five years. The delay already costs us more than twice that annually — only that bill is not presented on a single sheet of paper, so it feels abstract.</p>
+
+    <blockquote class="pull-quote">We are already paying the price of the bloom. We are simply not getting any bloom in return.</blockquote>
+
+    <p style="font-size:.78rem; color:#999; margin-top:1rem;">Sources: CPB Note 2024 · UWV annual report 2025 · CBS · Trimbos 2025 · IMD WCI 2024 · own estimate</p>
+  </div>
+</section>
+
+<!-- § 05 — WHAT REMAINS, WHAT GOES -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 05</span>
+    <h2 class="slide__heading">What remains, what goes</h2>
+    <p>A reform does not win through promises — a reform wins through honesty about what it takes away. Here is the short overview.</p>
+
+    <table class="prijs-tabel">
+      <thead>
+        <tr>
+          <th>What remains</th>
+          <th>What disappears</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Freedom of denomination — Article 23</td>
+          <td>Freedom to lower standards and remain funded</td>
+        </tr>
+        <tr>
+          <td>The teacher in front of the class</td>
+          <td>The teacher as curriculum-executor without authority</td>
+        </tr>
+        <tr>
+          <td>Gymnasium and lyceum</td>
+          <td>HAVO-VWO as a collective label for broadly mediocre</td>
+        </tr>
+        <tr>
+          <td>Broad accessibility of education</td>
+          <td>Diploma inflation that devalues every form of accessibility</td>
+        </tr>
+        <tr>
+          <td>The pupil's free choice at fifteen</td>
+          <td>The fiction that a twelve-year-old can already choose what they will become</td>
+        </tr>
+        <tr>
+          <td>The inspectorate as an institution</td>
+          <td>An inspectorate that announces its visits in advance</td>
+        </tr>
+        <tr>
+          <td>The Dutch tradition of pragmatism and commercial acumen</td>
+          <td>The Dutch tradition of shuffling things aside and muddling through</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- § 06 — THE TIMELINE OF PAIN -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 06</span>
+    <h2 class="slide__heading">The timeline of the pain — and of the gain</h2>
+    <p>A reform of this scale hurts at the wrong moment. It is the duty of the writer to say that honestly.</p>
+
+    <table class="prijs-tabel">
+      <thead>
+        <tr>
+          <th>Period</th>
+          <th>What the Dutch citizen feels</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Years 1–2</td>
+          <td>Mostly costs. First school boards lose funding. First protests from teachers' unions. No visible gain.</td>
+        </tr>
+        <tr>
+          <td>Years 3–5</td>
+          <td>First BKS cohort in training. First vocational institutions re-established. First central final examinations. The tone of the conversation changes — but no measurable result yet.</td>
+        </tr>
+        <tr>
+          <td>Years 6–8</td>
+          <td>First cohort of new skilled professionals on the labour market. First Broad Knowledge School graduates. PISA scores rise for the first time in thirty years. The press begins to change its tone.</td>
+        </tr>
+        <tr>
+          <td>Years 9–15</td>
+          <td>Effect accumulates. Productivity per worker rises. Social benefits to young people decline. International rankings revised. A generation of twenty-somethings who can think takes over roles.</td>
+        </tr>
+        <tr>
+          <td>Years 16–25</td>
+          <td>The bloom. The generation of 2040 steers the country — and can do so because it has been formed. The expenditure balance of the reform turns positive: it saves more in productivity than it ever cost.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>This is not a marketing schedule. This is the honest expectation based on comparable reforms elsewhere — Singapore from 1965, Finland from 1985, Estonia from 1995. Always the same curve: pain upfront, slow build-up, strong acceleration from the second decade onward.</p>
+
+    <blockquote class="pull-quote">Whoever thinks only of the next four years cannot afford this reform. Whoever thinks of the next twenty-five years can no longer afford the delay.</blockquote>
+  </div>
+</section>
+
+<!-- § 07 — THE PRICE OF DELAY -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 07</span>
+    <h2 class="slide__heading">The price of delay</h2>
+    <p>There is a persistent fallacy in Dutch political discourse: that <em>not yet reforming</em> is cheaper than <em>reforming now</em>. That is misleading. Delay has a price, and that price is measured in cohorts of children.</p>
+
+    <p>Every month of delay is a month in which another 17,000 Dutch children are born. By the time the reform begins, those children are already two years into the old system. By the time the reform is fully operational, they have already spent six or seven years under the wrong formation. Every month of delay is therefore not merely four or five billion in hidden costs — it is a lost cohort.</p>
+
+    <div class="slot-kader">
+      <p>Five years of delay = 1 million children who can no longer escape the old system.<br>Five years of delay = € 70 billion in hidden costs — for exactly the same outcome.</p>
+    </div>
+
+    <p>This is the calculation that in Part III leads to a choice. Not because the figures compel — but because the figures can no longer be evaded.</p>
+  </div>
+</section>
+
+<!-- § 08 — CONCLUSION AND BRIDGE TO PART III -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 08</span>
+    <h2 class="slide__heading">Conclusion — and the bridge to Part III</h2>
+    <p>In this second part I have wanted to name the price that the first part left unspoken. Not to discourage you, but because a reform that cannot be paid for is not a reform — it is a wish.</p>
+    <p>The price is high. The price of delay is higher. The price of not choosing is the highest.</p>
+    <p>That brings us to the third and final part of this series: <em>Choose a Side</em>. For once the price has been named, there is no longer any non-commitment. Everyone — parent, teacher, pupil, school governor, employer, politician — then stands at a point where their stance counts in a way it has not counted for thirty years.</p>
+
+    <div class="slot-kader">
+      <p>The bloom costs what it costs.<br>We have already spent the money — only without harvesting anything.</p>
+    </div>
+
+    <p style="text-align:center; margin-top:2rem;">
+      <a href="education-choose-a-side.html" style="background: var(--accent); color:#fff; padding: .75rem 1.5rem; text-decoration:none; border-radius: 4px; font-weight:600; display:inline-block;">Continue to Part III — Choose a Side →</a>
+    </p>
+
+    <p style="margin-top:2rem; font-size:.85rem; color:#666; font-style:italic; text-align:center;">Jacobus van Merksteijn writes about education, innovation and democratic renewal in Het Open Vizier. This was Part II of the education trilogy.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- SHORT VERSION -->
+<div class="version-content__kort" style="display:none;">
+<main class="article">
+
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag slide__tag--trilogie">Education Trilogy · Part II</span>
+    <h1 class="slide__title">The Price of the Bloom</h1>
+    <p class="slide__lead">In brief — four minutes reading.</p>
+  </div>
+  <div class="slide__visual">
+    <img src="/assets/articles/onderwijs-prijs-van-de-bloei.jpg" alt="An oak in bloom above unspoken sacrifices among its roots">
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">The bill</span>
+    <h2 class="slide__heading">What it costs</h2>
+    <p>The reform from Part I costs roughly € 5–7 billion per year in the first five years, followed by around € 3–4 billion structurally thereafter. That is 10 to 15 per cent above the current education budget of € 45 billion. Not unaffordable. But visible.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Who pays</span>
+    <h2 class="slide__heading">Money is the smallest part</h2>
+    <ul>
+      <li><strong>The parent</strong> gives up: the comfort of giving in.</li>
+      <li><strong>The teacher</strong> gives up: the shelter of the curriculum.</li>
+      <li><strong>The pupil</strong> gives up: phone, paper diploma, outsourcing.</li>
+      <li><strong>The school</strong> gives up: funding by headcount.</li>
+      <li><strong>The employer</strong> gives up: cheap paper graduates.</li>
+      <li><strong>The politician</strong> gives up: the electoral reward of delay.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">The hidden bill</span>
+    <h2 class="slide__heading">What non-reform already costs us</h2>
+    <p>Productivity loss, retraining, social benefits, mental health costs and loss of competitiveness combined: <strong>€ 14–24 billion per year</strong>. More than double what the reform itself costs. We are already paying the price — we are simply not getting any bloom in return.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">The timeline</span>
+    <h2 class="slide__heading">Pain upfront, bloom afterwards</h2>
+    <p>Years 1–5: costs with no visible gain. Years 6–10: first cohorts on the labour market. Years 11–15: PISA and productivity shift. Years 16–25: the generation of 2040 steers the country — and can do so because it has been formed.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Conclusion</h2>
+    <div class="slot-kader">
+      <p>Five years of delay = 1 million children who can no longer escape the old system.<br>The price of delay is higher than the price of reform. The price of not choosing is the highest.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Edition 2 — Thursday, 28 May 2026</p>
+    <p><a href="../">To edition 2</a></p>
+  </div>
+</footer>
+
+<script src="/assets/article-tools.js"></script>
+</body>
+</html>

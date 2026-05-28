@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zurück zur Werkbank, voraus zum Denken — Het Open Vizier</title>
+  <meta name="description" content="Bildungs-Trilogie · Teil I — Einfache Wiederherstellung von Qualität, Handwerk und Breite. Für ein Land, das sich wegdiplomiert und sein Handwerk vergisst.">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #a8392c;
+      --accent-dark: #8b2e23;
+    }
+    .article-tools__inner {
+      border-color: #8b2e23;
+    }
+    .version-switch__btn--active {
+      background: #8b2e23 !important;
+    }
+    .version-switch__btn {
+      background: #a8392c !important;
+    }
+
+    /* Landen-grid: zes kaarten naast elkaar */
+    .landen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin: 1.75rem 0;
+    }
+    .land-card {
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      background: #faf8f7;
+    }
+    .land-card__naam {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 .35rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .land-card__hervorming {
+      font-size: .88rem;
+      color: #333;
+      margin: 0 0 .6rem;
+      line-height: 1.5;
+    }
+    .land-card__resultaat {
+      font-size: .82rem;
+      color: #555;
+      border-top: 1px solid #e0d6d3;
+      padding-top: .6rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .land-card__label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: .2rem;
+    }
+
+    /* Sporen-grid: drie kolommen */
+    .sporen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin: 1.75rem 0;
+    }
+    .spoor-card {
+      background: #fdf9f8;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 1.25rem 1.5rem;
+    }
+    .spoor-card__label {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--accent);
+      margin: 0 0 .3rem;
+      display: block;
+    }
+    .spoor-card__titel {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0 0 .6rem;
+      color: #1a1a1a;
+    }
+    .spoor-card__body {
+      font-size: .88rem;
+      color: #444;
+      margin: 0;
+      line-height: 1.55;
+    }
+    .spoor-card ul {
+      margin: .4rem 0 0;
+      padding-left: 1.1rem;
+    }
+    .spoor-card ul li {
+      font-size: .84rem;
+      margin-bottom: .2rem;
+      color: #555;
+    }
+
+    /* BKS-jaarblokken */
+    .bks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .bks-blok {
+      background: #1a1a1a;
+      color: #f5f0ee;
+      border-radius: 6px;
+      padding: 1.2rem 1.3rem;
+    }
+    .bks-blok__jaar {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      color: var(--accent);
+      font-weight: 700;
+      margin: 0 0 .25rem;
+      display: block;
+    }
+    .bks-blok__titel {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 .5rem;
+    }
+    .bks-blok__body {
+      font-size: .82rem;
+      color: #ccc;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Principes-tabel (§06) */
+    .principes-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: .88rem;
+    }
+    .principes-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      text-align: left;
+      padding: .65rem .85rem;
+      font-weight: 700;
+    }
+    .principes-tabel td {
+      padding: .6rem .85rem;
+      border-bottom: 1px solid #e8e0de;
+      vertical-align: top;
+    }
+    .principes-tabel tr:nth-child(even) td {
+      background: #faf7f6;
+    }
+    .principes-tabel tr:last-child td {
+      border-bottom: none;
+    }
+    .principes-tabel td:first-child {
+      font-weight: 600;
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    /* Bezwaar-blocks (§07) */
+    .bezwaar-block {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1.25rem 0;
+    }
+    .bezwaar-block__quote {
+      background: #f5f0ef;
+      padding: .9rem 1.2rem;
+      font-style: italic;
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: #2a2a2a;
+      margin: 0;
+      border-left: 4px solid var(--accent);
+    }
+    .bezwaar-block__antwoord {
+      padding: .9rem 1.2rem;
+      margin: 0;
+      font-size: .9rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Actie-blokken (§08) */
+    .actie-lijst {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .actie-lijst li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: .55rem;
+      font-size: .93rem;
+      line-height: 1.55;
+    }
+    .actie-lijst li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Stelling-quote slide */
+    .slide--stelling {
+      background: #1a1a1a;
+      color: #f5f0ee;
+    }
+    .slide--stelling .slide__inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 360px;
+    }
+    .stelling-quote {
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.45;
+      margin: 0 0 1.5rem;
+      color: #f5f0ee;
+    }
+    .stelling-attr {
+      font-size: .85rem;
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin: 0;
+    }
+
+    /* Manifest-tag */
+    .slide__tag--manifest {
+      background: var(--accent) !important;
+    }
+
+    /* Kader quote-pull */
+    .pull-quote {
+      font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+      font-style: italic;
+      color: var(--accent-dark);
+      border-left: 4px solid var(--accent);
+      margin: 2rem 0;
+      padding: .75rem 1.5rem;
+      line-height: 1.5;
+    }
+
+    /* Kader info (§04 "Wie zakt") */
+    .manifest-kader {
+      background: #fdf4f3;
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .manifest-kader p {
+      margin: 0;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    /* Nova Democratia-slot */
+    .slot-kader {
+      background: #1a1a1a;
+      color: #f5f0ee;
+      border-radius: 6px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .slot-kader p {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 600;
+      margin: 0 0 .5rem;
+    }
+    .slot-kader small {
+      font-size: .8rem;
+      color: #aaa;
+    }
+
+    /* Diagnose-stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .stat-blok {
+      background: var(--accent-dark);
+      color: #fff;
+      border-radius: 6px;
+      padding: 1.1rem 1.2rem;
+      text-align: center;
+    }
+    .stat-blok__getal {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: .35rem;
+    }
+    .stat-blok__label {
+      font-size: .78rem;
+      line-height: 1.4;
+      color: rgba(255,255,255,.85);
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Ausgabe 2 — Donnerstag, 28. Mai 2026
+  <a href="../#abonnieren">Gratis abonnieren</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Ausgabe 2 — Donnerstag, 28. Mai 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Titelseite</a></li>
+      <li><a href="">Ausgabe 2</a></li>
+      <li><a href="../archiv.html">Archiv</a></li>
+      <li><a href="../ueber.html">Über</a></li>
+      <li><a href="../impressum.html">Impressum</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="" class="active">DE</a>
+      <a href="../#abonnieren" class="nav__cta">Gratis abonnieren</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Ausführlich</button>
+      <button type="button" class="version-switch__btn" data-version="kort">Kurzfassung</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Fortsetzen">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Vorlesen</span>
+      </button>
+      <audio class="audio-player__el" src="/assets/audio/de/ausgabe-2/bildung-zur-werkbank.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     UITGEBREIDE VERSIE
+════════════════════════════════════════════ -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- SLIDE 1 — HERO -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag slide__tag--manifest" style="background: var(--accent); color:#fff;">Bildungs-Trilogie · Teil I</span>
+    <h1 class="slide__title">Zurück zur Werkbank, voraus zum Denken</h1>
+    <p class="slide__lead" style="color:#555; font-size:1.05rem;">Manifest — das niederländische Bildungswesen muss grundlegend erneuert werden. Einfache Wiederherstellung von Qualität, Handwerk und Breite.</p>
+    <p class="slide__meta">Von Jacobus van Merksteijn · 24 Min. Lesezeit · 28. Mai 2026 · Ausgabe 2</p>
+    <p class="slide__meta" style="margin-top:.25rem; font-style:italic; color: var(--accent);">Erster Teil der Bildungs-Trilogie · im Rahmen von Nova Democratia</p>
+  </div>
+  <div class="slide__visual">
+    <img src="/assets/articles/onderwijs-manifest.jpg" alt="Zurück zur Werkbank, voraus zum Denken — Illustration">
+  </div>
+</section>
+
+<!-- SLIDE 1B — TRILOGIE NAVIGATOR -->
+<section class="slide" style="background: #faf8f7;">
+  <div class="slide__inner">
+    <span class="slide__tag">Die ganze Reihe</span>
+    <h2 class="slide__heading">Eine Trilogie über Bildung</h2>
+    <p>Dieses Manifest ist das erste von drei zusammenhängenden Stücken. Das zweite beschreibt, was es kostet. Das dritte fordert Sie auf zu wählen.</p>
+    <nav style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin:1.5rem 0;" aria-label="Bildungs-Trilogie">
+      <a href="bildung-zur-werkbank.html" style="border:2px solid var(--accent); border-radius:6px; padding:1rem 1.25rem; background: var(--accent); color:#fff; text-decoration:none;">
+        <span style="font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; opacity:.85; display:block; margin-bottom:.35rem;">Teil I · Sie lesen dies</span>
+        <span style="font-size:1rem; font-weight:700; line-height:1.35; display:block;">Zurück zur Werkbank, voraus zum Denken</span>
+      </a>
+      <a href="bildung-preis-der-bluete.html" style="border:2px solid var(--accent); border-radius:6px; padding:1rem 1.25rem; background:#fff; color:inherit; text-decoration:none;">
+        <span style="font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:.35rem;">Teil II</span>
+        <span style="font-size:1rem; font-weight:700; line-height:1.35; display:block; color:#1a1a1a;">Der Preis der Blüte</span>
+      </a>
+      <a href="bildung-wahle-eine-seite.html" style="border:2px solid var(--accent); border-radius:6px; padding:1rem 1.25rem; background:#fff; color:inherit; text-decoration:none;">
+        <span style="font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:.35rem;">Teil III</span>
+        <span style="font-size:1rem; font-weight:700; line-height:1.35; display:block; color:#1a1a1a;">Wähle eine Seite</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- SLIDE 2 — STELLING VOORAF -->
+<section class="slide slide--stelling">
+  <div class="slide__inner">
+    <blockquote class="stelling-quote">
+      „Ein Land, das seine Kinder lehrt, auf einem Bildschirm zu warten, lehrt sie, auf ihre eigene Ersetzung zu warten."
+    </blockquote>
+    <p class="stelling-attr">— These vorab.</p>
+  </div>
+</section>
+
+<!-- SLIDE 3 — § 01 DE DIAGNOSE -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 01</span>
+    <h2 class="slide__heading">Die Diagnose.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Ein einziger buchhalterischer Fehler, verkleidet als Sozialpolitik, hat das niederländische Bildungswesen zerstört.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+    <p>Ab den siebziger Jahren wurde die Finanzierung umgekehrt. Nicht mehr Geld für Qualität. Geld für Quantität. Jeder Schüler, der bleibt, ist Umsatz. Jeder, der durchfällt, ist Verlust. Wer beim Examen scheitert, kostet die Schule Geld — also fällt niemand mehr durch.</p>
+
+    <div class="stats-grid">
+      <div class="stat-blok">
+        <span class="stat-blok__getal">33%</span>
+        <span class="stat-blok__label">der niederländischen 15-Jährigen erreichen das grundlegende Leseniveau nicht (PISA 2022)</span>
+      </div>
+      <div class="stat-blok">
+        <span class="stat-blok__getal">46%</span>
+        <span class="stat-blok__label">der Grundschüler (Klasse 8) erreichen das Zielni­veau im Rechnen (ESB, Mai 2025)</span>
+      </div>
+      <div class="stat-blok">
+        <span class="stat-blok__getal">88%</span>
+        <span class="stat-blok__label">der Niederländer halten theoretische Bildung für „besser" als praktische (MBO Raad, 2025)</span>
+      </div>
+      <div class="stat-blok">
+        <span class="stat-blok__getal">9/10</span>
+        <span class="stat-blok__label">Niederländer finden, dass Fachleute zu wenig Anerkennung erhalten</span>
+      </div>
+    </div>
+
+    <p>Das ist kein Zufall. Das ist, was das System belohnen will. Schulfabriken können nur existieren, indem sie Anforderungen senken. Die Inspektion kündigt ihre Besuche an. Die Prüfungen werden Eigenarbeit. Die Diplome werden Papier.</p>
+
+    <h3 style="font-size:1rem; font-weight:700; margin:1.5rem 0 .5rem;">Das eigentliche Defizit.</h3>
+    <p>Was einen Menschen im Jahr 2030 von einem Algorithmus unterscheidet, ist körperliche Fertigkeit, Urteilsvermögen unter Unsicherheit, breite Synthese und der Mut, außerhalb des Bestehenden zu denken.</p>
+    <p>Nichts davon wird derzeit systematisch belohnt. Wir trainieren unsere Jugend für genau die Berufe, die als Erste verschwinden.</p>
+
+    <div class="pull-quote">
+      Je mehr ein Schüler vor einem Bildschirm sitzt, desto ersetzbarer wird er.
+    </div>
+
+    <p style="font-size:.78rem; color:#999; margin-top:1rem;">Quellen: ¹ OCW in cijfers — PISA 2022 · ² ESB, Mai 2025 · ³ MBO Raad, März 2025</p>
+  </div>
+</section>
+
+<!-- SLIDE 4 — § 02 DE BOCHT (landenvergelijking) -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 02</span>
+    <h2 class="slide__heading">Die Kurve, die wir nicht nahmen.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Andere Länder sahen es und steuerten gegen. Wir fuhren weiter, wo die Straße längst aufgehört hatte. Sechs Länder, sechs Reformen, harte Zahlen.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <div class="landen-grid">
+      <div class="land-card">
+        <h3 class="land-card__naam">Schweiz</h3>
+        <p class="land-card__hervorming">
+          <span class="land-card__label">Die Reform</span>
+          Duales System: 230 anerkannte Berufe. 90 % der Schüler kombinieren Arbeit und Schule. Drei bis vier Tage im Betrieb, ein bis zwei Tage in der Berufsschule. Keine Sackgasse — wer möchte, gelangt über das Berufsabschluss zur Fachhochschule oder Universität.
+        </p>
+        <p class="land-card__resultaat">
+          <span class="land-card__label">Das Ergebnis</span>
+          Zwei Drittel der Jugend in Berufsausbildung. Niedrigste Jugendarbeitslosigkeit in Europa.
+        </p>
+      </div>
+      <div class="land-card">
+        <h3 class="land-card__naam">Deutschland</h3>
+        <p class="land-card__hervorming">
+          <span class="land-card__label">Die Reform</span>
+          1.600+ duale Studiengänge. Meistertitel gesetzlich geschützt. Fachhochschule mit eigenem Prestige. Wer ohne diplomierten Meister einen Handwerksbetrieb eröffnen will, darf das in einem reglementierten Beruf nicht.
+        </p>
+        <p class="land-card__resultaat">
+          <span class="land-card__label">Das Ergebnis</span>
+          Akademischer Abschluss und Berufsabschluss in einem Weg. Meister bedeutet hohes Gehalt, kein Hobbyhandwerk. Fachhochschule = vollwertig.
+        </p>
+      </div>
+      <div class="land-card">
+        <h3 class="land-card__naam">Finnland</h3>
+        <p class="land-card__hervorming">
+          <span class="land-card__label">Die Reform</span>
+          Lehramtsstudium für Grundschullehrer: 6,8 % Zulassungsquote (2016) an der Universität Helsinki — strenger als Jura (8,3 %) oder Medizin (7,3 %). Masterprogramm mit Forschungskomponente. Vertrauen vorab ersetzt Kontrolle im Nachhinein.
+        </p>
+        <p class="land-card__resultaat">
+          <span class="land-card__label">Das Ergebnis</span>
+          Inspektion kaum nötig. Lehrer ist ein angesehener Beruf, kein Ausweichberuf.
+        </p>
+      </div>
+      <div class="land-card">
+        <h3 class="land-card__naam">Singapur</h3>
+        <p class="land-card__hervorming">
+          <span class="land-card__label">Die Reform</span>
+          Streaming 2019–2024 reformiert: weniger frühe Selektion, mehr Durchlässigkeit. Gehalt nach Abschluss öffentlich pro Studiengang über Graduate Employment Survey.
+        </p>
+        <p class="land-card__resultaat">
+          <span class="land-card__label">Das Ergebnis</span>
+          Polytechnics auf TU-Niveau angesehen. Keine Diplominfla­tion. Sozialer Aufstieg durch Meritokratie. Nur 11 % Schwachleistende.
+        </p>
+      </div>
+      <div class="land-card">
+        <h3 class="land-card__naam">Südkorea</h3>
+        <p class="land-card__hervorming">
+          <span class="land-card__label">Die Reform</span>
+          Prüfungsmonokultur 2024 aufgebrochen. Holistische Bewertungen — Kreativität und Zusammenarbeit zählen für die Hochschulzulassung.
+        </p>
+        <p class="land-card__resultaat">
+          <span class="land-card__label">Das Ergebnis</span>
+          Beweis, dass selbst ein weit überdrehtes Land noch umsteuern kann, wenn der gesellschaftliche Schaden sichtbar wird.
+        </p>
+      </div>
+      <div class="land-card">
+        <h3 class="land-card__naam">Estland</h3>
+        <p class="land-card__hervorming">
+          <span class="land-card__label">Die Reform</span>
+          Kleines Land, kleines Budget. Hohe Lehrerautonomie, geringer Prüfungsdruck. Starke Wachstumsmentalität. Weltweit Nr. 1 im „Growth Mindset"-Index.
+        </p>
+        <p class="land-card__resultaat">
+          <span class="land-card__label">Das Ergebnis</span>
+          PISA 2022: 510 Mathematik · 511 Lesen · 526 Naturwissenschaften. Weltweit Top 8. Nur 5,2 % Schwachleistende — die Niederlande: weit mehr als doppelt so viele.
+        </p>
+      </div>
+    </div>
+
+    <p>Im Vergleich zu den Niederlanden: 33 % der 15-Jährigen liegen unter dem grundlegenden PISA-Leseniveau. In Estland sind es 13,8 %. In Singapur 11 %. Zahlen lügen nicht.</p>
+
+    <div class="pull-quote">
+      Die Niederlande haben ein halbes Jahrhundert stillgestanden, während die Welt die Kurve nahm.
+    </div>
+
+    <h3 style="font-size:.95rem; font-weight:700; margin:1.5rem 0 .5rem;">Was hätten wir tun müssen?</h3>
+    <ul class="actie-lijst">
+      <li>Nicht das HBO dem Namen nach aufwerten, sondern MTS, HTS, HZS in ihrer Funktion erhalten.</li>
+      <li>Nicht die Gesamtschule abschaffen, sondern vertiefen.</li>
+      <li>Nicht die Inspektion verschärfen, sondern den Lehrberuf stärken.</li>
+      <li>Nicht nach Zahlen finanzieren, sondern nach Ergebnisqualität.</li>
+    </ul>
+
+    <p style="font-size:.78rem; color:#999; margin-top:1rem;">Quellen: Swiss SBFI · DAAD Deutschland · Finnischer Bildungsrat · Singapore GES · KDI School (Korea) · OECD PISA 2022 Estonia</p>
+  </div>
+</section>
+
+<!-- SLIDE 5 — § 03 HET NIEUWE LANDSCHAP -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 03</span>
+    <h2 class="slide__heading">Die neue Landschaft.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Wiederherstellen, was funktionierte. Aufbauen, was fehlt. Aufhören, Etiketten auf den Verfall zu kleben.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <p>Die Niederlande brauchen drei Arten von Menschen und werden ihnen drei eigenständige Schulen geben. Kein Sammelbegriff, kein „ROC", keine „Hochschule". Jede Marke steht für sich, mit staatlicher Anerkennung und eigenem Examen.</p>
+
+    <div class="sporen-grid">
+      <div class="spoor-card">
+        <span class="spoor-card__label">Spur A</span>
+        <h3 class="spoor-card__titel">Handwerk</h3>
+        <p class="spoor-card__body">MTS, HTS, HZS, HLS, HHS — wiederhergestellt als eigenständige Institute.</p>
+        <ul>
+          <li><strong>MTS</strong> — Mittlere Technische Schule. 4 Jahre, 30 % Praktikum, direkt einsetzbar.</li>
+          <li><strong>HTS</strong> — Höhere Technische Schule. Projektorientierte Ingenieure, die bauen.</li>
+          <li><strong>HZS</strong> — Höhere Seefahrtsschule. Das maritime Erbe der Niederlande braucht sie.</li>
+          <li><strong>HLS</strong> — Höhere Landwirtschaftsschule. Regenerativ, Agrotech, zirkulär.</li>
+          <li><strong>HHS</strong> — Höhere Handelsschule. Echtes Handelsdenken, kein Marketingjargon.</li>
+        </ul>
+      </div>
+      <div class="spoor-card">
+        <span class="spoor-card__label">Spur B</span>
+        <h3 class="spoor-card__titel">Breite Wissensschule (BKS)</h3>
+        <p class="spoor-card__body">Eine neue Schule. Für Menschen, die analytisch, zielgerichtet, out-of-the-box und revolutionär denken lernen. Nicht Spezialist, nicht Generalist — sondern Polymath in Ausbildung. Menschen, die Entscheidungen erzwingen, wo Spezialisten feststecken.</p>
+        <ul>
+          <li>Mündliches Examen als Hauptform. Nie Multiple-Choice.</li>
+          <li>Einen Tag pro Woche Werkstatt.</li>
+          <li>Kein Telefon in Hörsälen.</li>
+          <li>Maximal 200 Studierende pro Jahrgang, pro Standort.</li>
+        </ul>
+      </div>
+      <div class="spoor-card">
+        <span class="spoor-card__label">Spur C</span>
+        <h3 class="spoor-card__titel">Breite Vorbildung</h3>
+        <p class="spoor-card__body">Gymnasium und Lyzeum wiederhergestellt.</p>
+        <ul>
+          <li>Alte Sprachen wieder verpflichtend.</li>
+          <li>Sechs Fächer bis zum Abitur, nicht vier.</li>
+          <li>Philosophie als Prüfungsfach für alle.</li>
+          <li>Werkstattnachmittag wöchentlich, auch am Gymnasium.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:1rem; font-weight:700; margin:1.75rem 0 .75rem;">Die Breite Wissensschule — vier Jahre.</h3>
+    <div class="bks-grid">
+      <div class="bks-blok">
+        <span class="bks-blok__jaar">Jahr 1</span>
+        <p class="bks-blok__titel">Grundlagen des Denkens</p>
+        <p class="bks-blok__body">Logik &amp; Rhetorik · Mathematische Grundbildung · Physikalische Intuition · Systembiologie · Geschichte als Kausalität · Philosophie · Zwei Fremdsprachen verpflichtend.</p>
+      </div>
+      <div class="bks-blok">
+        <span class="bks-blok__jaar">Jahr 2</span>
+        <p class="bks-blok__titel">Synthese und Methode</p>
+        <p class="bks-blok__body">Komplexität &amp; Systemdenken · Statistik &amp; Datenintuition · Wirtschaft &amp; Geld · Recht &amp; Governance · Materialien, Energie, Werkstatt · Schreiben &amp; Debattieren.</p>
+      </div>
+      <div class="bks-blok">
+        <span class="bks-blok__jaar">Jahr 3</span>
+        <p class="bks-blok__titel">Anwendung und Projekte</p>
+        <p class="bks-blok__body">Interdisziplinäres Forschungsprojekt · Praktikum außerhalb der Komfortzone · Verpflichtliches Auslandssemester · Fallstudien mit unbekannten Lösungen.</p>
+      </div>
+      <div class="bks-blok">
+        <span class="bks-blok__jaar">Jahr 4</span>
+        <p class="bks-blok__titel">Abschlussarbeit und Orientierung</p>
+        <p class="bks-blok__body">Tiefenprojekt in selbstgewählten zwei Domänen · Verteidigung vor einem Panel aus Praktikern und Akademikern · Wahl: weiterstudieren, unternehmen, führen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — § 04 GELD VOLGT KWALITEIT -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 04</span>
+    <h2 class="slide__heading">Geld folgt Qualität.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Der Anreiz ist falsch gesetzt. Ein einziger Federstrich genügt. Nicht nach Zahlen finanzieren — nach Ergebnis.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <h3 style="font-size:1rem; font-weight:700; margin:0 0 .65rem;">Das Prinzip.</h3>
+    <p>Eine Schule erhält Geld für jeden Schüler, der das Zielniveau erreicht. Nicht für jeden Schüler, der sich einschreibt. Wer das Niveau senkt, um alle durchzubringen, verliert Geld. Wer strenger ist und mehr Schüler auf Zielniveau bringt, bekommt mehr Geld.</p>
+
+    <h3 style="font-size:1rem; font-weight:700; margin:1.5rem 0 .65rem;">Was dazugehört.</h3>
+    <ul class="actie-lijst">
+      <li>Zentralabitur, unabhängig, nicht von der Schule selbst abgenommen.</li>
+      <li>Stichprobeninspektion, unangekündigt, durch ein extern unabhängiges Organ.</li>
+      <li>Sanktionseskalation: Verwarnung, dann Finanzierungsstopp, dann Ausschluss.</li>
+      <li>Öffentliches Dashboard: Zielniveau-Quote, Übergangsquote, Gehalt nach Abschluss je Schule.</li>
+      <li>Lehrerauswahl: Lehrerausbildung strenger als Jura — nach finnischem Vorbild.</li>
+      <li>Meisterlehreritel mit Gehaltsklasse wie ein handwerklicher Meister.</li>
+    </ul>
+
+    <div class="manifest-kader">
+      <p>Wer durchfällt, kostet Geld. Wer durchfällt, darf also durchfallen.</p>
+    </div>
+
+    <p>Das ist keine Härte. Das ist Ehrlichkeit. Das heutige System vergibt Diplome, die auf dem Arbeitsmarkt nichts mehr wert sind, und wer kein Netzwerk hat, verliert am meisten. Wer aus sozialen Gründen gegen Selektion ist, schützt in Wirklichkeit die bestehende Ungleichheit.</p>
+  </div>
+</section>
+
+<!-- SLIDE 7 — § 05 OPVOEDING -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 05</span>
+    <h2 class="slide__heading">Erziehung gehört wieder dazu.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Eine Schule kann keinen Charakter formen, wenn das Elternhaus sich zurückgezogen hat.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <p>Eltern sind zu Kunden geworden, nicht zu Partnern. Wer die Schule streng nennt, klagt. Wer dem Lehrer widerspricht, bekommt recht. Disziplin ist ein verdächtiges Wort geworden — und niemand kann mehr durchhalten. Das ist keine pädagogische Theorie. Es ist ein gesellschaftlicher Fehler.</p>
+
+    <h3 style="font-size:1rem; font-weight:700; margin:1.5rem 0 .65rem;">Was wir wiederherstellen.</h3>
+    <ul class="actie-lijst">
+      <li>Der Lehrer hat das letzte Wort. Nicht die Eltern. Nicht der Schüler.</li>
+      <li>Elternbeitrag in Zeit, nicht nur in Geld. Arbeitgeber ermöglichen das.</li>
+      <li>Kein Telefon in der Schule unter sechzehn Jahren. Punkt.</li>
+      <li>Handschrift und mündlicher Ausdruck als Kernkompetenz wiederhergestellt.</li>
+      <li>Beschwerden über einen unabhängigen Ombudsmann — nicht über den Schulvorstand.</li>
+    </ul>
+
+    <h3 style="font-size:1rem; font-weight:700; margin:1.5rem 0 .65rem;">Gesellschaftlicher Dienst — leicht.</h3>
+    <p>Sechs bis zwölf Monate zwischen dem 16. und 21. Lebensjahr. In der Pflege, Verteidigung, Naturpflege, im Handwerk oder in der Technik. Unbezahlt, mit Studienvorschuss. Die Schweiz kennt es. Frankreich kennt es. Singapur kennt es. Es lehrt junge Menschen, was körperliche Arbeit und kollektive Verantwortung bedeuten.</p>
+  </div>
+</section>
+
+<!-- SLIDE 8 — § 06 CONSTITUTIONELE VERANKERING -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 06</span>
+    <h2 class="slide__heading">Verfassungsrechtliche Verankerung.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Bildung darf kein politisches Zankapfel mehr sein, das jedes Kabinett neu entdeckt.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <p>Bildung wird eines der zehn Kernfelder von Nova Democratia. Die Prinzipien sind dieselben wie für jedes andere Kernfeld:</p>
+
+    <table class="principes-tabel">
+      <thead>
+        <tr>
+          <th>Prinzip</th>
+          <th>Anwendung auf Bildung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Zielsteuerung</td>
+          <td>Der Staat legt Abschlussanforderungen fest, nicht wie zu unterrichten ist.</td>
+        </tr>
+        <tr>
+          <td>Preis-Leistungs-Norm</td>
+          <td>Finanzierung pro Absolventen auf Zielniveau, nicht pro Eingeschriebenen.</td>
+        </tr>
+        <tr>
+          <td>Stichprobenkontrolle</td>
+          <td>Unangekündigte Inspektion durch eine unabhängige Instanz.</td>
+        </tr>
+        <tr>
+          <td>Sanktionseskalation</td>
+          <td>Verwarnung, dann Finanzierungsstopp, dann Ausschluss.</td>
+        </tr>
+        <tr>
+          <td>Doppelstimme</td>
+          <td>Bürger stimmen über Politik und über erzielte Ergebnisse ab.</td>
+        </tr>
+        <tr>
+          <td>Sunset-Klausel</td>
+          <td>Bildungsgesetze laufen nach 5 Jahren aus, automatisch zu überprüfen.</td>
+        </tr>
+        <tr>
+          <td>Zero-Base-5-Jahresziele</td>
+          <td>Lehrplan alle fünf Jahre von Grund auf neu aufgebaut, ausgerichtet an den Anforderungen der Zeit.</td>
+        </tr>
+        <tr>
+          <td>Bürgerberatung</td>
+          <td>Bildungsrat mit per Los bestimmtem Bürgerpanel neben Experten.</td>
+        </tr>
+        <tr>
+          <td>20%-Zielschwelle</td>
+          <td>Schulvorstände unterhalb der Schwelle werden abgelöst.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pull-quote">
+      Kein Zusatz. Ein anderes Fundament.
+    </div>
+
+    <p>Was hier steht, passt nicht in die bestehende Verfassung — nicht weil es ihr widerspricht, sondern weil es ihre Logik ersetzt. Nova Democratia ist keine Reparatur. Es ist ein paralleler Verfassungsentwurf, der mit Bildung beginnt.</p>
+  </div>
+</section>
+
+<!-- SLIDE 9 — § 07 WAT ZE GAAN ZEGGEN -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 07</span>
+    <h2 class="slide__heading">Was sie sagen werden.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Im Voraus widerlegt, damit die Diskussion nicht bei den alten Einwänden hängenbleibt.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <div class="bezwaar-block">
+      <p class="bezwaar-block__quote">„Zu selektiv — das ist asozial."</p>
+      <p class="bezwaar-block__antwoord">Das heutige System ist asozial. Es vergibt Diplome, die nichts mehr wert sind, und wer kein Netzwerk hat, verliert. Selektion nach Talent ist fairer als Selektion nach Herkunft.</p>
+    </div>
+
+    <div class="bezwaar-block">
+      <p class="bezwaar-block__quote">„Zu teuer."</p>
+      <p class="bezwaar-block__antwoord">Das heutige System ist teurer. Wir bezahlen für Diplome, die keine Arbeit bringen, für Lehrer ohne Autorität, für Inspektion ohne Biss. Finanzierung nach Qualität kostet insgesamt weniger.</p>
+    </div>
+
+    <div class="bezwaar-block">
+      <p class="bezwaar-block__quote">„Artikel 23 — Schulfreiheit — steht dem entgegen."</p>
+      <p class="bezwaar-block__antwoord">Nein. Artikel 23 garantiert Freiheit der Ausrichtung, nicht Freiheit zur Niveausenkung. Der Staat darf Qualitätsanforderungen stellen. Er tut es derzeit zu wenig.</p>
+    </div>
+
+    <div class="bezwaar-block">
+      <p class="bezwaar-block__quote">„Lehrer werden streiken."</p>
+      <p class="bezwaar-block__antwoord">Gute Lehrer werden jubeln — sie werden endlich belohnt. Die schwachen Lehrer verlieren. Das ist genau die Absicht.</p>
+    </div>
+
+    <div class="bezwaar-block">
+      <p class="bezwaar-block__quote">„KI kommt, warum noch studieren?"</p>
+      <p class="bezwaar-block__antwoord">Genau deshalb. Für KI-Resistenz studieren bedeutet Synthese, Urteilsvermögen, körperliches Handwerk, Originalität. Das heutige System trainiert das Gegenteil.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 — § 08 WAT NU -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">§ 08</span>
+    <h2 class="slide__heading">Was jetzt.</h2>
+    <p class="slide__lead" style="font-style:italic; color:#555;">Kein Bericht. Keine Kommission. Kein Gutachten. Koalition und Pilot, innerhalb von achtzehn Monaten.</p>
+    <hr style="border:none; border-top:1px solid #e0d6d3; margin:1.25rem 0;">
+
+    <h3 style="font-size:1rem; font-weight:700; margin:0 0 .65rem;">Was ohne Verfassungsänderung sofort möglich ist.</h3>
+    <ul class="actie-lijst">
+      <li>Finanzierungssystematik anpassen — gewöhnliches Gesetz.</li>
+      <li>BKS gründen — private oder öffentlich-private Stiftung mit Anerkennung.</li>
+      <li>HZS wiederherstellen — Rotterdam, Vlissingen oder Den Helder.</li>
+      <li>Gesetz „Schutz des Meistertitels" nach deutschem Vorbild.</li>
+      <li>Tweede-Kamer-Untersuchung zur Lumpsum-Finanzierung (November 2025) als Hebel nutzen.</li>
+    </ul>
+
+    <h3 style="font-size:1rem; font-weight:700; margin:1.5rem 0 .65rem;">Was wir fordern.</h3>
+    <ul class="actie-lijst">
+      <li>Eine Koalition aus Industrie, Maritimwirtschaft und Handwerk für den ersten Pilot.</li>
+      <li>Eltern, Lehrer und Unternehmer, die dieses Manifest unterzeichnen.</li>
+      <li>Einen Pilotstandort BKS — fünfzig Studierende, erster Jahrgang 2027.</li>
+      <li>Eine regionale Finanzierungspilot — drei bis fünf Schulen.</li>
+      <li>Internationaler Wissensaustausch mit der Schweiz, Deutschland, Finnland, Singapur.</li>
+    </ul>
+
+    <div class="slot-kader">
+      <p>Die Niederlande haben keine Zeit für Evolution.<br>Andere Länder nehmen die Kurve bereits.</p>
+      <small>Dieses Manifest steht offen zur Unterzeichnung, zur Ergänzung und zur Widerlegung. Wer einen besseren Weg sieht, ist eingeladen, ihn zu skizzieren. Wer nichts sieht außer dem gegenwärtigen Verfall, gehört nicht an den Tisch.</small>
+    </div>
+
+    <p style="margin-top:1.5rem; font-size:.85rem; color:#666; font-style:italic;">Jacobus van Merksteijn · Mallorca / Switzerland · Mai 2026</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     KORTE VERSIE (~15% condensatie)
+════════════════════════════════════════════ -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Das Niederländische Bildungswesen Muss Grundlegend Erneuert Werden</h2>
+    <p class="slide__lead">Einfache Wiederherstellung von Qualität, Handwerk und Breite.</p>
+    <blockquote class="pull-quote">„Ein Land, das seine Kinder lehrt, auf einem Bildschirm zu warten, lehrt sie, auf ihre eigene Ersetzung zu warten."</blockquote>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Die Diagnose — die harten Zahlen</h2>
+    <div class="stats-grid">
+      <div class="stat-blok">
+        <span class="stat-blok__getal">33%</span>
+        <span class="stat-blok__label">der niederländischen 15-Jährigen erreichen das grundlegende Leseniveau nicht (PISA 2022)</span>
+      </div>
+      <div class="stat-blok">
+        <span class="stat-blok__getal">46%</span>
+        <span class="stat-blok__label">der Grundschüler (Klasse 8) erreichen das Zielniveau im Rechnen</span>
+      </div>
+      <div class="stat-blok">
+        <span class="stat-blok__getal">88%</span>
+        <span class="stat-blok__label">der Niederländer halten theoretische Bildung für „besser" als praktische</span>
+      </div>
+    </div>
+    <p>Das ist kein Zufall. Das ist, was das System belohnen will. Schulfabriken können nur existieren, indem sie Anforderungen senken.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Drei Spuren — ein Ziel</h2>
+    <div class="sporen-grid">
+      <div class="spoor-card">
+        <span class="spoor-card__label">Spur A</span>
+        <h3 class="spoor-card__titel">Handwerk</h3>
+        <p class="spoor-card__body">MTS, HTS, HZS, HLS, HHS — wiederhergestellt als eigenständige Institute mit staatlicher Anerkennung und eigenem Examen.</p>
+      </div>
+      <div class="spoor-card">
+        <span class="spoor-card__label">Spur B</span>
+        <h3 class="spoor-card__titel">Breite Wissensschule</h3>
+        <p class="spoor-card__body">Eine neue Schule für Polymaths. Mündliches Examen, Werkstatt, max. 200 Studierende pro Standort.</p>
+      </div>
+      <div class="spoor-card">
+        <span class="spoor-card__label">Spur C</span>
+        <h3 class="spoor-card__titel">Breite Vorbildung</h3>
+        <p class="spoor-card__body">Gymnasium und Lyzeum wiederhergestellt. Sechs Fächer bis zum Abitur. Philosophie für alle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Geld folgt Qualität — das Prinzip</h2>
+    <div class="manifest-kader">
+      <p>Eine Schule erhält Geld für jeden Schüler, der das Zielniveau erreicht — nicht für jeden Schüler, der sich einschreibt. Wer das Niveau senkt, verliert Geld. Wer strenger ist, bekommt mehr Geld.</p>
+    </div>
+    <p>Zentralabitur, unabhängig. Stichprobeninspektion, unangekündigt. Öffentliches Dashboard je Schule. Lehrerausbildung strenger als Jura — nach finnischem Vorbild.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Schluss</h2>
+    <div class="slot-kader">
+      <p>Die Niederlande haben keine Zeit für Evolution.<br>Andere Länder nehmen die Kurve bereits.</p>
+    </div>
+    <p>Ein Pilotstandort BKS — fünfzig Studierende, erster Jahrgang 2027. Eine regionale Finanzierungspilot. Internationaler Wissensaustausch mit der Schweiz, Deutschland, Finnland, Singapur.</p>
+    <blockquote class="pull-quote">Wer nichts sieht außer dem gegenwärtigen Verfall, gehört nicht an den Tisch. — Jacobus van Merksteijn</blockquote>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Ausgabe 2 — Donnerstag, 28. Mai 2026</p>
+    <p><a href="../">Zu Ausgabe 2</a></p>
+  </div>
+</footer>
+
+<script src="/assets/article-tools.js"></script>
+</body>
+</html>
