@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Is Nederland op weg naar ontwikkelingslandstatus? — Het Open Vizier · Achter de Cijfers</title>
+  <meta name="description" content="Een data-gedreven analyse van faillissementen, bedrijfsuitval, werkgelegenheid en de-industrialisatie in Nederland — 2000 tot en met 2026">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #c64a26;
+      --accent-dark: #9c3a1f;
+    }
+    .article-tools__inner {
+      border-color: #9c3a1f !important;
+    }
+    .version-switch__btn {
+      background: #c64a26 !important;
+    }
+    .version-switch__btn--active {
+      background: #9c3a1f !important;
+    }
+
+    /* ── Kerncijfer highlights ── */
+    .cijfer-rij {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .cijfer-card {
+      background: #fdf2ee;
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      border-left: 4px solid var(--accent);
+      text-align: left;
+    }
+    .cijfer-card__getal {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0 0 0.3rem;
+    }
+    .cijfer-card__label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 0.2rem;
+    }
+    .cijfer-card__sub {
+      font-size: 0.82rem;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ── Callout override accentkleur ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #fdf2ee;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Citaat-blok ── */
+    .citaat-blok {
+      background: #fdf2ee;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 1.2rem 2rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: #444;
+    }
+    .citaat-bron {
+      margin-top: 0.5rem;
+      font-style: normal;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* ── Factor-highlight ── */
+    .factor-highlight {
+      background: #fdf2ee;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+    .factor-highlight__getal {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0 0 0.4rem;
+    }
+    .factor-highlight__label {
+      font-size: 1.1rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Data-tabel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #f0d8d0;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #fdf7f5;
+    }
+
+    /* ── UAE citaten grid ── */
+    .uae-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .uae-card {
+      background: #fdf7f5;
+      border-radius: 8px;
+      padding: 1.2rem;
+      border-top: 3px solid var(--accent);
+    }
+    .uae-card__citaat {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: #333;
+      margin: 0 0 0.5rem;
+    }
+    .uae-card__context {
+      font-size: 0.8rem;
+      color: #888;
+      margin: 0;
+    }
+
+    /* ── Positionering twee kolommen ── */
+    .positie-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .positie-col {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .positie-col--stat { background: #f0f8f0; border-left: 4px solid #27782a; }
+    .positie-col--dyn { background: #fdf2f2; border-left: 4px solid #b83232; }
+    .positie-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.6rem;
+    }
+    .positie-col--stat .positie-col__header { color: #27782a; }
+    .positie-col--dyn .positie-col__header { color: #b83232; }
+    .positie-col ul { margin: 0; padding-left: 1.1rem; }
+    .positie-col li { font-size: 0.88rem; color: #444; margin-bottom: 0.35rem; }
+
+    /* ── Spanningsvelden ── */
+    .spanning-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .spanning-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 0;
+      border-top: 2px solid #f0d8d0;
+    }
+    .spanning-item:last-child { border-bottom: 2px solid #f0d8d0; }
+    .spanning-nr {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 2rem;
+    }
+    .spanning-titel {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.2rem;
+    }
+    .spanning-desc {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Bronnen-lijst ── */
+    .bronnen-lijst {
+      columns: 2;
+      column-gap: 2rem;
+      margin: 1rem 0;
+    }
+    .bronnen-lijst li {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 0.35rem;
+      break-inside: avoid;
+    }
+
+    /* ── Figuur styling ── */
+    figure.grafiek {
+      margin: 2rem 0 1rem 0;
+    }
+    figure.grafiek img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      display: block;
+    }
+    figure.grafiek figcaption {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      color: #777;
+      margin-top: 0.6rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ── Werkdocument waarschuwing ── */
+    .werkdocument-waarschuwing {
+      background: #fff7e6;
+      border-left: 4px solid #d4a017;
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+    .werkdocument-waarschuwing__titel {
+      font-family: var(--sans);
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: #8b6508;
+      letter-spacing: 0.02em;
+      font-size: 1rem;
+    }
+    .werkdocument-waarschuwing__tekst {
+      margin: 0;
+      line-height: 1.6;
+      color: #5a4208;
+      font-size: 0.95rem;
+    }
+
+    /* ── Rubriek-banner ── */
+    .rubriek-banner {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.4rem 1rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: inline-block;
+      border-radius: 3px;
+      margin-bottom: 0.8rem;
+    }
+
+    @media (max-width: 600px) {
+      .cijfer-rij, .uae-grid, .positie-grid {
+        grid-template-columns: 1fr;
+      }
+      .bronnen-lijst { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Achter de Cijfers — Zaterdag 27 juni 2026
+  <a href="/nl/#abonneren">Gratis abonneren</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Technisch Bijblad — 27 juni 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="/nl/">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="/nl/">Voorpagina</a></li>
+      <li><a href="/preview/editie-2/nl/editie-2/">Editie 2</a></li>
+      <li><a href="./">Achter de Cijfers</a></li>
+      <li><a href="/nl/archief.html">Archief</a></li>
+      <li><a href="/nl/over.html">Over</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="" class="active">NL</a>
+      <a href="/nl/#abonneren" class="nav__cta">Gratis abonneren</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Versie">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Uitgebreid</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In het kort</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pauzeren" data-resume-label="Hervatten">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Voorlezen</span>
+      </button>
+      <audio class="audio-player__el" src="/assets/audio/nl/onderzoek/ontwikkelingslandstatus.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ UITGEBREID -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="rubriek-banner">Achter de Cijfers</span>
+    <span class="slide__tag">Data-analyse · Persoonlijk werkdocument</span>
+    <h1 class="slide__title">Is Nederland op weg naar ontwikkelingslandstatus?</h1>
+    <p class="slide__lead">Een data-gedreven analyse van faillissementen, bedrijfsuitval, werkgelegenheid en de-industrialisatie in Nederland — 2000 tot en met 2026</p>
+    <p class="slide__meta">Door Jacobus van Merksteijn · 18 min lezen · Origineel: 19 mei 2026 · Gepubliceerd: 27 juni 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="/assets/articles/ontwikkelingslandstatus.jpg" alt="Data-analyse Nederland economische trends 2000-2026">
+  </div>
+</section>
+
+<!-- ── WAARSCHUWING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <div class="werkdocument-waarschuwing">
+      <p class="werkdocument-waarschuwing__titel">⚠ PERSOONLIJK WERKDOCUMENT</p>
+      <p class="werkdocument-waarschuwing__tekst">Dit is een samenvatting van een gespreksanalyse van 19 mei 2026. Het is een denkoefening, geen formeel advies. De analyse legt patronen bloot maar conclusies blijven persoonlijk en onder herziening. Aan dit document kunnen geen rechten worden ontleend. De visualisaties zijn gebaseerd op publiek beschikbare CBS- en KvK-data maar de interpretaties en samenhang zijn die van de auteur.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DE VRAAG ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Aanleiding</span>
+    <h2 class="slide__heading">De vraag die het gesprek opende</h2>
+    <p>Het gesprek begon met de waarneming dat er een <strong>"faillissementenregen"</strong> over Nederland trok. En met het inzicht dat bedrijfsstoppers — ondernemers die zelf de stekker eruit trekken voordat ze omvallen — eigenlijk meegerekend moeten worden bij de werkelijke uitval.</p>
+    <p>Wat begon als een vraag naar cijfers, ontwikkelde zich tot een bredere analyse: wat zeggen deze trends over de gezondheid en richting van de Nederlandse economie? Dit document bundelt de visualisaties en het gespreksdraad in één leesbaar geheel, eindigend bij de vraag of de waarneming dat Nederland in de UAE als ontwikkelingsland wordt gezien daadwerkelijk een grond heeft, en zo ja, welke.</p>
+
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">4.270</div>
+        <div class="cijfer-card__label">Faillissementen 2024</div>
+        <div class="cijfer-card__sub">Hoogste niveau sinds 2017 — inhaalslag na coronasteun</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Stoppers vs. faillissementen</div>
+        <div class="cijfer-card__sub">Q1 2025: 60.964 stoppers tegenover 1.013 faillissementen</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">50+</div>
+        <div class="cijfer-card__label">Factor onderschatting</div>
+        <div class="cijfer-card__sub">Officiële statistieken tellen stoppers niet mee als uitval</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAILLISSEMENTEN: GOLF NAAR TERUGVAL ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 1</span>
+    <h2 class="slide__heading">Faillissementen — van golf naar terugval</h2>
+    <p>Na de coronasteun-periode 2020–2022, toen faillissementen kunstmatig laag werden gehouden door overheidssteun, volgde een inhaalslag. Nederland was Europees koploper met groeicijfers van <strong>+52% in 2023</strong> en <strong>+31% in 2024</strong>.</p>
+    <p>In 2024 piekten de faillissementen op bijna <strong>4.270</strong> — het hoogste niveau sinds 2017. In 2025 daalden ze weer met 21%, en Q1 2026 zette die daling door met -10,9% jaar-op-jaar. Maar de echte piek zou volgens Atradius en Rabobank pas in 2027 komen.</p>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-000.jpg" alt="Maandelijkse faillissementen Nederland 2023 t/m 2026 — lijndiagram per jaar">
+      <figcaption>Maandelijkse faillissementen 2023–2026 — CBS Statline 82242NED. Totaal rechtsvormen incl. eenmanszaken, niet gecorrigeerd voor zittingsdagen. 2024 was de echte piekmaand met gemiddeld ~356 faillissementen per maand. Juli 2024: topmaand met 398. <em>Bron: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <p><strong>Wat de maandelijkse cijfers laten zien:</strong> 2026 begon licht stijgend: jan -12% j-o-j, feb -15%, maar maart al +12% — het eerste teken dat de bodem mogelijk voorbij is. Oktober 2025 was de laagste maand (276 faillissementen).</p>
+
+    <div class="callout">
+      <p><strong>Europees perspectief:</strong> Nederland leidde Europa in groei van faillissementen. De "faillissementenregen"-perceptie is reëel voor wie de recente piek bekijkt — maar historisch bezien liggen de huidige niveaus rond 4.000 in het gemiddelde bereik.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HET LANGERE PERSPECTIEF ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 2</span>
+    <h2 class="slide__heading">Het langere perspectief — jaartotalen 2000 tot 2026</h2>
+    <p>De all-time piek lag in <strong>2013</strong> met <strong>9.431 faillissementen</strong> tijdens de eurocrisis. Sindsdien volgde een gestage daling met een historisch dieptepunt in <strong>2021 (1.818</strong> — de laagste stand sinds 1981) door corona-steunmaatregelen.</p>
+    <p>De huidige niveaus rond 4.000 zijn historisch gezien <em>gemiddeld</em> — wat de "faillissementenregen"-perceptie deels relativeert. Maar deze grafiek toont alleen de officiële faillissementen. Dat is precies het onvolledige plaatje.</p>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-001.jpg" alt="Faillissementen Nederland jaartotalen 2000 t/m 2026 — staafdiagram met kleurcodering voor crisispieken en coronaperiode">
+      <figcaption>Jaartotalen faillissementen 2000–2026. Piek eurocrisis 2013: 9.431. Laagterecord 2021: 1.818 (coronasteun). Inhaalslag 2024: 4.270. <em>Bron: CBS Statline 82242NED + jaarpersberichten</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Mijlpaal</th>
+          <th>Jaar</th>
+          <th>Aantal</th>
+          <th>Context</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>All-time piek</td><td>2013</td><td>9.431</td><td>Eurocrisis</td></tr>
+        <tr><td>Laagterecord</td><td>2021</td><td>1.818</td><td>Coronasteun (laagste sinds 1981)</td></tr>
+        <tr><td>Post-corona piek</td><td>2024</td><td>4.270</td><td>Inhaalslag, hoogste sinds 2017</td></tr>
+        <tr><td>Dalend</td><td>2025</td><td>~4.005</td><td>-21% j-o-j; stoppers nemen het over</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── STOPPERS: HET VERBORGEN FAILLISSEMENT ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 3</span>
+    <h2 class="slide__heading">Stoppers — het verborgen faillissement</h2>
+    <p>De kern van het inzicht: <strong>bedrijfsstoppers zijn statistisch geen faillissementen, maar economisch vaak wel.</strong> Een ondernemer die ziet dat het bedrijf geen toekomst meer heeft en zelf opheft voordat schuldeisers eraan komen, vermindert de faillissementsstatistiek terwijl het economische verlies hetzelfde is.</p>
+
+    <div class="citaat-blok">
+      "Een mogelijke verklaring is dat ondernemers eerder besluiten hun bedrijf te beëindigen, nog voordat zij in financiële problemen komen."
+      <p class="citaat-bron">— KvK, officieel persbericht</p>
+    </div>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-002.jpg" alt="Stoppers versus faillissementen Nederland per kwartaal Q2-2024 t/m Q1-2026 — gecombineerd staafdiagram met dubbele y-as">
+      <figcaption>Stoppers versus faillissementen per kwartaal — KvK Trendrapporten + CBS 82242NED. Stoppers liggen ~50-60× hoger dan faillissementen. Q1 2025 piekwaarde: 60.964 stoppers tegenover 1.013 faillissementen. <em>Bron: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <p>In 2025 stegen stoppers met <strong>+18% jaar-op-jaar</strong> in alle sectoren, met +19% onder zzp'ers. In januari 2025 alleen al waren er 6.000 stoppers méér dan een jaar eerder (+47%). Q1 2026 toonde voor het eerst in 2,5 jaar een daling (-7,2%) — maar mogelijk een statistische uitzonderlijkheid in plaats van een trend.</p>
+  </div>
+</section>
+
+<!-- ── DE VERHOUDING 60× ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 4</span>
+    <h2 class="slide__heading">De verhouding: 60× verbluffend</h2>
+    <p>Wanneer je beide categorieën bij elkaar telt — wat economisch terecht is — onderschat de officiële faillissementsstatistiek de werkelijke uitval met meer dan een factor 50.</p>
+
+    <div class="factor-highlight">
+      <div class="factor-highlight__getal">60.964</div>
+      <p class="factor-highlight__label">Stoppers in Q1 2025</p>
+    </div>
+
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">1.013</div>
+        <div class="cijfer-card__label">Faillissementen Q1 2025</div>
+        <div class="cijfer-card__sub">Officieel geregistreerd</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Verhouding</div>
+        <div class="cijfer-card__sub">Stoppers vs. faillissementen</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">&gt;50×</div>
+        <div class="cijfer-card__label">Onderschatting</div>
+        <div class="cijfer-card__sub">Werkelijke uitval vs. officiële statistiek</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Conclusie:</strong> De officiële faillissementsstatistiek toont slechts het topje van de ijsberg. De économische bedrijfsuitval is meer dan vijftig keer groter dan de gepubliceerde faillissementscijfers suggereren.</p>
+    </div>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-003.jpg" alt="Starters, stoppers en faillissementen Nederland 2000 t/m 2025 — jaarlijkse aantallen en cumulatieve totalen">
+      <figcaption>Starters, stoppers en faillissementen Nederland 2000–2025. Netto saldo: +1.351.334 bedrijven in aantallen — maar de FTE-impact is een fundamenteel ander verhaal. <em>Bron: CBS Statline 83148NED + 83149NED + 82242NED + KvK Trendrapporten</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── WERKGELEGENHEIDS-TRENDS (FTE) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 5</span>
+    <h2 class="slide__heading">Werkgelegenheidstrends — van aantallen naar FTE</h2>
+    <p>De groei van de bedrijvenpopulatie is in aantallen positief — maar in FTE-termen vertelt het verhaal een fundamenteel ander beeld. Starters zijn meestal zzp'ers (0,7–1 FTE), stoppers vaak kleine MKB-bedrijven (2–20 personen), en faillissementen gemiddeld nog groter (~5,9 FTE per geval).</p>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-004.jpg" alt="Starters, stoppers en faillissementen Nederland gemeten in FTE 2007-2025 — jaarlijks en cumulatief">
+      <figcaption>FTE-analyse 2007–2025 — CBS 83148NED + 83149NED + 84034NED. Cumulatief in FTE-termen. Netto FTE-saldo 2007–2025: slechts +217.317 FTE tegenover +1.236.000 bedrijven in aantallen. <em>Bron: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Maat</th>
+          <th>Aantallen 2007–2025</th>
+          <th>FTE 2007–2025</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Starters</td><td>3.689.000</td><td>4.149.000</td></tr>
+        <tr><td>Stoppers</td><td>2.353.000</td><td>3.358.000</td></tr>
+        <tr><td>Faillissementen</td><td>100.000</td><td>574.000</td></tr>
+        <tr><td><strong>Netto saldo</strong></td><td><strong>+1.236.000</strong></td><td><strong>+217.000</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>In aantallen zijn faillissementen slechts 4% van alle bedrijfsbeëindigingen. In FTE 17% — ruim 4× zo zwaar. En het netto-saldo is in FTE-termen 6× kleiner dan in aantallen. <strong>De groei van de bedrijvenpopulatie is bijna volledig zzp-groei.</strong></p>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-005.jpg" alt="Netto FTE-balans Nederlands bedrijfsleven 2007 t/m 2025 — jaarlijks en cumulatief">
+      <figcaption>Netto FTE-balans Nederlands bedrijfsleven 2007–2025. Dieptepunt 2016: −178k FTE (krediet + eurocrisis). Coronabonanza 2021: +130k in één jaar. 2025 eerste negatieve jaar (−12k) sinds 2016. <em>Bron: CBS Statline 83148NED + 83149NED + 84034NED</em></figcaption>
+    </figure>
+
+    <div class="callout">
+      <p><strong>Kritische observatie:</strong> De enorme positieve saldo na 2021 is grotendeels kunstmatig — gevolg van coronasteun die faillissementen en stoppers tijdelijk uit de markt hield. De daling in 2025 is een waarschuwingssignaal dat de onderliggende dynamiek zwakker is dan de cijfers suggereren.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DE-INDUSTRIALISATIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 6</span>
+    <h2 class="slide__heading">De-industrialisatie — productie versus diensten</h2>
+    <p>Hoeveel van de Nederlandse economie produceert nog daadwerkelijk iets fysieks? Het antwoord is scherp gedaald. De stelling "we werken steeds minder uren per persoon" klopt overigens slechts beperkt: het totaal daalde van 1.491 uur (1995) naar 1.452 uur (2024) — slechts -39 uur per jaar in 30 jaar.</p>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-006.jpg" alt="Werktijd Nederland productie versus diensten 1995-2024 — drie panelen: uren per persoon, FTE per sector, productie-FTE absoluut en geïndexeerd">
+      <figcaption>Werktijd in Nederland 1995–2024 — CBS Statline 85918NED. Drie panelen: uren per persoon, FTE per sector, productie-FTE absoluut en geïndexeerd. Productie-FTE bleef nominaal vrijwel gelijk (1.467k → 1.469k) maar verbergt een diep dal: in 2014 zakte productie-FTE naar 1.209k (-17,6%). <em>Bron: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-007.jpg" alt="De-industrialisatie zichtbaar gemaakt — productie als percentage van totaal FTE 1995-2024">
+      <figcaption>De-industrialisatie: productie als percentage van totaal FTE 1995–2024. Van 24,7% naar 17,5% — een daling van 7,1 procentpunt. <em>Bron: CBS Statline 85918NED</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Sector</th>
+          <th>1995</th>
+          <th>2024</th>
+          <th>Verandering</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Industrie (C)</td><td>13,0%</td><td>8,4%</td><td><strong>−4,6 ppt</strong></td></tr>
+        <tr><td>Landbouw, bosbouw, visserij (A)</td><td>3,5%</td><td>2,1%</td><td>−1,5 ppt</td></tr>
+        <tr><td>Bouw (F)</td><td>8,0%</td><td>6,9%</td><td>−1,0 ppt</td></tr>
+        <tr><td>Delfstoffenwinning (B)</td><td>0,2%</td><td>0,1%</td><td>−0,1 ppt</td></tr>
+        <tr><td><strong>Totaal productie</strong></td><td><strong>24,7%</strong></td><td><strong>17,5%</strong></td><td><strong>−7,1 ppt</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>Tweederde van de daling zit in de industrie: −4,6 van −7,1 procentpunt. De industrie kromp van 1 op de 8 werkers in 1995 naar <strong>1 op de 12 in 2024</strong>. Een fundamentele verschuiving. Diensten zijn navenant gegroeid: van 75,3% naar 82,5% van totaal FTE.</p>
+
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-008.jpg" alt="Productie-uren Nederland 1995 t/m 2024 — drie panelen met absolute uren per sector, index en aandeel in totaal">
+      <figcaption>Productie-uren 1995–2024. Het aandeel productie-uren in totaal daalde van 25,3% naar 18,6% — een daling van 6,7 procentpunt. De industrie verloor 157 miljoen productie-uren per jaar — omgerekend ~90.000 voltijdsbanen. <em>Bron: CBS Statline 85918NED</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── DE UAE-PERCEPTIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 7</span>
+    <h2 class="slide__heading">De UAE-perceptie — klopt het of klopt het niet?</h2>
+    <p>De observatie: in de UAE wordt Nederland al als ontwikkelingsland gezien. Dat is een sterke claim. De eerste vraag is of het feitelijk klopt.</p>
+
+    <h3 style="color: #27782a; margin-top: 1.5rem;">Officieel: nee</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr><th>Ranglijst</th><th>Nederland</th><th>Positie</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Human Development Index 2023 (UN)</td><td>0,955</td><td>#8 wereldwijd</td></tr>
+        <tr><td>BBP per capita IMF 2026 (nominaal)</td><td>$79.918</td><td>#13 wereldwijd</td></tr>
+        <tr><td>IMD World Competitiveness 2025</td><td>—</td><td>#10</td></tr>
+      </tbody>
+    </table>
+    <p>Ter vergelijking: ontwikkelingslanden zoals India, Pakistan en Nigeria zitten ~50× lager qua BBP per hoofd. Nederland is statistisch nog steeds onder de tien meest welvarende landen ter wereld.</p>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">Maar op een ander niveau: herkenbaar</h3>
+    <p>Drie reëel circulerende beoordelingen vanuit Gulf-investeringscirculaires:</p>
+
+    <div class="uae-grid">
+      <div class="uae-card">
+        <p class="uae-card__citaat">"Europe takes 6 months to decide what we decide in a week"</p>
+        <p class="uae-card__context">Over regelgevingstempo en vergunningen</p>
+      </div>
+      <div class="uae-card">
+        <p class="uae-card__citaat">"They tax success and subsidize failure"</p>
+        <p class="uae-card__context">Over fiscale behandeling van succesvolle ondernemers</p>
+      </div>
+      <div class="uae-card">
+        <p class="uae-card__citaat">"They lost their industrial spine"</p>
+        <p class="uae-card__context">Exact wat de grafieken in deze analyse laten zien</p>
+      </div>
+    </div>
+
+    <p>De terminologie die in Gulf-investeringsstukken steeds vaker voorkomt voor West-Europa is <strong>"mature stagnant economies"</strong> — niet "ontwikkelingsland", maar volgroeid, gestagneerd, defensief. Voor Gulf-investeerders praktisch dezelfde strekking: een plek waar je je geld <em>niet</em> neerzet voor groei.</p>
+
+    <div class="callout">
+      <p><strong>Opvallend signaal:</strong> In de IMD World Competitiveness ranglijst 2025 staat de UAE op #5, Nederland op #10. Voor het eerst in de geschiedenis is een Golfstaat structureel hoger genoteerd dan Nederland op aantrekkelijkheid voor bedrijven en investeerders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ONDERBOUWING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Hoofdstuk 8</span>
+    <h2 class="slide__heading">Onderbouwing — de drie spanningsvelden</h2>
+    <p>De cijfers leggen drie fundamentele spanningsvelden bloot die samen het bredere verhaal vertellen over de richting van Nederland.</p>
+
+    <div class="spanning-grid">
+      <div class="spanning-item">
+        <div class="spanning-nr">1</div>
+        <div>
+          <p class="spanning-titel">De "stille" uitval</p>
+          <p class="spanning-desc">Officiële faillissementsstatistieken onderschatten de werkelijke bedrijfsuitval met een factor 50. Stoppers zijn economisch vaak vermomde faillissementen — en KvK erkent dit zelf in een officieel persbericht.</p>
+        </div>
+      </div>
+      <div class="spanning-item">
+        <div class="spanning-nr">2</div>
+        <div>
+          <p class="spanning-titel">FTE versus aantallen</p>
+          <p class="spanning-desc">Het netto-saldo in FTE-termen is 6× kleiner dan in aantallen. De groei van de Nederlandse bedrijvenpopulatie is bijna volledig zzp-groei. De werkgelegenheidscreatie via nieuwe bedrijven is bescheiden. De positieve saldo na 2021 is grotendeels kunstmatig door coronasteun.</p>
+        </div>
+      </div>
+      <div class="spanning-item">
+        <div class="spanning-nr">3</div>
+        <div>
+          <p class="spanning-titel">Productie versus diensten</p>
+          <p class="spanning-desc">De Nederlandse de-industrialisatie is reëel en goed gedocumenteerd. Industrie-aandeel daalde −4,6 procentpunt, productie-uren −6,7 procentpunt van totaal. De dienstensector groeide met +54% en domineert nu met 82,5% van alle FTE.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCLUSIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Conclusie</span>
+    <h2 class="slide__heading">De eerlijke positionering — en wat het betekent</h2>
+
+    <div class="positie-grid">
+      <div class="positie-col positie-col--stat">
+        <p class="positie-col__header">Statistisch nog steeds top-10</p>
+        <ul>
+          <li>HDI #8 wereldwijd (0,955)</li>
+          <li>BBP per capita #13 ($79.918)</li>
+          <li>IMD Competitiveness #10</li>
+          <li>Geen "ontwikkelingsland" in de technische zin</li>
+        </ul>
+      </div>
+      <div class="positie-col positie-col--dyn">
+        <p class="positie-col__header">Dynamisch: in relatief verval</p>
+        <ul>
+          <li>Gestagneerd, vergrijzend, fiscaal onstabiel, regelzwaar</li>
+          <li>Industrie-aandeel −4,6 ppt; productie-uren −17% op dieptepunt</li>
+          <li>Stoppers +18% j-o-j in 2025; uitval sterk onderschat</li>
+          <li>UAE #5 vs. Nederland #10 op competitiveness — historisch verschil</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>De vraag "is Nederland op weg naar ontwikkelingslandstatus?" is <strong>technisch onjuist maar strategisch relevant</strong>. Nederland gaat niet de richting op van India of Pakistan — maar het gaat wel de richting op van een rijk land dat zijn industriële spier heeft verloren en grotendeels van diensten leeft.</p>
+
+    <p>Zonder beleidsverandering zakt het over 15–25 jaar naar het "wel rijk maar achterhaald"-segment — vergelijkbaar met hoe Argentinië in de 20e eeuw degradeerde van top-10 welvarend naar middenmoot.</p>
+
+    <div class="callout">
+      <p><strong>Voor een ondernemer in fysieke maakindustrie</strong> — coatings, biomass, materialen — betekent dit: Nederland is geen logische productielocatie meer. Wat wel werkbaar blijft: R&amp;D, IP, kennis, distributie. De keuze om productie elders te laten plaatsvinden is geen verraad aan Nederland — het is een rationele reactie op het beleid dat Nederland zelf voert.</p>
+    </div>
+
+    <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #777;">Het verschil tussen <em>écht</em> een ontwikkelingsland en <em>qua trend</em> een land in relatief verval, is groot. Nederland zit in de tweede categorie, en blijft daar nog jaren rijk genoeg om dat te verbergen. Maar voor wie het van binnenuit ziet — als ondernemer, als technicus, als iemand die met buitenlandse afnemers spreekt — is de richting onmiskenbaar.</p>
+  </div>
+</section>
+
+<!-- ── BRONNEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Bronnen</span>
+    <h2 class="slide__heading">Gebruikte bronnen</h2>
+    <p>Alle datavisualisaties zijn gebaseerd op de volgende publiek beschikbare bronnen. De interpretaties en samenhang zijn die van de auteur (persoonlijk werkdocument, 19 mei 2026).</p>
+    <ul class="bronnen-lijst">
+      <li>CBS Statline 82242NED — Faillissementen kerncijfers</li>
+      <li>CBS Statline 83148NED — Oprichtingen van bedrijven</li>
+      <li>CBS Statline 83149NED — Opheffingen van bedrijven</li>
+      <li>CBS Statline 84034NED — Werkzame personen bij faillissementen (2015–2022)</li>
+      <li>CBS Statline 85918NED — Arbeidsvolume per bedrijfstak</li>
+      <li>KvK Trendrapporten Q2-24, Q1-25, Q2-25, Q1-26</li>
+      <li>Accountant.nl — Atradius prognose 2026</li>
+      <li>Rabobank Kennis — Faillissementsanalyse</li>
+      <li>IMF World Economic Outlook 2026</li>
+      <li>UNDP Human Development Report 2023/2024</li>
+      <li>IMD World Competitiveness Yearbook 2025</li>
+      <li>Draghi Report on European Competitiveness (2024)</li>
+      <li>Letta Report on the Single Market (2024)</li>
+    </ul>
+    <div class="werkdocument-waarschuwing" style="margin-top: 2rem;">
+      <p class="werkdocument-waarschuwing__titel">⚠ Herinnering: persoonlijk werkdocument</p>
+      <p class="werkdocument-waarschuwing__tekst">Dit artikel is een samenvatting van een gespreksanalyse van 19 mei 2026, opgesteld als persoonlijk naslagwerk. Aan de inhoud kunnen geen rechten worden ontleend. De visualisaties zijn gebaseerd op publieke data maar de conclusies zijn persoonlijk en onder herziening.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ IN HET KORT -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="rubriek-banner">Achter de Cijfers</span>
+    <span class="slide__tag">Data-analyse · Persoonlijk werkdocument</span>
+    <h2 class="slide__heading">Is Nederland op weg naar ontwikkelingslandstatus?</h2>
+    <p class="slide__lead">Een denkoefening op basis van CBS- en KvK-data, 2000–2026</p>
+    <div class="werkdocument-waarschuwing">
+      <p class="werkdocument-waarschuwing__titel">⚠ PERSOONLIJK WERKDOCUMENT</p>
+      <p class="werkdocument-waarschuwing__tekst">Dit is een samenvatting van een gespreksanalyse van 19 mei 2026. Denkoefening, geen formeel advies.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">De drie kerncijfers</h2>
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">4.270</div>
+        <div class="cijfer-card__label">Faillissementen 2024</div>
+        <div class="cijfer-card__sub">Hoogste sinds 2017</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Stoppers vs. faillissementen</div>
+        <div class="cijfer-card__sub">Q1 2025: 60.964 vs. 1.013</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">−7,1 ppt</div>
+        <div class="cijfer-card__label">Daling productie-aandeel</div>
+        <div class="cijfer-card__sub">Van 24,7% naar 17,5% (1995–2024)</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>Kern:</strong> Officiële faillissementsstatistieken onderschatten de werkelijke uitval met factor 50. Stoppers zijn het verborgen faillissement.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">De-industrialisatie in één plaatje</h2>
+    <figure class="grafiek">
+      <img src="/assets/articles/doc1/img-007.jpg" alt="De-industrialisatie: productie als % van totaal FTE 1995-2024">
+      <figcaption>Productie als % van totaal FTE: van 24,7% (1995) naar 17,5% (2024). Industrie-aandeel: van 1 op 8 werkers naar 1 op 12. <em>Bron: CBS Statline 85918NED</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">De conclusie</h2>
+    <div class="positie-grid">
+      <div class="positie-col positie-col--stat">
+        <p class="positie-col__header">Officieel: top-10</p>
+        <ul>
+          <li>HDI #8 wereldwijd</li>
+          <li>BBP per capita #13 ($79.918)</li>
+          <li>IMD Competitiveness #10</li>
+        </ul>
+      </div>
+      <div class="positie-col positie-col--dyn">
+        <p class="positie-col__header">Trendmatig: in verval</p>
+        <ul>
+          <li>Industrieel verval goed gedocumenteerd</li>
+          <li>Uitval 50× onderschat door statistiek</li>
+          <li>UAE staat nu boven NL op competitiveness</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>"Technisch onjuist, strategisch relevant"</strong> — Nederland is geen ontwikkelingsland maar beweegt wel richting "rijk maar achterhaald".</p>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Technisch Bijblad — Zaterdag 27 juni 2026</p>
+    <p><a href="/nl/">Naar de voorpagina</a> · <a href="./">Achter de Cijfers</a></p>
+  </div>
+</footer>
+
+<script src="/assets/article-tools.js"></script>
+</body>
+</html>
