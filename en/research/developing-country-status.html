@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Is the Netherlands Heading Toward Developing Country Status? — Het Open Vizier · Behind the Numbers</title>
+  <meta name="description" content="A data-driven analysis of bankruptcies, business closures, employment and de-industrialisation in the Netherlands — 2000 through 2026">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #c64a26;
+      --accent-dark: #9c3a1f;
+    }
+    .article-tools__inner {
+      border-color: #9c3a1f !important;
+    }
+    .version-switch__btn {
+      background: #c64a26 !important;
+    }
+    .version-switch__btn--active {
+      background: #9c3a1f !important;
+    }
+
+    /* ── Kerncijfer highlights ── */
+    .cijfer-rij {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .cijfer-card {
+      background: #fdf2ee;
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      border-left: 4px solid var(--accent);
+      text-align: left;
+    }
+    .cijfer-card__getal {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0 0 0.3rem;
+    }
+    .cijfer-card__label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 0.2rem;
+    }
+    .cijfer-card__sub {
+      font-size: 0.82rem;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ── Callout override accentkleur ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #fdf2ee;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Citaat-blok ── */
+    .citaat-blok {
+      background: #fdf2ee;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 1.2rem 2rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: #444;
+    }
+    .citaat-bron {
+      margin-top: 0.5rem;
+      font-style: normal;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* ── Factor-highlight ── */
+    .factor-highlight {
+      background: #fdf2ee;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+    .factor-highlight__getal {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0 0 0.4rem;
+    }
+    .factor-highlight__label {
+      font-size: 1.1rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Data-tabel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #f0d8d0;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #fdf7f5;
+    }
+
+    /* ── UAE citaten grid ── */
+    .uae-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .uae-card {
+      background: #fdf7f5;
+      border-radius: 8px;
+      padding: 1.2rem;
+      border-top: 3px solid var(--accent);
+    }
+    .uae-card__citaat {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: #333;
+      margin: 0 0 0.5rem;
+    }
+    .uae-card__context {
+      font-size: 0.8rem;
+      color: #888;
+      margin: 0;
+    }
+
+    /* ── Positionering twee kolommen ── */
+    .positie-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .positie-col {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .positie-col--stat { background: #f0f8f0; border-left: 4px solid #27782a; }
+    .positie-col--dyn { background: #fdf2f2; border-left: 4px solid #b83232; }
+    .positie-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.6rem;
+    }
+    .positie-col--stat .positie-col__header { color: #27782a; }
+    .positie-col--dyn .positie-col__header { color: #b83232; }
+    .positie-col ul { margin: 0; padding-left: 1.1rem; }
+    .positie-col li { font-size: 0.88rem; color: #444; margin-bottom: 0.35rem; }
+
+    /* ── Spanningsvelden ── */
+    .spanning-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .spanning-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 0;
+      border-top: 2px solid #f0d8d0;
+    }
+    .spanning-item:last-child { border-bottom: 2px solid #f0d8d0; }
+    .spanning-nr {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 2rem;
+    }
+    .spanning-titel {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.2rem;
+    }
+    .spanning-desc {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Bronnen-lijst ── */
+    .bronnen-lijst {
+      columns: 2;
+      column-gap: 2rem;
+      margin: 1rem 0;
+    }
+    .bronnen-lijst li {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 0.35rem;
+      break-inside: avoid;
+    }
+
+    /* ── Figuur styling ── */
+    figure.grafiek {
+      margin: 2rem 0 1rem 0;
+    }
+    figure.grafiek img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      display: block;
+    }
+    figure.grafiek figcaption {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      color: #777;
+      margin-top: 0.6rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ── Werkdocument waarschuwing ── */
+    .werkdocument-waarschuwing {
+      background: #fff7e6;
+      border-left: 4px solid #d4a017;
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+    .werkdocument-waarschuwing__titel {
+      font-family: var(--sans);
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: #8b6508;
+      letter-spacing: 0.02em;
+      font-size: 1rem;
+    }
+    .werkdocument-waarschuwing__tekst {
+      margin: 0;
+      line-height: 1.6;
+      color: #5a4208;
+      font-size: 0.95rem;
+    }
+
+    /* ── Rubriek-banner ── */
+    .rubriek-banner {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.4rem 1rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: inline-block;
+      border-radius: 3px;
+      margin-bottom: 0.8rem;
+    }
+
+    @media (max-width: 600px) {
+      .cijfer-rij, .uae-grid, .positie-grid {
+        grid-template-columns: 1fr;
+      }
+      .bronnen-lijst { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Behind the Numbers — Thursday, 28 May 2026
+  <a href="../#subscribe">Subscribe free</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Technical Supplement — 28 May 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Front page</a></li>
+      <li><a href="../edition-2/">Edition 2</a></li>
+      <li><a href="./">Behind the Numbers</a></li>
+      <li><a href="../archive.html">Archive</a></li>
+      <li><a href="../about.html">About</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="" class="active">EN</a>
+      <a href="../#subscribe" class="nav__cta">Subscribe free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Extended</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In brief</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Resume">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Read aloud</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/en/research/developing-country-status.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ EXTENDED -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="rubriek-banner">Behind the Numbers</span>
+    <span class="slide__tag">Data analysis · Personal Working Document</span>
+    <h1 class="slide__title">Is the Netherlands Heading Toward Developing Country Status?</h1>
+    <p class="slide__lead">A data-driven analysis of bankruptcies, business closures, employment and de-industrialisation in the Netherlands — 2000 through 2026</p>
+    <p class="slide__meta">By Jacobus van Merksteijn · 18 min read · Original: 19 May 2026 · Published: 28 May 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/ontwikkelingslandstatus.jpg" alt="Data analysis Netherlands economic trends 2000–2026">
+  </div>
+</section>
+
+<!-- ── WARNING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <div class="werkdocument-waarschuwing">
+      <p class="werkdocument-waarschuwing__titel">⚠ PERSONAL WORKING DOCUMENT</p>
+      <p class="werkdocument-waarschuwing__tekst">This is a summary of a conversational analysis from 19 May 2026. It is a thought exercise, not formal advice. The analysis exposes patterns, but conclusions remain personal and subject to revision. No rights may be derived from this document. The visualisations are based on publicly available CBS and KvK data, but the interpretations and the connections drawn between them are those of the author.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE QUESTION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Starting point</span>
+    <h2 class="slide__heading">The question that opened the conversation</h2>
+    <p>The conversation began with the observation that a <strong>"bankruptcy deluge"</strong> was sweeping across the Netherlands. And with the insight that business closures — entrepreneurs who pull the plug themselves before they collapse — ought to be counted as part of the true rate of business failure.</p>
+    <p>What started as a question about figures developed into a broader analysis: what do these trends say about the health and direction of the Dutch economy? This document draws together the visualisations and the thread of the conversation into a single readable whole, ending with the question of whether the perception that the Netherlands is seen as a developing country in the UAE actually has any basis — and if so, what that basis is.</p>
+
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">4,270</div>
+        <div class="cijfer-card__label">Bankruptcies in 2024</div>
+        <div class="cijfer-card__sub">Highest level since 2017 — catch-up after pandemic support</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Closures vs. bankruptcies</div>
+        <div class="cijfer-card__sub">Q1 2025: 60,964 closures against 1,013 bankruptcies</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">50+</div>
+        <div class="cijfer-card__label">Underestimation factor</div>
+        <div class="cijfer-card__sub">Official statistics do not count closures as business failure</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BANKRUPTCIES: FROM WAVE TO DECLINE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 1</span>
+    <h2 class="slide__heading">Bankruptcies — from wave to decline</h2>
+    <p>After the pandemic support period of 2020–2022, when bankruptcies were kept artificially low by government assistance, a catch-up followed. The Netherlands led Europe with growth figures of <strong>+52% in 2023</strong> and <strong>+31% in 2024</strong>.</p>
+    <p>In 2024, bankruptcies peaked at nearly <strong>4,270</strong> — the highest level since 2017. In 2025 they fell again by 21%, and Q1 2026 continued that decline with −10.9% year-on-year. Yet according to Atradius and Rabobank, the true peak would not arrive until 2027.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-000.jpg" alt="Monthly bankruptcies in the Netherlands 2023 to 2026 — line chart by year">
+      <figcaption>Monthly bankruptcies 2023–2026 — CBS Statline 82242NED. All legal forms including sole traders, not adjusted for court sitting days. 2024 was the true peak month with an average of ~356 bankruptcies per month. July 2024: peak month at 398. <em>Source: CBS Statline + KvK Trend Reports</em></figcaption>
+    </figure>
+
+    <p><strong>What the monthly figures show:</strong> 2026 began with a slight uptick: Jan −12% y-o-y, Feb −15%, but March already +12% — the first sign that the bottom may have passed. October 2025 was the lowest month (276 bankruptcies).</p>
+
+    <div class="callout">
+      <p><strong>European perspective:</strong> The Netherlands led Europe in the growth of bankruptcies. The "bankruptcy deluge" perception is real for anyone looking at the recent peak — but viewed historically, current levels around 4,000 fall within the average range.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE LONGER PERSPECTIVE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 2</span>
+    <h2 class="slide__heading">The longer perspective — annual totals 2000 to 2026</h2>
+    <p>The all-time peak was in <strong>2013</strong> with <strong>9,431 bankruptcies</strong> during the eurozone crisis. That was followed by a steady decline, reaching a historic low in <strong>2021 (1,818</strong> — the lowest since 1981) due to pandemic support measures.</p>
+    <p>Current levels around 4,000 are historically <em>average</em> — which puts the "bankruptcy deluge" perception partly in perspective. But this chart shows only the official bankruptcies. That is precisely the incomplete picture.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-001.jpg" alt="Bankruptcies in the Netherlands annual totals 2000 to 2026 — bar chart with colour coding for crisis peaks and pandemic period">
+      <figcaption>Annual bankruptcy totals 2000–2026. Peak eurozone crisis 2013: 9,431. Record low 2021: 1,818 (pandemic support). Post-pandemic catch-up 2024: 4,270. <em>Source: CBS Statline 82242NED + annual press releases</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Milestone</th>
+          <th>Year</th>
+          <th>Number</th>
+          <th>Context</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>All-time peak</td><td>2013</td><td>9,431</td><td>Eurozone crisis</td></tr>
+        <tr><td>Record low</td><td>2021</td><td>1,818</td><td>Pandemic support (lowest since 1981)</td></tr>
+        <tr><td>Post-pandemic peak</td><td>2024</td><td>4,270</td><td>Catch-up, highest since 2017</td></tr>
+        <tr><td>Declining</td><td>2025</td><td>~4,005</td><td>−21% y-o-y; closures taking over</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── CLOSURES: THE HIDDEN BANKRUPTCY ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 3</span>
+    <h2 class="slide__heading">Closures — the hidden bankruptcy</h2>
+    <p>The heart of the insight: <strong>business closures are statistically not bankruptcies, but economically they often are.</strong> An entrepreneur who sees that a business has no future and winds it up voluntarily before creditors get to it reduces the bankruptcy statistic while the economic loss is identical.</p>
+
+    <div class="citaat-blok">
+      "One possible explanation is that entrepreneurs decide to close their business earlier, before they find themselves in financial difficulty."
+      <p class="citaat-bron">— KvK, official press release</p>
+    </div>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-002.jpg" alt="Closures versus bankruptcies in the Netherlands by quarter Q2-2024 to Q1-2026 — combined bar chart with dual y-axis">
+      <figcaption>Closures versus bankruptcies by quarter — KvK Trend Reports + CBS 82242NED. Closures run ~50–60× higher than bankruptcies. Q1 2025 peak value: 60,964 closures against 1,013 bankruptcies. <em>Source: CBS Statline + KvK Trend Reports</em></figcaption>
+    </figure>
+
+    <p>In 2025, closures rose by <strong>+18% year-on-year</strong> across all sectors, with +19% among the self-employed. In January 2025 alone there were 6,000 more closures than a year earlier (+47%). Q1 2026 showed for the first time in 2.5 years a decline (−7.2%) — though possibly a statistical anomaly rather than a trend.</p>
+  </div>
+</section>
+
+<!-- ── THE 60× RATIO ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 4</span>
+    <h2 class="slide__heading">The ratio: 60× — staggering</h2>
+    <p>When you add both categories together — which is economically justified — the official bankruptcy statistic underestimates actual business failure by a factor of more than 50.</p>
+
+    <div class="factor-highlight">
+      <div class="factor-highlight__getal">60,964</div>
+      <p class="factor-highlight__label">Closures in Q1 2025</p>
+    </div>
+
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">1,013</div>
+        <div class="cijfer-card__label">Bankruptcies Q1 2025</div>
+        <div class="cijfer-card__sub">Officially registered</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Ratio</div>
+        <div class="cijfer-card__sub">Closures vs. bankruptcies</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">&gt;50×</div>
+        <div class="cijfer-card__label">Underestimation</div>
+        <div class="cijfer-card__sub">Actual failure vs. official statistic</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Conclusion:</strong> The official bankruptcy statistic shows only the tip of the iceberg. Economic business failure is more than fifty times greater than the published bankruptcy figures suggest.</p>
+    </div>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-003.jpg" alt="Business starts, closures and bankruptcies in the Netherlands 2000 to 2025 — annual numbers and cumulative totals">
+      <figcaption>Business starts, closures and bankruptcies in the Netherlands 2000–2025. Net balance: +1,351,334 businesses in headcount — but the FTE impact is a fundamentally different story. <em>Source: CBS Statline 83148NED + 83149NED + 82242NED + KvK Trend Reports</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── EMPLOYMENT TRENDS (FTE) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 5</span>
+    <h2 class="slide__heading">Employment trends — from headcount to FTE</h2>
+    <p>The growth of the business population is positive in headcount terms — but in FTE terms the story presents a fundamentally different picture. Start-ups are mostly self-employed (0.7–1 FTE), closures are often small SMEs (2–20 persons), and bankruptcies average even larger (~5.9 FTE per case).</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-004.jpg" alt="Business starts, closures and bankruptcies in the Netherlands measured in FTE 2007–2025 — annual and cumulative">
+      <figcaption>FTE analysis 2007–2025 — CBS 83148NED + 83149NED + 84034NED. Cumulative in FTE terms. Net FTE balance 2007–2025: only +217,317 FTE against +1,236,000 businesses in headcount. <em>Source: CBS Statline + KvK Trend Reports</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Measure</th>
+          <th>Headcount 2007–2025</th>
+          <th>FTE 2007–2025</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Starts</td><td>3,689,000</td><td>4,149,000</td></tr>
+        <tr><td>Closures</td><td>2,353,000</td><td>3,358,000</td></tr>
+        <tr><td>Bankruptcies</td><td>100,000</td><td>574,000</td></tr>
+        <tr><td><strong>Net balance</strong></td><td><strong>+1,236,000</strong></td><td><strong>+217,000</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>In headcount terms, bankruptcies account for only 4% of all business closures. In FTE terms: 17% — more than 4× heavier. And the net balance in FTE terms is 6× smaller than in headcount. <strong>The growth of the business population is almost entirely self-employment growth.</strong></p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-005.jpg" alt="Net FTE balance of Dutch businesses 2007 to 2025 — annual and cumulative">
+      <figcaption>Net FTE balance of Dutch businesses 2007–2025. Low point 2016: −178k FTE (credit + eurozone crisis). Pandemic bonanza 2021: +130k in a single year. 2025 first negative year (−12k) since 2016. <em>Source: CBS Statline 83148NED + 83149NED + 84034NED</em></figcaption>
+    </figure>
+
+    <div class="callout">
+      <p><strong>Critical observation:</strong> The enormous positive balance after 2021 is largely artificial — the result of pandemic support that temporarily kept bankruptcies and closures off the market. The decline in 2025 is a warning signal that the underlying dynamics are weaker than the figures suggest.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DE-INDUSTRIALISATION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 6</span>
+    <h2 class="slide__heading">De-industrialisation — production versus services</h2>
+    <p>How much of the Dutch economy still produces something physical? The answer has fallen sharply. The claim that "we work fewer and fewer hours per person" is, incidentally, only partially correct: the total fell from 1,491 hours (1995) to 1,452 hours (2024) — only −39 hours per year over 30 years.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-006.jpg" alt="Working time in the Netherlands production versus services 1995–2024 — three panels: hours per person, FTE by sector, production FTE absolute and indexed">
+      <figcaption>Working time in the Netherlands 1995–2024 — CBS Statline 85918NED. Three panels: hours per person, FTE by sector, production FTE absolute and indexed. Production FTE remained nominally almost unchanged (1,467k → 1,469k) but conceals a deep trough: in 2014 production FTE fell to 1,209k (−17.6%). <em>Source: CBS Statline + KvK Trend Reports</em></figcaption>
+    </figure>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-007.jpg" alt="De-industrialisation made visible — production as a percentage of total FTE 1995–2024">
+      <figcaption>De-industrialisation: production as a percentage of total FTE 1995–2024. From 24.7% to 17.5% — a decline of 7.1 percentage points. <em>Source: CBS Statline 85918NED</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Sector</th>
+          <th>1995</th>
+          <th>2024</th>
+          <th>Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Manufacturing (C)</td><td>13.0%</td><td>8.4%</td><td><strong>−4.6 ppt</strong></td></tr>
+        <tr><td>Agriculture, forestry, fishing (A)</td><td>3.5%</td><td>2.1%</td><td>−1.5 ppt</td></tr>
+        <tr><td>Construction (F)</td><td>8.0%</td><td>6.9%</td><td>−1.0 ppt</td></tr>
+        <tr><td>Mining and quarrying (B)</td><td>0.2%</td><td>0.1%</td><td>−0.1 ppt</td></tr>
+        <tr><td><strong>Total production</strong></td><td><strong>24.7%</strong></td><td><strong>17.5%</strong></td><td><strong>−7.1 ppt</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>Two-thirds of the decline lies in manufacturing: −4.6 of the −7.1 percentage points. The manufacturing sector shrank from 1 in every 8 workers in 1995 to <strong>1 in every 12 in 2024</strong>. A fundamental shift. Services have grown correspondingly: from 75.3% to 82.5% of total FTE.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-008.jpg" alt="Production hours in the Netherlands 1995 to 2024 — three panels with absolute hours by sector, index and share of total">
+      <figcaption>Production hours 1995–2024. The share of production hours in the total fell from 25.3% to 18.6% — a decline of 6.7 percentage points. Manufacturing lost 157 million production hours per year — equivalent to ~90,000 full-time jobs. <em>Source: CBS Statline 85918NED</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── THE UAE PERCEPTION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 7</span>
+    <h2 class="slide__heading">The UAE perception — does it hold up or not?</h2>
+    <p>The observation: in the UAE, the Netherlands is already seen as a developing country. That is a strong claim. The first question is whether it is actually true.</p>
+
+    <h3 style="color: #27782a; margin-top: 1.5rem;">Officially: no</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr><th>Ranking</th><th>Netherlands</th><th>Position</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Human Development Index 2023 (UN)</td><td>0.955</td><td>#8 worldwide</td></tr>
+        <tr><td>GDP per capita IMF 2026 (nominal)</td><td>$79,918</td><td>#13 worldwide</td></tr>
+        <tr><td>IMD World Competitiveness 2025</td><td>—</td><td>#10</td></tr>
+      </tbody>
+    </table>
+    <p>For comparison: developing countries such as India, Pakistan and Nigeria sit ~50× lower in GDP per head. The Netherlands is statistically still among the ten most prosperous countries in the world.</p>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">But at another level: recognisable</h3>
+    <p>Three assessments genuinely circulating in Gulf investment circulars:</p>
+
+    <div class="uae-grid">
+      <div class="uae-card">
+        <p class="uae-card__citaat">"Europe takes 6 months to decide what we decide in a week"</p>
+        <p class="uae-card__context">On the pace of regulation and permitting</p>
+      </div>
+      <div class="uae-card">
+        <p class="uae-card__citaat">"They tax success and subsidize failure"</p>
+        <p class="uae-card__context">On the fiscal treatment of successful entrepreneurs</p>
+      </div>
+      <div class="uae-card">
+        <p class="uae-card__citaat">"They lost their industrial spine"</p>
+        <p class="uae-card__context">Exactly what the charts in this analysis show</p>
+      </div>
+    </div>
+
+    <p>The terminology increasingly appearing in Gulf investment documents for Western Europe is <strong>"mature stagnant economies"</strong> — not "developing country", but mature, stagnated, defensive. For Gulf investors, the practical implication is the same: a place where you do <em>not</em> put your money for growth.</p>
+
+    <div class="callout">
+      <p><strong>Notable signal:</strong> In the IMD World Competitiveness ranking 2025, the UAE stands at #5, the Netherlands at #10. For the first time in history, a Gulf state is structurally ranked higher than the Netherlands in attractiveness for business and investors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SUBSTANTIATION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapter 8</span>
+    <h2 class="slide__heading">Substantiation — the three fault lines</h2>
+    <p>The figures expose three fundamental fault lines that together tell the broader story of the direction the Netherlands is heading.</p>
+
+    <div class="spanning-grid">
+      <div class="spanning-item">
+        <div class="spanning-nr">1</div>
+        <div>
+          <p class="spanning-titel">The "silent" failure</p>
+          <p class="spanning-desc">Official bankruptcy statistics underestimate actual business failure by a factor of 50. Closures are economically often disguised bankruptcies — and KvK acknowledges this in an official press release.</p>
+        </div>
+      </div>
+      <div class="spanning-item">
+        <div class="spanning-nr">2</div>
+        <div>
+          <p class="spanning-titel">FTE versus headcount</p>
+          <p class="spanning-desc">The net balance in FTE terms is 6× smaller than in headcount. The growth of the Dutch business population is almost entirely self-employment growth. Job creation through new businesses is modest. The positive balance after 2021 is largely artificial due to pandemic support.</p>
+        </div>
+      </div>
+      <div class="spanning-item">
+        <div class="spanning-nr">3</div>
+        <div>
+          <p class="spanning-titel">Production versus services</p>
+          <p class="spanning-desc">Dutch de-industrialisation is real and well documented. The manufacturing share fell −4.6 percentage points, production hours −6.7 percentage points of the total. The service sector grew by +54% and now dominates with 82.5% of all FTE.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCLUSION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Conclusion</span>
+    <h2 class="slide__heading">The honest positioning — and what it means</h2>
+
+    <div class="positie-grid">
+      <div class="positie-col positie-col--stat">
+        <p class="positie-col__header">Statistically still top-10</p>
+        <ul>
+          <li>HDI #8 worldwide (0.955)</li>
+          <li>GDP per capita #13 ($79,918)</li>
+          <li>IMD Competitiveness #10</li>
+          <li>Not a "developing country" in the technical sense</li>
+        </ul>
+      </div>
+      <div class="positie-col positie-col--dyn">
+        <p class="positie-col__header">Dynamically: in relative decline</p>
+        <ul>
+          <li>Stagnated, ageing, fiscally unstable, over-regulated</li>
+          <li>Manufacturing share −4.6 ppt; production hours −17% at trough</li>
+          <li>Closures +18% y-o-y in 2025; failure severely underestimated</li>
+          <li>UAE #5 vs. Netherlands #10 on competitiveness — a historic gap</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>The question "is the Netherlands heading toward developing country status?" is <strong>technically incorrect but strategically relevant</strong>. The Netherlands is not moving in the direction of India or Pakistan — but it is moving in the direction of a wealthy country that has lost its industrial muscle and largely lives off services.</p>
+
+    <p>Without policy change, it will slide within 15–25 years into the "wealthy but obsolete" segment — comparable to the way Argentina degraded in the 20th century from a top-10 prosperous nation to the middle ranks.</p>
+
+    <div class="callout">
+      <p><strong>For an entrepreneur in the physical manufacturing industry</strong> — coatings, biomass, materials — this means: the Netherlands is no longer a logical production location. What remains workable: R&amp;D, IP, knowledge, distribution. The choice to have production take place elsewhere is not a betrayal of the Netherlands — it is a rational response to the policies the Netherlands itself pursues.</p>
+    </div>
+
+    <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #777;">The difference between <em>actually</em> being a developing country and being a country in <em>relative</em> decline by trend is vast. The Netherlands is in the second category, and will remain wealthy enough for years to come to conceal that fact. But for those who see it from the inside — as an entrepreneur, as a technician, as someone who speaks with foreign clients — the direction is unmistakable.</p>
+  </div>
+</section>
+
+<!-- ── SOURCES ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Sources</span>
+    <h2 class="slide__heading">Sources used</h2>
+    <p>All data visualisations are based on the following publicly available sources. The interpretations and the connections drawn between them are those of the author (personal working document, 19 May 2026).</p>
+    <ul class="bronnen-lijst">
+      <li>CBS Statline 82242NED — Bankruptcies key figures</li>
+      <li>CBS Statline 83148NED — Business registrations</li>
+      <li>CBS Statline 83149NED — Business deregistrations</li>
+      <li>CBS Statline 84034NED — Employees in bankruptcies (2015–2022)</li>
+      <li>CBS Statline 85918NED — Labour volume by industry</li>
+      <li>KvK Trend Reports Q2-24, Q1-25, Q2-25, Q1-26</li>
+      <li>Accountant.nl — Atradius forecast 2026</li>
+      <li>Rabobank Knowledge — Bankruptcy analysis</li>
+      <li>IMF World Economic Outlook 2026</li>
+      <li>UNDP Human Development Report 2023/2024</li>
+      <li>IMD World Competitiveness Yearbook 2025</li>
+      <li>Draghi Report on European Competitiveness (2024)</li>
+      <li>Letta Report on the Single Market (2024)</li>
+    </ul>
+    <div class="werkdocument-waarschuwing" style="margin-top: 2rem;">
+      <p class="werkdocument-waarschuwing__titel">⚠ Reminder: Personal Working Document</p>
+      <p class="werkdocument-waarschuwing__tekst">This article is a summary of a conversational analysis from 19 May 2026, compiled as a personal reference document. No rights may be derived from the content. The visualisations are based on public data, but the conclusions are personal and subject to revision.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ IN BRIEF -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="rubriek-banner">Behind the Numbers</span>
+    <span class="slide__tag">Data analysis · Personal Working Document</span>
+    <h2 class="slide__heading">Is the Netherlands Heading Toward Developing Country Status?</h2>
+    <p class="slide__lead">A thought exercise based on CBS and KvK data, 2000–2026</p>
+    <div class="werkdocument-waarschuwing">
+      <p class="werkdocument-waarschuwing__titel">⚠ PERSONAL WORKING DOCUMENT</p>
+      <p class="werkdocument-waarschuwing__tekst">This is a summary of a conversational analysis from 19 May 2026. A thought exercise, not formal advice.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">The three key figures</h2>
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">4,270</div>
+        <div class="cijfer-card__label">Bankruptcies in 2024</div>
+        <div class="cijfer-card__sub">Highest since 2017</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Closures vs. bankruptcies</div>
+        <div class="cijfer-card__sub">Q1 2025: 60,964 vs. 1,013</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">−7.1 ppt</div>
+        <div class="cijfer-card__label">Decline in production share</div>
+        <div class="cijfer-card__sub">From 24.7% to 17.5% (1995–2024)</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>Core finding:</strong> Official bankruptcy statistics underestimate actual failure by a factor of 50. Closures are the hidden bankruptcy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">De-industrialisation in one image</h2>
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-007.jpg" alt="De-industrialisation: production as % of total FTE 1995–2024">
+      <figcaption>Production as % of total FTE: from 24.7% (1995) to 17.5% (2024). Manufacturing share: from 1 in 8 workers to 1 in 12. <em>Source: CBS Statline 85918NED</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">The conclusion</h2>
+    <div class="positie-grid">
+      <div class="positie-col positie-col--stat">
+        <p class="positie-col__header">Officially: top-10</p>
+        <ul>
+          <li>HDI #8 worldwide</li>
+          <li>GDP per capita #13 ($79,918)</li>
+          <li>IMD Competitiveness #10</li>
+        </ul>
+      </div>
+      <div class="positie-col positie-col--dyn">
+        <p class="positie-col__header">By trend: in decline</p>
+        <ul>
+          <li>Industrial decline well documented</li>
+          <li>Failure 50× underestimated by statistics</li>
+          <li>UAE now above NL on competitiveness</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>"Technically incorrect, strategically relevant"</strong> — the Netherlands is not a developing country but is moving toward "wealthy but obsolete".</p>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Technical Supplement — Thursday, 28 May 2026</p>
+    <p><a href="../">To the front page</a> · <a href="./">Behind the Numbers</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+</body>
+</html>

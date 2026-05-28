@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ist die Niederlande auf dem Weg zum Entwicklungsland-Status? — Het Open Vizier · Hinter den Zahlen</title>
+  <meta name="description" content="Eine datengestützte Analyse von Insolvenzen, Unternehmensausfällen, Beschäftigung und Deindustrialisierung in den Niederlanden — 2000 bis 2026">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #c64a26;
+      --accent-dark: #9c3a1f;
+    }
+    .article-tools__inner {
+      border-color: #9c3a1f !important;
+    }
+    .version-switch__btn {
+      background: #c64a26 !important;
+    }
+    .version-switch__btn--active {
+      background: #9c3a1f !important;
+    }
+
+    /* ── Kerncijfer highlights ── */
+    .cijfer-rij {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .cijfer-card {
+      background: #fdf2ee;
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      border-left: 4px solid var(--accent);
+      text-align: left;
+    }
+    .cijfer-card__getal {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0 0 0.3rem;
+    }
+    .cijfer-card__label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 0.2rem;
+    }
+    .cijfer-card__sub {
+      font-size: 0.82rem;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ── Callout override accentkleur ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #fdf2ee;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Citaat-blok ── */
+    .citaat-blok {
+      background: #fdf2ee;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 1.2rem 2rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: #444;
+    }
+    .citaat-bron {
+      margin-top: 0.5rem;
+      font-style: normal;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* ── Factor-highlight ── */
+    .factor-highlight {
+      background: #fdf2ee;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+    .factor-highlight__getal {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0 0 0.4rem;
+    }
+    .factor-highlight__label {
+      font-size: 1.1rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Data-tabel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #f0d8d0;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #fdf7f5;
+    }
+
+    /* ── UAE citaten grid ── */
+    .uae-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .uae-card {
+      background: #fdf7f5;
+      border-radius: 8px;
+      padding: 1.2rem;
+      border-top: 3px solid var(--accent);
+    }
+    .uae-card__citaat {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: #333;
+      margin: 0 0 0.5rem;
+    }
+    .uae-card__context {
+      font-size: 0.8rem;
+      color: #888;
+      margin: 0;
+    }
+
+    /* ── Positionering twee kolommen ── */
+    .positie-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .positie-col {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .positie-col--stat { background: #f0f8f0; border-left: 4px solid #27782a; }
+    .positie-col--dyn { background: #fdf2f2; border-left: 4px solid #b83232; }
+    .positie-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.6rem;
+    }
+    .positie-col--stat .positie-col__header { color: #27782a; }
+    .positie-col--dyn .positie-col__header { color: #b83232; }
+    .positie-col ul { margin: 0; padding-left: 1.1rem; }
+    .positie-col li { font-size: 0.88rem; color: #444; margin-bottom: 0.35rem; }
+
+    /* ── Spanningsvelden ── */
+    .spanning-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .spanning-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 0;
+      border-top: 2px solid #f0d8d0;
+    }
+    .spanning-item:last-child { border-bottom: 2px solid #f0d8d0; }
+    .spanning-nr {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 2rem;
+    }
+    .spanning-titel {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.2rem;
+    }
+    .spanning-desc {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Bronnen-lijst ── */
+    .bronnen-lijst {
+      columns: 2;
+      column-gap: 2rem;
+      margin: 1rem 0;
+    }
+    .bronnen-lijst li {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 0.35rem;
+      break-inside: avoid;
+    }
+
+    /* ── Figuur styling ── */
+    figure.grafiek {
+      margin: 2rem 0 1rem 0;
+    }
+    figure.grafiek img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      display: block;
+    }
+    figure.grafiek figcaption {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      color: #777;
+      margin-top: 0.6rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ── Werkdocument waarschuwing ── */
+    .werkdocument-waarschuwing {
+      background: #fff7e6;
+      border-left: 4px solid #d4a017;
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+    .werkdocument-waarschuwing__titel {
+      font-family: var(--sans);
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: #8b6508;
+      letter-spacing: 0.02em;
+      font-size: 1rem;
+    }
+    .werkdocument-waarschuwing__tekst {
+      margin: 0;
+      line-height: 1.6;
+      color: #5a4208;
+      font-size: 0.95rem;
+    }
+
+    /* ── Rubriek-banner ── */
+    .rubriek-banner {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.4rem 1rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: inline-block;
+      border-radius: 3px;
+      margin-bottom: 0.8rem;
+    }
+
+    @media (max-width: 600px) {
+      .cijfer-rij, .uae-grid, .positie-grid {
+        grid-template-columns: 1fr;
+      }
+      .bronnen-lijst { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Hinter den Zahlen — Donnerstag, 28. Mai 2026
+  <a href="../#abonnieren">Gratis abonnieren</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Technisches Beiblatt — 28. Mai 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Titelseite</a></li>
+      <li><a href="../ausgabe-2/">Ausgabe 2</a></li>
+      <li><a href="./">Hinter den Zahlen</a></li>
+      <li><a href="../archiv.html">Archiv</a></li>
+      <li><a href="../ueber.html">Über</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="" class="active">DE</a>
+      <a href="../#abonnieren" class="nav__cta">Gratis abonnieren</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Ausführlich</button>
+      <button type="button" class="version-switch__btn" data-version="kort">Kurzfassung</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Fortsetzen">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Vorlesen</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/de/forschung/entwicklungslandstatus.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ AUSFÜHRLICH -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="rubriek-banner">Hinter den Zahlen</span>
+    <span class="slide__tag">Datenanalyse · Persönliches Arbeitsdokument</span>
+    <h1 class="slide__title">Ist die Niederlande auf dem Weg zum Entwicklungsland-Status?</h1>
+    <p class="slide__lead">Eine datengestützte Analyse von Insolvenzen, Unternehmensausfällen, Beschäftigung und Deindustrialisierung in den Niederlanden — 2000 bis 2026</p>
+    <p class="slide__meta">Von Jacobus van Merksteijn · 18 Min. Lesezeit · Original: 19. Mai 2026 · Veröffentlicht: 28. Mai 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/ontwikkelingslandstatus.jpg" alt="Datenanalyse Niederlande wirtschaftliche Trends 2000–2026">
+  </div>
+</section>
+
+<!-- ── WAARSCHUWING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <div class="werkdocument-waarschuwing">
+      <p class="werkdocument-waarschuwing__titel">⚠ PERSÖNLICHES ARBEITSDOKUMENT</p>
+      <p class="werkdocument-waarschuwing__tekst">Dies ist eine Zusammenfassung einer Gesprächsanalyse vom 19. Mai 2026. Es handelt sich um eine Denkübung, kein formelles Gutachten. Die Analyse legt Muster offen, die Schlussfolgerungen bleiben persönlich und stehen unter Vorbehalt. Aus diesem Dokument können keine Rechte abgeleitet werden. Die Visualisierungen basieren auf öffentlich verfügbaren CBS- und KvK-Daten, doch die Interpretationen und Zusammenhänge stammen vom Autor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DE VRAAG ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Anlass</span>
+    <h2 class="slide__heading">Die Frage, die das Gespräch eröffnete</h2>
+    <p>Das Gespräch begann mit der Beobachtung, dass ein <strong>„Insolvenzregen"</strong> über die Niederlande hinwegzieht. Und mit der Erkenntnis, dass Unternehmensaufgaben — Unternehmer, die selbst den Stecker ziehen, bevor sie zahlungsunfähig werden — eigentlich bei der tatsächlichen Ausfallquote mitgezählt werden müssen.</p>
+    <p>Was als Frage nach Zahlen begann, weitete sich zu einer umfassenderen Analyse aus: Was sagen diese Trends über die Gesundheit und Richtung der niederländischen Wirtschaft aus? Dieses Dokument bündelt die Visualisierungen und den Gesprächsfaden zu einem lesbaren Ganzen — und endet bei der Frage, ob die Beobachtung, dass die Niederlande in den VAE als Entwicklungsland wahrgenommen werden, tatsächlich einen Grund hat, und wenn ja, welchen.</p>
+
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">4.270</div>
+        <div class="cijfer-card__label">Insolvenzen 2024</div>
+        <div class="cijfer-card__sub">Höchster Stand seit 2017 — Nachholeffekt nach Corona-Hilfen</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Aufgaben vs. Insolvenzen</div>
+        <div class="cijfer-card__sub">Q1 2025: 60.964 Aufgaben gegenüber 1.013 Insolvenzen</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">50+</div>
+        <div class="cijfer-card__label">Unterschätzungsfaktor</div>
+        <div class="cijfer-card__sub">Offizielle Statistiken erfassen Aufgaben nicht als Ausfall</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAILLISSEMENTEN: GOLF NAAR TERUGVAL ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 1</span>
+    <h2 class="slide__heading">Insolvenzen — von der Welle zum Rückgang</h2>
+    <p>Nach der Corona-Hilfephase 2020–2022, als Insolvenzen durch staatliche Unterstützung künstlich niedrig gehalten wurden, folgte ein Nachholeffekt. Die Niederlande führten Europa mit Wachstumsraten von <strong>+52 % im Jahr 2023</strong> und <strong>+31 % im Jahr 2024</strong>.</p>
+    <p>Im Jahr 2024 erreichten die Insolvenzen mit knapp <strong>4.270</strong> den höchsten Stand seit 2017. Im Jahr 2025 sanken sie wieder um 21 %, und Q1 2026 setzte diesen Rückgang mit −10,9 % im Jahresvergleich fort. Doch der eigentliche Höhepunkt würde laut Atradius und Rabobank erst 2027 kommen.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-000.jpg" alt="Monatliche Insolvenzen Niederlande 2023 bis 2026 — Liniendiagramm pro Jahr">
+      <figcaption>Monatliche Insolvenzen 2023–2026 — CBS Statline 82242NED. Alle Rechtsformen einschl. Einzelunternehmen, nicht korrigiert für Gerichtstage. 2024 war der eigentliche Spitzenmonat mit durchschnittlich ~356 Insolvenzen pro Monat. Juli 2024: Rekordmonat mit 398. <em>Quelle: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <p><strong>Was die Monatszahlen zeigen:</strong> 2026 begann leicht steigend: Jan. −12 % j/j, Feb. −15 %, aber März bereits +12 % — das erste Anzeichen, dass die Talsohle möglicherweise durchschritten ist. Oktober 2025 war der schwächste Monat (276 Insolvenzen).</p>
+
+    <div class="callout">
+      <p><strong>Europäische Perspektive:</strong> Die Niederlande führten Europa im Insolvenzwachstum an. Die Wahrnehmung eines „Insolvenzregens" ist für denjenigen real, der den jüngsten Höhepunkt betrachtet — doch historisch gesehen liegen die aktuellen Niveaus um 4.000 im Durchschnittsbereich.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HET LANGERE PERSPECTIEF ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 2</span>
+    <h2 class="slide__heading">Die längere Perspektive — Jahreszahlen 2000 bis 2026</h2>
+    <p>Der absolute Höchststand lag <strong>2013</strong> mit <strong>9.431 Insolvenzen</strong> während der Eurokrise. Seitdem folgte ein stetiger Rückgang mit einem historischen Tiefstand <strong>2021 (1.818</strong> — der niedrigste Stand seit 1981) infolge der Corona-Stützungsmaßnahmen.</p>
+    <p>Die aktuellen Niveaus um 4.000 sind historisch gesehen <em>durchschnittlich</em> — was die Wahrnehmung eines „Insolvenzregens" teilweise relativiert. Doch diese Grafik zeigt nur die offiziellen Insolvenzen. Das ist genau das unvollständige Bild.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-001.jpg" alt="Insolvenzen Niederlande Jahreszahlen 2000 bis 2026 — Balkendiagramm mit Farbkodierung für Krisen und Coronaperiode">
+      <figcaption>Jahreszahlen Insolvenzen 2000–2026. Höhepunkt Eurokrise 2013: 9.431. Tiefstand 2021: 1.818 (Corona-Hilfen). Nachholeffekt 2024: 4.270. <em>Quelle: CBS Statline 82242NED + Jahrespressemitteilungen</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Meilenstein</th>
+          <th>Jahr</th>
+          <th>Anzahl</th>
+          <th>Kontext</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Absoluter Höchststand</td><td>2013</td><td>9.431</td><td>Eurokrise</td></tr>
+        <tr><td>Tiefstand</td><td>2021</td><td>1.818</td><td>Corona-Hilfen (niedrigster Stand seit 1981)</td></tr>
+        <tr><td>Post-Corona-Höhepunkt</td><td>2024</td><td>4.270</td><td>Nachholeffekt, höchster Stand seit 2017</td></tr>
+        <tr><td>Rückläufig</td><td>2025</td><td>~4.005</td><td>−21 % j/j; Unternehmensaufgaben übernehmen</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── STOPPERS: HET VERBORGEN FAILLISSEMENT ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 3</span>
+    <h2 class="slide__heading">Unternehmensaufgaben — die verborgene Insolvenz</h2>
+    <p>Der Kern der Erkenntnis: <strong>Unternehmensaufgaben sind statistisch keine Insolvenzen, wirtschaftlich aber oft doch.</strong> Ein Unternehmer, der sieht, dass sein Betrieb keine Zukunft mehr hat, und ihn selbst auflöst, bevor Gläubiger eingreifen, verringert die Insolvenzstatistik — während der wirtschaftliche Schaden derselbe ist.</p>
+
+    <div class="citaat-blok">
+      „Eine mögliche Erklärung ist, dass Unternehmer häufiger beschließen, ihr Unternehmen aufzugeben, noch bevor sie in finanzielle Schwierigkeiten geraten."
+      <p class="citaat-bron">— KvK, offizielle Pressemitteilung</p>
+    </div>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-002.jpg" alt="Unternehmensaufgaben versus Insolvenzen Niederlande pro Quartal Q2-2024 bis Q1-2026 — kombiniertes Balkendiagramm mit doppelter y-Achse">
+      <figcaption>Unternehmensaufgaben versus Insolvenzen pro Quartal — KvK Trendrapporten + CBS 82242NED. Aufgaben liegen ~50–60× höher als Insolvenzen. Q1 2025 Spitzenwert: 60.964 Aufgaben gegenüber 1.013 Insolvenzen. <em>Quelle: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <p>Im Jahr 2025 stiegen Unternehmensaufgaben um <strong>+18 % im Jahresvergleich</strong> in allen Sektoren, darunter +19 % bei Selbstständigen. Im Januar 2025 allein gab es 6.000 Aufgaben mehr als ein Jahr zuvor (+47 %). Q1 2026 zeigte erstmals seit 2,5 Jahren einen Rückgang (−7,2 %) — möglicherweise jedoch eine statistische Ausnahme statt ein Trend.</p>
+  </div>
+</section>
+
+<!-- ── DE VERHOUDING 60× ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 4</span>
+    <h2 class="slide__heading">Das Verhältnis: 60× verblüffend</h2>
+    <p>Zählt man beide Kategorien zusammen — was wirtschaftlich gerechtfertigt ist — unterschätzt die offizielle Insolvenzstatistik den tatsächlichen Ausfall um mehr als einen Faktor 50.</p>
+
+    <div class="factor-highlight">
+      <div class="factor-highlight__getal">60.964</div>
+      <p class="factor-highlight__label">Unternehmensaufgaben in Q1 2025</p>
+    </div>
+
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">1.013</div>
+        <div class="cijfer-card__label">Insolvenzen Q1 2025</div>
+        <div class="cijfer-card__sub">Offiziell registriert</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Verhältnis</div>
+        <div class="cijfer-card__sub">Aufgaben vs. Insolvenzen</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">&gt;50×</div>
+        <div class="cijfer-card__label">Unterschätzung</div>
+        <div class="cijfer-card__sub">Tatsächlicher Ausfall vs. offizielle Statistik</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Schlussfolgerung:</strong> Die offizielle Insolvenzstatistik zeigt nur die Spitze des Eisbergs. Der wirtschaftliche Unternehmensausfall ist mehr als fünfzigmal größer als die veröffentlichten Insolvenzzahlen vermuten lassen.</p>
+    </div>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-003.jpg" alt="Neugründungen, Aufgaben und Insolvenzen Niederlande 2000 bis 2025 — jährliche Zahlen und kumulative Gesamtwerte">
+      <figcaption>Neugründungen, Aufgaben und Insolvenzen Niederlande 2000–2025. Nettosaldo: +1.351.334 Unternehmen in Anzahl — doch die VZÄ-Auswirkung erzählt eine grundlegend andere Geschichte. <em>Quelle: CBS Statline 83148NED + 83149NED + 82242NED + KvK Trendrapporten</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── WERKGELEGENHEIDS-TRENDS (FTE) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 5</span>
+    <h2 class="slide__heading">Beschäftigungstrends — von Anzahl zu VZÄ</h2>
+    <p>Das Wachstum der Unternehmenslandschaft ist in der Anzahl positiv — in VZÄ-Begriffen erzählt die Geschichte jedoch ein grundlegend anderes Bild. Neugründungen sind meist Einzelunternehmer (0,7–1 VZÄ), Aufgaben häufig kleine KMU-Betriebe (2–20 Personen), und Insolvenzen im Durchschnitt noch größer (~5,9 VZÄ pro Fall).</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-004.jpg" alt="Neugründungen, Aufgaben und Insolvenzen Niederlande in VZÄ 2007–2025 — jährlich und kumulativ">
+      <figcaption>VZÄ-Analyse 2007–2025 — CBS 83148NED + 83149NED + 84034NED. Kumulativ in VZÄ-Begriffen. Netto-VZÄ-Saldo 2007–2025: lediglich +217.317 VZÄ gegenüber +1.236.000 Unternehmen in Anzahl. <em>Quelle: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Maßgröße</th>
+          <th>Anzahl 2007–2025</th>
+          <th>VZÄ 2007–2025</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Neugründungen</td><td>3.689.000</td><td>4.149.000</td></tr>
+        <tr><td>Aufgaben</td><td>2.353.000</td><td>3.358.000</td></tr>
+        <tr><td>Insolvenzen</td><td>100.000</td><td>574.000</td></tr>
+        <tr><td><strong>Nettosaldo</strong></td><td><strong>+1.236.000</strong></td><td><strong>+217.000</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>In der Anzahl machen Insolvenzen nur 4 % aller Unternehmensauflösungen aus. In VZÄ 17 % — mehr als 4× schwerer. Und das Nettosaldo ist in VZÄ-Begriffen 6× kleiner als in Anzahl. <strong>Das Wachstum der Unternehmenslandschaft ist nahezu vollständig Selbstständigenwachstum.</strong></p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-005.jpg" alt="Netto-VZÄ-Bilanz der niederländischen Unternehmenswelt 2007 bis 2025 — jährlich und kumulativ">
+      <figcaption>Netto-VZÄ-Bilanz der niederländischen Unternehmenswelt 2007–2025. Tiefpunkt 2016: −178k VZÄ (Kredit- und Eurokrise). Corona-Bonanza 2021: +130k in einem Jahr. 2025 erstes negatives Jahr (−12k) seit 2016. <em>Quelle: CBS Statline 83148NED + 83149NED + 84034NED</em></figcaption>
+    </figure>
+
+    <div class="callout">
+      <p><strong>Kritische Beobachtung:</strong> Das enorme positive Saldo nach 2021 ist weitgehend künstlich — Folge der Corona-Hilfen, die Insolvenzen und Aufgaben vorübergehend vom Markt fernhielten. Der Rückgang 2025 ist ein Warnsignal, dass die zugrundeliegende Dynamik schwächer ist, als die Zahlen vermuten lassen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DE-INDUSTRIALISATIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 6</span>
+    <h2 class="slide__heading">Deindustrialisierung — Produktion versus Dienstleistungen</h2>
+    <p>Wie viel der niederländischen Wirtschaft produziert noch tatsächlich etwas Physisches? Die Antwort ist deutlich gesunken. Die These „wir arbeiten immer weniger Stunden pro Person" stimmt im Übrigen nur begrenzt: Die Gesamtzahl sank von 1.491 Stunden (1995) auf 1.452 Stunden (2024) — lediglich −39 Stunden pro Jahr in 30 Jahren.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-006.jpg" alt="Arbeitszeit Niederlande Produktion versus Dienstleistungen 1995–2024 — drei Panels: Stunden pro Person, VZÄ pro Sektor, Produktions-VZÄ absolut und indexiert">
+      <figcaption>Arbeitszeit in den Niederlanden 1995–2024 — CBS Statline 85918NED. Drei Panels: Stunden pro Person, VZÄ pro Sektor, Produktions-VZÄ absolut und indexiert. Produktions-VZÄ blieb nominell nahezu gleich (1.467k → 1.469k), verbirgt aber ein tiefes Tal: Im Jahr 2014 sank das Produktions-VZÄ auf 1.209k (−17,6 %). <em>Quelle: CBS Statline + KvK Trendrapporten</em></figcaption>
+    </figure>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-007.jpg" alt="Deindustrialisierung sichtbar gemacht — Produktion als Anteil am Gesamt-VZÄ 1995–2024">
+      <figcaption>Deindustrialisierung: Produktion als Anteil am Gesamt-VZÄ 1995–2024. Von 24,7 % auf 17,5 % — ein Rückgang von 7,1 Prozentpunkten. <em>Quelle: CBS Statline 85918NED</em></figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Sektor</th>
+          <th>1995</th>
+          <th>2024</th>
+          <th>Veränderung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Industrie (C)</td><td>13,0 %</td><td>8,4 %</td><td><strong>−4,6 Pkt.</strong></td></tr>
+        <tr><td>Landwirtschaft, Forstwirtschaft, Fischerei (A)</td><td>3,5 %</td><td>2,1 %</td><td>−1,5 Pkt.</td></tr>
+        <tr><td>Bauwesen (F)</td><td>8,0 %</td><td>6,9 %</td><td>−1,0 Pkt.</td></tr>
+        <tr><td>Bergbau und Gewinnung von Steinen und Erden (B)</td><td>0,2 %</td><td>0,1 %</td><td>−0,1 Pkt.</td></tr>
+        <tr><td><strong>Produktion gesamt</strong></td><td><strong>24,7 %</strong></td><td><strong>17,5 %</strong></td><td><strong>−7,1 Pkt.</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>Zwei Drittel des Rückgangs entfallen auf die Industrie: −4,6 von −7,1 Prozentpunkten. Die Industrie schrumpfte von 1 von 8 Beschäftigten im Jahr 1995 auf <strong>1 von 12 im Jahr 2024</strong>. Eine fundamentale Verschiebung. Der Dienstleistungssektor ist entsprechend gewachsen: von 75,3 % auf 82,5 % des Gesamt-VZÄ.</p>
+
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-008.jpg" alt="Produktionsstunden Niederlande 1995 bis 2024 — drei Panels mit absoluten Stunden pro Sektor, Index und Anteil am Gesamten">
+      <figcaption>Produktionsstunden 1995–2024. Der Anteil der Produktionsstunden am Gesamten sank von 25,3 % auf 18,6 % — ein Rückgang von 6,7 Prozentpunkten. Die Industrie verlor 157 Millionen Produktionsstunden pro Jahr — umgerechnet ~90.000 Vollzeitstellen. <em>Quelle: CBS Statline 85918NED</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── DE UAE-PERCEPTIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 7</span>
+    <h2 class="slide__heading">Die VAE-Wahrnehmung — stimmt sie oder nicht?</h2>
+    <p>Die Beobachtung: In den VAE werden die Niederlande bereits als Entwicklungsland angesehen. Das ist eine starke Behauptung. Die erste Frage ist, ob sie sachlich zutrifft.</p>
+
+    <h3 style="color: #27782a; margin-top: 1.5rem;">Offiziell: nein</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr><th>Rangliste</th><th>Niederlande</th><th>Position</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Human Development Index 2023 (UN)</td><td>0,955</td><td>#8 weltweit</td></tr>
+        <tr><td>BIP pro Kopf IWF 2026 (nominal)</td><td>$79.918</td><td>#13 weltweit</td></tr>
+        <tr><td>IMD World Competitiveness 2025</td><td>—</td><td>#10</td></tr>
+      </tbody>
+    </table>
+    <p>Zum Vergleich: Entwicklungsländer wie Indien, Pakistan und Nigeria liegen beim BIP pro Kopf etwa 50× niedriger. Die Niederlande zählen statistisch noch immer zu den zehn wohlhabendsten Ländern der Welt.</p>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">Doch auf einer anderen Ebene: nachvollziehbar</h3>
+    <p>Drei real kursierende Einschätzungen aus Golf-Investitionsrundschreiben:</p>
+
+    <div class="uae-grid">
+      <div class="uae-card">
+        <p class="uae-card__citaat">„Europe takes 6 months to decide what we decide in a week"</p>
+        <p class="uae-card__context">Über Regulierungstempo und Genehmigungsverfahren</p>
+      </div>
+      <div class="uae-card">
+        <p class="uae-card__citaat">„They tax success and subsidize failure"</p>
+        <p class="uae-card__context">Über die steuerliche Behandlung erfolgreicher Unternehmer</p>
+      </div>
+      <div class="uae-card">
+        <p class="uae-card__citaat">„They lost their industrial spine"</p>
+        <p class="uae-card__context">Genau das, was die Grafiken in dieser Analyse zeigen</p>
+      </div>
+    </div>
+
+    <p>Die Terminologie, die in Golf-Investitionspapieren für Westeuropa immer häufiger auftaucht, lautet <strong>„mature stagnant economies"</strong> — nicht „Entwicklungsland", sondern ausgereift, stagniert, defensiv. Für Golf-Investoren praktisch gleichbedeutend: ein Ort, an dem man sein Geld <em>nicht</em> für Wachstum anlegt.</p>
+
+    <div class="callout">
+      <p><strong>Auffälliges Signal:</strong> In der IMD World Competitiveness Rangliste 2025 belegen die VAE Platz #5, die Niederlande Platz #10. Zum ersten Mal in der Geschichte ist ein Golfstaat strukturell höher eingestuft als die Niederlande in Bezug auf Attraktivität für Unternehmen und Investoren.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ONDERBOUWING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 8</span>
+    <h2 class="slide__heading">Begründung — die drei Spannungsfelder</h2>
+    <p>Die Zahlen legen drei fundamentale Spannungsfelder offen, die zusammen die übergreifende Geschichte über die Richtung der Niederlande erzählen.</p>
+
+    <div class="spanning-grid">
+      <div class="spanning-item">
+        <div class="spanning-nr">1</div>
+        <div>
+          <p class="spanning-titel">Der „stille" Ausfall</p>
+          <p class="spanning-desc">Offizielle Insolvenzstatistiken unterschätzen den tatsächlichen Unternehmensausfall um einen Faktor 50. Unternehmensaufgaben sind wirtschaftlich oft getarnte Insolvenzen — und die KvK erkennt dies selbst in einer offiziellen Pressemitteilung an.</p>
+        </div>
+      </div>
+      <div class="spanning-item">
+        <div class="spanning-nr">2</div>
+        <div>
+          <p class="spanning-titel">VZÄ versus Anzahl</p>
+          <p class="spanning-desc">Das Nettosaldo in VZÄ-Begriffen ist 6× kleiner als in Anzahl. Das Wachstum der niederländischen Unternehmenslandschaft ist nahezu vollständig Selbstständigenwachstum. Die Beschäftigungsschaffung durch neue Unternehmen ist bescheiden. Das positive Saldo nach 2021 ist weitgehend künstlich durch Corona-Hilfen.</p>
+        </div>
+      </div>
+      <div class="spanning-item">
+        <div class="spanning-nr">3</div>
+        <div>
+          <p class="spanning-titel">Produktion versus Dienstleistungen</p>
+          <p class="spanning-desc">Die niederländische Deindustrialisierung ist real und gut dokumentiert. Industrie-Anteil sank −4,6 Prozentpunkte, Produktionsstunden −6,7 Prozentpunkte am Gesamten. Der Dienstleistungssektor wuchs um +54 % und dominiert jetzt mit 82,5 % aller VZÄ.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCLUSIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Schlussfolgerung</span>
+    <h2 class="slide__heading">Die ehrliche Positionierung — und was sie bedeutet</h2>
+
+    <div class="positie-grid">
+      <div class="positie-col positie-col--stat">
+        <p class="positie-col__header">Statistisch noch Top-10</p>
+        <ul>
+          <li>HDI #8 weltweit (0,955)</li>
+          <li>BIP pro Kopf #13 ($79.918)</li>
+          <li>IMD Competitiveness #10</li>
+          <li>Kein „Entwicklungsland" im technischen Sinne</li>
+        </ul>
+      </div>
+      <div class="positie-col positie-col--dyn">
+        <p class="positie-col__header">Dynamisch: im relativen Niedergang</p>
+        <ul>
+          <li>Stagniert, überaltert, fiskalisch instabil, regulierungsbelastet</li>
+          <li>Industrie-Anteil −4,6 Pkt.; Produktionsstunden −17 % im Tiefpunkt</li>
+          <li>Aufgaben +18 % j/j in 2025; Ausfall stark unterschätzt</li>
+          <li>VAE #5 vs. Niederlande #10 bei Competitiveness — historische Differenz</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>Die Frage „Ist die Niederlande auf dem Weg zum Entwicklungsland-Status?" ist <strong>technisch unzutreffend, aber strategisch relevant</strong>. Die Niederlande bewegen sich nicht in Richtung Indien oder Pakistan — aber sie bewegen sich in Richtung eines reichen Landes, das seinen industriellen Kern verloren hat und überwiegend von Dienstleistungen lebt.</p>
+
+    <p>Ohne Politikwechsel sinkt das Land in 15–25 Jahren in das Segment „zwar reich, aber überholt" — vergleichbar damit, wie Argentinien im 20. Jahrhundert von der Top-10 der wohlhabendsten Länder in die Mittelklasse abstieg.</p>
+
+    <div class="callout">
+      <p><strong>Für einen Unternehmer in der physischen Fertigungsindustrie</strong> — Beschichtungen, Biomasse, Werkstoffe — bedeutet das: Die Niederlande sind kein logischer Produktionsstandort mehr. Was funktionsfähig bleibt: F&amp;E, geistiges Eigentum, Wissen, Distribution. Die Entscheidung, die Produktion anderswo anzusiedeln, ist kein Verrat an den Niederlanden — sie ist eine rationale Reaktion auf die Politik, die die Niederlande selbst betreiben.</p>
+    </div>
+
+    <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #777;">Der Unterschied zwischen <em>wirklich</em> einem Entwicklungsland und <em>trendmäßig</em> einem Land im relativen Niedergang ist groß. Die Niederlande befinden sich in der zweiten Kategorie und bleiben noch jahrelang reich genug, um das zu verbergen. Doch für denjenigen, der es von innen sieht — als Unternehmer, als Techniker, als jemand, der mit ausländischen Abnehmern spricht — ist die Richtung unverkennbar.</p>
+  </div>
+</section>
+
+<!-- ── BRONNEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Quellen</span>
+    <h2 class="slide__heading">Verwendete Quellen</h2>
+    <p>Alle Datenvisualisierungen basieren auf den folgenden öffentlich zugänglichen Quellen. Die Interpretationen und Zusammenhänge stammen vom Autor (persönliches Arbeitsdokument, 19. Mai 2026).</p>
+    <ul class="bronnen-lijst">
+      <li>CBS Statline 82242NED — Insolvenzen Kerndaten</li>
+      <li>CBS Statline 83148NED — Unternehmensgründungen</li>
+      <li>CBS Statline 83149NED — Unternehmensauflösungen</li>
+      <li>CBS Statline 84034NED — Beschäftigte bei Insolvenzen (2015–2022)</li>
+      <li>CBS Statline 85918NED — Arbeitsvolumen nach Wirtschaftszweig</li>
+      <li>KvK Trendrapporten Q2-24, Q1-25, Q2-25, Q1-26</li>
+      <li>Accountant.nl — Atradius-Prognose 2026</li>
+      <li>Rabobank Kennis — Insolvenzanalyse</li>
+      <li>IWF World Economic Outlook 2026</li>
+      <li>UNDP Human Development Report 2023/2024</li>
+      <li>IMD World Competitiveness Yearbook 2025</li>
+      <li>Draghi-Bericht zur europäischen Wettbewerbsfähigkeit (2024)</li>
+      <li>Letta-Bericht zum Binnenmarkt (2024)</li>
+    </ul>
+    <div class="werkdocument-waarschuwing" style="margin-top: 2rem;">
+      <p class="werkdocument-waarschuwing__titel">⚠ Erinnerung: Persönliches Arbeitsdokument</p>
+      <p class="werkdocument-waarschuwing__tekst">Dieser Artikel ist eine Zusammenfassung einer Gesprächsanalyse vom 19. Mai 2026, erstellt als persönliches Nachschlagewerk. Aus dem Inhalt können keine Rechte abgeleitet werden. Die Visualisierungen basieren auf öffentlichen Daten, die Schlussfolgerungen sind jedoch persönlich und stehen unter Vorbehalt.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KURZFASSUNG -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="rubriek-banner">Hinter den Zahlen</span>
+    <span class="slide__tag">Datenanalyse · Persönliches Arbeitsdokument</span>
+    <h2 class="slide__heading">Ist die Niederlande auf dem Weg zum Entwicklungsland-Status?</h2>
+    <p class="slide__lead">Eine Denkübung auf Basis von CBS- und KvK-Daten, 2000–2026</p>
+    <div class="werkdocument-waarschuwing">
+      <p class="werkdocument-waarschuwing__titel">⚠ PERSÖNLICHES ARBEITSDOKUMENT</p>
+      <p class="werkdocument-waarschuwing__tekst">Dies ist eine Zusammenfassung einer Gesprächsanalyse vom 19. Mai 2026. Denkübung, kein formelles Gutachten.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Die drei Kernzahlen</h2>
+    <div class="cijfer-rij">
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">4.270</div>
+        <div class="cijfer-card__label">Insolvenzen 2024</div>
+        <div class="cijfer-card__sub">Höchster Stand seit 2017</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">60×</div>
+        <div class="cijfer-card__label">Aufgaben vs. Insolvenzen</div>
+        <div class="cijfer-card__sub">Q1 2025: 60.964 vs. 1.013</div>
+      </div>
+      <div class="cijfer-card">
+        <div class="cijfer-card__getal">−7,1 Pkt.</div>
+        <div class="cijfer-card__label">Rückgang Produktionsanteil</div>
+        <div class="cijfer-card__sub">Von 24,7 % auf 17,5 % (1995–2024)</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>Kern:</strong> Offizielle Insolvenzstatistiken unterschätzen den tatsächlichen Ausfall um Faktor 50. Unternehmensaufgaben sind die verborgene Insolvenz.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Deindustrialisierung in einem Bild</h2>
+    <figure class="grafiek">
+      <img src="../../assets/articles/doc1/img-007.jpg" alt="Deindustrialisierung: Produktion als % des Gesamt-VZÄ 1995–2024">
+      <figcaption>Produktion als % des Gesamt-VZÄ: von 24,7 % (1995) auf 17,5 % (2024). Industrie-Anteil: von 1 von 8 Beschäftigten auf 1 von 12. <em>Quelle: CBS Statline 85918NED</em></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Die Schlussfolgerung</h2>
+    <div class="positie-grid">
+      <div class="positie-col positie-col--stat">
+        <p class="positie-col__header">Offiziell: Top-10</p>
+        <ul>
+          <li>HDI #8 weltweit</li>
+          <li>BIP pro Kopf #13 ($79.918)</li>
+          <li>IMD Competitiveness #10</li>
+        </ul>
+      </div>
+      <div class="positie-col positie-col--dyn">
+        <p class="positie-col__header">Trendmäßig: im Niedergang</p>
+        <ul>
+          <li>Industrieller Verfall gut dokumentiert</li>
+          <li>Ausfall 50× durch Statistik unterschätzt</li>
+          <li>VAE nun über NL bei Competitiveness</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>„Technisch unzutreffend, strategisch relevant"</strong> — Die Niederlande sind kein Entwicklungsland, bewegen sich aber in Richtung „reich, aber überholt".</p>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Technisches Beiblatt — Donnerstag, 28. Mai 2026</p>
+    <p><a href="../">Zur Titelseite</a> · <a href="./">Hinter den Zahlen</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+</body>
+</html>

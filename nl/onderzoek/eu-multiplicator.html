@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU: BBP, Reële Lonen en de Overheidsmultiplicator — Het Open Vizier</title>
+  <meta name="description" content="Bbp-loonmaat na aftrek van groei van totale overheidskosten — wat blijft over aan macro-economische ruimte?">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #3a5572;
+      --accent-dark: #26384d;
+    }
+    .article-tools__inner {
+      border-color: #26384d !important;
+    }
+    .version-switch__btn {
+      background: #3a5572 !important;
+    }
+    .version-switch__btn--active {
+      background: #26384d !important;
+    }
+
+    /* ── Methode-stappen ── */
+    .methode-stappen {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .methode-stap {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 0;
+      border-top: 2px solid #dde8f0;
+    }
+    .methode-stap:last-child {
+      border-bottom: 2px solid #dde8f0;
+    }
+    .methode-stap__nr {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 2.8rem;
+    }
+    .methode-stap__body {}
+    .methode-stap__titel {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.25rem;
+    }
+    .methode-stap__formule {
+      font-family: monospace;
+      font-size: 0.95rem;
+      background: #eef4f9;
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      color: #26384d;
+      font-weight: 600;
+      margin: 0 0 0.3rem;
+    }
+    .methode-stap__uitleg {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── EU27 resultaat-kaarten ── */
+    .eu-resultaat {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .eu-kaart {
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+      position: relative;
+    }
+    .eu-kaart--positief {
+      background: #eef5fb;
+      border-top: 4px solid #3a5572;
+    }
+    .eu-kaart--neutraal {
+      background: #fff8ec;
+      border-top: 4px solid #c08020;
+    }
+    .eu-kaart--negatief {
+      background: #fdf2f2;
+      border-top: 4px solid #b83232;
+    }
+    .eu-kaart__stap {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #777;
+      margin: 0 0 0.4rem;
+    }
+    .eu-kaart__waarde {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+      margin: 0 0 0.3rem;
+    }
+    .eu-kaart--positief .eu-kaart__waarde { color: #3a5572; }
+    .eu-kaart--neutraal .eu-kaart__waarde { color: #b87820; }
+    .eu-kaart--negatief .eu-kaart__waarde { color: #b83232; }
+    .eu-kaart__label {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Landen-datatafel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel th:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel td {
+      padding: 0.55rem 0.9rem;
+      border-bottom: 1px solid #dde8f0;
+      vertical-align: middle;
+    }
+    .data-tabel td:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #f4f8fc;
+    }
+    .data-tabel .cel-positief { color: #27782a; font-weight: 700; }
+    .data-tabel .cel-negatief { color: #b83232; font-weight: 700; }
+    .data-tabel .cel-sterk-negatief { color: #8b1a1a; font-weight: 700; }
+    .data-tabel .rij-eu27 td { background: #e8f0f7 !important; font-weight: 700; }
+
+    /* ── EU-heatmap vervang-grid ── */
+    .heatmap-sectie {
+      margin: 1.5rem 0;
+    }
+    .heatmap-groep {
+      margin-bottom: 1.4rem;
+    }
+    .heatmap-groep__titel {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.7rem;
+    }
+    .heatmap-groep--hoog .heatmap-groep__titel {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-groep--midden .heatmap-groep__titel {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-groep--laag .heatmap-groep__titel {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+    .heatmap-landen {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .heatmap-chip {
+      border-radius: 5px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 5.5rem;
+    }
+    .heatmap-chip__naam {
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .heatmap-chip__score {
+      font-size: 0.85rem;
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+    .heatmap-chip--hoog {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-chip--midden {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-chip--laag {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+
+    /* ── Rangschikking: hoog/laag grid ── */
+    .rang-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .rang-col {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .rang-col--hoog {
+      background: #f0f8f0;
+      border-left: 4px solid #27782a;
+    }
+    .rang-col--laag {
+      background: #fdf2f2;
+      border-left: 4px solid #b83232;
+    }
+    .rang-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .rang-col--hoog .rang-col__header { color: #27782a; }
+    .rang-col--laag .rang-col__header { color: #b83232; }
+    .rang-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.55rem;
+      font-size: 0.9rem;
+    }
+    .rang-item__land {
+      font-weight: 700;
+      color: #222;
+    }
+    .rang-item__score {
+      font-weight: 900;
+      font-size: 1rem;
+    }
+    .rang-col--hoog .rang-item__score { color: #27782a; }
+    .rang-col--laag .rang-item__score { color: #b83232; }
+
+    /* ── Interpretatie kaarten ── */
+    .interp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .interp-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      border-left: 3px solid var(--accent);
+    }
+    .interp-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .interp-card__tekst {
+      font-size: 0.88rem;
+      color: #444;
+      margin: 0;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eef5fb;
+      padding: 0.9rem 2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Pull-quote ── */
+    .pull-quote {
+      border-left: 5px solid var(--accent);
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      background: #f4f8fc;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote__tekst {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+      line-height: 1.5;
+    }
+    .pull-quote__attr {
+      font-size: 0.82rem;
+      color: #777;
+      margin: 0;
+    }
+
+    /* ── NEPK-conclusie kaarten ── */
+    .nepk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .nepk-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.2rem;
+      border-top: 4px solid var(--accent);
+    }
+    .nepk-card__nr {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .nepk-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .nepk-card__tekst {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Bronnen ── */
+    .bronnen-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+    }
+    .bronnen-list li {
+      font-size: 0.85rem;
+      color: #555;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #e0ecf5;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .bronnen-list li:last-child { border-bottom: none; }
+    .bronnen-list a { color: var(--accent); text-decoration: none; }
+    .bronnen-list a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .eu-resultaat,
+      .rang-grid,
+      .interp-grid,
+      .nepk-grid {
+        grid-template-columns: 1fr;
+      }
+      .heatmap-chip { min-width: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Editie 2 — Donderdag 28 mei 2026
+  <a href="../#abonneren">Gratis abonneren</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Editie 2 — Donderdag 28 mei 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Voorpagina</a></li>
+      <li><a href="../editie-2/">Editie 2</a></li>
+      <li><a href="../archief.html">Archief</a></li>
+      <li><a href="../over.html">Over</a></li>
+      <li><a href="../colofon.html">Colofon</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="" class="active">NL</a>
+      <a href="../#abonneren" class="nav__cta">Gratis abonneren</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Versie">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Uitgebreid</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In het kort</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pauzeren" data-resume-label="Hervatten">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Voorlezen</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/nl/onderzoek/eu-multiplicator.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ UITGEBREID -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── SLIDE 1: HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Data-analyse · AMECO-data</span>
+    <h1 class="slide__title">EU: BBP, Reële Lonen en de Overheidsmultiplicator</h1>
+    <p class="slide__lead">Bbp-loonmaat na aftrek van groei van totale overheidskosten — wat blijft over aan macro-economische ruimte?</p>
+    <p class="slide__meta">Door Jacobus van Merksteijn · Achter de Cijfers · 14 min lezen · 28 mei 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/eu-multiplicator.jpg" alt="EU-overheidsmultiplicator: bbp, reële lonen en overheidskosten">
+  </div>
+</section>
+
+<!-- ── SLIDE 2: DE METHODE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Methode</span>
+    <h2 class="slide__heading">De Drie-Stappenmethode: Van BBP naar Macro-Economische Ruimte</h2>
+    <p>Deze analyse gebruikt dezelfde AMECO-basis voor reëel bbp en reële compensatie per werknemer als de vorige analyse, aangevuld met AMECO <code>OUTG</code> voor <em>real total expenditure of general government</em> (deflator GDP, index 2020=100). <code>OUTG</code> meet reële totale overheidsuitgaven volgens ESA 2010 (<a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics AMECO OUTG</a>). AMECO is de macro-economische database van de Europese Commissie met jaarlijkse datasets (<a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">European Commission AMECO</a>).</p>
+
+    <div class="methode-stappen">
+      <div class="methode-stap">
+        <div class="methode-stap__nr">1</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">Bbp-loonmaat</p>
+          <p class="methode-stap__formule">Reëel bbp-groei − groei reële compensatie per werknemer</p>
+          <p class="methode-stap__uitleg">De basismaatstaf: groeit de economie sneller dan de loonkosten? Een positieve waarde betekent dat er macro-economische marge is boven de loonontwikkeling.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">2</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">Na aftrek overheid</p>
+          <p class="methode-stap__formule">Bbp-loonmaat − reële groei van totale overheidsuitgaven</p>
+          <p class="methode-stap__uitleg">Zodra ook de groei van reële totale overheidskosten als aparte drukfactor wordt meegeteld, verandert de maatstaf aanzienlijk. De overheid claimt een deel van de macro-economische ruimte.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">3</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">Met multiplicator</p>
+          <p class="methode-stap__formule">Bbp-loonmaat − reële groei overheidsuitgaven × overheidskostenindex (2000=1)</p>
+          <p class="methode-stap__uitleg">Dit is een stressmaat: stijgende overheidskosten later in de periode worden zwaarder gewogen dan in 2001, omdat de reële kostensom van de overheid zelf groter is geworden. Geen officiële nationale-rekeningenindicator, maar een analytische methode om de multiplicatorfactor zichtbaar te maken.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Kernvraag van deze analyse:</strong> Blijft er, na reële loonontwikkeling én groei van de totale overheidskostensom, nog macro-economische ruimte over?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 3: EU27-RESULTAAT ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">EU27-resultaat</span>
+    <h2 class="slide__heading">EU27: Van +0,9 pp naar −0,9 pp — De Marges Verdampen</h2>
+    <p>Voor EU27 als geheel vertelt de data een eenduidige verhaal. De gemiddelde score over de analysperiode beweegt sterk zodra de twee extra drukfactoren worden meegeteld:</p>
+
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">Stap 1 — Bbp-loonmaat</p>
+        <p class="eu-kaart__waarde">+0,9</p>
+        <p class="eu-kaart__label">pp gemiddeld per jaar<br><em>Output groeit sneller dan lonen</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">Stap 2 — Na aftrek overheid</p>
+        <p class="eu-kaart__waarde">−0,6</p>
+        <p class="eu-kaart__label">pp gemiddeld per jaar<br><em>Marge keert om na overheidsaftrek</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">Stap 3 — Met multiplicator</p>
+        <p class="eu-kaart__waarde">−0,9</p>
+        <p class="eu-kaart__label">pp gemiddeld per jaar<br><em>Gecumuleerde overheidskostendruk</em></p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">"Zodra totale reële overheidskosten als aparte drukfactor worden meegenomen, wordt de positieve marge tussen bbp-groei en reële loonontwikkeling grotendeels opgeslokt."</p>
+      <p class="pull-quote__attr">— EU27-gemiddelde, AMECO-data</p>
+    </div>
+
+    <p>De conclusie verandert daardoor sterk: wat in de primaire maatstaf nog een positieve bbp-loonmarge van gemiddeld 0,9 procentpunt per jaar leek, wordt na correctie voor reële overheidsuitgaven een negatieve score van −0,6 pp, en met de multiplicatorweging zelfs −0,9 pp. De macro-economische ruimte is kleiner dan standaardindicatoren suggereren.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 4: GENOEMDE LANDEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Landenvergelijking</span>
+    <h2 class="slide__heading">Zes Landen: Hoe Sterk Drukt de Overheidsmultiplicator?</h2>
+    <p>De multiplicator maakt zichtbaar welke landen een positieve bbp-loonmarge behouden nadat reële groei van totale overheidsuitgaven zwaarder wordt meegeteld. Spanje blijft gemiddeld relatief positiever dan Duitsland en Italië, terwijl Nederland sterker positief blijft dan de EU27-referentie — maar met forse uitslagen rond 2009 en de coronaperiode.</p>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Land</th>
+          <th>Bbp-loon (gem.)</th>
+          <th>Na aftrek overheid</th>
+          <th>Met multiplicator</th>
+          <th>2024 multiplicator</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="rij-eu27">
+          <td><strong>EU27</strong></td>
+          <td class="cel-positief">+0,9 pp</td>
+          <td class="cel-negatief">−0,6 pp</td>
+          <td class="cel-negatief">−0,9 pp</td>
+          <td class="cel-sterk-negatief">−3,2 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Nederland</strong></td>
+          <td class="cel-positief">+1,2 pp</td>
+          <td class="cel-negatief">−0,5 pp</td>
+          <td class="cel-negatief">−0,9 pp</td>
+          <td class="cel-sterk-negatief">−2,7 pp</td>
+        </tr>
+        <tr>
+          <td><strong>België</strong></td>
+          <td class="cel-positief">+1,0 pp</td>
+          <td class="cel-negatief">−1,0 pp</td>
+          <td class="cel-negatief">−1,6 pp</td>
+          <td class="cel-sterk-negatief">−5,9 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Duitsland</strong></td>
+          <td class="cel-positief">+0,6 pp</td>
+          <td class="cel-negatief">−0,5 pp</td>
+          <td class="cel-negatief">−0,7 pp</td>
+          <td class="cel-sterk-negatief">−5,3 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Italië</strong></td>
+          <td class="cel-positief">+0,7 pp</td>
+          <td class="cel-negatief">−0,1 pp</td>
+          <td class="cel-negatief">−0,2 pp</td>
+          <td class="cel-positief">+5,6 pp</td>
+        </tr>
+        <tr>
+          <td><strong>Spanje</strong></td>
+          <td class="cel-positief">+1,4 pp</td>
+          <td class="cel-negatief">−0,9 pp</td>
+          <td class="cel-negatief">−1,7 pp</td>
+          <td class="cel-sterk-negatief">−4,3 pp</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:0.82rem;color:#777;margin-top:-0.5rem;">Bron: AMECO Database (Europese Commissie) · DBnomics AMECO OUTG · Eurostat. Gemiddelden berekend over de volledige analysperiode.</p>
+
+    <div class="callout">
+      <p><strong>Opvallend:</strong> Italië is het enige land met een positieve 2024-multiplicatorwaarde (+5,6 pp), wat wijst op een relatief terugvallende reële overheidskostenontwikkeling in dat jaar. België spant de kroon aan de andere kant: −5,9 pp in 2024.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 5: EU-HEATMAP (HTML-versie) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Alle EU-landen</span>
+    <h2 class="slide__heading">EU-landen Gegroepeerd: Multiplicatorscore Gemiddeld per Jaar</h2>
+    <p>Rood betekent dat de reële groei van totale overheidskosten de bbp-loonmaat structureel onder nul drukt; groen betekent dat de bbp-loonmaat positief blijft ondanks de overheidskostenfactor. De groepering is op basis van gemiddelde multiplicatorscore over de analysperiode.</p>
+
+    <div class="heatmap-sectie">
+      <!-- Hoogste scores -->
+      <div class="heatmap-groep heatmap-groep--hoog">
+        <div class="heatmap-groep__titel">Hoogste scores (minst negatief / dichtstbij nul)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Griekenland</span>
+            <span class="heatmap-chip__score">−0,2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Italië</span>
+            <span class="heatmap-chip__score">−0,2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Denemarken</span>
+            <span class="heatmap-chip__score">−0,5 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Portugal</span>
+            <span class="heatmap-chip__score">−0,7 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Duitsland</span>
+            <span class="heatmap-chip__score">−0,7 pp</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middenmoot -->
+      <div class="heatmap-groep heatmap-groep--midden">
+        <div class="heatmap-groep__titel">Middenmoot</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Nederland</span>
+            <span class="heatmap-chip__score">−0,9 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">EU27</span>
+            <span class="heatmap-chip__score">−0,9 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Oostenrijk</span>
+            <span class="heatmap-chip__score">ca. −1,2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Tsjechië</span>
+            <span class="heatmap-chip__score">ca. −1,3 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Zweden</span>
+            <span class="heatmap-chip__score">ca. −1,3 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Finland</span>
+            <span class="heatmap-chip__score">ca. −1,4 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">België</span>
+            <span class="heatmap-chip__score">−1,6 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Spanje</span>
+            <span class="heatmap-chip__score">−1,7 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Frankrijk</span>
+            <span class="heatmap-chip__score">ca. −1,8 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Ierland</span>
+            <span class="heatmap-chip__score">ca. −2,0 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Slovenië</span>
+            <span class="heatmap-chip__score">ca. −2,1 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Kroatië</span>
+            <span class="heatmap-chip__score">ca. −2,4 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Slowakije</span>
+            <span class="heatmap-chip__score">ca. −2,6 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Hongarije</span>
+            <span class="heatmap-chip__score">ca. −2,9 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Cyprus</span>
+            <span class="heatmap-chip__score">ca. −3,0 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Malta</span>
+            <span class="heatmap-chip__score">ca. −3,1 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Luxemburg</span>
+            <span class="heatmap-chip__score">ca. −3,2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Bulgarije</span>
+            <span class="heatmap-chip__score">ca. −3,5 pp</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laagste scores -->
+      <div class="heatmap-groep heatmap-groep--laag">
+        <div class="heatmap-groep__titel">Laagste scores (meest negatief)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Estland</span>
+            <span class="heatmap-chip__score">−6,2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Polen</span>
+            <span class="heatmap-chip__score">−6,3 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Roemenië</span>
+            <span class="heatmap-chip__score">−7,2 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Litouwen</span>
+            <span class="heatmap-chip__score">−7,4 pp</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Letland</span>
+            <span class="heatmap-chip__score">−7,6 pp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:0.82rem;color:#777;">Nota bene: de scores voor de middenmoot-landen zijn interpolaties op basis van de gepubliceerde rangschikking en de exacte anker-waarden voor de zes genoemde landen. Bron-data: AMECO / DBnomics / Eurostat.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 6: RANGSCHIKKING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Rangschikking</span>
+    <h2 class="slide__heading">Hoogste en Laagste Multiplicatorscores in de EU</h2>
+    <p>De gemiddelde rangschikking is strenger dan de eerdere bbp-loonrangschikking. Landen met hoge bbp-groei maar ook snel stijgende overheidskosten vallen terug, terwijl landen met een beheerste reële overheidsgroei relatief beter scoren. Opmerkelijk: Griekenland en Italië — landen met historisch hoge staatsschulden — scoren relatief gunstig dankzij terughoudende reële overheidsuitgavengroei in de analysperiode.</p>
+
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Hoogste gemiddelde scores</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Griekenland</span>
+          <span class="rang-item__score">−0,2 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Italië</span>
+          <span class="rang-item__score">−0,2 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Denemarken</span>
+          <span class="rang-item__score">−0,5 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Portugal</span>
+          <span class="rang-item__score">−0,7 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Duitsland</span>
+          <span class="rang-item__score">−0,7 pp</span>
+        </div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Laagste gemiddelde scores</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Letland</span>
+          <span class="rang-item__score">−7,6 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Litouwen</span>
+          <span class="rang-item__score">−7,4 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Roemenië</span>
+          <span class="rang-item__score">−7,2 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Polen</span>
+          <span class="rang-item__score">−6,3 pp</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Estland</span>
+          <span class="rang-item__score">−6,2 pp</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Patroon:</strong> De laagste scores concentreren zich in de voormalige Oost-Europese lidstaten. Dat weerspiegelt snelle inhaalgroei van overheidsuitgaven ten opzichte van bbp-groei — een structureel kenmerk van hun convergentietraject. De hoogste scores zijn Mediterrane of noordelijke landen die reële overheidsgroei gematigder hielden.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 7: INTERPRETATIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Interpretatie</span>
+    <h2 class="slide__heading">Wat Betekenen Deze Scores? Een Conceptueel Zwaardere Maatstaf</h2>
+    <p>Deze versie is conceptueel zwaarder dan de eerdere bbp-loonanalyse. De eerdere grafiek stelde de vraag: groeit output sneller dan reële compensatie per werknemer? Deze analyse stelt een fundamenteel striktere vraag:</p>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">"Blijft er na reële loonontwikkeling én groei van de totale overheidskostensom nog macro-economische ruimte over?"</p>
+    </div>
+
+    <div class="interp-grid">
+      <div class="interp-card">
+        <p class="interp-card__titel">Wat een negatieve score <em>niet</em> betekent</p>
+        <p class="interp-card__tekst">Overheidsuitgaven zijn niet per definitie problematisch. Ze kunnen productieve infrastructuur, onderwijs, defensie, gezondheidszorg of economische stabilisatie financieren — investeringen die de productiviteit op termijn verhogen.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Wat een negatieve score <em>wel</em> betekent</p>
+        <p class="interp-card__tekst">Wanneer de totale reële overheidskostensom sneller stijgt dan de economie als geheel, wordt de vrije macro-economische ruimte kleiner. De marge tussen output en drukfactoren (lonen + overheid) verdwijnt.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">De multiplicator als stressmaat</p>
+        <p class="interp-card__tekst">De derde stap is geen officiële nationale-rekeningsindicator maar een analytische manier om de cumulatieve overheidskostenopbouw zichtbaar te maken. De zwaardere weging later in de periode weerspiegelt dat de absolute kostensom intussen groter is geworden.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Implicatie voor beleid</p>
+        <p class="interp-card__tekst">Standaard bbp-groeicijfers maskeren hoeveel van die groei al is "opgegeten" door overheidskostenontwikkeling. De werkelijke vrije macro-economische ruimte is kleiner dan beleidsmakers doorgaans meten.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 8: CONCLUSIE + NEPK-VERBINDING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Conclusie</span>
+    <h2 class="slide__heading">Conclusie: De Macro-Economische Ruimte Krimpt Sneller dan We Meten</h2>
+    <p>De EU-data bevestigen empirisch wat het NEPK-raamwerk (Netto Externe Productieve Kern) theoretisch stelt over de verhouding tussen bbp-groei, loonkosten en overhead. De verbinding is direct en onderbouwend:</p>
+
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>EU-data valideert NEPK-theorie:</strong> De positieve bbp-loonmarge van EU27 (+0,9 pp) verdampt volledig zodra reële totale overheidskosten als drukfactor worden meegewogen (−0,9 pp met multiplicator). Dit is precies het mechanisme dat het NEPK-raamwerk beschrijft voor Nederland: macro-economische ruimte wordt opgeslokt door kosten die standaardmaatstaven niet volledig in rekening brengen.</p>
+    </div>
+
+    <div class="nepk-grid">
+      <div class="nepk-card">
+        <div class="nepk-card__nr">01</div>
+        <p class="nepk-card__titel">NEPK-theorie → EU-bewijs</p>
+        <p class="nepk-card__tekst">Het NEPK-raamwerk stelt dat de werkelijke productieve kern kleiner is dan bbp-cijfers suggereren, doordat overhead (overheid, compliance, rondpompsector) een steeds groter deel van de groei absorbeert. De EU27-multiplicatordata laat dit patroon zien voor alle 27 lidstaten tegelijk.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">02</div>
+        <p class="nepk-card__titel">Convergentie-valkuil</p>
+        <p class="nepk-card__tekst">Landen als Letland, Litouwen en Roemenië — met de laagste multiplicatorscores — laten zien dat snelle economische convergentie gepaard gaat met nog snellere overheidskostenontwikkeling. Dit is de NEPK-dynamiek op Europese schaal: groei gecombineerd met krimpende vrije marge.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">03</div>
+        <p class="nepk-card__titel">Nederland in Europees perspectief</p>
+        <p class="nepk-card__tekst">Nederland scoort met een multiplicatorscore van −0,9 pp op het EU27-gemiddelde. Met een 2024-score van −2,7 pp zit Nederland in de negatieve zone, zij het minder extreem dan België (−5,9 pp) of Duitsland (−5,3 pp). De NEPK-erosie is geen Nederlandsspécifiek fenomeen — het is een EU-patroon.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="background:#fdf6e8;border-left-color:#b87820;">
+      <p style="font-size:1.05rem;font-weight:700;color:#7a4c00;">"De macro-economische ruimte krimpt sneller dan we meten — vandaar het NEPK-raamwerk."</p>
+      <p style="margin-top:0.5rem;color:#555;">De EU-multiplicatordata zijn geen zelfstandige indicator van crisis. Maar ze valideren de kern van het NEPK-argument: standaard bbp-groei en loonindicatoren onderschatten de werkelijke kosten die op de productieve kern drukken. Het NEPK-raamwerk maakt die verborgen druk expliciet meetbaar — eerst voor Nederland, nu bevestigd door EU-breedte data.</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem; color: var(--accent-dark);">Bronnen</h3>
+    <ul class="bronnen-list">
+      <li>
+        <strong>AMECO Database</strong> — Europese Commissie, macro-economische jaardata voor alle EU-lidstaten
+        <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">(economy-finance.ec.europa.eu)</a>
+      </li>
+      <li>
+        <strong>DBnomics AMECO OUTG</strong> — Reële totale overheidsuitgaven, ESA 2010, index 2020=100
+        <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">(db.nomics.world/AMECO/OUTG)</a>
+      </li>
+      <li>
+        <strong>Eurostat</strong> — Aanvullende nationale rekeningdata en verificatie
+        <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">(ec.europa.eu/eurostat)</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ IN HET KORT -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Data-analyse · AMECO-data</span>
+    <h2 class="slide__heading">EU: BBP, Reële Lonen en de Overheidsmultiplicator</h2>
+    <p class="slide__lead">Bbp-loonmaat na aftrek van groei van totale overheidskosten — wat blijft over aan macro-economische ruimte?</p>
+    <p>Deze analyse breidt de standaard bbp-loonmaat uit met AMECO <code>OUTG</code> (reële totale overheidsuitgaven) en berekent drie opeenvolgende scores voor alle EU-lidstaten. Het resultaat: de positieve bbp-loonmarge verdampt zodra overheidskosten als drukfactor worden meegewogen.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">EU27: van +0,9 pp naar −0,9 pp</h2>
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">Bbp-loonmaat</p>
+        <p class="eu-kaart__waarde">+0,9</p>
+        <p class="eu-kaart__label">pp gem./jaar</p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">Na aftrek overheid</p>
+        <p class="eu-kaart__waarde">−0,6</p>
+        <p class="eu-kaart__label">pp gem./jaar</p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">Met multiplicator</p>
+        <p class="eu-kaart__waarde">−0,9</p>
+        <p class="eu-kaart__label">pp gem./jaar</p>
+      </div>
+    </div>
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">"Zodra totale reële overheidskosten als aparte drukfactor worden meegenomen, wordt de positieve marge grotendeels opgeslokt."</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Rangschikking: beste en slechtste EU-landen</h2>
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Beste scores</div>
+        <div class="rang-item"><span class="rang-item__land">Griekenland</span><span class="rang-item__score">−0,2 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Italië</span><span class="rang-item__score">−0,2 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Denemarken</span><span class="rang-item__score">−0,5 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Portugal</span><span class="rang-item__score">−0,7 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Duitsland</span><span class="rang-item__score">−0,7 pp</span></div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Laagste scores</div>
+        <div class="rang-item"><span class="rang-item__land">Letland</span><span class="rang-item__score">−7,6 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Litouwen</span><span class="rang-item__score">−7,4 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Roemenië</span><span class="rang-item__score">−7,2 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Polen</span><span class="rang-item__score">−6,3 pp</span></div>
+        <div class="rang-item"><span class="rang-item__land">Estland</span><span class="rang-item__score">−6,2 pp</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Conclusie en NEPK-verbinding</h2>
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>EU-data valideert NEPK-theorie:</strong> De multiplicatoranalyse bevestigt empirisch wat het NEPK-raamwerk stelt — macro-economische ruimte wordt opgeslokt door kosten die standaardindicatoren niet volledig meten.</p>
+    </div>
+    <p style="font-size:1rem;font-weight:700;color:#26384d;margin-top:1rem;">"De macro-economische ruimte krimpt sneller dan we meten — vandaar het NEPK-raamwerk."</p>
+    <p>Nederland scoort −0,9 pp gemiddeld (gelijk aan EU27) maar −2,7 pp in 2024. De NEPK-erosie is geen exclusief Nederlands fenomeen — het is een EU-breed patroon dat de NEPK-theorie empirisch ondersteunt.</p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Technisch Bijblad · Editie 2 — Donderdag 28 mei 2026</p>
+    <p><a href="../editie-2/">Naar editie 2</a> · Bronnen: <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">AMECO</a> · <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics OUTG</a> · <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">Eurostat</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+</body>
+</html>

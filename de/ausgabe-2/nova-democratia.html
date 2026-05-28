@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Democratia — Het Open Vizier</title>
+  <meta name="description" content="Ein neues politisch-staatliches Modell — Grundlagendokument">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #6068b3;
+      --accent-dark: #494f8f;
+    }
+    .article-tools__inner {
+      border-color: #494f8f !important;
+    }
+    .version-switch__btn {
+      background: #6068b3 !important;
+    }
+    .version-switch__btn--active {
+      background: #494f8f !important;
+    }
+    
+    /* Zeven artikelen grid */
+    .artikelen-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      margin: var(--space-6) 0;
+    }
+    @media (min-width: 720px) {
+      .artikelen-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 960px) {
+      .artikelen-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .artikel-card {
+      padding: 1rem 1.25rem 1rem 2rem;
+      background: var(--paper-soft);
+      border-left: 3px solid #6068b3;
+      border-radius: 4px;
+    }
+    .artikel-card__nummer {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
+      background: #494f8f;
+      color: #fff;
+      border-radius: 50%;
+      font-family: var(--sans);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .artikel-card__titel {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #494f8f;
+      margin: 0 0 0.5rem 0;
+    }
+    .artikel-card__tekst {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    
+    /* Twee-koloms structuur voor artikelen */
+    .twee-kolom {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    @media (min-width: 720px) {
+      .twee-kolom { grid-template-columns: 1fr 1fr; }
+    }
+    .kolom-card {
+      padding: 1rem 1.25rem 1rem 2rem;
+      background: var(--paper-soft);
+      border-left: 3px solid #6068b3;
+      border-radius: 4px;
+    }
+    .kolom-card__titel {
+      font-family: var(--sans);
+      font-weight: 700;
+      color: #494f8f;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    /* Mechanismen grid */
+    .mech-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      margin: var(--space-6) 0;
+    }
+    @media (min-width: 720px) {
+      .mech-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .mech-card {
+      padding: 1.25rem 1.5rem;
+      background: #fff;
+      border: 2px solid #6068b3;
+      border-radius: 8px;
+    }
+    .mech-card__nummer {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.75rem;
+      color: #6068b3;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .mech-card__titel {
+      font-family: var(--sans);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #494f8f;
+      margin: 0 0 0.5rem 0;
+    }
+    .mech-card__tekst {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    
+    /* Vier machten */
+    .machten-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      margin: 1.25rem 0;
+    }
+    @media (min-width: 720px) {
+      .machten-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .macht-card {
+      padding: 1.25rem 1.5rem;
+      background: var(--paper-soft);
+      border-top: 3px solid #494f8f;
+      border-radius: 4px;
+    }
+    .macht-card__titel {
+      font-family: var(--sans);
+      font-weight: 700;
+      color: #494f8f;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.05rem;
+    }
+    
+    /* Tien kernvelden */
+    .kernvelden-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+      margin: 1.25rem 0;
+    }
+    @media (min-width: 720px) {
+      .kernvelden-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+    .kernveld {
+      padding: 0.75rem 1rem;
+      background: #6068b3;
+      color: #fff;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .kernveld__nummer {
+      display: block;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .kernveld__naam {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    
+    /* Slot quote */
+    .slot-quote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      color: #494f8f;
+      padding: 1.5rem 2rem;
+      background: var(--paper-warm);
+      border-left: 4px solid #494f8f;
+      border-radius: 4px;
+      margin: 1.5rem 0;
+    }
+    
+    /* Slide-num voor genummerde sectie-headings */
+    .slide__num {
+      display: inline-block;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.5rem;
+      color: #6068b3;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    
+    /* Slot-slide accent */
+    .slide--close {
+      background: var(--paper-warm);
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Ausgabe 2 — Donnerstag, 28. Mai 2026
+  <a href="../#abonnieren">Gratis abonnieren</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Ausgabe 2 — Donnerstag, 28. Mai 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Titelseite</a></li>
+      <li><a href="./">Ausgabe 2</a></li>
+      <li><a href="../editie-1/">Ausgabe 1</a></li>
+      <li><a href="../archiv.html">Archiv</a></li>
+      <li><a href="../ueber.html">Über</a></li>
+      <li><a href="../impressum.html">Impressum</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="#">NL</a>
+      <a href="" class="active">DE</a>
+      <a href="#">EN</a>
+      <a href="#">RU</a>
+      <a href="../#abonnieren" class="nav__cta">Gratis abonnieren</a>
+    </div>
+  </div>
+</nav>
+
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Ausführlich</button>
+      <button type="button" class="version-switch__btn" data-version="kort">Kurzfassung</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Fortsetzen">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Vorlesen</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/de/ausgabe-2/nova-democratia.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- HERO -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Grundlagendokument</span>
+    <h1 class="slide__title">Nova Democratia</h1>
+    <p class="slide__lead">Ein Grundgesetz, das die Legitimationskraft der Demokratie mit der Effizienz und Rollenklarheit vereint, die für dauerhaftes Führen unerlässlich sind. Kein Zusatzartikel zum Bestehenden — ein paralleler Verfassungsentwurf.</p>
+    <p class="slide__meta">Von Jacobus van Merksteijn · 20 Min. Lesezeit · 28. Mai 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/nova-democratia.jpg" alt="Klassische Säulen mit moderner digitaler Überlagerung — ein Staat, der sich selbst berechenbar regiert">
+  </div>
+</section>
+
+<!-- I. Die These -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">I</span>
+    <h2 class="slide__heading">Die These</h2>
+    <p>Nova Democratia ist ein neues politisch-staatliches Modell, das nach Weltführerschaft in wirtschaftlicher Entwicklung, Berechenbarkeit und Chancengleichheit strebt. Es vereint die Legitimationskraft moderner Demokratie mit der Effizienz und Rollenklarheit, die für dauerhaftes Führen unerlässlich sind.</p>
+    
+    <div class="twee-kolom" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Demokratisch</h3>
+        <p>Direkte Legitimation durch die Bürger, ohne parteipolitische Zwischenebene.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Meritokratisch</h3>
+        <p>Talent, Leistung und Potenzial als einzige Auswahlkriterien — unabhängig von Herkunft oder Vermögen.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Berechenbar</h3>
+        <p>Verfassungsmäßige Kontinuität. Keine Launenhaftigkeit, die internationales Führen unmöglich macht.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- II. Die sieben Kernartikel -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">II</span>
+    <h2 class="slide__heading">Die sieben Kernartikel</h2>
+    <p>Nova Democratia ruht auf sieben Grundprinzipien, die sich gegenseitig verstärken. Jedes Prinzip ist ein Naturgesetz innerhalb des Systems, keine Option.</p>
+    
+    <div class="artikelen-grid">
+      <div class="artikel-card">
+        <span class="artikel-card__nummer">1</span>
+        <h3 class="artikel-card__titel">Volkssouveränität</h3>
+        <p class="artikel-card__tekst">Direkte Kontrolle und Korrektur von Amtsträgern durch die Bürger mittels periodischer Überprüfung und Abberufungsmechanismen.</p>
+      </div>
+      <div class="artikel-card">
+        <span class="artikel-card__nummer">2</span>
+        <h3 class="artikel-card__titel">Chancengleichheit</h3>
+        <p class="artikel-card__tekst">Gleiche Chancen bei gleichen Qualitäten — Talent, Leistung und Potenzial als einzige Kriterien.</p>
+      </div>
+      <div class="artikel-card">
+        <span class="artikel-card__nummer">3</span>
+        <h3 class="artikel-card__titel">Einheit des Entscheidungsrechts</h3>
+        <p class="artikel-card__tekst">Ein eindeutig identifizierbarer Entscheider je Zuständigkeit. Geteilte oder unklare Befugnisse sind nicht zulässig.</p>
+      </div>
+      <div class="artikel-card">
+        <span class="artikel-card__nummer">4</span>
+        <h3 class="artikel-card__titel">Kontinuität</h3>
+        <p class="artikel-card__tekst">Langfristige Stabilität. Kurswechsel erfordern transparente Evaluierung und verstärkte Zustimmung.</p>
+      </div>
+      <div class="artikel-card">
+        <span class="artikel-card__nummer">5</span>
+        <h3 class="artikel-card__titel">Gewaltentrennung</h3>
+        <p class="artikel-card__tekst">Verschärfte Gewaltenteilung mit absoluter Rollenklarheit. Kein Organ kontrolliert sich selbst.</p>
+      </div>
+      <div class="artikel-card">
+        <span class="artikel-card__nummer">6</span>
+        <h3 class="artikel-card__titel">Rechtssicherheit</h3>
+        <p class="artikel-card__tekst">Grundrechtsschutz für alle Bürger, einschränkbar nur durch Gesetz und Verfassungsprüfung.</p>
+      </div>
+      <div class="artikel-card">
+        <span class="artikel-card__nummer">7</span>
+        <h3 class="artikel-card__titel">Wirtschaftliche Führerschaft</h3>
+        <p class="artikel-card__tekst">Weltmeisterschaft in Wohlstandsentwicklung als verfassungsmäßige Priorität.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- III. Volkssouveränität und direkte Legitimation -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">III</span>
+    <h2 class="slide__heading">Volkssouveränität und direkte Legitimation</h2>
+    <p>Repräsentation erfolgt nicht durch parteipolitische Auswahl, sondern durch die direkte Wahl der Bürger auf Grundlage persönlicher Qualität, Kompetenz und nachweisbarer Leistung — <strong>ohne parteipolitische Zwischenebene</strong>.</p>
+    <p>Politische Parteien dürfen kein Monopol auf die Kandidatenaufstellung besitzen. Volksvertreter werden aufgrund persönlicher Qualität und Programm gewählt, nicht aufgrund einer Parteimitgliedschaft.</p>
+    <p>Kandidaten legen vor der Wahl Prüfungen ab, die ihre Kompetenz, Integrität und Kenntnis des Staatsrechts belegen. Gewählte Amtsträger werden periodisch evaluiert und können bei strukturellem Versagen durch festgelegte Verfahren abberufen werden.</p>
+  </div>
+</section>
+
+<!-- IV. Chancengleichheit -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">IV</span>
+    <h2 class="slide__heading">Chancengleichheit bei gleichen Qualitäten</h2>
+    <div class="twee-kolom">
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Objektive Auswahl</h3>
+        <p>Alle öffentlichen und halböffentlichen Institutionen wenden transparente Auswahlmechanismen an, bei denen Talent, Leistung und Potenzial die einzigen Kriterien sind — unabhängig von Herkunft, Vermögen, Geschlecht oder Religion.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Strukturelle Korrektur</h3>
+        <p>Der Staat schafft Voraussetzungen, die strukturelle Ungleichheiten im Zugang zu Bildung, Gesundheitsversorgung, juristischer Unterstützung und wirtschaftlicher Teilhabe aktiv beseitigen, damit gleiche Qualität auch tatsächlich gleiche Ergebnisse erzeugt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- V. Einheit des Entscheidungsrechts -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">V</span>
+    <h2 class="slide__heading">Einheit des Entscheidungsrechts und Kontinuität</h2>
+    <p>Jede politische Verantwortung wird <strong>einem einzigen, klar identifizierbaren Entscheider</strong> zugewiesen. Geteilte, unklare oder überlappende Befugnisse sind nicht zulässig. Die Bürger haben stets das Recht zu wissen, wer für eine Entscheidung verantwortlich ist.</p>
+    <p>Kein Verbergen hinter kollektiver oder vielschichtiger Verwaltung. Direkte Rechenschaftspflicht gegenüber dem Volk.</p>
+    <p>Langfristige Stabilität ist keine Wunschvorstellung, sondern Regel. Kurswechsel erfordern transparente Evaluierung und öffentliche Konsultation. Verwaltungskontinuität und die Abwesenheit von Launenhaftigkeit sind die Grundlage für internationale wirtschaftliche Führerschaft.</p>
+  </div>
+</section>
+
+<!-- VI. Gewaltenteilung & Rechtssicherheit -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">VI</span>
+    <h2 class="slide__heading">Gewaltentrennung und Rechtssicherheit</h2>
+    <p>Die klassische Gewaltenteilung wird durch <strong>absolute Rollenklarheit</strong> verschärft. Kein Amtsträger und kein Organ darf sich selbst kontrollieren oder einem Organ Rechenschaft schulden, dem es selbst angehört. Horizontale und vertikale Checks-and-Balances sind verfassungsmäßig verankert.</p>
+    <p>Alle Bürger genießen grundlegende Grundrechte — Meinungsfreiheit, Versammlungsfreiheit, Religionsfreiheit und Privatsphäre. Grundrechte können ausschließlich durch demokratisch verabschiedetes Gesetz nach transparenter Abwägung und Prüfung durch ein unabhängiges <strong>Verfassungsgericht</strong> eingeschränkt werden.</p>
+  </div>
+</section>
+
+<!-- VII. Wirtschaftliche Weltführerschaft -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">VII</span>
+    <h2 class="slide__heading">Wirtschaftliche Weltführerschaft</h2>
+    <p>Nova Democratia macht wirtschaftliche Wettbewerbsfähigkeit zur <strong>verfassungsmäßigen Priorität</strong>. Die Wirtschaftspolitik zielt auf nachhaltiges Wachstum, internationale Wettbewerbsfähigkeit und den sozialen Zusammenhalt, der nötig ist, um das Vertrauen von Bürgern und Investoren zu erhalten.</p>
+    <div class="twee-kolom">
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Drei Wachstumssäulen</h3>
+        <p>Strategische Kontinuität, Innovationsförderung und meritokratische Talententwicklung.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Null bürokratische Behinderung</h3>
+        <p>Unternehmertum und Innovation im Rahmen klarer Regelungen ohne Hemmnisse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIII. Digitale Mechanismen -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">VIII</span>
+    <h2 class="slide__heading">Fünf digitale Mechanismen</h2>
+    <p>Nova Democratia nutzt digitale Infrastruktur, um direkte Bürgerbeteiligung technisch und rechtlich verbindlich zu machen.</p>
+    
+    <div class="mech-grid">
+      <div class="mech-card">
+        <div class="mech-card__nummer">01</div>
+        <h3 class="mech-card__titel">Direktes digitales Referendum</h3>
+        <p class="mech-card__tekst">Bürger stimmen direkt online über Gesetze und Haushalte ab. Blockchain gewährleistet eine Stimme je Bürger. Das Ergebnis ist <strong>bindend</strong>, kein Votum.</p>
+      </div>
+      <div class="mech-card">
+        <div class="mech-card__nummer">02</div>
+        <h3 class="mech-card__titel">Direktwahl mit Abberufung</h3>
+        <p class="mech-card__tekst">Bürger wählen Minister und leitende Beamte direkt. Bei strukturellem Versagen kann eine Mehrheit über eine digitale Plattform ein Abberufungsreferendum einleiten.</p>
+      </div>
+      <div class="mech-card">
+        <div class="mech-card__nummer">03</div>
+        <h3 class="mech-card__titel">Open-Source-Gesetzgebungsplattform</h3>
+        <p class="mech-card__tekst">Gesetzentwürfe als lebendiges Dokument online. Bürger und Experten schlagen Änderungen vor; Algorithmen bündeln die besten Ideen.</p>
+      </div>
+      <div class="mech-card">
+        <div class="mech-card__nummer">04</div>
+        <h3 class="mech-card__titel">Performance-Dashboard mit Auslöser</h3>
+        <p class="mech-card__tekst">Jeder Minister verfügt über ein öffentliches Dashboard mit messbaren KPIs. Bei zwei Quartalen unter dem Soll folgt automatisch eine digitale Vertrauensabstimmung.</p>
+      </div>
+      <div class="mech-card" style="grid-column: 1 / -1;">
+        <div class="mech-card__nummer">05</div>
+        <h3 class="mech-card__titel">Direkte Petition mit bindender Schwelle</h3>
+        <p class="mech-card__tekst">100.000 Unterschriften lösen automatisch ein bindendes Referendum über die Bürgerinitiative aus, <strong>ohne Beteiligung von Parteien oder Beratungsorganen</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IX. Kernfelder -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">IX</span>
+    <h2 class="slide__heading">Zehn Kernfelder der Politik und Leistung</h2>
+    <p>Jedes Kernfeld verfügt über einen eigenen Satz an Kernindikatoren und einen oder mehrere politisch verantwortliche Amtsträger. Die Bürger können das Preis-Leistungs-Verhältnis je Kernfeld direkt verfolgen.</p>
+    
+    <div class="kernvelden-grid">
+      <div class="kernveld"><span class="kernveld__nummer">1</span><span class="kernveld__naam">Wirtschaft &amp; Beschäftigung</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">2</span><span class="kernveld__naam">Bildung &amp; Innovation</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">3</span><span class="kernveld__naam">Gesundheitsversorgung</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">4</span><span class="kernveld__naam">Sicherheit &amp; Justiz</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">5</span><span class="kernveld__naam">Wohnen &amp; Infrastruktur</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">6</span><span class="kernveld__naam">Energie &amp; Klima</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">7</span><span class="kernveld__naam">Kultur &amp; Medien</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">8</span><span class="kernveld__naam">Sport &amp; Zusammenhalt</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">9</span><span class="kernveld__naam">Staatsfinanzen &amp; Verwaltung</span></div>
+      <div class="kernveld"><span class="kernveld__nummer">10</span><span class="kernveld__naam">Außenhandel &amp; Diplomatie</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- X. Vier Gewalten -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">X</span>
+    <h2 class="slide__heading">Vier Gewalten — Erweiterung der Gewaltenteilung</h2>
+    <p>Die klassische Dreigewaltenlehre wird durch eine vierte ergänzt: die leistungsprüfende Gewalt. Eine <strong>viergliedrige Gewaltentrennung</strong> als verfassungsmäßiges Fundament.</p>
+    
+    <div class="machten-grid">
+      <div class="macht-card">
+        <h3 class="macht-card__titel">Gesetzgebende Gewalt</h3>
+        <p>Legt allgemeine Regeln fest, kontrolliert den Haushalt und wacht über die Vereinbarkeit mit den Grundnormen.</p>
+      </div>
+      <div class="macht-card">
+        <h3 class="macht-card__titel">Ausführende Gewalt</h3>
+        <p>Vollzieht Gesetze und Haushalte innerhalb der gesetzlich gesetzten Grenzen; legt periodisch Rechenschaft ab.</p>
+      </div>
+      <div class="macht-card">
+        <h3 class="macht-card__titel">Rechtsprechende Gewalt</h3>
+        <p>Vollständig unabhängig; entscheidet Streitigkeiten und prüft Beschlüsse an Gesetz und Verfassung.</p>
+      </div>
+      <div class="macht-card">
+        <h3 class="macht-card__titel">Leistungsprüfende Gewalt</h3>
+        <p>Unabhängige statistische Dienste messen und berichten über die Funktionsweise aller Kernfelder.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- XI. Vergütung -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">XI</span>
+    <h2 class="slide__heading">Vergütung an Leistung gekoppelt</h2>
+    <p>Es gilt <strong>keine allgemeine gesetzliche Obergrenze</strong> für die Vergütung öffentlicher Amtsträger, sofern ein nachweisbarer Zusammenhang zwischen Amtsschwere, Umfang des verwalteten Bereichs und den auf Kernindikatoren erzielten Leistungen besteht. Alle Vergütungsdaten werden jährlich öffentlich gemacht.</p>
+    
+    <div class="twee-kolom" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Leistungsnachweis verpflichtend</h3>
+        <p>Keine feste Vergütung ohne Leistungsverantwortung.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Automatische Begrenzung</h3>
+        <p>Bei struktureller Minderleistung wird der Vergütungsspielraum automatisch und proportional eingeschränkt.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Nachzahlung begrenzt</h3>
+        <p>Politische Amtsträger: max. 80 % (Jahr 1), 40 % (Jahr 2), 20 % (Jahr 3) — danach nichts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- XII. Umsetzung -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">XII</span>
+    <h2 class="slide__heading">Umsetzung und Evaluierung</h2>
+    <p>Die Einführung von Nova Democratia erfolgt <strong>schrittweise</strong> über drei sich gegenseitig verstärkende Wege.</p>
+    
+    <div class="twee-kolom" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Verfassungsrevision</h3>
+        <p>Anpassung grundlegender Regeln durch verstärkte Mehrheit und öffentliches Referendum.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Institutionelle Reform</h3>
+        <p>Neustrukturierung von Organen und Verfahren entlang der sieben Kernartikel.</p>
+      </div>
+      <div class="kolom-card">
+        <h3 class="kolom-card__titel">Schrittweise Überleitung</h3>
+        <p>Stufenweise Einführung — zunächst Kernfelder wie Bildung, dann Verwaltung, dann Verfassung.</p>
+      </div>
+    </div>
+    
+    <p style="margin-top: 1.25rem;">Das System wird nach <strong>fünf Jahren verfassungsmäßig evaluiert</strong> hinsichtlich Wirksamkeit, Berechenbarkeit, Chancengleichheit und Rechtsstaatlichkeit. Anpassungen erfordern verstärkte Mehrheit und öffentliches Referendum.</p>
+  </div>
+</section>
+
+<!-- XIII. Zum Schluss -->
+<section class="slide slide--close">
+  <div class="slide__inner">
+    <span class="slide__num">XIII</span>
+    <h2 class="slide__heading">Zum Schluss</h2>
+    
+    <div class="slot-quote">
+      „Nova Democratia ist kein Zusatzartikel. Es ist ein anderes Grundgesetz."
+    </div>
+    
+    <p>Was hier steht, passt nicht in die bestehende Verfassung — nicht weil es ihr widerspricht, sondern weil es ihre Logik ersetzt. Nova Democratia ist keine Reparatur. Es ist ein paralleler Verfassungsentwurf, der mit Bildung beginnt und bei einem Land endet, das sich selbst wieder berechenbar regiert.</p>
+    
+    <p><strong>Wer einen besseren Weg sieht, ist eingeladen, ihn zu skizzieren.</strong> Wer nichts sieht außer dem gegenwärtigen Verfall, hat am Tisch nichts verloren.</p>
+    
+    <p style="font-family: var(--sans); font-size: 0.85rem; color: var(--ink-muted); margin-top: var(--space-6);">Mai 2026 · Version 1.0 · Offen zur Diskussion · Mallorca / Switzerland</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<div class="version-content__kort">
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Nova Democratia</h2>
+    <p class="slide__lead">Ein Grundgesetz, das Demokratie mit Effizienz, Meritocratie und Kontinuität vereint.</p>
+    <p>Nova Democratia erreicht die Berechenbarkeit autoritärer Regime bei vollständiger Transparenz, demokratischer Legitimation und unabhängigen Checks-and-Balances — und beseitigt die Koalitionslaunenhaftigkeit parlamentarischer Demokratien.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Die sieben Kernartikel</h2>
+    <ol style="font-family: var(--serif); font-size: 1.1rem; line-height: 1.8;">
+      <li><strong>Volkssouveränität</strong> — direkte Kontrolle durch die Bürger</li>
+      <li><strong>Chancengleichheit</strong> — Talent als einziges Kriterium</li>
+      <li><strong>Einheit des Entscheidungsrechts</strong> — ein Entscheider je Zuständigkeit</li>
+      <li><strong>Kontinuität</strong> — langfristige Stabilität</li>
+      <li><strong>Gewaltentrennung</strong> — absolute Rollenklarheit</li>
+      <li><strong>Rechtssicherheit</strong> — Grundrechte für alle</li>
+      <li><strong>Wirtschaftliche Führerschaft</strong> — Weltmeisterschaft als Priorität</li>
+    </ol>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Wie es funktioniert</h2>
+    <p><strong>Vier Gewalten</strong> statt drei: gesetzgebend, ausführend, rechtsprechend und leistungsprüfend. Kein Verstecken, kein Parteimonopol, keine unklaren Befugnisse.</p>
+    <p><strong>Zehn Kernfelder</strong> mit öffentlichen Dashboards. <strong>Fünf digitale Mechanismen</strong>, die die Bürgerstimme direkt bindend machen: Referendum, Abberufung, Open-Source-Gesetzgebung, Performance-Auslöser und bindende Petition.</p>
+    <p><strong>Vergütung an Leistung gekoppelt</strong> — keine festen Gehälter ohne Rechenschaftspflicht.</p>
+  </div>
+</section>
+
+<section class="slide slide--close">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Schluss</h2>
+    <div class="slot-quote">„Nova Democratia ist kein Zusatzartikel. Es ist ein anderes Grundgesetz."</div>
+    <p>Wer einen besseren Weg sieht, ist eingeladen, ihn zu skizzieren. Wer nichts sieht außer dem gegenwärtigen Verfall, hat am Tisch nichts verloren.</p>
+  </div>
+</section>
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Ausgabe 2 — Donnerstag, 28. Mai 2026</p>
+    <p><a href="./">Zur Ausgabe 2</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+</body>
+</html>

@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЕС: ВВП, реальные зарплаты и государственный мультипликатор — Het Open Vizier</title>
+  <meta name="description" content="Показатель ВВП—зарплата за вычетом роста совокупных государственных расходов — какое макроэкономическое пространство остаётся?">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    :root {
+      --accent: #3a5572;
+      --accent-dark: #26384d;
+    }
+    .article-tools__inner {
+      border-color: #26384d !important;
+    }
+    .version-switch__btn {
+      background: #3a5572 !important;
+    }
+    .version-switch__btn--active {
+      background: #26384d !important;
+    }
+
+    /* ── Methode-stappen ── */
+    .methode-stappen {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .methode-stap {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 0;
+      border-top: 2px solid #dde8f0;
+    }
+    .methode-stap:last-child {
+      border-bottom: 2px solid #dde8f0;
+    }
+    .methode-stap__nr {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 2.8rem;
+    }
+    .methode-stap__body {}
+    .methode-stap__titel {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.25rem;
+    }
+    .methode-stap__formule {
+      font-family: monospace;
+      font-size: 0.95rem;
+      background: #eef4f9;
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      color: #26384d;
+      font-weight: 600;
+      margin: 0 0 0.3rem;
+    }
+    .methode-stap__uitleg {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── EU27 resultaat-kaarten ── */
+    .eu-resultaat {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .eu-kaart {
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+      position: relative;
+    }
+    .eu-kaart--positief {
+      background: #eef5fb;
+      border-top: 4px solid #3a5572;
+    }
+    .eu-kaart--neutraal {
+      background: #fff8ec;
+      border-top: 4px solid #c08020;
+    }
+    .eu-kaart--negatief {
+      background: #fdf2f2;
+      border-top: 4px solid #b83232;
+    }
+    .eu-kaart__stap {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #777;
+      margin: 0 0 0.4rem;
+    }
+    .eu-kaart__waarde {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+      margin: 0 0 0.3rem;
+    }
+    .eu-kaart--positief .eu-kaart__waarde { color: #3a5572; }
+    .eu-kaart--neutraal .eu-kaart__waarde { color: #b87820; }
+    .eu-kaart--negatief .eu-kaart__waarde { color: #b83232; }
+    .eu-kaart__label {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Landen-datatafel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel th:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel td {
+      padding: 0.55rem 0.9rem;
+      border-bottom: 1px solid #dde8f0;
+      vertical-align: middle;
+    }
+    .data-tabel td:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #f4f8fc;
+    }
+    .data-tabel .cel-positief { color: #27782a; font-weight: 700; }
+    .data-tabel .cel-negatief { color: #b83232; font-weight: 700; }
+    .data-tabel .cel-sterk-negatief { color: #8b1a1a; font-weight: 700; }
+    .data-tabel .rij-eu27 td { background: #e8f0f7 !important; font-weight: 700; }
+
+    /* ── EU-heatmap vervang-grid ── */
+    .heatmap-sectie {
+      margin: 1.5rem 0;
+    }
+    .heatmap-groep {
+      margin-bottom: 1.4rem;
+    }
+    .heatmap-groep__titel {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.7rem;
+    }
+    .heatmap-groep--hoog .heatmap-groep__titel {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-groep--midden .heatmap-groep__titel {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-groep--laag .heatmap-groep__titel {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+    .heatmap-landen {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .heatmap-chip {
+      border-radius: 5px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 5.5rem;
+    }
+    .heatmap-chip__naam {
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .heatmap-chip__score {
+      font-size: 0.85rem;
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+    .heatmap-chip--hoog {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-chip--midden {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-chip--laag {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+
+    /* ── Rangschikking: hoog/laag grid ── */
+    .rang-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .rang-col {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .rang-col--hoog {
+      background: #f0f8f0;
+      border-left: 4px solid #27782a;
+    }
+    .rang-col--laag {
+      background: #fdf2f2;
+      border-left: 4px solid #b83232;
+    }
+    .rang-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .rang-col--hoog .rang-col__header { color: #27782a; }
+    .rang-col--laag .rang-col__header { color: #b83232; }
+    .rang-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.55rem;
+      font-size: 0.9rem;
+    }
+    .rang-item__land {
+      font-weight: 700;
+      color: #222;
+    }
+    .rang-item__score {
+      font-weight: 900;
+      font-size: 1rem;
+    }
+    .rang-col--hoog .rang-item__score { color: #27782a; }
+    .rang-col--laag .rang-item__score { color: #b83232; }
+
+    /* ── Interpretatie kaarten ── */
+    .interp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .interp-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      border-left: 3px solid var(--accent);
+    }
+    .interp-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .interp-card__tekst {
+      font-size: 0.88rem;
+      color: #444;
+      margin: 0;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eef5fb;
+      padding: 0.9rem 2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Pull-quote ── */
+    .pull-quote {
+      border-left: 5px solid var(--accent);
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      background: #f4f8fc;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote__tekst {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+      line-height: 1.5;
+    }
+    .pull-quote__attr {
+      font-size: 0.82rem;
+      color: #777;
+      margin: 0;
+    }
+
+    /* ── NEPK-conclusie kaarten ── */
+    .nepk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .nepk-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.2rem;
+      border-top: 4px solid var(--accent);
+    }
+    .nepk-card__nr {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .nepk-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .nepk-card__tekst {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Bronnen ── */
+    .bronnen-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+    }
+    .bronnen-list li {
+      font-size: 0.85rem;
+      color: #555;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #e0ecf5;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .bronnen-list li:last-child { border-bottom: none; }
+    .bronnen-list a { color: var(--accent); text-decoration: none; }
+    .bronnen-list a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .eu-resultaat,
+      .rang-grid,
+      .interp-grid,
+      .nepk-grid {
+        grid-template-columns: 1fr;
+      }
+      .heatmap-chip { min-width: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band">
+  Выпуск 2 — Четверг, 28 мая 2026 г.
+  <a href="../#podpiska">Бесплатная подписка</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Выпуск 2 — Четверг, 28 мая 2026 г.</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Главная</a></li>
+      <li><a href="../vypusk-2/">Выпуск 2</a></li>
+      <li><a href="../arkhiv.html">Архив</a></li>
+      <li><a href="../o-gazete.html">О газете</a></li>
+      <li><a href="../vykhodnye-dannye.html">Выходные данные</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="" class="active">RU</a>
+      <a href="../#podpiska" class="nav__cta">Бесплатная подписка</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Версия">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Полная версия</button>
+      <button type="button" class="version-switch__btn" data-version="kort">Кратко</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Пауза" data-resume-label="Продолжить">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Прослушать</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/ru/issledovanie/es-multiplikator.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ UITGEBREID -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── SLIDE 1: HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Анализ данных · данные AMECO</span>
+    <h1 class="slide__title">ЕС: ВВП, реальные зарплаты и государственный мультипликатор</h1>
+    <p class="slide__lead">Показатель ВВП—зарплата за вычетом роста совокупных государственных расходов — какое макроэкономическое пространство остаётся?</p>
+    <p class="slide__meta">Автор: Якобус ван Мерксштейн · За цифрами · 14 мин. чтения · 28 мая 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/eu-multiplicator.jpg" alt="Государственный мультипликатор ЕС: ВВП, реальные зарплаты и государственные расходы">
+  </div>
+</section>
+
+<!-- ── SLIDE 2: DE METHODE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Метод</span>
+    <h2 class="slide__heading">Трёхшаговый метод: от ВВП к макроэкономическому пространству</h2>
+    <p>В настоящем анализе используется та же база AMECO для реального ВВП и реальной компенсации на одного работника, что и в предыдущем анализе, дополненная показателем AMECO <code>OUTG</code> для <em>real total expenditure of general government</em> (дефлятор ВВП, индекс 2020=100). <code>OUTG</code> измеряет реальные совокупные государственные расходы в соответствии с ESA 2010 (<a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics AMECO OUTG</a>). AMECO — это макроэкономическая база данных Европейской комиссии с ежегодными наборами данных (<a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">European Commission AMECO</a>).</p>
+
+    <div class="methode-stappen">
+      <div class="methode-stap">
+        <div class="methode-stap__nr">1</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">Показатель ВВП—зарплата</p>
+          <p class="methode-stap__formule">Рост реального ВВП − рост реальной компенсации на одного работника</p>
+          <p class="methode-stap__uitleg">Базовый показатель: растёт ли экономика быстрее, чем затраты на оплату труда? Положительное значение означает, что макроэкономический задел превышает темпы роста заработных плат.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">2</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">За вычетом государства</p>
+          <p class="methode-stap__formule">Показатель ВВП—зарплата − реальный рост совокупных государственных расходов</p>
+          <p class="methode-stap__uitleg">Как только рост реальных совокупных государственных расходов учитывается как самостоятельный фактор давления, показатель существенно меняется. Государство претендует на часть макроэкономического пространства.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">3</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">С мультипликатором</p>
+          <p class="methode-stap__formule">Показатель ВВП—зарплата − реальный рост государственных расходов × индекс государственных расходов (2000=1)</p>
+          <p class="methode-stap__uitleg">Это стресс-показатель: рост государственных расходов в более поздние годы взвешивается сильнее, чем в 2001 году, поскольку сама реальная совокупная стоимость государственного сектора за это время возросла. Не официальный индикатор системы национальных счетов, но аналитический инструмент, позволяющий сделать видимым мультипликативный фактор.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Ключевой вопрос анализа:</strong> Остаётся ли макроэкономическое пространство после учёта реального роста заработных плат и совокупного объёма государственных расходов?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 3: EU27-RESULTAAT ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Результат по ЕС-27</span>
+    <h2 class="slide__heading">ЕС-27: от +0,9 пп до −0,9 пп — маржа испаряется</h2>
+    <p>Данные по ЕС-27 в целом рисуют однозначную картину. Средний показатель за анализируемый период резко меняется, как только в расчёт принимаются два дополнительных фактора давления:</p>
+
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">Шаг 1 — Показатель ВВП—зарплата</p>
+        <p class="eu-kaart__waarde">+0,9</p>
+        <p class="eu-kaart__label">пп в среднем за год<br><em>Выпуск растёт быстрее зарплат</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">Шаг 2 — За вычетом государства</p>
+        <p class="eu-kaart__waarde">−0,6</p>
+        <p class="eu-kaart__label">пп в среднем за год<br><em>Маржа меняет знак после вычета госрасходов</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">Шаг 3 — С мультипликатором</p>
+        <p class="eu-kaart__waarde">−0,9</p>
+        <p class="eu-kaart__label">пп в среднем за год<br><em>Накопленное давление государственных расходов</em></p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">«Как только совокупные реальные государственные расходы учитываются как самостоятельный фактор давления, положительная маржа между ростом ВВП и реальным ростом заработных плат поглощается в значительной мере.»</p>
+      <p class="pull-quote__attr">— Среднее по ЕС-27, данные AMECO</p>
+    </div>
+
+    <p>Вывод при этом кардинально меняется: то, что в первичном показателе выглядело как положительная маржа ВВП—зарплата в среднем 0,9 процентного пункта в год, после корректировки на реальные государственные расходы превращается в отрицательное значение −0,6 пп, а с взвешиванием мультипликатора — даже в −0,9 пп. Макроэкономическое пространство оказывается меньше, чем предполагают стандартные индикаторы.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 4: GENOEMDE LANDEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Сравнение стран</span>
+    <h2 class="slide__heading">Шесть стран: насколько силён государственный мультипликатор?</h2>
+    <p>Мультипликатор показывает, какие страны сохраняют положительную маржу ВВП—зарплата после того, как реальный рост совокупных государственных расходов учитывается с дополнительным весом. Испания в среднем остаётся относительно более позитивной, чем Германия и Италия, тогда как Нидерланды удерживают более выраженный положительный результат по сравнению с ориентиром ЕС-27 — однако со значительными колебаниями в 2009 году и в период пандемии.</p>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Страна</th>
+          <th>ВВП—зарплата (ср.)</th>
+          <th>За вычетом государства</th>
+          <th>С мультипликатором</th>
+          <th>Мультипликатор 2024</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="rij-eu27">
+          <td><strong>ЕС-27</strong></td>
+          <td class="cel-positief">+0,9 пп</td>
+          <td class="cel-negatief">−0,6 пп</td>
+          <td class="cel-negatief">−0,9 пп</td>
+          <td class="cel-sterk-negatief">−3,2 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Нидерланды</strong></td>
+          <td class="cel-positief">+1,2 пп</td>
+          <td class="cel-negatief">−0,5 пп</td>
+          <td class="cel-negatief">−0,9 пп</td>
+          <td class="cel-sterk-negatief">−2,7 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Бельгия</strong></td>
+          <td class="cel-positief">+1,0 пп</td>
+          <td class="cel-negatief">−1,0 пп</td>
+          <td class="cel-negatief">−1,6 пп</td>
+          <td class="cel-sterk-negatief">−5,9 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Германия</strong></td>
+          <td class="cel-positief">+0,6 пп</td>
+          <td class="cel-negatief">−0,5 пп</td>
+          <td class="cel-negatief">−0,7 пп</td>
+          <td class="cel-sterk-negatief">−5,3 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Италия</strong></td>
+          <td class="cel-positief">+0,7 пп</td>
+          <td class="cel-negatief">−0,1 пп</td>
+          <td class="cel-negatief">−0,2 пп</td>
+          <td class="cel-positief">+5,6 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Испания</strong></td>
+          <td class="cel-positief">+1,4 пп</td>
+          <td class="cel-negatief">−0,9 пп</td>
+          <td class="cel-negatief">−1,7 пп</td>
+          <td class="cel-sterk-negatief">−4,3 пп</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:0.82rem;color:#777;margin-top:-0.5rem;">Источник: база данных AMECO (Европейская комиссия) · DBnomics AMECO OUTG · Eurostat. Средние значения рассчитаны за весь анализируемый период.</p>
+
+    <div class="callout">
+      <p><strong>Примечательно:</strong> Италия — единственная страна с положительным значением мультипликатора в 2024 году (+5,6 пп), что указывает на относительное снижение реального роста государственных расходов в том году. Бельгия занимает противоположный полюс: −5,9 пп в 2024 году.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 5: EU-HEATMAP (HTML-versie) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Все страны ЕС</span>
+    <h2 class="slide__heading">Страны ЕС по группам: среднегодовой балл мультипликатора</h2>
+    <p>Красный цвет означает, что реальный рост совокупных государственных расходов структурно опускает показатель ВВП—зарплата ниже нуля; зелёный — что показатель остаётся положительным несмотря на фактор государственных расходов. Группировка выполнена по среднему значению балла мультипликатора за анализируемый период.</p>
+
+    <div class="heatmap-sectie">
+      <!-- Hoogste scores -->
+      <div class="heatmap-groep heatmap-groep--hoog">
+        <div class="heatmap-groep__titel">Наивысшие баллы (наименее отрицательные / ближайшие к нулю)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Греция</span>
+            <span class="heatmap-chip__score">−0,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Италия</span>
+            <span class="heatmap-chip__score">−0,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Дания</span>
+            <span class="heatmap-chip__score">−0,5 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Португалия</span>
+            <span class="heatmap-chip__score">−0,7 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Германия</span>
+            <span class="heatmap-chip__score">−0,7 пп</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middenmoot -->
+      <div class="heatmap-groep heatmap-groep--midden">
+        <div class="heatmap-groep__titel">Середина</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Нидерланды</span>
+            <span class="heatmap-chip__score">−0,9 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">ЕС-27</span>
+            <span class="heatmap-chip__score">−0,9 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Австрия</span>
+            <span class="heatmap-chip__score">ок. −1,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Чехия</span>
+            <span class="heatmap-chip__score">ок. −1,3 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Швеция</span>
+            <span class="heatmap-chip__score">ок. −1,3 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Финляндия</span>
+            <span class="heatmap-chip__score">ок. −1,4 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Бельгия</span>
+            <span class="heatmap-chip__score">−1,6 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Испания</span>
+            <span class="heatmap-chip__score">−1,7 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Франция</span>
+            <span class="heatmap-chip__score">ок. −1,8 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Ирландия</span>
+            <span class="heatmap-chip__score">ок. −2,0 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Словения</span>
+            <span class="heatmap-chip__score">ок. −2,1 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Хорватия</span>
+            <span class="heatmap-chip__score">ок. −2,4 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Словакия</span>
+            <span class="heatmap-chip__score">ок. −2,6 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Венгрия</span>
+            <span class="heatmap-chip__score">ок. −2,9 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Кипр</span>
+            <span class="heatmap-chip__score">ок. −3,0 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Мальта</span>
+            <span class="heatmap-chip__score">ок. −3,1 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Люксембург</span>
+            <span class="heatmap-chip__score">ок. −3,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Болгария</span>
+            <span class="heatmap-chip__score">ок. −3,5 пп</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laagste scores -->
+      <div class="heatmap-groep heatmap-groep--laag">
+        <div class="heatmap-groep__titel">Наименьшие баллы (наиболее отрицательные)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Эстония</span>
+            <span class="heatmap-chip__score">−6,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Польша</span>
+            <span class="heatmap-chip__score">−6,3 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Румыния</span>
+            <span class="heatmap-chip__score">−7,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Литва</span>
+            <span class="heatmap-chip__score">−7,4 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Латвия</span>
+            <span class="heatmap-chip__score">−7,6 пп</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:0.82rem;color:#777;">Примечание: баллы для стран средней группы получены путём интерполяции на основе опубликованного рейтинга и точных опорных значений для шести упомянутых стран. Исходные данные: AMECO / DBnomics / Eurostat.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 6: RANGSCHIKKING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Рейтинг</span>
+    <h2 class="slide__heading">Наивысшие и наименьшие баллы мультипликатора в ЕС</h2>
+    <p>Средний рейтинг строже, чем предыдущий рейтинг по показателю ВВП—зарплата. Страны с высоким ростом ВВП, но и быстро растущими государственными расходами опускаются вниз, тогда как страны с умеренным реальным ростом государственного сектора получают относительно лучший результат. Примечательно: Греция и Италия — страны с исторически высоким государственным долгом — показывают относительно благоприятные результаты благодаря сдержанному реальному росту государственных расходов в анализируемом периоде.</p>
+
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Наивысшие средние баллы</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Греция</span>
+          <span class="rang-item__score">−0,2 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Италия</span>
+          <span class="rang-item__score">−0,2 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Дания</span>
+          <span class="rang-item__score">−0,5 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Португалия</span>
+          <span class="rang-item__score">−0,7 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Германия</span>
+          <span class="rang-item__score">−0,7 пп</span>
+        </div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Наименьшие средние баллы</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Латвия</span>
+          <span class="rang-item__score">−7,6 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Литва</span>
+          <span class="rang-item__score">−7,4 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Румыния</span>
+          <span class="rang-item__score">−7,2 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Польша</span>
+          <span class="rang-item__score">−6,3 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Эстония</span>
+          <span class="rang-item__score">−6,2 пп</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Закономерность:</strong> Наименьшие баллы концентрируются в бывших восточноевропейских государствах-членах. Это отражает быстрый рост государственных расходов по сравнению с ростом ВВП — структурную черту их пути к конвергенции. Наивысшие баллы демонстрируют средиземноморские и северные страны, которые удерживали реальный рост государственного сектора в более умеренных рамках.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 7: INTERPRETATIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Интерпретация</span>
+    <h2 class="slide__heading">Что означают эти баллы? Концептуально более строгий показатель</h2>
+    <p>Данная версия концептуально строже, чем предыдущий анализ ВВП—зарплата. Предыдущий график ставил вопрос: растёт ли выпуск быстрее реальной компенсации на одного работника? Настоящий анализ ставит принципиально более жёсткий вопрос:</p>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">«Остаётся ли макроэкономическое пространство после учёта реального роста заработных плат и совокупного объёма государственных расходов?»</p>
+    </div>
+
+    <div class="interp-grid">
+      <div class="interp-card">
+        <p class="interp-card__titel">Что отрицательный балл <em>не</em> означает</p>
+        <p class="interp-card__tekst">Государственные расходы по своей природе не являются проблемой. Они могут финансировать производительную инфраструктуру, образование, оборону, здравоохранение или экономическую стабилизацию — инвестиции, которые в долгосрочной перспективе повышают производительность.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Что отрицательный балл <em>действительно</em> означает</p>
+        <p class="interp-card__tekst">Когда совокупный реальный объём государственных расходов растёт быстрее экономики в целом, свободное макроэкономическое пространство сужается. Маржа между выпуском и факторами давления (зарплаты + государство) исчезает.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Мультипликатор как стресс-показатель</p>
+        <p class="interp-card__tekst">Третий шаг — не официальный индикатор системы национальных счетов, а аналитический способ сделать видимым накопленный рост государственных расходов. Более высокий вес в последние годы периода отражает тот факт, что абсолютная совокупная стоимость государственного сектора к тому времени возросла.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Последствия для политики</p>
+        <p class="interp-card__tekst">Стандартные показатели роста ВВП скрывают, какая часть этого роста уже «поглощена» динамикой государственных расходов. Реальное свободное макроэкономическое пространство меньше, чем принято измерять в политических кругах.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 8: CONCLUSIE + NEPK-VERBINDING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Заключение</span>
+    <h2 class="slide__heading">Заключение: макроэкономическое пространство сужается быстрее, чем мы измеряем</h2>
+    <p>Данные по ЕС эмпирически подтверждают то, что рамочная концепция NEPK (Нетто-внешнее производительное ядро) теоретически утверждает о соотношении роста ВВП, затрат на оплату труда и накладных расходов. Связь прямая и доказательная:</p>
+
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>Данные ЕС подтверждают теорию NEPK:</strong> Положительная маржа ВВП—зарплата по ЕС-27 (+0,9 пп) полностью испаряется, как только реальные совокупные государственные расходы учитываются в качестве фактора давления (−0,9 пп с мультипликатором). Это именно тот механизм, который рамочная концепция NEPK описывает применительно к Нидерландам: макроэкономическое пространство поглощается затратами, которые стандартные показатели не учитывают в полной мере.</p>
+    </div>
+
+    <div class="nepk-grid">
+      <div class="nepk-card">
+        <div class="nepk-card__nr">01</div>
+        <p class="nepk-card__titel">Теория NEPK → свидетельства по ЕС</p>
+        <p class="nepk-card__tekst">Концепция NEPK утверждает, что реальное производительное ядро меньше, чем предполагают показатели ВВП, поскольку накладные расходы (государство, комплаенс, перераспределительный сектор) поглощают всё большую часть роста. Данные мультипликатора по ЕС-27 демонстрируют эту закономерность одновременно по всем 27 государствам-членам.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">02</div>
+        <p class="nepk-card__titel">Ловушка конвергенции</p>
+        <p class="nepk-card__tekst">Страны с наименьшими баллами мультипликатора — Латвия, Литва и Румыния — показывают, что быстрая экономическая конвергенция сопровождается ещё более стремительным ростом государственных расходов. Это динамика NEPK в европейском масштабе: рост в сочетании со сжимающейся свободной маржой.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">03</div>
+        <p class="nepk-card__titel">Нидерланды в европейском контексте</p>
+        <p class="nepk-card__tekst">Нидерланды с баллом мультипликатора −0,9 пп находятся на уровне среднего по ЕС-27. При показателе −2,7 пп в 2024 году страна остаётся в отрицательной зоне, хотя и менее экстремальной, чем Бельгия (−5,9 пп) или Германия (−5,3 пп). Эрозия NEPK — не сугубо нидерландское явление: это общеевропейская закономерность, эмпирически подтверждающая теорию NEPK.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="background:#fdf6e8;border-left-color:#b87820;">
+      <p style="font-size:1.05rem;font-weight:700;color:#7a4c00;">«Макроэкономическое пространство сужается быстрее, чем мы измеряем, — именно поэтому и была создана концепция NEPK.»</p>
+      <p style="margin-top:0.5rem;color:#555;">Данные мультипликатора по ЕС не являются самостоятельным индикатором кризиса. Однако они подтверждают суть аргумента NEPK: стандартные показатели роста ВВП и заработных плат недооценивают реальные затраты, давящие на производительное ядро. Концепция NEPK делает это скрытое давление явно измеримым — сначала для Нидерландов, теперь подтверждённым общеевропейскими данными.</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem; color: var(--accent-dark);">Источники</h3>
+    <ul class="bronnen-list">
+      <li>
+        <strong>База данных AMECO</strong> — Европейская комиссия, ежегодные макроэкономические данные по всем государствам-членам ЕС
+        <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">(economy-finance.ec.europa.eu)</a>
+      </li>
+      <li>
+        <strong>DBnomics AMECO OUTG</strong> — Реальные совокупные государственные расходы, ESA 2010, индекс 2020=100
+        <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">(db.nomics.world/AMECO/OUTG)</a>
+      </li>
+      <li>
+        <strong>Eurostat</strong> — Дополнительные данные национальных счетов и верификация
+        <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">(ec.europa.eu/eurostat)</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ IN HET KORT -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Анализ данных · данные AMECO</span>
+    <h2 class="slide__heading">ЕС: ВВП, реальные зарплаты и государственный мультипликатор</h2>
+    <p class="slide__lead">Показатель ВВП—зарплата за вычетом роста совокупных государственных расходов — какое макроэкономическое пространство остаётся?</p>
+    <p>Настоящий анализ расширяет стандартный показатель ВВП—зарплата за счёт AMECO <code>OUTG</code> (реальные совокупные государственные расходы) и рассчитывает три последовательных балла для всех государств-членов ЕС. Результат: положительная маржа ВВП—зарплата испаряется, как только государственные расходы учитываются в качестве фактора давления.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">ЕС-27: от +0,9 пп до −0,9 пп</h2>
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">Показатель ВВП—зарплата</p>
+        <p class="eu-kaart__waarde">+0,9</p>
+        <p class="eu-kaart__label">пп ср./год</p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">За вычетом государства</p>
+        <p class="eu-kaart__waarde">−0,6</p>
+        <p class="eu-kaart__label">пп ср./год</p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">С мультипликатором</p>
+        <p class="eu-kaart__waarde">−0,9</p>
+        <p class="eu-kaart__label">пп ср./год</p>
+      </div>
+    </div>
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">«Как только совокупные реальные государственные расходы учитываются как самостоятельный фактор давления, положительная маржа поглощается в значительной мере.»</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Рейтинг: лучшие и худшие страны ЕС</h2>
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Лучшие баллы</div>
+        <div class="rang-item"><span class="rang-item__land">Греция</span><span class="rang-item__score">−0,2 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Италия</span><span class="rang-item__score">−0,2 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Дания</span><span class="rang-item__score">−0,5 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Португалия</span><span class="rang-item__score">−0,7 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Германия</span><span class="rang-item__score">−0,7 пп</span></div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Наименьшие баллы</div>
+        <div class="rang-item"><span class="rang-item__land">Латвия</span><span class="rang-item__score">−7,6 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Литва</span><span class="rang-item__score">−7,4 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Румыния</span><span class="rang-item__score">−7,2 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Польша</span><span class="rang-item__score">−6,3 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Эстония</span><span class="rang-item__score">−6,2 пп</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Заключение и связь с NEPK</h2>
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>Данные ЕС подтверждают теорию NEPK:</strong> Анализ мультипликатора эмпирически подтверждает утверждение концепции NEPK — макроэкономическое пространство поглощается затратами, которые стандартные индикаторы не измеряют в полной мере.</p>
+    </div>
+    <p style="font-size:1rem;font-weight:700;color:#26384d;margin-top:1rem;">«Макроэкономическое пространство сужается быстрее, чем мы измеряем, — именно поэтому и была создана концепция NEPK.»</p>
+    <p>Нидерланды показывают −0,9 пп в среднем (наравне с ЕС-27), однако −2,7 пп в 2024 году. Эрозия NEPK — не исключительно нидерландское явление: это общеевропейская закономерность, эмпирически подкрепляющая теорию NEPK.</p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Технический вестник · Выпуск 2 — Четверг, 28 мая 2026 г.</p>
+    <p><a href="../vypusk-2/">К выпуску 2</a> · Источники: <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">AMECO</a> · <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics OUTG</a> · <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">Eurostat</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+</body>
+</html>
