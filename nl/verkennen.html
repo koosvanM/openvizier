@@ -35,6 +35,12 @@
   .tile.onbereikbaar:hover .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
   .tile.onbereikbaar .label h2{opacity:.7}
 
+  /* Vervolg/Vorige paginering-tiles: zachte ink-tegel zonder hero */
+  .tile.vervolg{background:#1a1612}
+  .tile.vervolg .bg{display:none}
+  .tile.vervolg .veil{background:linear-gradient(135deg,rgba(40,32,22,.6) 0%,rgba(0,0,0,.4) 100%)}
+  .tile.vervolg .label h2{font-style:italic;letter-spacing:2px;opacity:.85}
+
   /* Verschuif labels weg van wapen-zone, afhankelijk van rij-positie */
   .tile.bottom-row{align-items:flex-end;padding-bottom:3vh}
   .tile.top-row{align-items:flex-start;padding-top:5vh}
@@ -302,7 +308,59 @@ function render(){
   const currentCode = path[path.length-1];
   const current = BY_CODE[currentCode];
   if (!current) return;
-  const kids = CHILDREN[currentCode] || [];
+  const alleKinderen = CHILDREN[currentCode] || [];
+  // Filter: alleen kinderen die actief zijn, naam hebben, en niet verborgen
+  const zichtbareKinderen = alleKinderen.filter(k =>
+    k.naam && k.naam.trim() !== "" && (k.status !== "verborgen")
+  );
+
+  // Pagineren: max 4 zichtbare per laag
+  // URL-hash kan een 'pagina' bevatten via &p=2
+  const MAX_PER_LAAG = 4;
+  let pagina = 1;
+  const paginaMatch = (location.hash || "").match(/[&?]p=(\d+)/);
+  if (paginaMatch) pagina = parseInt(paginaMatch[1], 10) || 1;
+
+  let kids;
+  let toonVervolg = false;
+  let toonVorige = false;
+
+  if (zichtbareKinderen.length <= MAX_PER_LAAG){
+    kids = zichtbareKinderen.slice();
+  } else {
+    // pagineren: 3 echte + 1 vervolg-knop per pagina, behalve laatste pagina
+    const perPagina = MAX_PER_LAAG - 1;  // 3 echte per pagina
+    const start = (pagina - 1) * perPagina;
+    const eind = start + perPagina;
+    kids = zichtbareKinderen.slice(start, eind);
+    if (eind < zichtbareKinderen.length){
+      // er is een vervolg
+      kids.push({
+        code: currentCode,
+        _synthVervolg: true,
+        _doelPagina: pagina + 1,
+        naam: "Vervolg",
+        ondertitel: `pagina ${pagina + 1} van ${Math.ceil(zichtbareKinderen.length / perPagina)}`,
+        type: "vervolg",
+        hero: "",
+      });
+    }
+    if (pagina > 1){
+      kids.unshift({
+        code: currentCode,
+        _synthVorige: true,
+        _doelPagina: pagina - 1,
+        naam: "Vorige",
+        ondertitel: `← pagina ${pagina - 1}`,
+        type: "vorige",
+        hero: "",
+      });
+      // verwijder één echte om binnen MAX te blijven
+      if (kids.length > MAX_PER_LAAG){
+        kids.splice(MAX_PER_LAAG - 1, 1);
+      }
+    }
+  }
   const n = kids.length;
 
   // Center-overlay altijd zichtbaar met wapen; tekst toont huidige keuze
@@ -395,15 +453,23 @@ function render(){
 }
 
 function onClick(node){
+  // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
+  if (node._synthVervolg || node._synthVorige){
+    const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
+    location.hash = nieuwHash;
+    return;
+  }
   // Concept of onbereikbaar: niet doorklikbaar
   if (node.status === "concept") return;
-  const heeftKinderen = (CHILDREN[node.code] || []).length > 0;
-  if (!node.url && !heeftKinderen) return;  // niets om te tonen
-  if (node.url && !heeftKinderen){
+  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
+    k.naam && k.status !== "verborgen"
+  );
+  if (!node.url && !heeftLevendeKinderen) return;
+  if (node.url && !heeftLevendeKinderen){
     showReader(node);
     return;
   }
-  if (heeftKinderen){
+  if (heeftLevendeKinderen){
     path.push(node.code);
     location.hash = "#code=" + node.code;
     return;
@@ -417,12 +483,19 @@ function onClick(node){
 function isBereikbaar(node){
   if (node.status === "concept") return false;
   if (node.status === "verborgen") return false;
-  const heeftKinderen = (CHILDREN[node.code] || []).length > 0;
-  return Boolean(node.url) || heeftKinderen;
+  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
+    k.naam && k.status !== "verborgen"
+  );
+  return Boolean(node.url) || heeftLevendeKinderen;
 }
 
 // Visuele markering: concept of onbereikbaar
 function markConcept(tile, k){
+  // Synthetische knoppen krijgen eigen stijl
+  if (k._synthVervolg || k._synthVorige){
+    tile.classList.add("vervolg");
+    return;
+  }
   if (k.status === "concept"){
     tile.classList.add("concept");
     return;
