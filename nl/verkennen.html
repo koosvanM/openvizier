@@ -554,12 +554,19 @@ Promise.all([
       return 0;
     });
   }
+  console.log('Verkennen geladen:', {
+    aantal_knopen: KNOPEN.length,
+    wortel: BY_CODE[WORTEL_CODE],
+    kinderen_van_wortel: CHILDREN[WORTEL_CODE]?.length || 0,
+    layouts: Object.keys(window.LAYOUTS).length
+  });
   document.getElementById('loading').style.display = 'none';
   applyHash();
   render();
   updateHome();
 })
 .catch(err=>{
+  console.error('Tabellen laden mislukt:', err);
   document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
 });
 </script>
