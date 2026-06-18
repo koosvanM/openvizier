@@ -607,12 +607,16 @@ window.addEventListener('hashchange', ()=>{
 });
 
 // Laad de 5 gescheiden tabellen en voeg ze samen tot één werkmodel
+// Taal-detectie + data-pad
+const TAAL_CODE = document.documentElement.lang || 'nl';
+const DATA_BASE = (TAAL_CODE === 'nl') ? '_data/tabellen/' : '../nl/_data/tabellen/';
+
 Promise.all([
-  fetch('_data/tabellen/1_knopen.json').then(r=>r.json()),
-  fetch('_data/tabellen/2_routes.json').then(r=>r.json()),
-  fetch('_data/tabellen/3_beelden.json').then(r=>r.json()),
-  fetch('_data/tabellen/4_teksten_nl.json').then(r=>r.json()),
-  fetch('_data/tabellen/5_layouts.json').then(r=>r.json()),
+  fetch(DATA_BASE+'1_knopen.json').then(r=>r.json()),
+  fetch(DATA_BASE+'2_routes.json').then(r=>r.json()),
+  fetch(DATA_BASE+'3_beelden.json').then(r=>r.json()),
+  fetch(DATA_BASE+'4_teksten_'+TAAL_CODE+'.json').then(r=>r.json()),
+  fetch(DATA_BASE+'5_layouts.json').then(r=>r.json()),
 ])
 .then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
   // Index per code
