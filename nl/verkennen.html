@@ -108,8 +108,8 @@ const tree = {
     {
       name: "Lezer",
       sub: "ik wil gewoon lezen",
-      color: "#b8794a",
-      gradient: ["#d4956a","#9c5e36"],
+      color: "#c08a3e",
+      gradient: ["#e0a857","#8a5a1f"],
       children: [
         { name:"Laatste artikelen", sub:"chronologisch", color:"#b8794a",
           href:"wat-opkomt/" },
@@ -331,16 +331,15 @@ function render(){
     childR = Math.min(85, Math.max(45, (2*Math.PI*ringR)/(n*2.6)));
   }
 
-  // Voor laag 1: vind de "Lezer" en zet die in het midden
+  // Voor laag 1: zet Lezer in het midden, Verdieper links, Beleidsmaker rechts
   let layoutKids = kids;
-  if (depth === 0){
-    const lezerIdx = kids.findIndex(k => k.name === "Lezer");
-    if (lezerIdx > 0){
-      layoutKids = [...kids];
-      const [lezer] = layoutKids.splice(lezerIdx, 1);
-      // Plaats Lezer in het midden: bij 3 items wordt dat index 1
-      const midIdx = Math.floor(layoutKids.length / 2);
-      layoutKids.splice(midIdx, 0, lezer);
+  if (depth === 0 && kids.length === 3){
+    const byName = name => kids.find(k => k.name === name);
+    const lezer = byName("Lezer");
+    const verdieper = byName("Verdieper");
+    const beleid = byName("Beleidsmaker");
+    if (lezer && verdieper && beleid){
+      layoutKids = [verdieper, lezer, beleid];
     }
   }
 
