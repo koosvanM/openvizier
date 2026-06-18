@@ -1,0 +1,40 @@
+name: Excel naar JSON
+
+# Draait elke keer als vizier.xlsx wordt gewijzigd
+on:
+  push:
+    paths:
+      - 'nl/_data/vizier.xlsx'
+      - 'scripts/xlsx_naar_json.py'
+  workflow_dispatch:  # ook handmatig te starten
+
+jobs:
+  converteer:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python instellen
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: openpyxl installeren
+        run: pip install openpyxl
+
+      - name: Excel omzetten naar JSON-tabellen
+        run: python3 scripts/xlsx_naar_json.py
+
+      - name: Wijzigingen committen (indien aanwezig)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add nl/_data/tabellen/
+          if git diff --staged --quiet; then
+            echo "Geen wijzigingen in tabellen."
+          else
+            git commit -m "Auto-omzet: vizier.xlsx → JSON-tabellen"
+            git push
+          fi
