@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Open Visor — a newspaper about thinking without blinkers</title>
+  <meta name="description" content="Independent monthly newspaper by Jacobus van Merksteijn. Politics, democracy, education, physics and technology — in plain language, open to debate.">
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<style>
+    .schrijver-sectie { max-width: 100%; margin: 4rem auto 2rem auto; padding: 3rem 1.5rem; background: #f5f3ee; border-top: 4px solid #1c5760; border-bottom: 1px solid #d4d1ca; }
+    .schrijver-sectie__layout { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; align-items: center; max-width: 900px; margin: 0 auto; }
+    @media (max-width: 700px) { .schrijver-sectie__layout { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; } }
+    .schrijver-sectie__foto img { width: 100%; height: auto; display: block; border: 1px solid #d4d1ca; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .schrijver-sectie__kop { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: #1c5760; margin: 0 0 0.5rem 0; font-weight: 600; }
+    .schrijver-sectie__titel { font-family: var(--serif, Georgia, serif); font-size: clamp(1.5rem, 3.2vw, 1.9rem); line-height: 1.25; color: #1a1a1a; margin: 0 0 1.2rem 0; }
+    .schrijver-sectie__intro { font-family: var(--serif, Georgia, serif); font-size: clamp(1.02rem, 2.2vw, 1.12rem); line-height: 1.65; color: #2a2a2a; margin: 0 0 1rem 0; }
+    .schrijver-sectie__naam { font-family: var(--serif, Georgia, serif); font-style: italic; color: #6b7280; margin: 1.5rem 0 1rem 0; font-size: 0.95rem; }
+    .schrijver-sectie__knop { display: inline-block; color: #1c5760; text-decoration: none; font-weight: 600; border-bottom: 1px solid #1c5760; padding-bottom: 2px; }
+    .schrijver-sectie__knop:hover { color: #0c4e54; }
+
+    /* === Voorpagina v6: drie rijen vol breed === */
+    .home-wo__rijen { max-width: 100%; margin: 0 auto; padding: 0 1.25rem; display: flex; flex-direction: column; gap: 1.75rem; }
+    .home-wo__rij-breed { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.5rem; padding: 1.5rem; background: #faf8f3; border: 1px solid #d4d1ca; border-left: 4px solid #1c5760; text-decoration: none; color: inherit; transition: box-shadow 0.2s; align-items: center; }
+    .home-wo__rij-breed:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    @media (max-width: 720px) { .home-wo__rij-breed { grid-template-columns: 1fr; } }
+    .home-wo__rij-breed .home-wo__visual img { width: 100%; height: 420px; object-fit: cover; object-position: center 55%; display: block; border: 1px solid #d4d1ca; }
+    .home-wo__rij-breed .home-wo__tag { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b7280; margin: 0 0 0.4rem 0; }
+    .home-wo__rij-breed .home-wo__titel { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.2; margin: 0.2rem 0 0.7rem 0; color: #1a1a1a; }
+    .home-wo__rij-breed .home-wo__lead { font-family: var(--font-serif, Georgia, serif); color: #4a5263; line-height: 1.55; margin: 0 0 0.8rem 0; font-size: 1.05rem; }
+    .home-wo__rij-breed .home-wo__knop { font-size: 0.95rem; color: #1c5760; font-weight: 500; border-bottom: 1px solid #1c5760; padding-bottom: 1px; align-self: flex-start; }
+    
+    .home-wo__rij-tweeluik { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (max-width: 720px) { .home-wo__rij-tweeluik a { grid-template-columns: 1fr; } .home-wo__rij-tweeluik .home-wo__visual img { height: 320px; } }
+    .home-wo__rij-tweeluik a { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.5rem; padding: 1.5rem; align-items: center; background: #faf8f3; border: 1px solid #d4d1ca; border-left: 4px solid #1c5760; text-decoration: none; color: inherit; transition: box-shadow 0.2s; }
+    .home-wo__rij-tweeluik a:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .home-wo__rij-tweeluik .home-wo__visual { margin-bottom: 0; }
+    .home-wo__rij-tweeluik .home-wo__visual img { width: 100%; height: 420px; object-fit: cover; object-position: center 55%; display: block; border: 1px solid #d4d1ca; }
+    .home-wo__rij-tweeluik .home-wo__tag { font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: #6b7280; margin: 0 0 0.3rem 0; }
+    .home-wo__rij-tweeluik .home-wo__titel { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.25; margin: 0.2rem 0 0.5rem 0; color: #1a1a1a; }
+    .home-wo__rij-tweeluik .home-wo__lead { font-family: var(--font-serif, Georgia, serif); color: #4a5263; line-height: 1.55; margin: 0 0 0.8rem 0; font-size: 1.05rem; flex-grow: 1; }
+    .home-wo__rij-tweeluik .home-wo__knop { font-size: 0.9rem; color: #1c5760; font-weight: 500; border-bottom: 1px solid #1c5760; padding-bottom: 1px; align-self: flex-start; }
+
+</style><style>
+    .home-wo { max-width: 100%; margin: 0 auto; padding: var(--space-12) 1.5rem var(--space-8) 1.5rem; }
+    .home-wo__kop { text-align: center; }
+    .home-wo__label { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: #1c5760; margin: 0 0 0.5rem 0; font-weight: 600; }
+    .home-wo__intro { font-family: var(--font-serif, Georgia, serif); font-size: 1.1rem; color: #4a5263; font-style: italic; margin: 0 auto 0.5rem auto; max-width: 620px; line-height: 1.55; }
+    .home-wo__kaart_kop { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: #6b7280; margin: 1.5rem 0 1.5rem 0; font-weight: 600; text-align: center; }
+    
+    .home-wo__drie { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.5rem; max-width: 100%; margin: 0 auto; }
+    @media (max-width: 820px) { .home-wo__drie { grid-template-columns: 1fr; } }
+    .home-wo__hoofd { display: flex; flex-direction: column; padding: 1.5rem; background: #faf8f3; border: 1px solid #d4d1ca; border-left: 4px solid #1c5760; text-decoration: none; color: inherit; transition: box-shadow 0.2s; }
+    .home-wo__hoofd:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .home-wo__hoofd .home-wo__visual img { width: 100%; height: 360px; object-fit: cover; object-position: top center; display: block; border: 1px solid #d4d1ca; }
+    .home-wo__hoofd .home-wo__titel { font-size: clamp(1.5rem, 2.8vw, 1.8rem); }
+    .home-wo__zij { display: grid; grid-template-rows: 1fr 1fr; gap: 1.5rem; }
+    .home-wo__klein { display: grid; grid-template-columns: 130px 1fr; gap: 1rem; padding: 1rem; background: #faf8f3; border: 1px solid #d4d1ca; border-left: 4px solid #1c5760; text-decoration: none; color: inherit; align-items: stretch; transition: box-shadow 0.2s; }
+    .home-wo__klein:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .home-wo__klein .home-wo__visual { margin: 0; align-self: stretch; }
+    .home-wo__klein .home-wo__visual img { width: 130px; height: 100%; min-height: 160px; object-fit: cover; object-position: top center; display: block; border: 1px solid #d4d1ca; }
+    .home-wo__klein .home-wo__tekst { display: flex; flex-direction: column; justify-content: center; }
+    .home-wo__klein .home-wo__titel { font-size: 1.1rem; margin: 0.2rem 0 0.4rem 0; line-height: 1.25; }
+    .home-wo__klein .home-wo__lead { font-size: 0.9rem; line-height: 1.5; margin: 0 0 0.5rem 0; }
+    .home-wo__klein .home-wo__tag { font-size: 0.72rem; }
+    @media (max-width: 500px) { .home-wo__klein { grid-template-columns: 90px 1fr; } .home-wo__klein .home-wo__visual img { width: 90px; min-height: 120px; } }
+
+    .home-wo__twee { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 760px) { .home-wo__twee { grid-template-columns: 1fr; } }
+    .home-wo__kaart { display: flex; flex-direction: column; padding: 1.5rem; background: #faf8f3; border: 1px solid #d4d1ca; border-left: 4px solid #1c5760; text-decoration: none; color: inherit; transition: box-shadow 0.2s; }
+    .home-wo__kaart:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .home-wo__visual { margin-bottom: 1rem; }
+    .home-wo__visual img { width: 100%; height: 280px; object-fit: cover; object-position: top center; display: block; border: 1px solid #d4d1ca; }
+    .home-wo__tag { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #6b7280; margin: 0 0 0.4rem 0; }
+    .home-wo__titel { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.3rem, 2.4vw, 1.5rem); line-height: 1.25; margin: 0.2rem 0 0.7rem 0; color: #1a1a1a; }
+    .home-wo__lead { font-family: var(--font-serif, Georgia, serif); color: #4a5263; line-height: 1.55; margin: 0 0 0.8rem 0; flex-grow: 1; }
+    .home-wo__knop { font-size: 0.92rem; color: #1c5760; font-weight: 500; border-bottom: 1px solid #1c5760; padding-bottom: 1px; align-self: flex-start; }
+    .home-wo__naar_alles { text-align: center; margin: 2rem 0 0 0; }
+    .home-wo__naar_alles a { color: #1c5760; text-decoration: none; font-size: 1rem; font-weight: 500; border-bottom: 1px solid #1c5760; padding-bottom: 1px; }
+
+    .home-edities-kop { max-width: 100%; margin: var(--space-8) auto var(--space-8) auto; padding: var(--space-8) 1.5rem 0 1.5rem; border-top: 1px solid #d4d1ca; text-align: center; }
+    .home-edities-kop__label { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: #6b7280; margin: 1.5rem 0 0.5rem 0; font-weight: 600; }
+    .home-edities-kop__titel { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.8rem, 4vw, 2.4rem); margin: 0 0 0.7rem 0; color: #1a1a1a; }
+    .home-edities-kop__intro { font-family: var(--font-serif, Georgia, serif); color: #4a5263; font-style: italic; max-width: 620px; margin: 0 auto 1rem auto; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<div class="top-band">
+  Edition 6 has been published — Nova Democratia · June 2026
+  <a href="edition-6/">To Edition 6 →</a>
+</div>
+
+<header class="masthead">
+  <div class="masthead__date">Edition 6 — June 2026</div>
+  <h1 class="masthead__title">The Open Visor</h1>
+  <p class="masthead__tagline">A newspaper about thinking without blinkers</p>
+</header>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="./" class="active">Home</a></li>
+      <li><a href="what-surfaces/">What surfaces</a></li>
+      <li><a href="edition-6/">Edition 6</a></li>
+      <li><a href="edition-5/">Edition 5</a></li>
+      <li><a href="edition-4/">Edition 4</a></li>
+      <li><a href="edition-3/">Edition 3</a></li>
+      <li><a href="edition-2/">Edition 2</a></li>
+      <li><a href="edition-1/">Edition 1</a></li>
+      <li><a href="edition-0/">Edition Europe</a></li>
+      <li><a href="share.html">Share</a></li>
+    </ul>
+    <div class="nav__lang">
+      <a href="../nl/">NL</a>
+      <a href="../de/">DE</a>
+      <a href="" class="active">EN</a>
+      <a href="../ru/">RU</a>
+      <a href="../fr/">FR</a>
+      <a href="../es/">ES</a>
+      <a href="../it/">IT</a>
+      <a href="../pt/">PT</a>
+    </div>
+  </div>
+</nav>
+
+<section class="home-wo">
+  <div class="home-wo__kop">
+    <p class="home-wo__label">★ What surfaces</p>
+    <p class="home-wo__intro">Irregularly and when something surfaces. Shorter pieces alongside the editions.</p>
+  </div>
+  <p class="home-wo__kaart_kop">Recommended to reread</p>
+  <div class="home-wo__rijen">
+<a href="what-surfaces/the-great-plunder.html" class="home-wo__rij-breed">
+  <div class="home-wo__visual"><img src="../assets/wat-opkomt/plundering/H_grote_plundering.jpg" alt="" loading="lazy"></div>
+  <div>
+    <p class="home-wo__tag">Five-part series · Malta, June 2026</p>
+    <h3 class="home-wo__titel">The Great Plunder</h3>
+    <p class="home-wo__lead">A five-part series on how Europe is stripping its productive citizens before the lights go out</p>
+    <span class="home-wo__knop">Read the series →</span>
+  </div>
+</a>
+<div class="home-wo__rij-tweeluik">
+  <a href="what-surfaces/gevolgenkaart-iii-stille-analyse.html">
+    <div class="home-wo__visual"><img src="../assets/wat-opkomt/gevolgenkaart/master-matrix-nl-bicrs.jpg" alt="" loading="lazy"></div>
+    <p class="home-wo__tag">Consequence Map III · Netherlands</p>
+    <h3 class="home-wo__titel">Quiet Analysis</h3>
+    <p class="home-wo__lead">For those who vote PRO, GroenLinks-PvdA or D66 — twenty positions, one matrix</p>
+    <span class="home-wo__knop">Read the Dutch analysis →</span>
+  </a>
+  <a href="what-surfaces/die-konsequenzkarte.html">
+    <div class="home-wo__visual"><img src="../assets/wat-opkomt/konsequenzkarte/heatmap-de.jpg" alt="" loading="lazy"></div>
+    <p class="home-wo__tag">Konsequenzkarte · Germany</p>
+    <h3 class="home-wo__titel">Die Konsequenzkarte</h3>
+    <p class="home-wo__lead">The same model, calculated for the Bundestag of February 2025</p>
+    <span class="home-wo__knop">Read the German mirror →</span>
+  </a>
+</div>
+<a href="what-surfaces/de-gevolgenkaart.html" class="home-wo__rij-breed">
+  <div class="home-wo__visual"><img src="../assets/wat-opkomt/H_gevolgenkaart.jpg" alt="" loading="lazy"></div>
+  <div>
+    <p class="home-wo__tag">Manifesto · Consequence Map I</p>
+    <h3 class="home-wo__titel">The Consequence Map</h3>
+    <p class="home-wo__lead">Why the StemWijzer will never tell you what you are actually voting for — and what must take its place</p>
+    <span class="home-wo__knop">Read the manifesto →</span>
+  </div>
+</a>
+</div>
+  <p class="home-wo__naar_alles"><a href="what-surfaces/">All What-surfaces pieces →</a></p>
+</section>
+
+<section class="home-edities-kop">
+  <p class="home-edities-kop__label">↓</p>
+  <h2 class="home-edities-kop__titel">The editions</h2>
+  <p class="home-edities-kop__intro">Longer work in numbered editions, each with its own topic and treatment.</p>
+</section>
+
+
+<!-- HERO SLIDE — EDITION 6 -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Edition 6 · June 2026</span>
+    <h2 class="slide__title">Nova Democratia</h2>
+    <p class="slide__lead">Three world powers with a doctrine of design — and Europe as the exception. A measured design for European administrative renewal: six orders, three hinges, one measurable result over five years. Fourteen pieces.</p>
+    <p style="margin-top: var(--space-8);"><a href="edition-6/" class="nav__cta" style="display: inline-block;">Read Edition 6 →</a></p>
+  </div>
+  <div class="slide__visual">
+    <img src="../assets/articles-editie-6/editie6_omslag.jpg" alt="Hero illustration Edition 6">
+  </div>
+</section>
+
+<!-- HERO SLIDE — EDITION 4 -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Edition 4 · June 2026</span>
+    <h2 class="slide__title">How the paper industry gained power over the actual work</h2>
+    <p class="slide__lead">Ten articles on the real roles behind the paper economy — CEO, consultant, banker, insurer, regulator, judge. What happens once the child from Edition 3 grows up and lands in an institution where no one is permitted to feel what he sees.</p>
+    <p style="margin-top: var(--space-8);"><a href="edition-4/" class="nav__cta" style="display: inline-block;">Read Edition 4 →</a></p>
+  </div>
+  <div class="slide__visual">
+    <img src="../assets/articles-editie-4/H_artikel_00.jpg" alt="Hero illustration Edition 4">
+  </div>
+</section>
+
+<!-- HERO SLIDE — EDITION 3 -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Edition 3 · June 2026</span>
+    <h2 class="slide__title">Human under the ice</h2>
+    <p class="slide__lead">Ten articles on primal feeling, the triple brain, and the human we no longer train. What has happened to the nervous system of Western humans, and how do we recover the natural attention that has been taken from us? In this edition I wrote to my grandchildren — about what they are no longer taught, but should know.</p>
+    <p style="margin-top: var(--space-8);"><a href="edition-3/" class="nav__cta" style="display: inline-block;">Read Edition 3 →</a></p>
+  </div>
+  <div class="slide__visual">
+    <img src="../assets/articles-editie-3/omslag.jpg" alt="Human under the ice — hero illustration">
+  </div>
+</section>
+
+<!-- HERO SLIDE — EDITION 2 -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Edition 2 · May 2026</span>
+    <h2 class="slide__title">Looking at the outcome at the end</h2>
+    <p class="slide__lead">Nine pieces that together carry one message: a society that only thinks about tomorrow will never reach the end. Personal, polemical, analytical, scientific, foundational, applicable — with two concrete policy recommendations for recovery and an education trilogy that leads to a choice.</p>
+    <p style="margin-top: var(--space-8);"><a href="edition-2/" class="nav__cta" style="display: inline-block;">Read Edition 2 →</a></p>
+  </div>
+  <div class="slide__visual">
+    <img src="../assets/articles/waarom-ik-zo-ben.jpg" alt="A man looks through a window towards the horizon and the stars">
+  </div>
+</section>
+
+<!-- IN THIS EDITION -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">In Edition 2</span>
+    <h2 class="slide__heading">Nine pieces — one body of thought</h2>
+    <p class="slide__lead" style="max-width: 56rem;">Nine pieces — beginning with the personal account, through the polemical diagnosis and the economic analysis, to science, the foundation of Nova Democratia and the currency application, ending with two concrete policy recommendations. Education is developed as a trilogy in three parts — diagnosis, cost and choice. With a supplement <em>Behind the Numbers</em> for those who want to look further.</p>
+    
+    <div class="grid-3" style="margin-top: var(--space-8);">
+      <a href="edition-2/why-i-am-as-i-am.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/waarom-ik-zo-ben.jpg" alt=""></div>
+        <div class="article-card__kicker">Personal lead article</div>
+        <h3 class="article-card__title">Why I am as I am</h3>
+        <p class="article-card__lede">An open account — why an inventor, entrepreneur and thinker feels called to write for the public.</p>
+        <div class="article-card__meta">18 min read</div>
+      </a>
+      
+      <a href="edition-2/thermostat.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/thermostaat.jpg" alt=""></div>
+        <div class="article-card__kicker">Polemic</div>
+        <h3 class="article-card__title">Your thermostat is smarter than your minister</h3>
+        <p class="article-card__lede">Why control systems that govern every household do not exist at the level of the cabinet.</p>
+        <div class="article-card__meta">12 min read</div>
+      </a>
+      
+      <a href="edition-2/nepk-climate-logic.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/nepk-klimaatlogica.jpg" alt=""></div>
+        <div class="article-card__kicker">Economics &amp; climate</div>
+        <h3 class="article-card__title">The NEPK Climate Logic</h3>
+        <p class="article-card__lede">Net Economic Production Cost — a new metric that unites GDP and the climate bill in a single formula.</p>
+        <div class="article-card__meta">22 min read</div>
+      </a>
+      
+      <a href="edition-2/education-back-to-the-workbench.html" class="article-card" style="border-top: 3px solid #a8392c;">
+        <div class="article-card__image"><img src="../assets/articles/onderwijs-manifest.jpg" alt=""></div>
+        <div class="article-card__kicker" style="color:#a8392c;">Education Trilogy · Part I</div>
+        <h3 class="article-card__title">Back to the workbench, forward to thinking</h3>
+        <p class="article-card__lede">Manifesto. Three tracks — craftsmanship, broad knowledge, classical pre-education — to restore Dutch education.</p>
+        <div class="article-card__meta">24 min read</div>
+      </a>
+      
+      <a href="edition-2/education-price-of-the-bloom.html" class="article-card" style="border-top: 3px solid #a8392c;">
+        <div class="article-card__image"><img src="../assets/articles/onderwijs-prijs-van-de-bloei.jpg" alt=""></div>
+        <div class="article-card__kicker" style="color:#a8392c;">Education Trilogy · Part II</div>
+        <h3 class="article-card__title">The price of the bloom</h3>
+        <p class="article-card__lede">What it costs to restore Dutch education — in money, convenience and electoral reward. And why delay is more expensive.</p>
+        <div class="article-card__meta">14 min read</div>
+      </a>
+      
+      <a href="edition-2/education-choose-a-side.html" class="article-card" style="border-top: 3px solid #a8392c;">
+        <div class="article-card__image"><img src="../assets/articles/onderwijs-kies-een-kant.jpg" alt=""></div>
+        <div class="article-card__kicker" style="color:#a8392c;">Education Trilogy · Part III</div>
+        <h3 class="article-card__title">Choose a side</h3>
+        <p class="article-card__lede">The conclusion. What we can still save, what we can no longer save, and why you must speak out now.</p>
+        <div class="article-card__meta">16 min read</div>
+      </a>
+      
+      <a href="edition-2/nova-democratia.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/nova-democratia.jpg" alt=""></div>
+        <div class="article-card__kicker">Founding document</div>
+        <h3 class="article-card__title">Nova Democratia</h3>
+        <p class="article-card__lede">The foundation for Democracy 2.0 — ten core fields, goal-based governance instead of procedural rules.</p>
+        <div class="article-card__meta">20 min read</div>
+      </a>
+      
+      <a href="edition-2/seven-dimensions.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/zeven-dimensies.jpg" alt=""></div>
+        <div class="article-card__kicker">Scientific essay</div>
+        <h3 class="article-card__title">Seven Dimensions</h3>
+        <p class="article-card__lede">A conceptual framework that unites physics, biology, mind and society in one model.</p>
+        <div class="article-card__meta">30 min read</div>
+      </a>
+      
+      <a href="edition-2/nepk-fx.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/nepk-fx.jpg" alt=""></div>
+        <div class="article-card__kicker">Application &amp; research</div>
+        <h3 class="article-card__title">NEPK-FX</h3>
+        <p class="article-card__lede">Neural prediction of exchange rates based on the NEPK formula. With concrete trading signals at 12 and 24 months.</p>
+        <div class="article-card__meta">28 min read</div>
+      </a>
+      
+      <a href="edition-2/policy-advice-attract.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/beleidsadvies-aantrekken.jpg" alt=""></div>
+        <div class="article-card__kicker">Policy Advice II</div>
+        <h3 class="article-card__title">From Taxing to Attracting</h3>
+        <p class="article-card__lede">The Netherlands levies away what it should be keeping in. A concrete plan to attract capital, talent and businesses.</p>
+        <div class="article-card__meta">16 min read</div>
+      </a>
+      
+      <a href="edition-2/resilience-and-selection.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/veerkracht-selectie.jpg" alt=""></div>
+        <div class="article-card__kicker">Analysis</div>
+        <h3 class="article-card__title">Resilience and Selection</h3>
+        <p class="article-card__lede">Why a society that removes all friction undermines its own strength. On the logic of resilient selection.</p>
+        <div class="article-card__meta">22 min read</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPLEMENT -->
+<section class="slide" style="background: linear-gradient(135deg, #3a5572 0%, #2c4359 100%); color: #fff;">
+  <div class="slide__inner">
+    <span class="slide__tag" style="color: #c5d4e3;">Supplement to Edition 2</span>
+    <h2 class="slide__heading" style="color: #fff;">Behind the Numbers</h2>
+    <p class="slide__lead" style="max-width: 56rem; color: #e8eef5;">A technical supplement for the reader who wants to verify the figures themselves. Two data pieces: a diagnosis of Dutch development indicators, and a comparison of EU wage shares and government multipliers. For those who want to look beyond the opinion page.</p>
+    <p style="margin-top: 1.5rem;"><a href="research/" style="background: #fff; color: #3a5572; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block;">To the supplement →</a></p>
+  </div>
+</section>
+
+<!-- PREVIOUS EDITION — EDITION 1 -->
+<section class="slide" style="background: #f5f3ee;">
+  <div class="slide__inner">
+    <span class="slide__tag">Previous Edition — Edition 1 · Saturday, 23 May 2026</span>
+    <h2 class="slide__heading">Edition 1 — Saturday, 23 May 2026</h2>
+    <p class="slide__lead" style="max-width: 48rem;">The first edition remains available for those who want to read the beginning of the series. Nine pieces on one idea — stop thinking in boxes, start thinking in currents, scales and connections.</p>
+    
+    <div class="grid-3" style="margin-top: var(--space-8);">
+      <a href="edition-1/voorwoord.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/voorwoord.jpg" alt=""></div>
+        <div class="article-card__kicker">Foreword</div>
+        <h3 class="article-card__title">Why this newspaper?</h3>
+        <p class="article-card__lede">An inventor who also writes about democracy — that sounds strange, until you realise it is all the same thing.</p>
+        <div class="article-card__meta">8 min read</div>
+      </a>
+      
+      <a href="edition-1/denkraam-7d.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/denkraam.jpg" alt=""></div>
+        <div class="article-card__kicker">Framework</div>
+        <h3 class="article-card__title">Three dimensions are not enough</h3>
+        <p class="article-card__lede">A model with seven dimensions for viewing the world, the universe and society.</p>
+        <div class="article-card__meta">10 min read</div>
+      </a>
+      
+      <a href="edition-1/" class="article-card" style="background: #fff; border: 2px dashed #c0b8a8;">
+        <div class="article-card__kicker" style="color:#6b5d40;">To Edition 1</div>
+        <h3 class="article-card__title" style="color:#6b5d40;">All nine pieces →</h3>
+        <p class="article-card__lede">See the complete edition of 23 May 2026, including Education, Nuclear Fusion, Flow Theory and the conclusion of Edition 1.</p>
+        <div class="article-card__meta">Edition 1 · May 2026</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DOSSIERS -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">From the archive</span>
+    <h2 class="slide__heading">Dossiers</h2>
+    <p class="slide__lead" style="max-width: 48rem;">Developed concepts and business plans from my workshop. Long pieces that do not fit in an edition, but are worth sharing.</p>
+    
+    <div class="grid-3" style="margin-top: var(--space-8);">
+      <a href="dossiers/vortex-hair.html" class="article-card">
+        <div class="article-card__image"><img src="../assets/articles/golfbal-vortex.jpg" alt=""></div>
+        <div class="article-card__kicker">Innovation · Aerodynamics</div>
+        <h3 class="article-card__title">Vortex-Hair Adaptive Dimple Golf Ball</h3>
+        <p class="article-card__lede">A revolutionary concept with flexible filaments in every dimple, extending flight by 5–15%.</p>
+        <div class="article-card__meta">Business plan v1.0 · March 2026</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="abonneren">
+  <h3>Monthly in your inbox</h3>
+  <p>One new edition per month. No advertising, no tracking, no sale of data. Unsubscribe with one click.</p>
+  <iframe name="newsletter-iframe" id="newsletter-iframe" style="display:none;" title="newsletter"></iframe>
+  <form action="https://buttondown.com/api/emails/embed-subscribe/openvizier" method="post" class="embeddable-buttondown-form" target="newsletter-iframe" onsubmit="setTimeout(function(){window.location.href='bedankt.html';}, 800);">
+    <label for="bd-email-en" style="position: absolute; left: -9999px;">E-mail address</label>
+    <input type="email" name="email" id="bd-email-en" placeholder="your@email.com" required>
+    <input type="hidden" name="tag" value="en">
+    <button type="submit">Subscribe</button>
+  </form>
+</section>
+
+<section class="schrijver-sectie">
+  <div class="schrijver-sectie__layout">
+    <div class="schrijver-sectie__foto">
+      <a href="about.html"><img src="../assets/auteur/jvm_gravure.jpg" alt="Jacobus van Merksteijn"></a>
+    </div>
+    <div>
+      <p class="schrijver-sectie__kop">The writer</p>
+      <h2 class="schrijver-sectie__titel">The mind behind The Open Visor</h2>
+      <p class="schrijver-sectie__intro">What I do is see connections. Between physics and public administration, between education and economics, between ship coatings and democracy. Not as a specialist in one field, but as someone who moves between fields that rarely read one another.</p>
+      <p class="schrijver-sectie__intro">The Open Visor is my attempt to share this way of seeing with others. Not because I want to be right — because I believe that the child who lives in each of us, also in the banker and the regulator, cannot in the long run survive in a world that promises only what can be measured.</p>
+      <p class="schrijver-sectie__naam">Jacobus van Merksteijn · Malta</p>
+      <a href="about.html" class="schrijver-sectie__knop">Read more about the writer →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer__inner">
+    <div>
+      <h4>The Open Visor</h4>
+      <p>Independent monthly newspaper by Jacobus van Merksteijn. Politics, democracy, education, physics and technology — in plain language, open to debate.</p>
+    </div>
+    <div>
+      <h4>Newspaper</h4>
+      <ul>
+        <li><a href="edition-2/">Edition 2 · 28 May 2026</a></li>
+        <li><a href="edition-1/">Edition 1 · 23 May 2026</a></li>
+        <li><a href="research/">Supplement · Behind the Numbers</a></li>
+        <li><a href="about.html">About this newspaper</a></li>
+        <li><a href="colophon.html">Colophon</a></li>
+        <li><a href="archive.html">Archive</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:redactie@openvizier.org">redactie@openvizier.org</a></li>
+        <li><a href="mailto:jacobus@openvizier.org">jacobus@openvizier.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    © 2026 The Open Visor · ISSN applied for · Made with respect for the reader
+  </div>
+</footer>
+
+</body>
+</html>
