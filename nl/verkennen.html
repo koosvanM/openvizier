@@ -41,48 +41,33 @@
                  text-shadow:0 1px 8px rgba(0,0,0,.6)}
   .tile.center .label h2{font-size:clamp(1.8rem,4.2vw,3.6rem)}
 
-  /* Centrum-overlay: standaard rond met sepia (voor sub-niveaus) */
-  .center-overlay{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
-                  width:min(32vw,400px);aspect-ratio:1/1;z-index:5;
-                  border-radius:50%;overflow:hidden;cursor:pointer;
-                  box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 0 8px rgba(246,241,230,.06);
+  /* Centrum-overlay: altijd het wapen, met huidige keuze eronder */
+  .center-overlay{position:fixed;left:50%;top:50%;
+                  width:min(38vw,500px);height:auto;aspect-ratio:auto;z-index:5;
+                  transform:translate(-50%,-52%);
+                  background:transparent;border-radius:0;box-shadow:none;
+                  display:flex;flex-direction:column;align-items:center;
+                  cursor:pointer;padding:0;
                   transition:transform .4s ease}
-  .center-overlay:hover{transform:translate(-50%,-50%) scale(1.03)}
-  .center-overlay .bg{position:absolute;inset:0;background-size:cover;background-position:center;
-                      filter:sepia(.55) brightness(.7) contrast(1.1)}
-  .center-overlay .veil{position:absolute;inset:0;
-                        background:radial-gradient(ellipse at center,rgba(0,0,0,.15) 30%,rgba(0,0,0,.65) 100%)}
-  .center-overlay .label{position:relative;z-index:2;
-                         width:100%;height:100%;display:flex;flex-direction:column;
-                         align-items:center;justify-content:center;text-align:center;padding:2rem}
-  .center-overlay h2{font-size:clamp(1.5rem,2.4vw,2rem);font-weight:700;color:#f7efdc;
-                     letter-spacing:.5px;line-height:1.1;
-                     text-shadow:0 2px 14px rgba(0,0,0,.7)}
-  .center-overlay p{margin-top:.5em;font-size:clamp(.85rem,1vw,1rem);font-style:italic;
-                    color:#e3d8bc;opacity:.95;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-
-  /* Variant: wapen-stijl voor wortel — geen kader, geen ronde vorm, geen filter,
-     titel ONDER het wapen */
-  .center-overlay.wapen{width:min(38vw,500px);height:auto;aspect-ratio:auto;
-                        border-radius:0;background:transparent;box-shadow:none;
-                        display:flex;flex-direction:column;align-items:center;
-                        padding:0;top:50%;transform:translate(-50%,-52%)}
-  .center-overlay.wapen:hover{transform:translate(-50%,-52%) scale(1.02)}
-  .center-overlay.wapen .bg{position:relative;inset:auto;width:100%;
-                            aspect-ratio:1/1.05;
-                            background-color:transparent;
-                            background-size:contain;background-repeat:no-repeat;
-                            background-position:center top;
-                            filter:drop-shadow(0 18px 50px rgba(0,0,0,.55))}
-  .center-overlay.wapen .veil{display:none}
-  .center-overlay.wapen .label{position:relative;width:100%;height:auto;
-                               padding:.4rem 0 0;display:flex;flex-direction:column;
-                               align-items:center;justify-content:flex-start}
-  .center-overlay.wapen h2{font-size:clamp(1.6rem,2.8vw,2.6rem);font-weight:700;
-                           color:#f7efdc;letter-spacing:1px;line-height:1;
-                           font-family:Georgia,"Times New Roman",serif;
-                           text-shadow:0 2px 14px rgba(0,0,0,.7);margin:0}
-  .center-overlay.wapen p{display:none}
+  .center-overlay:hover{transform:translate(-50%,-52%) scale(1.02)}
+  .center-overlay .bg{position:relative;inset:auto;width:100%;
+                      aspect-ratio:1/1.05;
+                      background-color:transparent;
+                      background-image:url('../assets/wat-opkomt/wapen_nova_democratia.png');
+                      background-size:contain;background-repeat:no-repeat;
+                      background-position:center top;
+                      filter:drop-shadow(0 18px 50px rgba(0,0,0,.55))}
+  .center-overlay .veil{display:none}
+  .center-overlay .label{position:relative;width:100%;height:auto;
+                         padding:.6rem 0 0;display:flex;flex-direction:column;
+                         align-items:center;justify-content:flex-start;text-align:center}
+  .center-overlay h2{font-size:clamp(1.6rem,2.8vw,2.6rem);font-weight:700;
+                     color:#f7efdc;letter-spacing:1px;line-height:1;
+                     font-family:Georgia,"Times New Roman",serif;
+                     text-shadow:0 2px 14px rgba(0,0,0,.7);margin:0}
+  .center-overlay p{margin:.3em 0 0;font-size:clamp(.8rem,1vw,1rem);font-style:italic;
+                    color:#e3d8bc;opacity:.9;letter-spacing:.3px;
+                    text-shadow:0 1px 8px rgba(0,0,0,.7)}
 
   /* Top-balk: minimalistisch, transparant */
   .topbar{position:fixed;top:0;left:0;right:0;z-index:10;
@@ -270,28 +255,13 @@ function render(){
   const kids = CHILDREN[currentCode] || [];
   const n = kids.length;
 
-  // Center-overlay altijd zichtbaar: toont de huidige (centrum-)knoop
+  // Center-overlay altijd zichtbaar met wapen; tekst toont huidige keuze
   const center = document.getElementById('center');
-  const centerBg = document.getElementById('center-bg');
   const centerName = document.getElementById('center-name');
   const centerSub = document.getElementById('center-sub');
   center.style.display = 'flex';
   centerName.textContent = current.naam;
   centerSub.textContent = current.ondertitel || "";
-  // Wapen-variant: alleen voor wortel-knoop met hero_stijl="wapen"
-  if (current.hero_stijl === "wapen"){
-    center.classList.add('wapen');
-  } else {
-    center.classList.remove('wapen');
-  }
-  if (heroPath(current)){
-    centerBg.style.backgroundImage = `url('${heroPath(current)}')`;
-    centerBg.style.backgroundSize = current.hero_stijl === "wapen" ? 'contain' : 'cover';
-    centerBg.style.backgroundPosition = 'center';
-    centerBg.style.backgroundRepeat = 'no-repeat';
-  } else {
-    centerBg.style.background = effectiveColor(current);
-  }
 
   document.getElementById('topbar-title').textContent =
     path.length > 1 ? ("· " + current.naam) : "";
