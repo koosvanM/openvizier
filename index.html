@@ -196,6 +196,7 @@
 <script>
 let KNOPEN = [], BY_CODE = {}, CHILDREN = {};
 const path = [];
+const TAAL_URL = {'1':'/nl/','2':'/de/','3':'/en/','4':'/ru/','5':'/fr/','6':'/es/','7':'/it/','8':'/pt/','9':'/mt/'};
 // Wortel-code per taal: NL=1, DE=2, EN=3, RU=4, FR=5, ES=6, IT=7, PT=8, MT=9
 const TAAL_PREFIX = {nl:'1',de:'2',en:'3',ru:'4',fr:'5',es:'6',it:'7',pt:'8',mt:'9'};
 const WORTEL_CODE = "0";
@@ -466,6 +467,11 @@ function render(){
 }
 
 function onClick(node){
+  // Root-modus: klik op taal-tile (code 1-9) → navigeer naar die taal
+  if (typeof TAAL_URL !== 'undefined' && TAAL_URL[node.code]) {
+    window.location.href = TAAL_URL[node.code];
+    return;
+  }
   // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
   if (node._synthVervolg || node._synthVorige){
     const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
@@ -689,7 +695,6 @@ Promise.all([
   console.error('Tabellen laden mislukt:', err);
   document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
 });
-const TAAL_URL = {'1':'/nl/','2':'/de/','3':'/en/','4':'/ru/','5':'/fr/','6':'/es/','7':'/it/','8':'/pt/','9':'/mt/'};
 </script>
 </body>
 </html>
