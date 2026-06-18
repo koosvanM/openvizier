@@ -19,9 +19,12 @@
   .tile{position:relative;overflow:hidden;cursor:pointer;
         display:flex;align-items:center;justify-content:center;
         transition:opacity .5s ease}
-  /* Onderste rij(en): label naar onderkant zodat het wapen het niet bedekt */
+  /* Verschuif labels weg van wapen-zone, afhankelijk van rij-positie */
   .tile.bottom-row{align-items:flex-end;padding-bottom:3vh}
-  .tile.top-row{align-items:flex-start;padding-top:6vh}
+  .tile.top-row{align-items:flex-start;padding-top:5vh}
+  /* Tiles op dezelfde hoogte als het wapen (midden): label naar de zijkant */
+  .tile.mid-row.left-half{justify-content:flex-start;padding-left:3vw}
+  .tile.mid-row.right-half{justify-content:flex-end;padding-right:3vw}
   .tile.entering{opacity:0;animation:tileIn .6s cubic-bezier(.22,1,.36,1) forwards}
   @keyframes tileIn{
     from{opacity:0;transform:scale(1.04)}
@@ -45,14 +48,16 @@
   .tile.center .label h2{font-size:clamp(1.8rem,4.2vw,3.6rem)}
 
   /* Centrum-overlay: altijd het wapen, met huidige keuze eronder — 20% groter */
-  .center-overlay{position:fixed;left:50%;top:50%;
+  .center-overlay{position:fixed;left:50%;top:48%;
                   width:min(46vw,600px);height:auto;aspect-ratio:auto;z-index:5;
-                  transform:translate(-50%,-52%);
+                  transform:translate(-50%,-50%);
                   background:transparent;border-radius:0;box-shadow:none;
                   display:flex;flex-direction:column;align-items:center;
                   cursor:pointer;padding:0;
-                  transition:transform .4s ease}
-  .center-overlay:hover{transform:translate(-50%,-52%) scale(1.02)}
+                  transition:transform .4s ease;pointer-events:none}
+  .center-overlay .bg,
+  .center-overlay .label{pointer-events:auto}
+  .center-overlay:hover{transform:translate(-50%,-50%) scale(1.02)}
   .center-overlay .bg{position:relative;inset:auto;width:100%;
                       aspect-ratio:1/1.05;
                       background-color:transparent;
@@ -62,7 +67,7 @@
                       filter:drop-shadow(0 18px 50px rgba(0,0,0,.55))}
   .center-overlay .veil{display:none}
   .center-overlay .label{position:relative;width:100%;height:auto;
-                         padding:.6rem 0 0;display:flex;flex-direction:column;
+                         padding:1.4rem 0 0;display:flex;flex-direction:column;
                          align-items:center;justify-content:flex-start;text-align:center}
   .center-overlay h2{font-size:clamp(1.6rem,2.8vw,2.6rem);font-weight:700;
                      color:#f7efdc;letter-spacing:1px;line-height:1;
@@ -277,24 +282,36 @@ function render(){
   stage.style.gridTemplateColumns = L.cols;
   stage.style.gridTemplateRows = L.rows;
 
-  // Bepaal het max-row-nummer in deze layout om "bottom-row" tiles te markeren
-  const allRows = L.placements.map(p => {
+  // Bepaal rij/kolom-positie van elke tile om label te plaatsen
+  function parseRow(p){
     const r = (p && p.row) ? String(p.row) : "1";
-    // "1 / 3" → pak het eerste getal
     return parseInt(r.split(/\s|\//)[0], 10) || 1;
-  });
+  }
+  function parseCol(p){
+    const c = (p && p.col) ? String(p.col) : "1";
+    return parseInt(c.split(/\s|\//)[0], 10) || 1;
+  }
+  const allRows = L.placements.map(parseRow);
+  const allCols = L.placements.map(parseCol);
   const maxRow = Math.max(...allRows);
   const minRow = Math.min(...allRows);
+  const maxCol = Math.max(...allCols);
 
   kids.forEach((k,i)=>{
     const p = L.placements[i] || {col:"auto",row:"auto"};
     const tile = document.createElement('div');
     tile.className = 'tile entering';
-    // Markeer onderste of bovenste rij voor label-positie
-    const myRow = parseInt(String(p.row || "1").split(/\s|\//)[0], 10) || 1;
+    const myRow = parseRow(p);
+    const myCol = parseCol(p);
     if (maxRow > 1){
       if (myRow === maxRow) tile.classList.add('bottom-row');
       else if (myRow === minRow) tile.classList.add('top-row');
+      else {
+        // middelste rij (alleen bij 3 of meer rijen)
+        tile.classList.add('mid-row');
+        if (myCol <= maxCol/2) tile.classList.add('left-half');
+        else tile.classList.add('right-half');
+      }
     }
     tile.style.gridColumn = p.col;
     tile.style.gridRow = p.row;
