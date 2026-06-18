@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Structuur — Het Open Vizier (beheer)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<style>
+  :root{--bg:#f6f1e6;--ink:#1a1a1a;--muted:#6b6b6b;--line:#d9d2c2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased;
+    padding:24px 28px 80px;line-height:1.5}
+  h1{margin:0 0 4px;font-size:24px}
+  .lead{color:var(--muted);font-style:italic;margin:0 0 20px;font-size:14px}
+  .controls{margin:14px 0 20px;padding:10px 12px;background:#efe7d4;border-radius:6px;
+    display:flex;gap:14px;align-items:center;font-size:13px;flex-wrap:wrap}
+  .controls input[type=search]{padding:6px 10px;font:inherit;font-size:13px;
+    border:1px solid var(--line);border-radius:4px;background:#fff;min-width:240px}
+  .controls label{color:var(--muted);cursor:pointer}
+  .stats{margin-left:auto;color:var(--muted);font-size:12px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;padding:8px 10px;background:#efe7d4;border-bottom:2px solid var(--line);
+    font-weight:500;letter-spacing:.3px;position:sticky;top:0}
+  td{padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr.lvl1>td{background:rgba(0,0,0,0.04);font-weight:500}
+  tr.lvl2>td{background:rgba(0,0,0,0.02)}
+  tr:hover>td{background:#efe7d4}
+  td.code{font-family:"SF Mono","Menlo",Monaco,Consolas,monospace;font-size:12px;color:#4a4a4a;
+    white-space:nowrap;padding-left:14px}
+  td.naam{font-weight:400}
+  td.type{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  td.kleur{padding:6px 8px}
+  .swatch{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;
+    border:1px solid rgba(0,0,0,0.1)}
+  td.url a{color:#1c5760;text-decoration:none;font-size:12px;border-bottom:1px solid rgba(28,87,96,.3)}
+  td.url a:hover{border-bottom-color:#1c5760}
+  td.ondertitel{color:var(--muted);font-style:italic;font-size:12px}
+  .indent-1{padding-left:14px}.indent-2{padding-left:32px}.indent-3{padding-left:50px}.indent-4{padding-left:68px}
+  .hidden{display:none}
+  .footnote{margin-top:30px;color:var(--muted);font-size:12px;font-style:italic}
+  .nav-back{display:inline-block;margin-bottom:14px;color:var(--muted);text-decoration:none;
+    border-bottom:1px solid var(--line);padding-bottom:2px;font-size:13px}
+  .nav-back:hover{color:var(--ink);border-bottom-color:var(--ink)}
+</style>
+</head>
+<body>
+  <a class="nav-back" href="index.html">← Voorpagina</a>
+  <h1>Structuur — beheer</h1>
+  <p class="lead">Canonieke boom van Het Open Vizier · 51 knopen · gevoed door <code>_data/structuur.json</code></p>
+
+  <div class="controls">
+    <input type="search" id="zoek" placeholder="Zoek op naam, code of URL…">
+    <label><input type="checkbox" id="alleen-art"> alleen artikelen</label>
+    <label><input type="checkbox" id="verberg-leeg"> verberg knopen zonder URL</label>
+    <span class="stats" id="stats"></span>
+  </div>
+
+  <table id="tbl">
+    <thead>
+      <tr>
+        <th style="width:90px">Code</th>
+        <th>Naam</th>
+        <th style="width:90px">Type</th>
+        <th>Ondertitel</th>
+        <th style="width:70px">Kleur</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"><!-- gevuld door JS --></tbody>
+  </table>
+
+  <p class="footnote">Niet in publieke navigatie · alleen voor beheer · niet geïndexeerd</p>
+
+<script>
+fetch('_data/structuur.json').then(r=>r.json()).then(data=>{
+  const knopen = data.knopen;
+  const tbody = document.getElementById('tbody');
+
+  function depth(code){ return code === "0" ? 0 : code.split('.').length; }
+
+  function render(){
+    const q = document.getElementById('zoek').value.toLowerCase().trim();
+    const alleenArt = document.getElementById('alleen-art').checked;
+    const verbergLeeg = document.getElementById('verberg-leeg').checked;
+    tbody.innerHTML = "";
+    let visible = 0;
+    for (const k of knopen){
+      if (alleenArt && k.type !== "artikel") continue;
+      if (verbergLeeg && !k.url) continue;
+      if (q){
+        const hay = (k.code+" "+k.naam+" "+(k.url||"")+" "+(k.ondertitel||"")).toLowerCase();
+        if (!hay.includes(q)) continue;
+      }
+      const tr = document.createElement('tr');
+      const d = depth(k.code);
+      tr.className = "lvl"+Math.min(d,4);
+      const url = k.url ? `<a href="${k.url}" target="_blank">${k.url}</a>` : "";
+      const sw = k.kleur || (k.gradient && k.gradient[0]) || "";
+      const swHtml = sw ? `<span class="swatch" style="background:${sw}"></span>` : "";
+      tr.innerHTML = `
+        <td class="code indent-${Math.min(d-1,4)}">${k.code}</td>
+        <td class="naam">${k.naam}</td>
+        <td class="type">${k.type}</td>
+        <td class="ondertitel">${k.ondertitel || ""}</td>
+        <td class="kleur">${swHtml}</td>
+        <td class="url">${url}</td>
+      `;
+      tbody.appendChild(tr);
+      visible++;
+    }
+    document.getElementById('stats').textContent = `${visible} van ${knopen.length} knopen`;
+  }
+
+  document.getElementById('zoek').addEventListener('input', render);
+  document.getElementById('alleen-art').addEventListener('change', render);
+  document.getElementById('verberg-leeg').addEventListener('change', render);
+  render();
+});
+</script>
+</body>
+</html>
