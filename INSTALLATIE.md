@@ -155,7 +155,143 @@ De DE- en EN-pagina's bevatten nu een "binnenkort"-melding. Voor echte vertaling
 
 ---
 
-## Stap 7 — Lanceren
+## Stap 7 — LinkedIn-integratie voor de auto-post bot
+
+De auto-post bot (`scripts/auto_post.py`) kan automatisch NL- en EN-berichten plaatsen op LinkedIn zodra je twee omgevingsvariabelen instelt: `LINKEDIN_TOKEN` en `LINKEDIN_AUTHOR_URN`. Berichten in andere talen worden overgeslagen om spam te vermijden.
+
+### 7a. LinkedIn Developer App aanmaken
+
+1. Ga naar [linkedin.com/developers](https://www.linkedin.com/developers/) en log in met je LinkedIn-account.
+2. Klik op **Create app**.
+3. Vul in:
+   - **App name:** bijv. `Open Vizier Auto-post`
+   - **LinkedIn Page:** selecteer je persoonlijke profiel of organisatiepagina
+   - **App logo:** upload een afbeelding (vereist)
+4. Accepteer de gebruiksvoorwaarden en klik **Create app**.
+5. Ga naar het tabblad **Auth**. Noteer de **Client ID** en **Client Secret** — je hebt ze nodig voor de OAuth2-flow.
+6. Voeg onder **OAuth 2.0 settings → Authorized redirect URLs** een tijdelijke callback-URL toe, bijv.:
+   ```
+   https://localhost:8080/callback
+   ```
+
+### 7b. Benodigde OAuth2-scopes aanvragen
+
+Ga naar het tabblad **Products** in je app en vraag de volgende producten aan:
+
+- **Share on LinkedIn** — geeft de scope `w_member_social` (vereist om posts te maken)
+- **Sign In with LinkedIn using OpenID Connect** — geeft de scopes `openid` en `profile` (vereist om je URN op te halen)
+
+Na goedkeuring (meestal direct of binnen 24 uur) zie je de scopes verschijnen onder **Auth → OAuth 2.0 scopes**.
+
+> **Let op:** voor posten naar een *organisatiepagina* (in plaats van een persoonlijk profiel) heb je het product **Marketing Developer Platform** nodig — dat vereist een aparte aanvraag bij LinkedIn en heeft een langere doorlooptijd.
+
+### 7c. Access token verkrijgen (OAuth2-flow)
+
+LinkedIn gebruikt de **Authorization Code Flow**. Voer de stappen hieronder uit in een terminal.
+
+**Stap 1 — Autorisatie-URL samenstellen**
+
+Vervang `JOUW_CLIENT_ID` en open de volgende URL in je browser:
+
+```
+https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=JOUW_CLIENT_ID&redirect_uri=https%3A%2F%2Flocalhost%3A8080%2Fcallback&scope=openid%20profile%20w_member_social
+```
+
+Log in en klik op **Allow**. Je browser wordt doorgestuurd naar iets als:
+```
+https://localhost:8080/callback?code=AQT...&state=
+```
+Kopieer de waarde van de `code`-parameter.
+
+**Stap 2 — Code inwisselen voor een access token**
+
+```bash
+curl -X POST https://www.linkedin.com/oauth/v2/accessToken \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=authorization_code" \
+  -d "code=JOUW_CODE_HIER" \
+  -d "redirect_uri=https%3A%2F%2Flocalhost%3A8080%2Fcallback" \
+  -d "client_id=JOUW_CLIENT_ID" \
+  -d "client_secret=JOUW_CLIENT_SECRET"
+```
+
+Het antwoord ziet er zo uit:
+
+```json
+{
+  "access_token": "AQV...",
+  "expires_in": 5183999,
+  "scope": "openid,profile,w_member_social"
+}
+```
+
+Sla de waarde van `access_token` op — dit is je `LINKEDIN_TOKEN`. Het token is **60 dagen geldig**.
+
+### 7d. Je `LINKEDIN_AUTHOR_URN` opzoeken
+
+De `LINKEDIN_AUTHOR_URN` identificeert wie de post publiceert. Voor een persoonlijk profiel is dit `urn:li:person:XXXX`, voor een organisatie `urn:li:organization:XXXX`.
+
+**Persoonlijk profiel** — haal de `sub`-waarde op via het OpenID Connect userinfo-endpoint:
+
+```bash
+curl -H "Authorization: Bearer JOUW_ACCESS_TOKEN" \
+  https://api.linkedin.com/v2/userinfo
+```
+
+Voorbeeldantwoord:
+
+```json
+{
+  "sub": "abc123XYZ",
+  "name": "Jacobus De Vries",
+  "email": "jacobus@openvizier.org"
+}
+```
+
+Je `LINKEDIN_AUTHOR_URN` wordt dan:
+```
+urn:li:person:abc123XYZ
+```
+
+**Organisatiepagina** — de numerieke ID staat in de URL van je LinkedIn-pagina:
+```
+https://www.linkedin.com/company/12345/
+                                 ^^^^^
+```
+Je `LINKEDIN_AUTHOR_URN` wordt dan:
+```
+urn:li:organization:12345
+```
+
+### 7e. GitHub Secrets instellen
+
+1. Ga naar je GitHub-repo → **Settings → Secrets and variables → Actions**.
+2. Klik op **New repository secret** en voeg de volgende twee secrets toe:
+
+   | Naam | Waarde |
+   |---|---|
+   | `LINKEDIN_TOKEN` | Het access token uit stap 7c |
+   | `LINKEDIN_AUTHOR_URN` | Bijv. `urn:li:person:abc123XYZ` |
+
+3. Controleer dat de andere vereiste secrets ook aanwezig zijn:
+
+   | Naam | Beschrijving |
+   |---|---|
+   | `MASTODON_INSTANCE` | URL van je Mastodon-instantie, bijv. `https://mastodon.social` |
+   | `MASTODON_TOKEN` | Mastodon API access token |
+   | `BUTTONDOWN_API_KEY` | Buttondown API-sleutel |
+
+### 7f. Token verloopt na 60 dagen — handmatig vernieuwen
+
+LinkedIn-tokens verlopen na 60 dagen. Er is geen automatische vernieuwing via refresh tokens in de standaard Member Authorization flow. Zet een herinnering in je agenda voor over ∼55 dagen.
+
+Om te vernieuwen:
+1. Herhaal stap 7c (autorisatie-URL openen → nieuwe code ophalen → inwisselen voor nieuw token).
+2. Ga naar GitHub → **Settings → Secrets** en overschrijf `LINKEDIN_TOKEN` met het nieuwe token.
+
+> **Tip:** LinkedIn geeft ook een `refresh_token` terug met een geldigheidsduur van 365 dagen als je app toegang heeft tot het **Marketing Developer Platform**-product. Vraag dit aan als je de vernieuwing wilt automatiseren.
+
+## Stap 8 — Lanceren
 
 1. **Aankondiging op LinkedIn:** post een korte introductie met link naar `https://openvizier.org/nl/editie-1/voorwoord.html`. Vraag mensen om zich in te schrijven voor de nieuwsbrief.
 2. **Mail naar 20-50 mensen** die je vertrouwt — vrienden, oud-collega's, vakgenoten. Vraag eerlijke feedback en of ze willen reageren onder een artikel.
