@@ -19,6 +19,12 @@
   .tile{position:relative;overflow:hidden;cursor:pointer;
         display:flex;align-items:center;justify-content:center;
         transition:opacity .5s ease}
+  /* Concept-tiles: lichte sluier zodat ze duidelijk minder prominent zijn */
+  .tile.concept .bg{filter:sepia(.55) brightness(.55) contrast(1.05) saturate(.4)}
+  .tile.concept .label::after{content:"binnenkort";display:block;
+    margin-top:.6em;font-size:.7em;font-style:italic;color:rgba(255,255,255,.65);
+    letter-spacing:1.5px;text-transform:uppercase}
+
   /* Verschuif labels weg van wapen-zone, afhankelijk van rij-positie */
   .tile.bottom-row{align-items:flex-end;padding-bottom:3vh}
   .tile.top-row{align-items:flex-start;padding-top:5vh}
@@ -316,6 +322,7 @@ function render(){
     tile.style.gridColumn = p.col;
     tile.style.gridRow = p.row;
     tile.style.animationDelay = (i * 50) + "ms";
+    markConcept(tile, k);
 
     const bg = document.createElement('div');
     bg.className = 'bg';
@@ -367,6 +374,13 @@ function onClick(node){
   }
 }
 
+// Visuele markering voor concept-artikelen (nog niet gepubliceerd)
+function markConcept(tile, k){
+  if (k.status === "concept"){
+    tile.classList.add("concept");
+  }
+}
+
 function goBack(){
   if (path.length <= 1) return;
   path.pop();
@@ -406,7 +420,14 @@ reader.addEventListener('click',(e)=>{
 function showReader(node){
   document.getElementById('reader-title').textContent = node.naam;
   document.getElementById('reader-desc').textContent = node.beschrijving || "";
-  document.getElementById('reader-link').href = node.url;
+  const readLink = document.getElementById('reader-link');
+  if (node.status === "concept"){
+    // verberg lees-knop voor concept-artikelen
+    readLink.style.display = "none";
+  } else {
+    readLink.style.display = "";
+    readLink.href = node.url;
+  }
   reader.classList.add('show');
 }
 
