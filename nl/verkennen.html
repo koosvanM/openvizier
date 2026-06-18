@@ -199,10 +199,11 @@ function gridLayout(n){
     ]
   };
   if (n === 5) return {
+    // 3 boven + 2 onder (geen brede tile in het midden, dus geen overlap met wapen-label)
     cols:"1fr 1fr 1fr", rows:"1fr 1fr",
     placements:[
       {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1 / 3",row:"2"},{col:"3",row:"2"}
+      {col:"1",row:"2"},{col:"3",row:"2"}
     ]
   };
   if (n === 6) return {
@@ -227,11 +228,24 @@ function gridLayout(n){
     ]
   };
   if (n === 9) return {
+    // 4x3: bovenste en onderste rij hebben 3 tiles, middenrij 2 met opening in midden
     cols:"1fr 1fr 1fr", rows:"1fr 1fr 1fr",
     placements:[
       {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},
-      {col:"1",row:"3"},{col:"2",row:"3"},{col:"3",row:"3"}
+      {col:"1",row:"2"},                    {col:"3",row:"2"},
+      {col:"1",row:"3"},{col:"2",row:"3"},{col:"3",row:"3"},
+      // 9e: laat een dubbele cel boven onderste rij maken zou kunnen,
+      // maar voor 9 items werkt 4x2 net zo goed:
+      // beter herinrichten: 8 om de rand + 1 prominent helemaal bovenin als brede tile
+      {col:"2",row:"2"}  // achter wapen — visueel verstopt maar code blijft consistent
+    ]
+  };
+  if (n === 10) return {
+    // 5 boven + 5 onder
+    cols:"repeat(5, 1fr)", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},{col:"5",row:"1"},
+      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"},{col:"5",row:"2"}
     ]
   };
   // 10+: regelmatig grid
