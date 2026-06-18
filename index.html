@@ -471,6 +471,11 @@ function render(){
 }
 
 function onClick(node){
+  // Root-modus: klik op taal-tile (code 1-9) → navigeer naar die taal
+  if (typeof TAAL_URL !== 'undefined' && TAAL_URL[node.code]) {
+    window.location.href = TAAL_URL[node.code];
+    return;
+  }
   // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
   if (node._synthVervolg || node._synthVorige){
     const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
@@ -695,16 +700,6 @@ Promise.all([
 });
 
 const TAAL_URL = {'1':'/nl/','2':'/de/','3':'/en/','4':'/ru/','5':'/fr/','6':'/es/','7':'/it/','8':'/pt/','9':'/mt/'};
-document.addEventListener('click', e => {
-  const tile = e.target.closest('[data-code]');
-  if (!tile) return;
-  const code = tile.dataset.code;
-  if (TAAL_URL[code]) {
-    e.stopPropagation();
-    e.preventDefault();
-    window.location.href = TAAL_URL[code];
-  }
-}, true);
 
 </script>
 </body>
