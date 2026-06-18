@@ -460,13 +460,19 @@ function applyHash(){
   const h = decodeURIComponent(location.hash || "");
   const m = h.match(/^#code=(.+)$/);
   path.length = 0;
-  path.push("0");
-  if (!m) return;
-  const target = m[1].trim();
+  path.push(WORTEL_CODE);
+  if (!m){
+    return;  // standaard: wortel zonder hash
+  }
+  let target = m[1].trim();
+  // Compat: oude links zonder taal-prefix
+  if (!BY_CODE[target] && BY_CODE[WORTEL_CODE + "." + target]){
+    target = WORTEL_CODE + "." + target;
+  }
   if (!BY_CODE[target]) return;
   const trail = [];
   let cur = BY_CODE[target];
-  while (cur && cur.code !== "0"){
+  while (cur && cur.code !== WORTEL_CODE){
     trail.unshift(cur.code);
     cur = BY_CODE[cur.ouder];
   }
