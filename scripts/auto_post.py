@@ -412,16 +412,17 @@ def main() -> int:
     print(f"Found {len(articles)} articles across {len(LANG_DIRS)} languages")
 
     # Build queue of (platform, lang, path, url) tuples that still need posting
+    # Only queue platforms that are actually configured
     queue: list[tuple[str, str, Path, str]] = []
     for path, lang in articles:
         url = relative_url(path)
 
-        if have_mastodon or DRY_RUN:
+        if have_mastodon:
             key = state_key("mastodon", lang, url)
             if key not in posted:
                 queue.append(("mastodon", lang, path, url))
 
-        if (have_linkedin or DRY_RUN) and lang in LINKEDIN_LANGS:
+        if have_linkedin and lang in LINKEDIN_LANGS:
             key = state_key("linkedin", lang, url)
             if key not in posted:
                 queue.append(("linkedin", lang, path, url))
