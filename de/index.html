@@ -639,7 +639,13 @@ Promise.all([
       type: k.type,
       status: k.status || "live",
       // routes
-      url: (rIdx[k.code] || {}).url || "",
+      url: ((u) => {
+        if (!u) return "";
+        if (u.startsWith('http') || u.startsWith('/') || u.startsWith('#')) return u;
+        // Niet-NL talen wijzen relatieve URL's naar canonieke NL-bestanden
+        if (TAAL_CODE !== 'nl' && TAAL_CODE !== 'root') return '../nl/' + u;
+        return u;
+      })((rIdx[k.code] || {}).url),
       terug_naar: (rIdx[k.code] || {}).terug_naar || "",
       // beelden
       hero: (bIdx[k.code] || {}).hero || "",

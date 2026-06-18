@@ -639,7 +639,13 @@ Promise.all([
       type: k.type,
       status: k.status || "live",
       // routes
-      url: (rIdx[k.code] || {}).url || "",
+      url: ((u) => {
+        if (!u) return "";
+        if (u.startsWith('http') || u.startsWith('/') || u.startsWith('#')) return u;
+        // Niet-NL talen wijzen relatieve URL's naar canonieke NL-bestanden
+        if (TAAL_CODE !== 'nl' && TAAL_CODE !== 'root') return '../nl/' + u;
+        return u;
+      })((rIdx[k.code] || {}).url),
       terug_naar: (rIdx[k.code] || {}).terug_naar || "",
       // beelden
       hero: (bIdx[k.code] || {}).hero || "",
@@ -694,7 +700,6 @@ Promise.all([
   document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
 });
 
-// Root-modus: klikken op een taal-tegel navigeert naar die taal's URL
 const TAAL_URL = {'1':'/nl/','2':'/de/','3':'/en/','4':'/ru/','5':'/fr/','6':'/es/','7':'/it/','8':'/pt/','9':'/mt/'};
 document.addEventListener('click', e => {
   const tile = e.target.closest('[data-code]');
