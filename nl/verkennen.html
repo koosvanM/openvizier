@@ -57,6 +57,16 @@
         color:var(--muted);font-size:12px;font-style:italic;letter-spacing:.3px;
         pointer-events:none}
 
+  /* huisje linksboven — helemaal naar begin */
+  .home{position:absolute;top:14px;left:18px;width:36px;height:36px;
+        border:1px solid var(--line);border-radius:50%;background:#f6f1e6;
+        display:none;align-items:center;justify-content:center;cursor:pointer;
+        transition:border-color .2s, background .2s;z-index:5}
+  .home:hover{border-color:var(--ink);background:#efe7d4}
+  .home.show{display:flex}
+  .home svg{width:18px;height:18px;display:block}
+  .home path{fill:none;stroke:#1a1a1a;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
   @media (max-width:560px){
     header h1{font-size:22px}
     header p{font-size:12px}
@@ -78,6 +88,9 @@
 </nav>
 
 <div class="stage" id="stage">
+  <button class="home" id="home" title="Terug naar begin" aria-label="Terug naar begin">
+    <svg viewBox="0 0 24 24"><path d="M3 11.5 L12 4 L21 11.5 M5.5 10 V20 H18.5 V10"/></svg>
+  </button>
   <svg id="canvas" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet"></svg>
   <div class="reader" id="reader">
     <h2 id="reader-title"></h2>
@@ -423,9 +436,16 @@ function onClick(node){
   if (node.children){
     path.push(node);
     render();
+    updateHome();
   } else if (node.href){
     window.location.href = node.href;
   }
+}
+
+function updateHome(){
+  const h = document.getElementById('home');
+  if (path.length > 1) h.classList.add('show');
+  else h.classList.remove('show');
 }
 
 // Klik buiten de cirkel = stap terug
@@ -444,6 +464,7 @@ document.getElementById('stage').addEventListener('click', (e)=>{
     if (path.length > 1){
       path.pop();
       render();
+      updateHome();
     }
   }
 });
@@ -468,9 +489,20 @@ function showReader(node){
 }
 
 /* ============================================================
+   Huisje — helemaal naar begin
+   ============================================================ */
+document.getElementById('home').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  path.length = 1;
+  render();
+  updateHome();
+});
+
+/* ============================================================
    Init
    ============================================================ */
 render();
+updateHome();
 </script>
 </body>
 </html>
