@@ -1,4 +1,4 @@
-name: Auto-post new articles to Mastodon
+name: Auto-post new articles (Mastodon + LinkedIn)
 
 on:
   push:
@@ -7,19 +7,29 @@ on:
     paths:
       - 'nl/wat-opkomt/**.html'
       - 'nl/editie-*/**.html'
+      - 'de/was-aufkommt/**.html'
+      - 'de/ausgabe-*/**.html'
+      - 'en/what-surfaces/**.html'
+      - 'en/edition-*/**.html'
+      - 'ru/chto-vsplyvaet/**.html'
+      - 'ru/vypusk-*/**.html'
   workflow_dispatch:
     inputs:
       dry_run:
         description: 'Dry run (log only, no posting)'
         required: false
         default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 permissions:
-  contents: write  # needed to commit .posted.json updates back
+  contents: write  # to commit .posted.json updates back
 
 concurrency:
   group: auto-post-${{ github.ref }}
-  cancel-in-progress: false  # never cancel — would lose state mid-run
+  cancel-in-progress: false
 
 jobs:
   post:
@@ -28,7 +38,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # need previous commit to detect new files
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -36,8 +46,6 @@ jobs:
           python-version: '3.12'
 
       - name: Wait for Netlify deploy
-        # New articles need to be live before posting links to them
-        # Netlify auto-deploy typically completes within 60-90s after push
         if: github.event_name == 'push'
         run: |
           echo "Waiting 120 seconds for Netlify deploy to complete..."
@@ -45,9 +53,17 @@ jobs:
 
       - name: Run auto-post
         env:
+          # Mastodon (all 4 languages)
           MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
           MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
+          # LinkedIn native (NL + EN only)
+          LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
+          LINKEDIN_AUTHOR_URN: ${{ secrets.LINKEDIN_AUTHOR_URN }}
+          # LinkedIn via Buffer/Zapier (fallback)
+          BUFFER_WEBHOOK_URL: ${{ secrets.BUFFER_WEBHOOK_URL }}
+          # Common
           SITE_BASE_URL: ${{ vars.SITE_BASE_URL || 'https://openvizier.org' }}
+          MAX_POSTS_PER_RUN: ${{ vars.MAX_POSTS_PER_RUN || '6' }}
           DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
         run: |
           python scripts/auto_post.py

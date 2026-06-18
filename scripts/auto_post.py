@@ -1,17 +1,35 @@
 #!/usr/bin/env python3
 """
-Auto-post new articles from Het Open Vizier to Mastodon.
+Auto-post new articles from Het Open Vizier to Mastodon and LinkedIn.
 
-Detects new NL articles under nl/wat-opkomt/, nl/editie-N/, etc.
-Extracts <title>, <meta description>, og:image.
-Posts to Mastodon as a toot with title + lead + link.
-Tracks posted URLs in .posted.json so each article posts only once.
+Detects new articles in NL/DE/EN/RU directories.
+Extracts <title>, <meta description>, og:image per article.
+Posts to:
+  - Mastodon: all 4 languages, each as its own toot (lang param set correctly)
+  - LinkedIn: NL + EN only (avoid spam; LinkedIn favours fewer posts)
+    - Native API if LINKEDIN_TOKEN + LINKEDIN_AUTHOR_URN are set
+    - Buffer webhook fallback if BUFFER_WEBHOOK_URL is set
+    - Skipped silently if neither is configured
 
-Environment variables required:
-- MASTODON_INSTANCE  (e.g. "mastodon.social" or "fosstodon.org" — no https://)
-- MASTODON_TOKEN     (Mastodon application access token with 'write:statuses' scope)
-- SITE_BASE_URL      (default: "https://openvizier.org")
-- DRY_RUN            (optional: "1" to skip actual posting, log only)
+State: .posted.json — keyed by (platform, language, url) so each combo posts once.
+
+Environment variables (all optional, but at least one platform must be configured):
+  Common:
+    SITE_BASE_URL              default https://openvizier.org
+    DRY_RUN                    "1" to log only
+    MAX_POSTS_PER_RUN          default 6 (bootstrap protection)
+
+  Mastodon:
+    MASTODON_INSTANCE          e.g. "mastodon.social" (no https://)
+    MASTODON_TOKEN             access token, scope write:statuses
+
+  LinkedIn (native):
+    LINKEDIN_TOKEN             OAuth2 access token (60-day validity)
+    LINKEDIN_AUTHOR_URN        URN of the posting entity, e.g.
+                               "urn:li:person:abc123" or "urn:li:organization:456"
+
+  LinkedIn (Buffer fallback):
+    BUFFER_WEBHOOK_URL         Zapier/Buffer webhook URL
 """
 
 import json
@@ -26,27 +44,59 @@ from html.parser import HTMLParser
 ROOT = Path(__file__).resolve().parent.parent
 STATE_FILE = ROOT / ".posted.json"
 SITE_BASE = os.environ.get("SITE_BASE_URL", "https://openvizier.org").rstrip("/")
+DRY_RUN = os.environ.get("DRY_RUN", "").strip() in ("1", "true", "yes")
+MAX_POSTS_PER_RUN = int(os.environ.get("MAX_POSTS_PER_RUN", "6"))
+
+# Mastodon
 MASTODON_INSTANCE = os.environ.get("MASTODON_INSTANCE", "").strip().rstrip("/")
 MASTODON_TOKEN = os.environ.get("MASTODON_TOKEN", "").strip()
-DRY_RUN = os.environ.get("DRY_RUN", "").strip() in ("1", "true", "yes")
 
-# Only NL articles for now. Pattern: nl/wat-opkomt/*.html and nl/editie-N/*.html
-NL_DIRS = ["nl/wat-opkomt", "nl/editie-0", "nl/editie-1", "nl/editie-2",
-           "nl/editie-3", "nl/editie-4", "nl/editie-5", "nl/editie-6"]
+# LinkedIn native
+LINKEDIN_TOKEN = os.environ.get("LINKEDIN_TOKEN", "").strip()
+LINKEDIN_AUTHOR_URN = os.environ.get("LINKEDIN_AUTHOR_URN", "").strip()
 
-# Files to ignore: index pages, share, about, etc.
-IGNORE_FILES = {"index.html", "delen.html", "over.html"}
+# LinkedIn via Buffer/Zapier webhook
+BUFFER_WEBHOOK_URL = os.environ.get("BUFFER_WEBHOOK_URL", "").strip()
 
-# Maximum length for Mastodon toot
+# Language → article directories
+LANG_DIRS = {
+    "nl": ["nl/wat-opkomt", "nl/editie-0", "nl/editie-1", "nl/editie-2",
+           "nl/editie-3", "nl/editie-4", "nl/editie-5", "nl/editie-6"],
+    "de": ["de/was-aufkommt", "de/ausgabe-0", "de/ausgabe-1", "de/ausgabe-2",
+           "de/ausgabe-3", "de/ausgabe-4", "de/ausgabe-5", "de/ausgabe-6"],
+    "en": ["en/what-surfaces", "en/edition-0", "en/edition-1", "en/edition-2",
+           "en/edition-3", "en/edition-4", "en/edition-5", "en/edition-6"],
+    "ru": ["ru/chto-vsplyvaet", "ru/vypusk-0", "ru/vypusk-1", "ru/vypusk-2",
+           "ru/vypusk-3", "ru/vypusk-4", "ru/vypusk-5", "ru/vypusk-6"],
+}
+
+# LinkedIn only posts these languages (avoid spam)
+LINKEDIN_LANGS = ("nl", "en")
+
+# Files to ignore
+IGNORE_FILES = {
+    "index.html", "delen.html", "over.html",
+    "teilen.html", "ueber.html",
+    "share.html", "about.html",
+    "podelitsya.html",
+}
+
 MASTODON_LIMIT = 500
+LINKEDIN_LIMIT = 3000  # actual cap is ~3000 chars
+
+# Per-language label for "Back to source" / hashtags
+LANG_LABELS = {
+    "nl": {"by": "Door", "read_more": "Lees verder"},
+    "de": {"by": "Von", "read_more": "Weiterlesen"},
+    "en": {"by": "By", "read_more": "Read more"},
+    "ru": {"by": "Автор", "read_more": "Читать дальше"},
+}
 
 
 # -----------------------------------------------------------------------------
-# Metadata extraction
+# HTML metadata extraction
 # -----------------------------------------------------------------------------
 class MetaExtractor(HTMLParser):
-    """Parses an HTML head and pulls <title>, og:title, og:description, description."""
-
     def __init__(self):
         super().__init__()
         self.title = None
@@ -54,6 +104,7 @@ class MetaExtractor(HTMLParser):
         self.og_description = None
         self.description = None
         self.og_image = None
+        self.html_lang = None
         self._in_title = False
         self._stop = False
 
@@ -63,7 +114,10 @@ class MetaExtractor(HTMLParser):
         if tag == "body":
             self._stop = True
             return
-        if tag == "title":
+        if tag == "html":
+            attr = dict(attrs)
+            self.html_lang = attr.get("lang", "").strip().lower()
+        elif tag == "title":
             self._in_title = True
         elif tag == "meta":
             attr = dict(attrs)
@@ -91,7 +145,6 @@ class MetaExtractor(HTMLParser):
 
 
 def extract_metadata(html_path: Path) -> dict | None:
-    """Return {title, description, og_image} or None if extraction failed."""
     try:
         html = html_path.read_text(encoding="utf-8")
     except Exception as e:
@@ -102,14 +155,13 @@ def extract_metadata(html_path: Path) -> dict | None:
     try:
         parser.feed(html)
     except Exception:
-        # Continue with whatever we parsed before the error
         pass
 
     title = parser.og_title or parser.title
     description = parser.og_description or parser.description
 
-    # Clean up title (strip " · Het Open Vizier" suffix)
     if title:
+        # Strip " · Het Open Vizier" / " | Het Open Vizier" suffix
         title = re.sub(r'\s*[·\|]\s*Het Open Vizier.*$', '', title).strip()
 
     if not title:
@@ -119,11 +171,12 @@ def extract_metadata(html_path: Path) -> dict | None:
         "title": title,
         "description": description or "",
         "og_image": parser.og_image,
+        "html_lang": parser.html_lang or "",
     }
 
 
 # -----------------------------------------------------------------------------
-# State tracking
+# State
 # -----------------------------------------------------------------------------
 def load_state() -> dict:
     if STATE_FILE.exists():
@@ -141,24 +194,29 @@ def save_state(state: dict) -> None:
     )
 
 
+def state_key(platform: str, lang: str, url: str) -> str:
+    """Composite key: platform | lang | url."""
+    return f"{platform}|{lang}|{url}"
+
+
 # -----------------------------------------------------------------------------
 # Discover articles
 # -----------------------------------------------------------------------------
-def find_articles() -> list[Path]:
-    """Return list of NL article HTML files (excluding index/share/about)."""
+def find_articles() -> list[tuple[Path, str]]:
+    """Return list of (path, language) for all article HTML files."""
     articles = []
-    for d in NL_DIRS:
-        dir_path = ROOT / d
-        if not dir_path.is_dir():
-            continue
-        for f in sorted(dir_path.iterdir()):
-            if f.is_file() and f.suffix == ".html" and f.name not in IGNORE_FILES:
-                articles.append(f)
+    for lang, dirs in LANG_DIRS.items():
+        for d in dirs:
+            dir_path = ROOT / d
+            if not dir_path.is_dir():
+                continue
+            for f in sorted(dir_path.iterdir()):
+                if f.is_file() and f.suffix == ".html" and f.name not in IGNORE_FILES:
+                    articles.append((f, lang))
     return articles
 
 
 def relative_url(html_path: Path) -> str:
-    """Convert workspace path to public URL."""
     rel = html_path.relative_to(ROOT).as_posix()
     return f"{SITE_BASE}/{rel}"
 
@@ -166,42 +224,40 @@ def relative_url(html_path: Path) -> str:
 # -----------------------------------------------------------------------------
 # Toot composition
 # -----------------------------------------------------------------------------
-def compose_toot(meta: dict, url: str) -> str:
-    """Compose toot text within Mastodon limit."""
+def compose_short(meta: dict, url: str, limit: int) -> str:
+    """Composes title + lead + URL within character limit."""
     title = meta["title"].strip()
     desc = meta["description"].strip()
-    
-    # Account for newlines and URL in budget
-    # URL counts as 23 chars in Mastodon regardless of actual length
-    fixed_overhead = len(title) + 23 + 4  # title + url + 2 newlines + space
-    desc_budget = MASTODON_LIMIT - fixed_overhead - 5  # safety margin
+    # Mastodon counts URLs as 23 chars; LinkedIn counts actual length
+    url_count = 23 if limit == MASTODON_LIMIT else len(url)
+    fixed_overhead = len(title) + url_count + 4  # 2× \n\n
+    desc_budget = limit - fixed_overhead - 5  # safety margin
 
     if desc and desc_budget > 30:
         if len(desc) > desc_budget:
             desc = desc[:desc_budget - 1].rstrip() + "…"
         return f"{title}\n\n{desc}\n\n{url}"
-    else:
-        return f"{title}\n\n{url}"
+    return f"{title}\n\n{url}"
 
 
 # -----------------------------------------------------------------------------
 # Mastodon API
 # -----------------------------------------------------------------------------
-def post_to_mastodon(status: str) -> str | None:
-    """Post a status to Mastodon. Returns the toot URL on success, None on failure."""
+def post_to_mastodon(status: str, lang: str) -> str | None:
     if DRY_RUN:
-        print(f"  [DRY RUN] Would post:\n---\n{status}\n---")
-        return "https://dry-run.example/dummy"
+        print(f"  [DRY RUN][mastodon/{lang}] Would post ({len(status)} chars):")
+        for ln in status.split("\n"):
+            print(f"    | {ln}")
+        return "https://dry-run.example/mastodon"
 
     if not MASTODON_INSTANCE or not MASTODON_TOKEN:
-        print("  ERROR: MASTODON_INSTANCE or MASTODON_TOKEN missing", file=sys.stderr)
-        return None
+        return None  # silently skip if not configured
 
     url = f"https://{MASTODON_INSTANCE}/api/v1/statuses"
     data = json.dumps({
         "status": status,
         "visibility": "public",
-        "language": "nl",
+        "language": lang,
     }).encode("utf-8")
 
     req = request.Request(
@@ -210,88 +266,213 @@ def post_to_mastodon(status: str) -> str | None:
         headers={
             "Authorization": f"Bearer {MASTODON_TOKEN}",
             "Content-Type": "application/json",
-            "User-Agent": "openvizier-autopost/1.0",
-            "Idempotency-Key": f"openvizier-{int(time.time())}-{hash(status) & 0xffff:04x}",
+            "User-Agent": "openvizier-autopost/1.1",
+            "Idempotency-Key": f"openvizier-mastodon-{lang}-{hash(status) & 0xffffffff:08x}",
         },
         method="POST",
     )
-
     try:
         with request.urlopen(req, timeout=30) as resp:
-            body = resp.read().decode("utf-8")
-            payload = json.loads(body)
-            return payload.get("url") or payload.get("uri") or "(no url returned)"
+            payload = json.loads(resp.read().decode("utf-8"))
+            return payload.get("url") or payload.get("uri") or "(no url)"
     except error.HTTPError as e:
         err_body = e.read().decode("utf-8", errors="replace")
-        print(f"  ERROR: HTTP {e.code} from Mastodon: {err_body}", file=sys.stderr)
+        print(f"  ERROR mastodon HTTP {e.code}: {err_body}", file=sys.stderr)
         return None
     except Exception as e:
-        print(f"  ERROR: {e}", file=sys.stderr)
+        print(f"  ERROR mastodon: {e}", file=sys.stderr)
         return None
+
+
+# -----------------------------------------------------------------------------
+# LinkedIn — native UGC Posts API
+# -----------------------------------------------------------------------------
+def post_to_linkedin_native(status: str, lang: str, article_url: str) -> str | None:
+    if not LINKEDIN_TOKEN or not LINKEDIN_AUTHOR_URN:
+        return None
+
+    if DRY_RUN:
+        print(f"  [DRY RUN][linkedin-native/{lang}] Would post ({len(status)} chars):")
+        for ln in status.split("\n"):
+            print(f"    | {ln}")
+        return "https://dry-run.example/linkedin-native"
+
+    api_url = "https://api.linkedin.com/v2/ugcPosts"
+    payload = {
+        "author": LINKEDIN_AUTHOR_URN,
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {"text": status},
+                "shareMediaCategory": "ARTICLE",
+                "media": [{
+                    "status": "READY",
+                    "originalUrl": article_url,
+                }],
+            }
+        },
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+        },
+    }
+    req = request.Request(
+        api_url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {LINKEDIN_TOKEN}",
+            "X-Restli-Protocol-Version": "2.0.0",
+            "Content-Type": "application/json",
+            "User-Agent": "openvizier-autopost/1.1",
+        },
+        method="POST",
+    )
+    try:
+        with request.urlopen(req, timeout=30) as resp:
+            urn = resp.headers.get("x-restli-id") or resp.headers.get("X-RestLi-Id") or "(no urn)"
+            return f"https://www.linkedin.com/feed/update/{urn}"
+    except error.HTTPError as e:
+        err_body = e.read().decode("utf-8", errors="replace")
+        print(f"  ERROR linkedin-native HTTP {e.code}: {err_body}", file=sys.stderr)
+        return None
+    except Exception as e:
+        print(f"  ERROR linkedin-native: {e}", file=sys.stderr)
+        return None
+
+
+# -----------------------------------------------------------------------------
+# LinkedIn — Buffer/Zapier webhook fallback
+# -----------------------------------------------------------------------------
+def post_to_linkedin_buffer(status: str, lang: str, article_url: str, meta: dict) -> str | None:
+    if not BUFFER_WEBHOOK_URL:
+        return None
+
+    if DRY_RUN:
+        print(f"  [DRY RUN][linkedin-buffer/{lang}] Would webhook ({len(status)} chars)")
+        return "https://dry-run.example/buffer"
+
+    payload = {
+        "platform": "linkedin",
+        "language": lang,
+        "text": status,
+        "url": article_url,
+        "title": meta.get("title", ""),
+        "description": meta.get("description", ""),
+        "image": meta.get("og_image", ""),
+    }
+    req = request.Request(
+        BUFFER_WEBHOOK_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "User-Agent": "openvizier-autopost/1.1",
+        },
+        method="POST",
+    )
+    try:
+        with request.urlopen(req, timeout=30) as resp:
+            return f"buffer-webhook-{resp.status}"
+    except error.HTTPError as e:
+        print(f"  ERROR linkedin-buffer HTTP {e.code}: {e.read().decode('utf-8', errors='replace')}",
+              file=sys.stderr)
+        return None
+    except Exception as e:
+        print(f"  ERROR linkedin-buffer: {e}", file=sys.stderr)
+        return None
+
+
+def post_to_linkedin(status: str, lang: str, article_url: str, meta: dict) -> str | None:
+    """Try native first, fall back to Buffer if configured."""
+    if LINKEDIN_TOKEN and LINKEDIN_AUTHOR_URN:
+        return post_to_linkedin_native(status, lang, article_url)
+    if BUFFER_WEBHOOK_URL:
+        return post_to_linkedin_buffer(status, lang, article_url, meta)
+    return None  # not configured
 
 
 # -----------------------------------------------------------------------------
 # Main
 # -----------------------------------------------------------------------------
 def main() -> int:
+    # Detect which platforms are configured
+    have_mastodon = bool(MASTODON_INSTANCE and MASTODON_TOKEN)
+    have_linkedin = bool((LINKEDIN_TOKEN and LINKEDIN_AUTHOR_URN) or BUFFER_WEBHOOK_URL)
+
+    if not have_mastodon and not have_linkedin and not DRY_RUN:
+        print("ERROR: no platform configured. Set MASTODON_* or LINKEDIN_* secrets.",
+              file=sys.stderr)
+        return 1
+
+    print(f"Platforms: mastodon={have_mastodon} linkedin={have_linkedin} dry_run={DRY_RUN}")
+
     state = load_state()
     posted = state.setdefault("posted", {})
 
     articles = find_articles()
-    print(f"Found {len(articles)} NL articles total")
+    print(f"Found {len(articles)} articles across {len(LANG_DIRS)} languages")
 
-    new_articles = []
-    for a in articles:
-        url = relative_url(a)
-        if url not in posted:
-            new_articles.append((a, url))
+    # Build queue of (platform, lang, path, url) tuples that still need posting
+    queue: list[tuple[str, str, Path, str]] = []
+    for path, lang in articles:
+        url = relative_url(path)
 
-    print(f"New articles to post: {len(new_articles)}")
+        if have_mastodon or DRY_RUN:
+            key = state_key("mastodon", lang, url)
+            if key not in posted:
+                queue.append(("mastodon", lang, path, url))
 
-    if not new_articles:
+        if (have_linkedin or DRY_RUN) and lang in LINKEDIN_LANGS:
+            key = state_key("linkedin", lang, url)
+            if key not in posted:
+                queue.append(("linkedin", lang, path, url))
+
+    print(f"New post-targets in queue: {len(queue)}")
+
+    if not queue:
         print("Nothing to do.")
         return 0
 
-    # Cap: max 3 posts per run to avoid flooding on initial bootstrap
-    MAX_PER_RUN = 3
-    if len(new_articles) > MAX_PER_RUN:
-        print(f"  Capping at {MAX_PER_RUN} posts/run (bootstrap protection).")
-        new_articles = new_articles[:MAX_PER_RUN]
+    # Bootstrap-cap
+    if len(queue) > MAX_POSTS_PER_RUN:
+        print(f"  Capping at {MAX_POSTS_PER_RUN} (bootstrap protection).")
+        queue = queue[:MAX_POSTS_PER_RUN]
 
-    success_count = 0
-    failed_count = 0
+    success = 0
+    failed = 0
 
-    for article_path, url in new_articles:
-        print(f"\nProcessing: {url}")
-        meta = extract_metadata(article_path)
+    for platform, lang, path, url in queue:
+        print(f"\n[{platform}/{lang}] {url}")
+        meta = extract_metadata(path)
         if not meta:
-            print(f"  SKIP: could not extract metadata")
+            print("  SKIP: no metadata")
             continue
 
-        toot = compose_toot(meta, url)
-        print(f"  Composed toot ({len(toot)} chars):")
-        for line in toot.split("\n"):
-            print(f"    | {line}")
+        limit = MASTODON_LIMIT if platform == "mastodon" else LINKEDIN_LIMIT
+        status = compose_short(meta, url, limit)
 
-        toot_url = post_to_mastodon(toot)
-        if toot_url:
-            print(f"  ✓ Posted: {toot_url}")
-            posted[url] = {
-                "title": meta["title"],
-                "posted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                "toot_url": toot_url,
-            }
-            success_count += 1
-            # Rate-limit pause between posts
-            if len(new_articles) > 1:
-                time.sleep(2)
+        if platform == "mastodon":
+            result = post_to_mastodon(status, lang)
         else:
-            failed_count += 1
+            result = post_to_linkedin(status, lang, url, meta)
+
+        if result:
+            print(f"  ✓ posted: {result}")
+            key = state_key(platform, lang, url)
+            posted[key] = {
+                "title": meta["title"],
+                "platform": platform,
+                "lang": lang,
+                "posted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "result_url": result,
+            }
+            success += 1
+            time.sleep(2)  # gentle pacing
+        else:
+            failed += 1
+            print(f"  ✗ failed")
 
     save_state(state)
-
-    print(f"\nDone. Success: {success_count}, Failed: {failed_count}")
-    return 0 if failed_count == 0 else 1
+    print(f"\nDone. Success: {success}, Failed: {failed}")
+    return 0 if failed == 0 else 1
 
 
 if __name__ == "__main__":
