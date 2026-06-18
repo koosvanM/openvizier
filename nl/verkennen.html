@@ -499,8 +499,35 @@ document.getElementById('home').addEventListener('click', (e)=>{
 });
 
 /* ============================================================
+   URL-hash voor diep-linken: #pad=Verdiepen/Gevolgenkaarten
+   ============================================================ */
+function applyHash(){
+  const h = decodeURIComponent(location.hash || "");
+  const m = h.match(/^#pad=(.+)$/);
+  if (!m) return;
+  const names = m[1].split('/').filter(Boolean);
+  // start altijd bij wortel
+  path.length = 1;
+  let cursor = tree;
+  for (const name of names){
+    if (!cursor.children) break;
+    const next = cursor.children.find(c => c.name === name);
+    if (!next) break;
+    path.push(next);
+    cursor = next;
+  }
+}
+
+window.addEventListener('hashchange', ()=>{
+  applyHash();
+  render();
+  updateHome();
+});
+
+/* ============================================================
    Init
    ============================================================ */
+applyHash();
 render();
 updateHome();
 </script>
