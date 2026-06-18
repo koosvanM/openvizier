@@ -24,30 +24,22 @@
   nav a:hover:not(.active){background:#e3d8bd}
 
   .stage{position:relative;width:100vw;height:calc(100vh - 110px);
-         overflow:hidden;display:flex;align-items:center;justify-content:center}
-
-  /* breadcrumb */
-  .crumb{position:absolute;top:14px;left:50%;transform:translateX(-50%);
-         color:var(--muted);font-size:13px;letter-spacing:.3px;
-         display:flex;gap:6px;align-items:center;flex-wrap:wrap;
-         max-width:90vw;justify-content:center}
-  .crumb span.sep{opacity:.5}
-  .crumb button{background:none;border:none;font:inherit;color:var(--muted);
-                cursor:pointer;text-decoration:underline;padding:0}
-  .crumb button:hover{color:var(--ink)}
-  .crumb .current{color:var(--ink);font-style:italic}
+         overflow:hidden;display:flex;align-items:center;justify-content:center;
+         cursor:default}
 
   svg{width:100%;height:100%;display:block}
 
-  /* Each "bubble" */
-  .bubble{cursor:pointer;transition:filter .25s ease}
-  .bubble:hover{filter:brightness(1.05) drop-shadow(0 4px 14px rgba(0,0,0,.12))}
-  .bubble text{pointer-events:none;font-family:Georgia,serif;text-anchor:middle;
-               dominant-baseline:middle;fill:#fff}
-  .bubble.parent{cursor:default}
-  .bubble.parent:hover{filter:none}
+  /* segmenten */
+  .seg{cursor:pointer;transition:filter .25s ease, opacity .35s ease}
+  .seg:hover{filter:brightness(1.08) drop-shadow(0 6px 18px rgba(0,0,0,.15))}
+  .seg text{pointer-events:none;font-family:Georgia,serif;text-anchor:middle;
+            dominant-baseline:middle;fill:#fff}
 
-  /* article overlay */
+  /* binnencirkel-label */
+  .center-label{pointer-events:none;font-family:Georgia,serif;text-anchor:middle;
+                dominant-baseline:middle}
+
+  /* artikel-overlay */
   .reader{position:absolute;inset:0;background:rgba(246,241,230,.97);
           display:none;align-items:center;justify-content:center;flex-direction:column;
           padding:40px;text-align:center}
@@ -61,9 +53,9 @@
                        color:var(--muted)}
   .reader button.close:hover{color:var(--ink);border-color:var(--ink)}
 
-  /* hint */
   .hint{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
-        color:var(--muted);font-size:12px;font-style:italic;letter-spacing:.3px}
+        color:var(--muted);font-size:12px;font-style:italic;letter-spacing:.3px;
+        pointer-events:none}
 
   @media (max-width:560px){
     header h1{font-size:22px}
@@ -85,8 +77,7 @@
   <a href="wat-opkomt/delen.html">Delen</a>
 </nav>
 
-<div class="stage">
-  <div class="crumb" id="crumb"></div>
+<div class="stage" id="stage">
   <svg id="canvas" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet"></svg>
   <div class="reader" id="reader">
     <h2 id="reader-title"></h2>
@@ -94,145 +85,150 @@
     <a class="read" id="reader-link" href="#" target="_self">→ Lees het artikel</a>
     <button class="close" id="reader-close">Terug</button>
   </div>
-  <div class="hint">Klik op een cirkel om dieper te gaan · klik op de breadcrumb om terug te keren</div>
+  <div class="hint" id="hint">Klik op een segment om dieper te gaan · klik buiten de cirkel om terug te keren</div>
 </div>
 
 <script>
 /* ============================================================
-   DATA — vier lagen
+   DATA — Lezer-cirkel met 3 segmenten, daarbinnen verder
    ============================================================ */
 const tree = {
-  name: "Het Open Vizier",
-  color: "#1a1a1a",
+  name: "Lezer",
+  sub: "Het Open Vizier",
+  color: "#c08a3e",
+  gradient: ["#e0a857","#8a5a1f"],
   children: [
     {
-      name: "Lezer",
-      sub: "ik wil gewoon lezen",
-      color: "#c08a3e",
-      gradient: ["#e0a857","#8a5a1f"],
+      name: "Bladeren",
+      sub: "wat is er nieuw",
+      gradient: ["#e0a857","#a06a2a"],
       children: [
-        { name:"Laatste artikelen", sub:"chronologisch", color:"#b8794a",
-          href:"wat-opkomt/" },
-        { name:"De voorpagina", sub:"vandaag", color:"#b8794a",
-          href:"index.html" },
-        { name:"Edities", sub:"thematisch geordend", color:"#b8794a",
+        { name:"Laatste artikelen", sub:"chronologisch",
+          gradient:["#e0a857","#a06a2a"], href:"wat-opkomt/" },
+        { name:"De voorpagina", sub:"vandaag",
+          gradient:["#d49a4f","#8e561f"], href:"index.html" },
+        { name:"Edities", sub:"thematisch",
+          gradient:["#c88e44","#7a4a18"],
           children: [
-            { name:"Editie 0 — Europa", color:"#b8794a", href:"editie-0/" },
-            { name:"Editie 1 — Voorwoord", color:"#b8794a", href:"editie-1/" },
-            { name:"Editie 2 — Thermostaat", color:"#b8794a", href:"editie-2/" },
-            { name:"Editie 3 — Oergevoel", color:"#b8794a", href:"editie-3/" },
-            { name:"Editie 4", color:"#b8794a", href:"editie-4/" },
-            { name:"Editie 5", color:"#b8794a", href:"editie-5/" },
-            { name:"Editie 6", color:"#b8794a", href:"editie-6/" },
+            { name:"Editie 0 — Europa", gradient:["#e0a857","#8a5a1f"], href:"editie-0/" },
+            { name:"Editie 1 — Voorwoord", gradient:["#dba052","#84541d"], href:"editie-1/" },
+            { name:"Editie 2 — Thermostaat", gradient:["#d6994d","#7e4e1a"], href:"editie-2/" },
+            { name:"Editie 3 — Oergevoel", gradient:["#d09148","#784818"], href:"editie-3/" },
+            { name:"Editie 4", gradient:["#cb8a44","#724416"], href:"editie-4/" },
+            { name:"Editie 5", gradient:["#c68340","#6c3f14"], href:"editie-5/" },
+            { name:"Editie 6", gradient:["#c17c3c","#663a12"], href:"editie-6/" },
           ]
         },
       ]
     },
     {
-      name: "Verdieper",
-      sub: "ik wil de analyses",
-      color: "#2d6a4f",
+      name: "Verdiepen",
+      sub: "de analyses",
       gradient: ["#52b788","#1b4332"],
       children: [
         {
-          name:"Gevolgenkaarten", sub:"de schade", color:"#c8102e",
+          name:"Gevolgenkaarten", sub:"de schade",
           gradient:["#e63946","#9d0208"],
           children: [
-            { name:"Manifest", color:"#c8102e", href:"wat-opkomt/de-gevolgenkaart.html",
+            { name:"Manifest", gradient:["#e63946","#9d0208"], href:"wat-opkomt/de-gevolgenkaart.html",
               desc:"Waarom de StemWijzer u nooit zal vertellen wat u eigenlijk stemt." },
-            { name:"Stille Analyse (NL)", color:"#c8102e", href:"wat-opkomt/gevolgenkaart-iii-stille-analyse.html",
+            { name:"Stille Analyse (NL)", gradient:["#dd3340","#920206"], href:"wat-opkomt/gevolgenkaart-iii-stille-analyse.html",
               desc:"20 NL-posities × 11 mechanismen, met BiCRS-uitweg." },
-            { name:"Brusselse (EU)", color:"#c8102e", href:"wat-opkomt/de-brusselse-gevolgenkaart.html",
+            { name:"Brusselse (EU)", gradient:["#d42d3a","#870205"], href:"wat-opkomt/de-brusselse-gevolgenkaart.html",
               desc:"20 EU-scenario's × 11 mechanismen." },
-            { name:"BiCRS-versie EU", color:"#c8102e", href:"wat-opkomt/brusselse-gevolgenkaart-bicrs.html",
+            { name:"BiCRS-versie EU", gradient:["#cb2734","#7c0204"], href:"wat-opkomt/brusselse-gevolgenkaart-bicrs.html",
               desc:"Volledige doorrekening Brussel met BiCRS-vervanging." },
-            { name:"Zwitserse", color:"#c8102e", href:"wat-opkomt/de-zwitserse-gevolgenkaart.html",
+            { name:"Zwitserse", gradient:["#c2212e","#710103"], href:"wat-opkomt/de-zwitserse-gevolgenkaart.html",
               desc:"15 Zwitserse scenario's × Bondsraad-beleid + BiCRS." },
-            { name:"Singaporese", color:"#c8102e", href:"wat-opkomt/de-singaporese-gevolgenkaart.html",
+            { name:"Singaporese", gradient:["#b91b28","#660102"], href:"wat-opkomt/de-singaporese-gevolgenkaart.html",
               desc:"15 SG scenario's × MOF/MAS/MOM + BiCRS-uitweg." },
-            { name:"Konsequenzkarte (DE)", color:"#c8102e", href:"wat-opkomt/die-konsequenzkarte.html",
+            { name:"Konsequenzkarte (DE)", gradient:["#b01522","#5b0001"], href:"wat-opkomt/die-konsequenzkarte.html",
               desc:"Duitse spiegel, Bundestag februari 2025." },
-            { name:"Mappa Malta", color:"#c8102e", href:"wat-opkomt/mappa-tal-konsegwenzi.html",
+            { name:"Mappa Malta", gradient:["#a70f1c","#500001"], href:"wat-opkomt/mappa-tal-konsegwenzi.html",
               desc:"Maltese politiek en EU-druk samen." },
-            { name:"Trump als spiegel", color:"#c8102e", href:"wat-opkomt/trump-als-spiegel.html",
+            { name:"Trump als spiegel", gradient:["#9e0916","#450001"], href:"wat-opkomt/trump-als-spiegel.html",
               desc:"Wat Trump-II met Europa doet." },
           ]
         },
         {
-          name:"BiCRS / Energie", sub:"de uitweg", color:"#2d6a4f",
+          name:"BiCRS / Energie", sub:"de uitweg",
           gradient:["#52b788","#1b4332"],
           children: [
-            { name:"Europa-opener", color:"#2d6a4f", href:"wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html",
+            { name:"Europa-opener", gradient:["#52b788","#1b4332"], href:"wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html",
               desc:"Hoe BiCRS Green Deal en CBAM kan vervangen." },
-            { name:"Natuur-analyse", color:"#2d6a4f", href:"wat-opkomt/de-op-de-natuur-aangepaste-analyse.html",
+            { name:"Natuur-analyse", gradient:["#4daf80","#16402e"], href:"wat-opkomt/de-op-de-natuur-aangepaste-analyse.html",
               desc:"Nederlandse cascade onder twee biomassa-sporen." },
-            { name:"Autoband-sigaret", color:"#2d6a4f", href:"wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html",
+            { name:"Autoband-sigaret", gradient:["#48a778","#113d2a"], href:"wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html",
               desc:"Bandenslijtage als verborgen vervuilingsdrager." },
-            { name:"Vergeten orde", color:"#2d6a4f", href:"wat-opkomt/de-vergeten-orde.html",
+            { name:"Vergeten orde", gradient:["#439f70","#0c3a26"], href:"wat-opkomt/de-vergeten-orde.html",
               desc:"De vergeten orde in biomassa-conversie." },
-            { name:"Methaan-misleiding", color:"#2d6a4f", href:"wat-opkomt/de-methaan-misleiding.html",
+            { name:"Methaan-misleiding", gradient:["#3e9768","#073722"], href:"wat-opkomt/de-methaan-misleiding.html",
               desc:"Waarom methaan-cijfers misleiden." },
-            { name:"Plant die verhuist", color:"#2d6a4f", href:"wat-opkomt/de-plant-die-verhuist.html",
+            { name:"Plant die verhuist", gradient:["#398f60","#02341e"], href:"wat-opkomt/de-plant-die-verhuist.html",
               desc:"Biomassa als verplaatsbare oogst." },
-            { name:"Kernfusie", color:"#2d6a4f", href:"wat-opkomt/kernfusie-tien-jaar-verder.html",
+            { name:"Kernfusie", gradient:["#348758","#00301a"], href:"wat-opkomt/kernfusie-tien-jaar-verder.html",
               desc:"Wat kernfusie wel en niet oplost." },
-            { name:"Klimaathagiografie", color:"#2d6a4f", href:"wat-opkomt/klimaathagiografie.html",
+            { name:"Klimaathagiografie", gradient:["#2f7f50","#002c16"], href:"wat-opkomt/klimaathagiografie.html",
               desc:"Hoe klimaathelden worden gemaakt." },
           ]
         },
         {
-          name:"Politiek / Hervorming", sub:"de vorm", color:"#3b5998",
+          name:"Politiek / Hervorming", sub:"de vorm",
           gradient:["#5a7bbd","#1d3461"],
           children: [
-            { name:"Nova Democratia Manifest", color:"#3b5998", href:"wat-opkomt/nova-democratia-manifest.html",
+            { name:"Nova Democratia", gradient:["#5a7bbd","#1d3461"], href:"wat-opkomt/nova-democratia-manifest.html",
               desc:"De Nova Democratia / VMP politieke vorm." },
-            { name:"Kantelmechanica", color:"#3b5998", href:"wat-opkomt/de-kantelmechanica.html",
+            { name:"Kantelmechanica", gradient:["#5474b6","#1a3059"], href:"wat-opkomt/de-kantelmechanica.html",
               desc:"Hoe een gedachtegoed kantelt naar invloed." },
-            { name:"De Grote Plundering", color:"#3b5998", href:"wat-opkomt/de-grote-plundering.html",
+            { name:"De Grote Plundering", gradient:["#4e6daf","#172c51"], href:"wat-opkomt/de-grote-plundering.html",
               desc:"Vijfluik over hoe Europa zijn productieven uitkleedt." },
-            { name:"Plundering 1: diagnose", color:"#3b5998", href:"wat-opkomt/plundering-1-diagnose.html", desc:"" },
-            { name:"Plundering 2: mechaniek", color:"#3b5998", href:"wat-opkomt/plundering-2-mechaniek.html", desc:"" },
-            { name:"Plundering 3: afloop", color:"#3b5998", href:"wat-opkomt/plundering-3-afloop.html", desc:"" },
-            { name:"Plundering 4: politiek", color:"#3b5998", href:"wat-opkomt/plundering-4-politieke-landschap.html", desc:"" },
-            { name:"Ferrari Junção", color:"#3b5998", href:"wat-opkomt/het-dagelijks-idee-ferrari-juncao.html",
+            { name:"Plundering 1: diagnose", gradient:["#4866a8","#142849"], href:"wat-opkomt/plundering-1-diagnose.html", desc:"" },
+            { name:"Plundering 2: mechaniek", gradient:["#425fa1","#112441"], href:"wat-opkomt/plundering-2-mechaniek.html", desc:"" },
+            { name:"Plundering 3: afloop", gradient:["#3c589a","#0e2039"], href:"wat-opkomt/plundering-3-afloop.html", desc:"" },
+            { name:"Plundering 4: politiek", gradient:["#365193","#0b1c31"], href:"wat-opkomt/plundering-4-politieke-landschap.html", desc:"" },
+            { name:"Ferrari Junção", gradient:["#304a8c","#081829"], href:"wat-opkomt/het-dagelijks-idee-ferrari-juncao.html",
               desc:"Dagelijks idee: Ferrari Junção." },
           ]
         },
         {
-          name:"Nederland & Wereld", sub:"de plek", color:"#7a3aa0",
+          name:"Nederland & Wereld", sub:"de plek",
           gradient:["#9d4edd","#3c096c"],
           children: [
-            { name:"Zelf aan de bak (NL)", color:"#7a3aa0", href:"wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html",
+            { name:"Zelf aan de bak (NL)", gradient:["#9d4edd","#3c096c"], href:"wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html",
               desc:"Nederland moet zijn eigen kracht terugvinden." },
-            { name:"VMB ESG", color:"#7a3aa0", href:"wat-opkomt/wat-ik-achterlaat-vmb-esg.html",
+            { name:"VMB ESG", gradient:["#9447d5","#380864"], href:"wat-opkomt/wat-ik-achterlaat-vmb-esg.html",
               desc:"Wat ik achterlaat — VMB ESG essay." },
-            { name:"Manifest Oergevoel", color:"#7a3aa0", href:"wat-opkomt/manifest-ruimte-voor-het-oergevoel.html",
+            { name:"Manifest Oergevoel", gradient:["#8b40cd","#34075c"], href:"wat-opkomt/manifest-ruimte-voor-het-oergevoel.html",
               desc:"Ruimte voor het oergevoel." },
           ]
         },
       ]
     },
     {
-      name: "Beleidsmaker",
-      sub: "ik zoek dossiers",
-      color: "#4a4a4a",
+      name: "Onderzoeken",
+      sub: "dossiers en bronnen",
       gradient: ["#7a7a7a","#2a2a2a"],
       children: [
-        { name:"Dossiers", sub:"per land/thema", color:"#4a4a4a", href:"dossiers/" },
-        { name:"Onderzoek", sub:"primaire bronnen", color:"#4a4a4a", href:"onderzoek/" },
-        { name:"Archief", sub:"alles teruglezen", color:"#4a4a4a", href:"archief.html" },
-        { name:"Colofon", sub:"wie maakt dit", color:"#4a4a4a", href:"colofon.html" },
+        { name:"Dossiers", sub:"per land/thema", gradient:["#7a7a7a","#2a2a2a"], href:"dossiers/" },
+        { name:"Onderzoek", sub:"primaire bronnen", gradient:["#727272","#252525"], href:"onderzoek/" },
+        { name:"Archief", sub:"alles teruglezen", gradient:["#6a6a6a","#202020"], href:"archief.html" },
+        { name:"Colofon", sub:"wie maakt dit", gradient:["#626262","#1b1b1b"], href:"colofon.html" },
       ]
     },
   ]
 };
 
 /* ============================================================
-   STATE & RENDER
+   STATE
    ============================================================ */
 const svg = document.getElementById('canvas');
 const W = 1000, H = 700, CX = W/2, CY = H/2;
-const path = [tree]; // stack van geneste keuzes
+const R_OUTER = 280;       // straal grote cirkel
+const R_INNER = 64;        // straal label-cirkel in centrum
+const path = [tree];       // stack: tree[0] = wortel "Lezer"
+
+let gradCounter = 0;
+function newGradId(){ return "grad-" + (++gradCounter); }
 
 function clear(){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
 
@@ -249,178 +245,164 @@ function defGradient(id, c1, c2){
   return grad;
 }
 
-function shade(hex, pct){
-  // lighter (pct positive) / darker (pct negative)
-  const f=parseInt(hex.slice(1),16), t=pct<0?0:255, p=Math.abs(pct)/100,
-    R=f>>16,G=(f>>8)&0xFF,B=f&0xFF;
-  return "#"+(0x1000000+
-    (Math.round((t-R)*p)+R)*0x10000+
-    (Math.round((t-G)*p)+G)*0x100+
-    (Math.round((t-B)*p)+B)).toString(16).slice(1);
-}
-
+/* ============================================================
+   RENDER: één grote cirkel met segmenten — overal hetzelfde patroon
+   ============================================================ */
 function render(){
   clear();
   const ns = "http://www.w3.org/2000/svg";
   const current = path[path.length-1];
   const kids = current.children || [];
   const depth = path.length - 1;
+  const n = kids.length;
+
+  if (n === 0){
+    // geen kinderen — laat alleen het centrum-label zien (zou niet moeten gebeuren)
+    drawCenter(current);
+    return;
+  }
 
   // defs voor gradients
   const defs = document.createElementNS(ns,"defs");
-  const pc1 = current.gradient ? current.gradient[0] : shade(current.color, 30);
-  const pc2 = current.gradient ? current.gradient[1] : shade(current.color, -25);
-  defs.appendChild(defGradient("grad-parent", pc1, pc2));
-  // gradient-id per kind via stabiele teller — niet via positie-index
-  kids.forEach((k,i)=>{
-    const c1 = k.gradient ? k.gradient[0] : shade(k.color, 25);
-    const c2 = k.gradient ? k.gradient[1] : shade(k.color, -20);
-    k._gradId = "grad-" + depth + "-" + i;
+  kids.forEach(k=>{
+    const c1 = k.gradient ? k.gradient[0] : "#888";
+    const c2 = k.gradient ? k.gradient[1] : "#333";
+    k._gradId = newGradId();
     defs.appendChild(defGradient(k._gradId, c1, c2));
   });
   svg.appendChild(defs);
 
-  // CENTRUM-cirkel: alleen vanaf depth > 0
-  // Toont waar je gekozen hebt — klikbaar om terug te gaan
-  if (depth > 0){
-    const centerR = 88;
-    const cg = document.createElementNS(ns,"g");
-    cg.setAttribute("class","bubble");
-    cg.setAttribute("transform",`translate(${CX},${CY}) scale(1)`);
-    const cc = document.createElementNS(ns,"circle");
-    cc.setAttribute("cx",0); cc.setAttribute("cy",0); cc.setAttribute("r",centerR);
-    cc.setAttribute("fill","url(#grad-parent)");
-    cc.setAttribute("stroke","rgba(255,255,255,0.4)");
-    cc.setAttribute("stroke-width","1.5");
-    cg.appendChild(cc);
+  // segmenten — start bovenaan, met de klok mee
+  const startAngle = -Math.PI/2;
+  kids.forEach((k,i)=>{
+    const a0 = startAngle + (i * 2*Math.PI/n);
+    const a1 = startAngle + ((i+1) * 2*Math.PI/n);
+    const mid = (a0 + a1) / 2;
 
-    const nameLines = wrapText(current.name, centerR*1.6);
-    const lh = 15;
-    let y0 = -(nameLines.length*lh)/2 + lh/2 - 4;
-    nameLines.forEach(line=>{
-      const t = document.createElementNS(ns,"text");
-      t.setAttribute("x",0); t.setAttribute("y",y0);
-      t.setAttribute("font-size",13.5);
-      t.setAttribute("font-weight","500");
-      t.textContent = line;
-      cg.appendChild(t);
-      y0 += lh;
-    });
-    const back = document.createElementNS(ns,"text");
-    back.setAttribute("x",0); back.setAttribute("y",y0+4);
-    back.setAttribute("font-size",10.5);
-    back.setAttribute("font-style","italic");
-    back.setAttribute("opacity","0.85");
-    back.textContent = "← terug";
-    cg.appendChild(back);
+    // sector-pad (donut: van R_INNER tot R_OUTER)
+    const xo0 = CX + R_OUTER * Math.cos(a0);
+    const yo0 = CY + R_OUTER * Math.sin(a0);
+    const xo1 = CX + R_OUTER * Math.cos(a1);
+    const yo1 = CY + R_OUTER * Math.sin(a1);
+    const xi0 = CX + R_INNER * Math.cos(a0);
+    const yi0 = CY + R_INNER * Math.sin(a0);
+    const xi1 = CX + R_INNER * Math.cos(a1);
+    const yi1 = CY + R_INNER * Math.sin(a1);
+    const largeArc = (a1 - a0) > Math.PI ? 1 : 0;
 
-    cg.addEventListener("click", ()=>{ path.pop(); render(); });
-    svg.appendChild(cg);
-  }
-
-  // KIND-cirkel posities
-  const n = kids.length;
-  let ringR, childR;
-
-  if (depth === 0){
-    // Startbeeld: cirkels naast elkaar (geen omhullende cirkel)
-    // Voor 3 cirkels: rij van 3 in het midden
-    ringR = 0; // wordt niet gebruikt
-    childR = 130;
-  } else {
-    // Eromheen-modus: ring rond centrum
-    ringR = 230;
-    childR = Math.min(85, Math.max(45, (2*Math.PI*ringR)/(n*2.6)));
-  }
-
-  // Voor laag 1: zet Lezer in het midden, Verdieper links, Beleidsmaker rechts
-  let layoutKids = kids;
-  if (depth === 0 && kids.length === 3){
-    const byName = name => kids.find(k => k.name === name);
-    const lezer = byName("Lezer");
-    const verdieper = byName("Verdieper");
-    const beleid = byName("Beleidsmaker");
-    if (lezer && verdieper && beleid){
-      layoutKids = [verdieper, lezer, beleid];
-    }
-  }
-
-  layoutKids.forEach((k,i)=>{
-    let cx, cy;
-    if (depth === 0){
-      // Horizontale rij voor laag 1 — middelste cirkel iets groter
-      const spacing = 290;
-      const totalWidth = (n-1) * spacing;
-      cx = CX - totalWidth/2 + i * spacing;
-      cy = CY;
-    } else if (n === 1){
-      cx = CX; cy = CY - 230;
+    // voor n==1: een hele ring (gebruik twee bogen om sluiting te vermijden)
+    let d;
+    if (n === 1){
+      d = `M ${CX + R_OUTER} ${CY}
+           A ${R_OUTER} ${R_OUTER} 0 1 1 ${CX - R_OUTER} ${CY}
+           A ${R_OUTER} ${R_OUTER} 0 1 1 ${CX + R_OUTER} ${CY}
+           M ${CX + R_INNER} ${CY}
+           A ${R_INNER} ${R_INNER} 0 1 0 ${CX - R_INNER} ${CY}
+           A ${R_INNER} ${R_INNER} 0 1 0 ${CX + R_INNER} ${CY} Z`;
     } else {
-      const angle = -Math.PI/2 + (i * 2*Math.PI/n);
-      cx = CX + ringR * Math.cos(angle);
-      cy = CY + ringR * Math.sin(angle);
+      d = `M ${xi0} ${yi0}
+           L ${xo0} ${yo0}
+           A ${R_OUTER} ${R_OUTER} 0 ${largeArc} 1 ${xo1} ${yo1}
+           L ${xi1} ${yi1}
+           A ${R_INNER} ${R_INNER} 0 ${largeArc} 0 ${xi0} ${yi0} Z`;
     }
 
     const g = document.createElementNS(ns,"g");
-    g.setAttribute("class","bubble");
-    g.setAttribute("transform",`translate(${cx},${cy}) scale(0.001)`);
-    g.style.transformOrigin = `${cx}px ${cy}px`;
+    g.setAttribute("class","seg");
+    g.style.transformOrigin = `${CX}px ${CY}px`;
+    g.setAttribute("transform","scale(0.001)");
 
-    // Middelste cirkel op laag 1 iets groter voor visuele focus
-    const isMiddle = (depth === 0 && n === 3 && i === 1);
-    const r = isMiddle ? childR * 1.18 : childR;
+    const seg = document.createElementNS(ns,"path");
+    seg.setAttribute("d", d);
+    seg.setAttribute("fill", "url(#"+k._gradId+")");
+    seg.setAttribute("stroke", "rgba(246,241,230,0.95)");
+    seg.setAttribute("stroke-width", "2.5");
+    seg.setAttribute("fill-rule","evenodd");
+    g.appendChild(seg);
 
-    const c = document.createElementNS(ns,"circle");
-    c.setAttribute("cx",0); c.setAttribute("cy",0); c.setAttribute("r",r);
-    c.setAttribute("fill","url(#"+k._gradId+")");
-    c.setAttribute("stroke","rgba(255,255,255,0.35)");
-    c.setAttribute("stroke-width","1.5");
-    g.appendChild(c);
+    // label-positie: op de bissectrice, halverwege tussen R_INNER en R_OUTER
+    const tr = (R_INNER + R_OUTER) / 2;
+    const tx = CX + tr * Math.cos(mid);
+    const ty = CY + tr * Math.sin(mid);
 
-    // tekst — naam (en sub-label indien aanwezig)
-    const name = k.name;
-    const lines = wrapText(name, r*1.6);
-    const lineHeight = r < 60 ? 13 : (r < 80 ? 15 : 17);
-    const totalH = lines.length * lineHeight + (k.sub ? 14 : 0);
-    let y0 = -(totalH/2) + lineHeight/2;
+    // adaptieve font-grootte: kleiner bij veel segmenten
+    const fs = n <= 3 ? 19 : (n <= 5 ? 16 : (n <= 7 ? 14 : 12.5));
+    const subFs = n <= 3 ? 12 : (n <= 5 ? 11 : 10);
 
-    lines.forEach((line)=>{
+    const lines = wrapText(k.name, n <= 3 ? 220 : (n <= 5 ? 150 : 110));
+    const lineHeight = fs + 2;
+    let y0 = ty - ((lines.length-1) * lineHeight)/2 - (k.sub ? 6 : 0);
+
+    lines.forEach(line=>{
       const t = document.createElementNS(ns,"text");
-      t.setAttribute("x",0); t.setAttribute("y",y0);
-      t.setAttribute("font-size", r < 60 ? 12 : (r < 80 ? 13.5 : 15));
-      t.setAttribute("font-weight","500");
+      t.setAttribute("x", tx); t.setAttribute("y", y0);
+      t.setAttribute("font-size", fs);
+      t.setAttribute("font-weight", "500");
       t.textContent = line;
       g.appendChild(t);
       y0 += lineHeight;
     });
     if (k.sub){
       const s = document.createElementNS(ns,"text");
-      s.setAttribute("x",0); s.setAttribute("y",y0+2);
-      s.setAttribute("font-size", r < 60 ? 10 : 11.5);
-      s.setAttribute("font-style","italic");
-      s.setAttribute("opacity","0.85");
+      s.setAttribute("x", tx); s.setAttribute("y", y0 + 2);
+      s.setAttribute("font-size", subFs);
+      s.setAttribute("font-style", "italic");
+      s.setAttribute("opacity", "0.9");
       s.textContent = k.sub;
       g.appendChild(s);
     }
 
-    g.addEventListener("click", ()=>onClick(k));
+    g.addEventListener("click",(e)=>{
+      e.stopPropagation();
+      onClick(k);
+    });
     svg.appendChild(g);
 
-    // animatie in
     requestAnimationFrame(()=>{
-      g.style.transition = "transform .55s cubic-bezier(.22,1,.36,1), opacity .4s";
-      g.setAttribute("transform",`translate(${cx},${cy}) scale(1)`);
+      g.style.transition = "transform .55s cubic-bezier(.22,1,.36,1)";
+      g.setAttribute("transform","scale(1)");
     });
   });
 
-  renderCrumb();
+  drawCenter(current);
+}
+
+function drawCenter(node){
+  const ns = "http://www.w3.org/2000/svg";
+
+  const inner = document.createElementNS(ns,"circle");
+  inner.setAttribute("cx", CX); inner.setAttribute("cy", CY);
+  inner.setAttribute("r", R_INNER);
+  inner.setAttribute("fill", "#f6f1e6");
+  inner.setAttribute("stroke", "rgba(0,0,0,0.08)");
+  inner.setAttribute("stroke-width", "1");
+  svg.appendChild(inner);
+
+  const lt = document.createElementNS(ns,"text");
+  lt.setAttribute("class","center-label");
+  lt.setAttribute("x", CX); lt.setAttribute("y", CY - (node.sub ? 6 : 0));
+  lt.setAttribute("font-size", node.name.length > 16 ? 14 : 18);
+  lt.setAttribute("font-weight", "500");
+  lt.setAttribute("fill", "#1a1a1a");
+  lt.textContent = node.name;
+  svg.appendChild(lt);
+
+  if (node.sub){
+    const ls = document.createElementNS(ns,"text");
+    ls.setAttribute("class","center-label");
+    ls.setAttribute("x", CX); ls.setAttribute("y", CY + 14);
+    ls.setAttribute("font-size", 11);
+    ls.setAttribute("font-style","italic");
+    ls.setAttribute("fill", "#6b6b6b");
+    ls.textContent = node.sub;
+    svg.appendChild(ls);
+  }
 }
 
 function wrapText(s, maxW){
-  // ruwe woord-wrap op spaties — past goed bij gemiddelde cirkelgrootte
   const words = s.split(/\s+/);
   const lines=[]; let cur="";
-  const approxCharW = 7.5;
+  const approxCharW = 8;
   const maxChars = Math.max(8, Math.floor(maxW/approxCharW));
   for (const w of words){
     if ((cur+" "+w).trim().length <= maxChars) cur = (cur+" "+w).trim();
@@ -430,42 +412,41 @@ function wrapText(s, maxW){
   return lines.slice(0,3);
 }
 
-function renderCrumb(){
-  const c = document.getElementById('crumb');
-  c.innerHTML = "";
-  path.forEach((node, idx)=>{
-    if (idx === path.length-1){
-      const s = document.createElement('span');
-      s.className = "current";
-      s.textContent = idx === 0 ? "Kies een ingang" : node.name;
-      c.appendChild(s);
-    } else {
-      const b = document.createElement('button');
-      b.textContent = idx === 0 ? "Begin" : node.name;
-      b.addEventListener("click", ()=>{ path.length = idx+1; render(); });
-      c.appendChild(b);
-      const sep = document.createElement('span');
-      sep.className="sep"; sep.textContent = "›";
-      c.appendChild(sep);
-    }
-  });
-}
-
+/* ============================================================
+   INTERACTIE
+   ============================================================ */
 function onClick(node){
-  // als het een artikel is (heeft href, geen children) → toon reader-overlay
   if (node.href && !node.children){
     showReader(node);
     return;
   }
-  // anders: ga één laag dieper
   if (node.children){
     path.push(node);
     render();
   } else if (node.href){
-    // ingang naar bestaande pagina (Lezer-tak)
     window.location.href = node.href;
   }
 }
+
+// Klik buiten de cirkel = stap terug
+document.getElementById('stage').addEventListener('click', (e)=>{
+  // alleen reageren als op lege ruimte/svg-achtergrond geklikt, niet op een segment
+  if (e.target.closest('.seg') || e.target.closest('.reader') || e.target === document.getElementById('reader-close')) return;
+  // berekenen of de klik buiten de cirkel ligt
+  const svgEl = document.getElementById('canvas');
+  const rect = svgEl.getBoundingClientRect();
+  const scaleX = W / rect.width, scaleY = H / rect.height;
+  const px = (e.clientX - rect.left) * scaleX;
+  const py = (e.clientY - rect.top) * scaleY;
+  const dx = px - CX, dy = py - CY;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  if (dist > R_OUTER){
+    if (path.length > 1){
+      path.pop();
+      render();
+    }
+  }
+});
 
 /* ============================================================
    Reader overlay
@@ -474,7 +455,10 @@ const reader = document.getElementById('reader');
 const rTitle = document.getElementById('reader-title');
 const rDesc = document.getElementById('reader-desc');
 const rLink = document.getElementById('reader-link');
-document.getElementById('reader-close').addEventListener('click', ()=>reader.classList.remove('show'));
+document.getElementById('reader-close').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  reader.classList.remove('show');
+});
 
 function showReader(node){
   rTitle.textContent = node.name;
