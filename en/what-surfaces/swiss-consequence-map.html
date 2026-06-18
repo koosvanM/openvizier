@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Swiss Consequence Map · Het Open Vizier</title>
+<meta name="description" content="Fifteen scenarios, ten Swiss federal mechanisms — what your share of Switzerland in 2030 yields under cumulative federal policy.">
+<meta property="og:title" content="The Swiss Consequence Map">
+<meta property="og:description" content="What your share of Switzerland in 2030 yields under cumulative federal policy.">
+<meta property="og:url" content="https://openvizier.org/en/what-surfaces/swiss-consequence-map.html">
+<meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/zwitserland/master-matrix-ch-en.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root { --max-content: 100%; --max-slide: 100%; --font-serif: Georgia, 'Times New Roman', serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-serif); background: #faf5eb; color: #1a1a1a; line-height: 1.6; }
+  
+  /* Masthead + nav */
+  header.masthead { padding: 1.5rem 1.5rem 0.5rem; text-align: center; border-bottom: 2px solid #1a1a1a; }
+  .masthead__titel { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.02em; }
+  .masthead__tagline { font-size: 0.95rem; color: #5a5a5a; font-style: italic; margin-top: 0.3rem; }
+  
+  nav.topnav { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; padding: 0.6rem 1rem; background: #f5ece6; border-bottom: 1px solid #d8c8b8; font-size: 0.85rem; }
+  nav.topnav a { color: #1a1a1a; text-decoration: none; padding: 0.4rem 0.9rem; border-right: 1px solid #d8c8b8; }
+  nav.topnav a:last-child { border-right: none; }
+  nav.topnav a:hover, nav.topnav a.active { background: #1a1a1a; color: #faf5eb; }
+  
+  .lang-switch { display: flex; justify-content: center; gap: 0.6rem; padding: 0.5rem 1rem; background: #ede4d8; font-size: 0.8rem; }
+  .lang-switch a { color: #5a5a5a; text-decoration: none; padding: 0.2rem 0.5rem; border-radius: 3px; }
+  .lang-switch a.active { background: #1a1a1a; color: #faf5eb; font-weight: 600; }
+  
+  /* Hero */
+  .ch-hero { background: linear-gradient(135deg, #c8102e 0%, #8b0a1f 100%); color: #faf5eb; padding: 0; margin: 0 0 3rem; min-height: 70vh; display: flex; align-items: stretch; }
+  .ch-hero__inner { display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 0; }
+  @media (max-width: 900px) { .ch-hero__inner { grid-template-columns: 1fr; } }
+  .ch-hero__text { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; max-width: 640px; margin-left: auto; }
+  @media (max-width: 900px) { .ch-hero__text { max-width: 100%; padding: 2.5rem 1.5rem; } }
+  .ch-hero__tag { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: #f5d0d0; margin: 0 0 1.2rem; font-weight: 600; }
+  .ch-hero__titel { font-family: var(--font-serif); font-size: clamp(2rem, 4.8vw, 3.2rem); line-height: 1.15; margin: 0 0 1.2rem; color: #faf5eb; font-weight: 700; }
+  .ch-hero__lead { font-family: var(--font-serif); font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.6; color: #f5e8d8; font-style: italic; margin: 0 0 1.5rem; }
+  .ch-hero__meta { font-size: 0.9rem; color: #f5d0c8; margin: 0; line-height: 1.6; letter-spacing: 0.02em; }
+  .ch-hero__visual { overflow: hidden; min-height: 70vh; display: flex; align-items: center; justify-content: center; background: #faf5eb; }
+  .ch-hero__visual img { max-width: 95%; max-height: 95%; object-fit: contain; }
+  
+  /* Main content */
+  main { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  
+  .wo-artikel { max-width: 100%; }
+  .wo-artikel h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 3rem 0 1rem; color: #1a1a1a; font-weight: 700; }
+  .wo-artikel h3 { font-size: clamp(1.2rem, 2.4vw, 1.6rem); margin: 2rem 0 0.8rem; color: #1a1a1a; font-weight: 700; }
+  .wo-artikel p { max-width: 760px; margin: 0 auto 1rem; font-size: 1.05rem; line-height: 1.7; color: #2a2a2a; }
+  .wo-artikel ul { max-width: 760px; margin: 0 auto 1.5rem; padding-left: 1.5rem; }
+  .wo-artikel li { margin-bottom: 0.4rem; line-height: 1.6; color: #2a2a2a; }
+  .wo-artikel blockquote { max-width: 720px; margin: 1.5rem auto; padding: 1rem 1.5rem; border-left: 3px solid #c8102e; background: #f5ece6; font-style: italic; color: #2a2a2a; }
+  
+  .wo-artikel figure { margin: 2rem 0; text-align: center; }
+  .wo-artikel figure img { max-width: 100%; height: auto; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-radius: 4px; }
+  .wo-artikel figcaption { font-size: 0.85rem; color: #5a5a5a; font-style: italic; margin-top: 0.6rem; padding: 0 1rem; max-width: 760px; margin-left: auto; margin-right: auto; }
+  
+  .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+  .scenario-card { background: #f5ece6; padding: 1rem 1.2rem; border-left: 3px solid #c8102e; border-radius: 0 4px 4px 0; }
+  .scenario-card h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.4rem; color: #1a1a1a; }
+  .scenario-card p { font-size: 0.85rem; line-height: 1.5; margin: 0; color: #4a4a4a; }
+  
+  .terug { display: block; text-align: center; margin: 3rem 0 1rem; font-size: 0.95rem; }
+  .terug a { color: #1a1a1a; text-decoration: none; border-bottom: 1px solid #1a1a1a; padding-bottom: 2px; }
+  
+  footer.site-footer { background: #1a1a1a; color: #faf5eb; padding: 2rem 1.5rem; text-align: center; font-size: 0.85rem; }
+  footer.site-footer p { margin: 0.3rem 0; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <h1 class="masthead__titel">Het Open Vizier</h1>
+  <p class="masthead__tagline">What surfaces — independent journalism from Malta</p>
+</header>
+
+<nav class="topnav">
+  <a href="../../">Home</a>
+  <a href="../what-surfaces/" class="active">What surfaces</a>
+  <a href="../edition-6/">Edition 6</a>
+  <a href="../edition-5/">Edition 5</a>
+  <a href="../edition-4/">Edition 4</a>
+  <a href="../edition-3/">Edition 3</a>
+  <a href="../edition-2/">Edition 2</a>
+  <a href="../edition-1/">Edition 1</a>
+  <a href="../edition-0/">Edition Europe</a>
+  <a href="../share.html">Share</a>
+</nav>
+
+<div class="lang-switch" style="background:#ede4d8;color:#5a5a5a;padding:0.5rem 1rem;text-align:center;font-size:0.8rem;">
+  <span style="color:#5a5a5a;">Available in: </span>
+  <a href="" class="active" style="background:#1a1a1a;color:#faf5eb;padding:0.2rem 0.5rem;border-radius:3px;font-weight:600;text-decoration:none;margin-left:0.3rem;">EN</a>
+  <span style="margin-left:0.6rem;color:#a0a0a0;font-style:italic;">(other languages planned)</span>
+</div>
+
+<section class="ch-hero">
+  <div class="ch-hero__inner">
+    <div class="ch-hero__text">
+      <p class="ch-hero__tag">Consequence Map · Switzerland · June 2026</p>
+      <h1 class="ch-hero__titel">The Swiss Consequence Map</h1>
+      <p class="ch-hero__lead">Fifteen scenarios, ten Swiss federal mechanisms. What your share of Switzerland in 2030 yields under cumulative Bundesrat policy — when AHV reform, Bilaterale III, the CO₂ Act, individual taxation, Pillar Two and the Kostenbremse compound at third order.</p>
+      <p class="ch-hero__meta">By Jacobus van Merksteijn · Malta · June 2026</p>
+    </div>
+    <div class="ch-hero__visual">
+      <img src="../../assets/wat-opkomt/zwitserland/master-matrix-ch-en.jpg" alt="Swiss Consequence Map heatmap">
+    </div>
+  </div>
+</section>
+
+<main>
+  <article class="wo-artikel">
+    
+    <p>The Brussels Consequence Map asked one question of twenty European scenarios: what does cumulative EU policy cost you by 2030? The Swiss version asks the same of fifteen Swiss scenarios, but the mechanisms are different. Switzerland has its own policy stack — and on 2 March 2026 the Bundesrat signed Bilaterale III, the most consequential treaty Bern has ratified since 1999.</p>
+    
+    <p>This map plots fifteen lives and businesses against ten federal mechanisms in force or being phased in during 2026. The values are third-order effects — meaning each policy is read together with the others, not in isolation. Direct cost, behavioural response, secondary equilibrium. A number you can read.</p>
+    
+    <h2>What the map shows</h2>
+    
+    <p>Read horizontally: each row is one Swiss scenario, from Hans the Zurich retiree to a multinational headquartered in Zug. Read vertically: each column is one federal mechanism, from AHV/BVG reform through Bilaterale III to the SNB's interest-rate policy. The rightmost column shows an alternative reference — what the same scenario would yield under a different federal course.</p>
+    
+    <figure>
+      <img src="../../assets/wat-opkomt/zwitserland/master-matrix-ch-en.jpg" alt="Swiss Consequence Map full heatmap" loading="lazy">
+      <figcaption>Each cell shows the % effect on income (citizens) or revenue (businesses) by 2030 under cumulative Swiss federal policy. Green = gain, red = loss.</figcaption>
+    </figure>
+    
+    <h2>The ten mechanisms</h2>
+    
+    <h3>Social + institutions</h3>
+    <ul>
+      <li><strong>AHV/BVG reform</strong> — the 2024 AHV revision and the 2025 BVG update, raising contribution rates and adjusting conversion rates for occupational pensions.</li>
+      <li><strong>Bilaterale III (EU pact)</strong> — the bilateral III package signed in Brussels on 2 March 2026, restoring full market access and dynamic alignment in seven core areas.</li>
+    </ul>
+    
+    <h3>Climate + fiscal</h3>
+    <ul>
+      <li><strong>CO₂ Act 2025-2030</strong> — the revised federal CO₂ act, raising the CHF/ton levy on fossil fuels and introducing border adjustments.</li>
+      <li><strong>Individual taxation</strong> — the 2026 referendum decision to abolish joint spousal taxation at federal, cantonal and municipal level.</li>
+      <li><strong>Pillar Two 15% minimum</strong> — Switzerland's domestic top-up tax for large multinationals, implemented in 2024 in line with OECD agreement.</li>
+    </ul>
+    
+    <h3>Housing + health</h3>
+    <ul>
+      <li><strong>Kostenbremse (health insurance)</strong> — the federal cost-brake initiative limiting premium growth, with structural consequences for hospitals and supplementary insurers.</li>
+      <li><strong>Tenancy revision</strong> — the federal tenancy-law revision tightening rent controls in shortage zones.</li>
+    </ul>
+    
+    <h3>Climate + monetary</h3>
+    <ul>
+      <li><strong>Net Zero 2050</strong> — the federal climate-protection act ratified by referendum in 2023, with binding sectoral targets.</li>
+      <li><strong>SNB rate policy</strong> — the Swiss National Bank's stance on negative rates, currency strength and capital flows.</li>
+    </ul>
+    
+    <h3>Reference</h3>
+    <ul>
+      <li><strong>Bundesrat reference</strong> — what the same scenarios would yield under an alternative federal course (deeper labour-market integration, stronger SME relief, faster Bilaterale III implementation).</li>
+    </ul>
+    
+    <h2>The fifteen scenarios</h2>
+    
+    <h3>Citizens (nine)</h3>
+    <div class="scenario-grid">
+      <div class="scenario-card"><h4>Hans 68 — retiree (Zurich)</h4><p>AHV + BVG dependent, modest 3a savings, owns flat. Kostenbremse hits him hardest as supplementary insurance reprices.</p></div>
+      <div class="scenario-card"><h4>Beatrice 42 — nurse (Bern)</h4><p>Cantonal hospital employee, single, rents. CO₂ Act + Kostenbremse compound; Bilaterale III brings a small uplift.</p></div>
+      <div class="scenario-card"><h4>Marc 35 — software engineer (Lausanne)</h4><p>Above-median salary, mobile, partial 3a maxer. Bilaterale III is a clear plus; AHV reform a moderate drag.</p></div>
+      <div class="scenario-card"><h4>Sandra & Thomas 38 — modal (Aarau)</h4><p>Double-income, two kids, mortgage. Kostenbremse + CO₂ + AHV stack to a meaningful net loss.</p></div>
+      <div class="scenario-card"><h4>Pietro 55 — SME owner (Lugano)</h4><p>Tessin small business, cross-border exposure. CO₂ Act bites; Bilaterale III is the relief valve.</p></div>
+      <div class="scenario-card"><h4>Aysha 29 — student (Geneva)</h4><p>Doctoral candidate, partial rent subsidy. Tenancy revision is the largest immediate effect.</p></div>
+      <div class="scenario-card"><h4>Rolf 58 — frontalier (Basel)</h4><p>Cross-border commuter from Lörrach. Bilaterale III is decisive; Kostenbremse is the second factor.</p></div>
+      <div class="scenario-card"><h4>Claudia 47 — teacher (Lucerne)</h4><p>Cantonal civil servant. Kostenbremse + CO₂ + AHV compound. Steady reference improvement under alternative.</p></div>
+      <div class="scenario-card"><h4>Andreas 33 — Pillar 3a saver (Zug)</h4><p>Maxed 3a, salaried tech. Individual taxation removes the joint-couple penalty; AHV reform offsets.</p></div>
+    </div>
+    
+    <h3>Businesses (six)</h3>
+    <div class="scenario-grid">
+      <div class="scenario-card"><h4>Pharma exporter (Basel)</h4><p>Large pharma, mostly EU + US revenue. Bilaterale III is a major plus; Pillar Two and Net Zero compound.</p></div>
+      <div class="scenario-card"><h4>Watchmaker SME (Jura)</h4><p>Mid-market watch, EU + Asia. Bilaterale III restores import-export ease; SNB rate the largest drag.</p></div>
+      <div class="scenario-card"><h4>Hotel-tourism (Engadin)</h4><p>Alpine resort, mostly EU clients. Bilaterale III brings movement-of-persons relief.</p></div>
+      <div class="scenario-card"><h4>Construction SME (Vaud)</h4><p>Cantonal builder, tight labour market. CO₂ + tenancy revision squeeze margins.</p></div>
+      <div class="scenario-card"><h4>Private bank (Geneva)</h4><p>Wealth management. SNB rate policy + Pillar Two largest factors; Bilaterale III a modest plus.</p></div>
+      <div class="scenario-card"><h4>Multinational HQ (Zug)</h4><p>European HQ of US/Asian multinational. Pillar Two costly; Bilaterale III the strongest counterweight.</p></div>
+    </div>
+    
+    <h2>How to read the numbers</h2>
+    
+    <p>The numbers are not forecasts. They are derived from federal impact reports, AHV/BVG actuarial files, OECD Pillar Two implementation tracking, and the Bundesrat's Bilaterale III dispatch (Botschaft, February 2026). They are presented as if every mechanism reaches its 2030 stated end-state and compounds with the others. In practice, individual results will diverge. The map is a structure, not a prediction.</p>
+    
+    <p>What the map does show clearly is which scenarios are net winners and which are net losers under cumulative Swiss federal policy as it stands in mid-2026 — and how much room the Bundesrat reference course (a deeper labour-market integration with the EU, stronger SME relief, faster Bilaterale III implementation) would create for almost every scenario.</p>
+    
+    <blockquote>
+      The Brussels Consequence Map showed twenty European scenarios losing more than they could absorb. The Swiss version shows a smaller country with a different policy stack — but one where the same compounding logic applies. The Bilaterale III column is the only systematic plus across the board. Read the column.
+    </blockquote>
+    
+    <h2>What's next</h2>
+    
+    <p>This Swiss Consequence Map is the first in a series extending beyond the EU. A Singapore Consequence Map follows in the same publication (published simultaneously). The methodology — fifteen-twenty scenarios × ten-twelve mechanisms × third-order compounding — travels well to any jurisdiction where the policy stack is documented and stable enough to model.</p>
+    
+    <p>The point is not to map every country. The point is to make the cumulative consequences of policy visible, scenario by scenario, before the elections that decide them.</p>
+    
+  </article>
+  
+  <div class="terug">
+    <a href="../what-surfaces/">← Back to What surfaces</a>
+  </div>
+  
+</main>
+
+<footer class="site-footer">
+  <p>Het Open Vizier · Independent journalism from Malta</p>
+  <p>Author: Jacobus van Merksteijn · Malta · June 2026</p>
+  <p style="font-size: 0.78rem; color: #c0c0c0; font-style: italic; margin-top: 0.8rem;">All Consequence Map data is third-order modelling on public sources. Numbers are structural, not predictive.</p>
+</footer>
+
+</body>
+</html>
