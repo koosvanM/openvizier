@@ -1,0 +1,66 @@
+name: Auto-post new articles to Mastodon
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'nl/wat-opkomt/**.html'
+      - 'nl/editie-*/**.html'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (log only, no posting)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write  # needed to commit .posted.json updates back
+
+concurrency:
+  group: auto-post-${{ github.ref }}
+  cancel-in-progress: false  # never cancel — would lose state mid-run
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # need previous commit to detect new files
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Wait for Netlify deploy
+        # New articles need to be live before posting links to them
+        # Netlify auto-deploy typically completes within 60-90s after push
+        if: github.event_name == 'push'
+        run: |
+          echo "Waiting 120 seconds for Netlify deploy to complete..."
+          sleep 120
+
+      - name: Run auto-post
+        env:
+          MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
+          MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
+          SITE_BASE_URL: ${{ vars.SITE_BASE_URL || 'https://openvizier.org' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
+        run: |
+          python scripts/auto_post.py
+
+      - name: Commit updated .posted.json
+        if: success() && github.event.inputs.dry_run != 'true'
+        run: |
+          if git diff --quiet .posted.json 2>/dev/null; then
+            echo "No state changes to commit."
+          else
+            git config user.name "openvizier-autopost[bot]"
+            git config user.email "autopost@openvizier.org"
+            git add .posted.json
+            git commit -m "Auto-post: update posted state [skip ci]"
+            git push origin HEAD:main
+          fi
