@@ -615,9 +615,9 @@ const DATA_BASE = 'nl/_data/tabellen/';
 
 Promise.all([
   fetch(DATA_BASE+'1_knopen.json').then(r=>r.json()),
-  fetch(DATA_BASE+'2_routes.json').then(r=>r.json()),
+  fetch(DATA_BASE+(TAAL_CODE==='root'?'2_routes.json':'2_routes_'+TAAL_CODE+'.json')).then(r=>r.json()),
   fetch(DATA_BASE+'3_beelden.json').then(r=>r.json()),
-  fetch(DATA_BASE+'4_teksten_'+TAAL_CODE+'.json').then(r=>r.json()),
+  fetch(DATA_BASE+'4_teksten_root.json').then(r=>r.json()),
   fetch(DATA_BASE+'5_layouts.json').then(r=>r.json()),
 ])
 .then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
@@ -639,13 +639,7 @@ Promise.all([
       type: k.type,
       status: k.status || "live",
       // routes
-      url: ((u) => {
-        if (!u) return "";
-        if (u.startsWith('http') || u.startsWith('/') || u.startsWith('#')) return u;
-        // Niet-NL talen wijzen relatieve URL's naar canonieke NL-bestanden
-        if (TAAL_CODE !== 'nl' && TAAL_CODE !== 'root') return '../nl/' + u;
-        return u;
-      })((rIdx[k.code] || {}).url),
+      url: (rIdx[k.code] || {}).url || "",
       terug_naar: (rIdx[k.code] || {}).terug_naar || "",
       // beelden
       hero: (bIdx[k.code] || {}).hero || "",
