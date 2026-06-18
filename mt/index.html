@@ -626,9 +626,12 @@ Promise.all([
   const kIdx = idx(knopenT), rIdx = idx(routesT), bIdx = idx(beeldenT), tIdx = idx(tekstenT);
 
   // Bouw geunificeerde knopen-lijst met alle velden gecombineerd
+  // FILTER: alleen knopen in de huidige taal (prefix WORTEL_CODE) + de wortel '0'
   KNOPEN = [];
   for (const k of knopenT.rijen){
     if (k.actief === false) continue;
+    const c = String(k.code);
+    if (c !== '0' && c !== WORTEL_CODE && !c.startsWith(WORTEL_CODE + '.')) continue;
     const merged = {
       // structuur
       code: k.code,

@@ -203,7 +203,7 @@ let KNOPEN = [], BY_CODE = {}, CHILDREN = {};
 const path = [];
 // Wortel-code per taal: NL=1, DE=2, EN=3, RU=4, FR=5, ES=6, IT=7, PT=8, MT=9
 const TAAL_PREFIX = {nl:'1',de:'2',en:'3',ru:'4',fr:'5',es:'6',it:'7',pt:'8',mt:'9'};
-const WORTEL_CODE = "0";  // root: oorsprong met 9 talen als kinderen
+const WORTEL_CODE = "0";
 
 function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
 
@@ -610,14 +610,14 @@ window.addEventListener('hashchange', ()=>{
 
 // Laad de 5 gescheiden tabellen en voeg ze samen tot één werkmodel
 // Taal-detectie + data-pad
-const TAAL_CODE = 'nl';  // root: laad NL als canonieke namen
+const TAAL_CODE = 'root';
 const DATA_BASE = 'nl/_data/tabellen/';
 
 Promise.all([
   fetch(DATA_BASE+'1_knopen.json').then(r=>r.json()),
   fetch(DATA_BASE+'2_routes.json').then(r=>r.json()),
   fetch(DATA_BASE+'3_beelden.json').then(r=>r.json()),
-  fetch(DATA_BASE+'4_teksten_root.json').then(r=>r.json()),
+  fetch(DATA_BASE+'4_teksten_'+TAAL_CODE+'.json').then(r=>r.json()),
   fetch(DATA_BASE+'5_layouts.json').then(r=>r.json()),
 ])
 .then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
@@ -626,9 +626,12 @@ Promise.all([
   const kIdx = idx(knopenT), rIdx = idx(routesT), bIdx = idx(beeldenT), tIdx = idx(tekstenT);
 
   // Bouw geunificeerde knopen-lijst met alle velden gecombineerd
+  // FILTER: alleen knopen in de huidige taal (prefix WORTEL_CODE) + de wortel '0'
   KNOPEN = [];
   for (const k of knopenT.rijen){
     if (k.actief === false) continue;
+    const c = String(k.code);
+    if (!(c === '0' || /^[1-9]$/.test(c))) continue;
     const merged = {
       // structuur
       code: k.code,
@@ -694,7 +697,7 @@ Promise.all([
 // Root-modus: klikken op een taal-tegel navigeert naar die taal's URL
 const TAAL_URL = {'1':'/nl/','2':'/de/','3':'/en/','4':'/ru/','5':'/fr/','6':'/es/','7':'/it/','8':'/pt/','9':'/mt/'};
 document.addEventListener('click', e => {
-  const tile = e.target.closest('.tile[data-code]');
+  const tile = e.target.closest('[data-code]');
   if (!tile) return;
   const code = tile.dataset.code;
   if (TAAL_URL[code]) {
