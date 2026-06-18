@@ -331,10 +331,23 @@ function render(){
     childR = Math.min(85, Math.max(45, (2*Math.PI*ringR)/(n*2.6)));
   }
 
-  kids.forEach((k,i)=>{
+  // Voor laag 1: vind de "Lezer" en zet die in het midden
+  let layoutKids = kids;
+  if (depth === 0){
+    const lezerIdx = kids.findIndex(k => k.name === "Lezer");
+    if (lezerIdx > 0){
+      layoutKids = [...kids];
+      const [lezer] = layoutKids.splice(lezerIdx, 1);
+      // Plaats Lezer in het midden: bij 3 items wordt dat index 1
+      const midIdx = Math.floor(layoutKids.length / 2);
+      layoutKids.splice(midIdx, 0, lezer);
+    }
+  }
+
+  layoutKids.forEach((k,i)=>{
     let cx, cy;
     if (depth === 0){
-      // Horizontale rij voor laag 1
+      // Horizontale rij voor laag 1 — middelste cirkel iets groter
       const spacing = 290;
       const totalWidth = (n-1) * spacing;
       cx = CX - totalWidth/2 + i * spacing;
@@ -352,8 +365,12 @@ function render(){
     g.setAttribute("transform",`translate(${cx},${cy}) scale(0.001)`);
     g.style.transformOrigin = `${cx}px ${cy}px`;
 
+    // Middelste cirkel op laag 1 iets groter voor visuele focus
+    const isMiddle = (depth === 0 && n === 3 && i === 1);
+    const r = isMiddle ? childR * 1.18 : childR;
+
     const c = document.createElementNS(ns,"circle");
-    c.setAttribute("cx",0); c.setAttribute("cy",0); c.setAttribute("r",childR);
+    c.setAttribute("cx",0); c.setAttribute("cy",0); c.setAttribute("r",r);
     c.setAttribute("fill","url(#grad-"+i+")");
     c.setAttribute("stroke","rgba(255,255,255,0.35)");
     c.setAttribute("stroke-width","1.5");
@@ -361,15 +378,15 @@ function render(){
 
     // tekst — naam (en sub-label indien aanwezig)
     const name = k.name;
-    const lines = wrapText(name, childR*1.6);
-    const lineHeight = childR < 60 ? 13 : (childR < 80 ? 15 : 17);
+    const lines = wrapText(name, r*1.6);
+    const lineHeight = r < 60 ? 13 : (r < 80 ? 15 : 17);
     const totalH = lines.length * lineHeight + (k.sub ? 14 : 0);
     let y0 = -(totalH/2) + lineHeight/2;
 
     lines.forEach((line)=>{
       const t = document.createElementNS(ns,"text");
       t.setAttribute("x",0); t.setAttribute("y",y0);
-      t.setAttribute("font-size", childR < 60 ? 12 : (childR < 80 ? 13.5 : 15));
+      t.setAttribute("font-size", r < 60 ? 12 : (r < 80 ? 13.5 : 15));
       t.setAttribute("font-weight","500");
       t.textContent = line;
       g.appendChild(t);
@@ -378,7 +395,7 @@ function render(){
     if (k.sub){
       const s = document.createElementNS(ns,"text");
       s.setAttribute("x",0); s.setAttribute("y",y0+2);
-      s.setAttribute("font-size", childR < 60 ? 10 : 11.5);
+      s.setAttribute("font-size", r < 60 ? 10 : 11.5);
       s.setAttribute("font-style","italic");
       s.setAttribute("opacity","0.85");
       s.textContent = k.sub;
