@@ -2,120 +2,587 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<title>Structuur — Het Open Vizier (beheer)</title>
+<title>Structuur — Beheer · Het Open Vizier</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
+<meta name="robots" content="noindex,nofollow">
 <style>
-  :root{--bg:#f6f1e6;--ink:#1a1a1a;--muted:#6b6b6b;--line:#d9d2c2}
+  :root{--bg:#f6f1e6;--ink:#1a1a1a;--muted:#6b6b6b;--line:#d9d2c2;--accent:#1c5760}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased;
-    padding:24px 28px 80px;line-height:1.5}
-  h1{margin:0 0 4px;font-size:24px}
-  .lead{color:var(--muted);font-style:italic;margin:0 0 20px;font-size:14px}
-  .controls{margin:14px 0 20px;padding:10px 12px;background:#efe7d4;border-radius:6px;
-    display:flex;gap:14px;align-items:center;font-size:13px;flex-wrap:wrap}
-  .controls input[type=search]{padding:6px 10px;font:inherit;font-size:13px;
-    border:1px solid var(--line);border-radius:4px;background:#fff;min-width:240px}
-  .controls label{color:var(--muted);cursor:pointer}
-  .stats{margin-left:auto;color:var(--muted);font-size:12px}
-  table{width:100%;border-collapse:collapse;font-size:13.5px}
-  th{text-align:left;padding:8px 10px;background:#efe7d4;border-bottom:2px solid var(--line);
-    font-weight:500;letter-spacing:.3px;position:sticky;top:0}
-  td{padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-  tr.lvl1>td{background:rgba(0,0,0,0.04);font-weight:500}
-  tr.lvl2>td{background:rgba(0,0,0,0.02)}
-  tr:hover>td{background:#efe7d4}
-  td.code{font-family:"SF Mono","Menlo",Monaco,Consolas,monospace;font-size:12px;color:#4a4a4a;
-    white-space:nowrap;padding-left:14px}
-  td.naam{font-weight:400}
-  td.type{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-  td.kleur{padding:6px 8px}
-  .swatch{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;
-    border:1px solid rgba(0,0,0,0.1)}
-  td.url a{color:#1c5760;text-decoration:none;font-size:12px;border-bottom:1px solid rgba(28,87,96,.3)}
-  td.url a:hover{border-bottom-color:#1c5760}
-  td.ondertitel{color:var(--muted);font-style:italic;font-size:12px}
-  .indent-1{padding-left:14px}.indent-2{padding-left:32px}.indent-3{padding-left:50px}.indent-4{padding-left:68px}
-  .hidden{display:none}
-  .footnote{margin-top:30px;color:var(--muted);font-size:12px;font-style:italic}
-  .nav-back{display:inline-block;margin-bottom:14px;color:var(--muted);text-decoration:none;
+    padding:18px 18px 80px;line-height:1.5}
+  h1{margin:0 0 4px;font-size:20px}
+  .lead{color:var(--muted);font-style:italic;margin:0 0 12px;font-size:13px}
+  .nav-back{display:inline-block;margin-bottom:10px;color:var(--muted);text-decoration:none;
     border-bottom:1px solid var(--line);padding-bottom:2px;font-size:13px}
   .nav-back:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+  /* Tab-balk */
+  .tabs{display:flex;gap:2px;border-bottom:2px solid var(--line);margin:10px 0 0;
+    flex-wrap:wrap}
+  .tabs button{background:transparent;border:none;padding:10px 16px;cursor:pointer;
+    font:inherit;font-size:13px;color:var(--muted);border-bottom:3px solid transparent;
+    transition:color .2s, border-color .2s}
+  .tabs button:hover{color:var(--ink)}
+  .tabs button.active{color:var(--ink);border-bottom-color:var(--ink);font-weight:500}
+  .tabs button .count{display:inline-block;background:var(--line);color:#666;
+    padding:0 6px;border-radius:8px;font-size:10.5px;margin-left:6px}
+  .tabs button.active .count{background:var(--ink);color:#fff}
+
+  /* Controls per tabel */
+  .controls{margin:12px 0;padding:10px 12px;background:#efe7d4;border-radius:6px;
+    display:flex;gap:12px;align-items:center;font-size:13px;flex-wrap:wrap;
+    position:sticky;top:0;z-index:30;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+  .controls input[type=search]{padding:6px 10px;font:inherit;font-size:13px;
+    border:1px solid var(--line);border-radius:4px;background:#fff;min-width:220px}
+  .controls label{color:var(--muted);cursor:pointer;display:inline-flex;gap:4px;align-items:center}
+  .controls .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .controls button{background:var(--ink);color:var(--bg);border:none;
+    padding:6px 12px;border-radius:4px;cursor:pointer;font:inherit;font-size:12.5px}
+  .controls button:hover{background:#000}
+  .controls button.secondary{background:transparent;color:var(--ink);
+    border:1px solid var(--line)}
+  .controls .stats{color:var(--muted);font-size:12px}
+  .controls .changed{color:#a04018;font-weight:500;font-size:12px}
+
+  /* Legend */
+  .legend{padding:10px 14px;background:#fff8e8;border-left:3px solid #c8a052;
+    border-radius:4px;margin:0 0 14px;font-size:12.5px;color:#5a4a20}
+  .legend strong{color:#3a2a00}
+  .legend code{background:#f4e7c4;padding:1px 5px;border-radius:3px;font-size:11.5px;
+    font-family:"SF Mono","Menlo",Monaco,monospace}
+
+  /* Panes */
+  .pane{display:none}
+  .pane.active{display:block}
+
+  /* Table */
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;min-width:900px}
+  th{text-align:left;padding:8px;background:#efe7d4;border-bottom:2px solid var(--line);
+    font-weight:500;letter-spacing:.3px;position:sticky;top:54px;z-index:10;
+    white-space:nowrap;font-size:11.5px}
+  td{padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:middle;
+    font-size:12px}
+  tr.lvl1>td{background:rgba(0,0,0,0.04);font-weight:500}
+  tr.lvl2>td{background:rgba(0,0,0,0.02)}
+  tr.dirty>td{background:#fff3e0 !important}
+  tr.dirty>td.code::before{content:"●";color:#d97706;font-size:13px;margin-right:4px}
+  tr:hover>td{background:#efe7d4 !important}
+  td.code{font-family:"SF Mono","Menlo",Monaco,monospace;font-size:11px;color:#4a4a4a;
+    white-space:nowrap;padding-left:14px}
+  td.type{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;
+    white-space:nowrap}
+  td.status{white-space:nowrap}
+  .badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;
+    font-weight:500;letter-spacing:.3px}
+  .badge.live{background:#d4e7d4;color:#1f5e23}
+  .badge.concept{background:#fff0d0;color:#8a5a00}
+  .badge.verborgen{background:#e0e0e0;color:#666}
+
+  td.edit{cursor:text;transition:background .2s}
+  td.edit:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff}
+  td.edit[data-empty="true"]:not(:focus)::after{content:"—";color:#bbb;font-style:italic}
+
+  td.hero-cell .hero-thumb{display:inline-block;width:32px;height:22px;
+    border:1px solid var(--line);border-radius:3px;background:#fafafa;
+    background-size:cover;background-position:center;vertical-align:middle;
+    margin-right:6px}
+  td.hero-cell .hero-path{font-family:monospace;font-size:10.5px;color:#666}
+
+  .indent-1{padding-left:14px}.indent-2{padding-left:30px}.indent-3{padding-left:46px}.indent-4{padding-left:62px}
+
+  /* Modal voor JSON-download */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:100;
+    align-items:center;justify-content:center;padding:20px}
+  .modal.show{display:flex}
+  .modal-body{background:#fff;border-radius:8px;max-width:900px;width:100%;
+    max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+  .modal-body h3{margin:0;padding:14px 18px;border-bottom:1px solid var(--line);font-size:15px}
+  .modal-body p{margin:12px 18px;font-size:12.5px;color:var(--muted)}
+  .modal-body textarea{flex:1;font-family:"SF Mono","Menlo",Monaco,monospace;font-size:11px;
+    border:none;border-top:1px solid var(--line);padding:14px 18px;outline:none;resize:none;
+    background:#fafafa;line-height:1.4;color:#222;min-height:340px}
+  .modal-footer{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:8px;
+    justify-content:flex-end}
+  .modal-footer button{background:var(--ink);color:#fff;border:none;padding:7px 14px;
+    border-radius:4px;cursor:pointer;font:inherit;font-size:12.5px}
+  .modal-footer button.secondary{background:transparent;color:var(--ink);
+    border:1px solid var(--line)}
+
+  /* Layouts-tabel speciale weergave */
+  .layouts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:14px;margin:14px 0}
+  .layout-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px}
+  .layout-card h4{margin:0 0 6px;font-size:13px}
+  .layout-card .grid-vis{display:grid;gap:2px;margin:6px 0 8px;
+    aspect-ratio:1.4;background:#f6f1e6;padding:4px;border-radius:4px}
+  .layout-card .grid-vis .cell{background:#d4bc94;border-radius:2px}
+  .layout-card .grid-vis .cell.label-top{background:linear-gradient(180deg,#a8736e 0,#a8736e 30%,#d4bc94 30%,#d4bc94)}
+  .layout-card .grid-vis .cell.label-bottom{background:linear-gradient(180deg,#d4bc94 0,#d4bc94 70%,#a8736e 70%,#a8736e)}
+  .layout-card .grid-vis .cell.label-center{background:#a8736e}
+  .layout-card .grid-vis .cell.label-hidden{background:#999;opacity:.5}
+  .layout-card .grid-vis .wapen{display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:10px;background:#1a1a1a !important}
+  .layout-card pre{margin:6px 0 0;background:#fafafa;padding:8px;border-radius:4px;
+    font-size:10.5px;line-height:1.4;overflow-x:auto}
 </style>
 </head>
 <body>
   <a class="nav-back" href="index.html">← Voorpagina</a>
-  <h1>Structuur — beheer</h1>
-  <p class="lead">Canonieke boom van Het Open Vizier · 51 knopen · gevoed door <code>_data/structuur.json</code></p>
+  <h1>Structuur — Beheer · Het Open Vizier</h1>
+  <p class="lead">Vijf gescheiden tabellen. Wijzig wat je wilt, download de bijgewerkte tabel, plak naar GitHub.</p>
 
-  <div class="controls">
-    <input type="search" id="zoek" placeholder="Zoek op naam, code of URL…">
-    <label><input type="checkbox" id="alleen-art"> alleen artikelen</label>
-    <label><input type="checkbox" id="verberg-leeg"> verberg knopen zonder URL</label>
-    <span class="stats" id="stats"></span>
+  <div class="legend">
+    <strong>Hoe werkt het?</strong>
+    Het systeem bestaat uit <code>5 aparte JSON-tabellen</code> in <code>nl/_data/tabellen/</code>. Elke tab hieronder toont één tabel. Klik op een cel om te bewerken — wijzigingen krijgen een <strong style="color:#d97706">●</strong> markering. Klik <strong>'Toon JSON ↓'</strong> om de gewijzigde tabel te downloaden en op GitHub te zetten.
   </div>
 
-  <table id="tbl">
-    <thead>
-      <tr>
-        <th style="width:90px">Code</th>
-        <th>Naam</th>
-        <th style="width:90px">Type</th>
-        <th>Ondertitel</th>
-        <th style="width:70px">Kleur</th>
-        <th>URL</th>
-      </tr>
-    </thead>
-    <tbody id="tbody"><!-- gevuld door JS --></tbody>
-  </table>
+  <div class="tabs" id="tabs">
+    <button data-tab="knopen" class="active">1. Knopen <span class="count" id="cnt-knopen">—</span></button>
+    <button data-tab="routes">2. Routes <span class="count" id="cnt-routes">—</span></button>
+    <button data-tab="beelden">3. Beelden <span class="count" id="cnt-beelden">—</span></button>
+    <button data-tab="teksten">4. Teksten <span class="count" id="cnt-teksten">—</span></button>
+    <button data-tab="layouts">5. Layouts <span class="count" id="cnt-layouts">—</span></button>
+  </div>
 
-  <p class="footnote">Niet in publieke navigatie · alleen voor beheer · niet geïndexeerd</p>
+  <!-- Pane: Knopen -->
+  <div class="pane active" id="pane-knopen">
+    <div class="controls">
+      <input type="search" class="q" placeholder="Zoek...">
+      <span class="stats" id="stats-knopen"></span>
+      <span class="changed" id="changed-knopen"></span>
+      <div class="right">
+        <button class="secondary reset-btn" data-tab="knopen">Herstel</button>
+        <button class="show-json" data-tab="knopen">Toon JSON ↓</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:80px">Code</th><th style="width:80px">Ouder</th>
+          <th style="width:90px">Type</th><th style="width:90px">Status</th>
+          <th style="width:80px">Volgorde</th><th style="width:60px">Actief</th>
+        </tr></thead>
+        <tbody id="tb-knopen"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pane: Routes -->
+  <div class="pane" id="pane-routes">
+    <div class="controls">
+      <input type="search" class="q" placeholder="Zoek...">
+      <span class="stats" id="stats-routes"></span>
+      <span class="changed" id="changed-routes"></span>
+      <div class="right">
+        <button class="secondary reset-btn" data-tab="routes">Herstel</button>
+        <button class="show-json" data-tab="routes">Toon JSON ↓</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:80px">Code</th><th>URL</th>
+          <th style="width:110px">Doel</th><th style="width:90px">Terug naar</th>
+          <th style="width:110px">Klik-actie</th>
+        </tr></thead>
+        <tbody id="tb-routes"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pane: Beelden -->
+  <div class="pane" id="pane-beelden">
+    <div class="controls">
+      <input type="search" class="q" placeholder="Zoek...">
+      <label><input type="checkbox" class="alleen-leeg"> alleen zonder hero</label>
+      <span class="stats" id="stats-beelden"></span>
+      <span class="changed" id="changed-beelden"></span>
+      <div class="right">
+        <button class="secondary reset-btn" data-tab="beelden">Herstel</button>
+        <button class="show-json" data-tab="beelden">Toon JSON ↓</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:80px">Code</th>
+          <th>Hero</th>
+          <th style="width:120px">Positie</th>
+          <th style="width:110px">Filter</th>
+          <th>Alt-tekst</th>
+        </tr></thead>
+        <tbody id="tb-beelden"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pane: Teksten -->
+  <div class="pane" id="pane-teksten">
+    <div class="controls">
+      <input type="search" class="q" placeholder="Zoek...">
+      <span class="stats" id="stats-teksten"></span>
+      <span class="changed" id="changed-teksten"></span>
+      <div class="right">
+        <button class="secondary reset-btn" data-tab="teksten">Herstel</button>
+        <button class="show-json" data-tab="teksten">Toon JSON ↓</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:80px">Code</th>
+          <th style="width:180px">Naam</th>
+          <th style="width:140px">Ondertitel</th>
+          <th>Beschrijving</th>
+          <th style="width:90px">Tekst-pos</th>
+          <th style="width:80px">Tekst-kleur</th>
+          <th>Notitie</th>
+        </tr></thead>
+        <tbody id="tb-teksten"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pane: Layouts (visueel) -->
+  <div class="pane" id="pane-layouts">
+    <div class="controls">
+      <span class="stats">Visuele weergave van de grids per aantal items</span>
+      <div class="right">
+        <button class="show-json" data-tab="layouts">Toon JSON ↓</button>
+      </div>
+    </div>
+    <div class="layouts-grid" id="layouts-grid"></div>
+  </div>
+
+  <!-- Modal voor JSON-download -->
+  <div class="modal" id="json-modal">
+    <div class="modal-body">
+      <h3 id="modal-title">Bijgewerkte tabel</h3>
+      <p>Kopieer onderstaande JSON en plak hem over het overeenkomstige bestand in <code>nl/_data/tabellen/</code> op GitHub. Of klik <strong>'Bestand downloaden'</strong>.</p>
+      <textarea id="json-out" readonly></textarea>
+      <div class="modal-footer">
+        <button class="secondary" id="close-modal">Sluit</button>
+        <button id="download-json">Bestand downloaden</button>
+        <button id="copy-json">Kopieer</button>
+      </div>
+    </div>
+  </div>
 
 <script>
-fetch('_data/structuur.json').then(r=>r.json()).then(data=>{
-  const knopen = data.knopen;
-  const tbody = document.getElementById('tbody');
+// State per tabel
+const TABELLEN = {};
+const ORIG = {};
+const DIRTY = {};  // tab -> Set(code)
 
-  function depth(code){ return code === "0" ? 0 : code.split('.').length; }
+const FILES = {
+  knopen: "1_knopen.json",
+  routes: "2_routes.json",
+  beelden: "3_beelden.json",
+  teksten: "4_teksten_nl.json",
+  layouts: "5_layouts.json"
+};
 
-  function render(){
-    const q = document.getElementById('zoek').value.toLowerCase().trim();
-    const alleenArt = document.getElementById('alleen-art').checked;
-    const verbergLeeg = document.getElementById('verberg-leeg').checked;
-    tbody.innerHTML = "";
-    let visible = 0;
-    for (const k of knopen){
-      if (alleenArt && k.type !== "artikel") continue;
-      if (verbergLeeg && !k.url) continue;
-      if (q){
-        const hay = (k.code+" "+k.naam+" "+(k.url||"")+" "+(k.ondertitel||"")).toLowerCase();
-        if (!hay.includes(q)) continue;
-      }
-      const tr = document.createElement('tr');
-      const d = depth(k.code);
-      tr.className = "lvl"+Math.min(d,4);
-      const url = k.url ? `<a href="${k.url}" target="_blank">${k.url}</a>` : "";
-      const sw = k.kleur || (k.gradient && k.gradient[0]) || "";
-      const swHtml = sw ? `<span class="swatch" style="background:${sw}"></span>` : "";
-      tr.innerHTML = `
-        <td class="code indent-${Math.min(d-1,4)}">${k.code}</td>
-        <td class="naam">${k.naam}</td>
-        <td class="type">${k.type}</td>
-        <td class="ondertitel">${k.ondertitel || ""}</td>
-        <td class="kleur">${swHtml}</td>
-        <td class="url">${url}</td>
-      `;
-      tbody.appendChild(tr);
-      visible++;
-    }
-    document.getElementById('stats').textContent = `${visible} van ${knopen.length} knopen`;
+const FIELDS = {
+  knopen: {
+    type: {opties:["wortel","ingang","richting","onderwerp","serie","artikel","video","audio","dossier"]},
+    status: {opties:["live","concept","verborgen"]},
+    actief: {opties:["true","false"]}
+  },
+  routes: {
+    doel_open: {opties:["self","nieuw_tabblad","overlay"]},
+    klik_actie: {opties:["auto","navigeer","overlay_tonen","sub_lagen_openen"]}
+  },
+  beelden: {
+    hero_positie: {opties:["center","top","bottom","left","right","top left","top right","bottom left","bottom right"]},
+    hero_filter: {opties:["standaard","licht","donker","helder","sepia-zwaar","geen"]}
+  },
+  teksten: {
+    tekst_positie: {opties:["auto","top","bottom","center","left","right"]},
+    tekst_kleur: {opties:["licht","goud","donker"]}
   }
+};
 
-  document.getElementById('zoek').addEventListener('input', render);
-  document.getElementById('alleen-art').addEventListener('change', render);
-  document.getElementById('verberg-leeg').addEventListener('change', render);
-  render();
+const COLUMNS = {
+  knopen: ["code","ouder","type","status","volgorde","actief"],
+  routes: ["code","url","doel_open","terug_naar","klik_actie"],
+  beelden: ["code","hero","hero_positie","hero_filter","hero_alt"],
+  teksten: ["code","naam","ondertitel","beschrijving","tekst_positie","tekst_kleur","notitie"]
+};
+
+function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
+
+function depth(code){ return code === "0" ? 0 : String(code).split('.').length; }
+
+function isReadonly(tab, field){
+  // alleen 'code' is uniform read-only
+  return field === "code";
+}
+
+function renderTab(tab){
+  if (tab === "layouts"){ renderLayouts(); return; }
+
+  const data = TABELLEN[tab];
+  const tbody = document.getElementById('tb-'+tab);
+  tbody.innerHTML = "";
+  const pane = document.getElementById('pane-'+tab);
+  const q = pane.querySelector('.q').value.toLowerCase().trim();
+  const alleenLeeg = pane.querySelector('.alleen-leeg')?.checked;
+  const dirty = DIRTY[tab] || new Set();
+
+  let visible = 0;
+  for (const rij of data.rijen){
+    if (alleenLeeg && rij.hero) continue;
+    if (q){
+      const hay = Object.values(rij).map(v=>String(v||"")).join(" ").toLowerCase();
+      if (!hay.includes(q)) continue;
+    }
+    const tr = document.createElement('tr');
+    const d = depth(rij.code);
+    tr.className = "lvl"+Math.min(d,4);
+    if (dirty.has(rij.code)) tr.classList.add('dirty');
+    tr.dataset.code = rij.code;
+
+    for (const field of COLUMNS[tab]){
+      const td = document.createElement('td');
+      td.dataset.field = field;
+      const v = rij[field];
+
+      if (field === "code"){
+        td.className = "code indent-"+Math.min(d-1,4);
+        td.textContent = v;
+      } else if (field === "status"){
+        td.className = "status edit";
+        td.dataset.value = v || "live";
+        td.innerHTML = `<span class="badge ${v || 'live'}">${v || 'live'}</span>`;
+        attachSelectEdit(td, tab, rij.code, field);
+      } else if (field === "type"){
+        td.className = "type edit";
+        td.dataset.value = v;
+        td.textContent = v;
+        attachSelectEdit(td, tab, rij.code, field);
+      } else if (field === "hero"){
+        td.className = "hero-cell edit";
+        const thumb = v ? `<span class="hero-thumb" style="background-image:url('${v}')"></span>` : `<span class="hero-thumb"></span>`;
+        td.innerHTML = thumb + `<span class="hero-path">${v || "—"}</span>`;
+        td.dataset.value = v || "";
+        td.dataset.empty = v ? "false" : "true";
+        attachTextEdit(td, tab, rij.code, field);
+      } else if (FIELDS[tab] && FIELDS[tab][field]){
+        td.className = "edit";
+        td.textContent = v || "";
+        td.dataset.value = v || "";
+        attachSelectEdit(td, tab, rij.code, field);
+      } else {
+        td.className = "edit";
+        td.textContent = v === null ? "" : (v === undefined ? "" : String(v));
+        td.dataset.value = v === null ? "" : String(v || "");
+        td.dataset.empty = (v === "" || v === null || v === undefined) ? "true" : "false";
+        attachTextEdit(td, tab, rij.code, field);
+      }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+    visible++;
+  }
+  document.getElementById('stats-'+tab).textContent = `${visible} van ${data.rijen.length}`;
+  const c = document.getElementById('changed-'+tab);
+  c.textContent = dirty.size > 0 ? `· ${dirty.size} gewijzigd` : '';
+}
+
+function attachTextEdit(td, tab, code, field){
+  td.contentEditable = "true";
+  td.spellcheck = false;
+  td.addEventListener('blur', ()=>{
+    const oldVal = td.dataset.value || "";
+    let newVal = td.textContent.trim();
+    // Bij hero-veld is de tekst ook in span — pak ruwe waarde
+    if (field === "hero"){
+      const pathSpan = td.querySelector('.hero-path');
+      if (pathSpan) newVal = pathSpan.textContent.trim();
+      if (newVal === "—") newVal = "";
+    }
+    if (newVal !== oldVal){
+      applyChange(tab, code, field, newVal);
+      renderTab(tab);
+    }
+  });
+  td.addEventListener('keydown', (e)=>{
+    if (e.key === "Enter"){ e.preventDefault(); td.blur(); }
+    if (e.key === "Escape"){ td.textContent = td.dataset.value; td.blur(); }
+  });
+}
+
+function attachSelectEdit(td, tab, code, field){
+  td.contentEditable = "false";
+  td.style.cursor = "pointer";
+  td.addEventListener('click', ()=>{
+    if (td.querySelector('select')) return;
+    const old = td.dataset.value || "";
+    const sel = document.createElement('select');
+    sel.style.cssText = "background:transparent;border:none;font:inherit;font-size:inherit;color:inherit;outline:none;width:100%;cursor:pointer";
+    for (const opt of FIELDS[tab][field].opties){
+      const o = document.createElement('option');
+      o.value = opt; o.textContent = opt;
+      if (opt === old) o.selected = true;
+      sel.appendChild(o);
+    }
+    td.innerHTML = ""; td.appendChild(sel); sel.focus();
+    const finish = ()=>{
+      let v = sel.value;
+      if (field === "actief") v = (v === "true");
+      applyChange(tab, code, field, v);
+      renderTab(tab);
+    };
+    sel.addEventListener('change', finish);
+    sel.addEventListener('blur', finish);
+  });
+}
+
+function applyChange(tab, code, field, value){
+  const rij = TABELLEN[tab].rijen.find(r=>String(r.code)===String(code));
+  if (!rij) return;
+  rij[field] = value;
+  // Vergelijk met origineel
+  const origRij = ORIG[tab].rijen.find(r=>String(r.code)===String(code));
+  let isDiff = false;
+  for (const f in rij){
+    if (JSON.stringify(rij[f]) !== JSON.stringify(origRij[f])){ isDiff = true; break; }
+  }
+  if (!DIRTY[tab]) DIRTY[tab] = new Set();
+  if (isDiff) DIRTY[tab].add(String(code));
+  else DIRTY[tab].delete(String(code));
+}
+
+function renderLayouts(){
+  const grid = document.getElementById('layouts-grid');
+  grid.innerHTML = "";
+  const layouts = TABELLEN.layouts.layouts;
+  for (const n in layouts){
+    const L = layouts[n];
+    const card = document.createElement('div');
+    card.className = "layout-card";
+    card.innerHTML = `<h4>${n} item${n==='1'?'':'s'}</h4>`;
+
+    // Visuele grid-mockup
+    const vis = document.createElement('div');
+    vis.className = "grid-vis";
+    vis.style.gridTemplateColumns = L.kolommen;
+    vis.style.gridTemplateRows = L.rijen;
+    // Bereken hoeveel rijen/kolommen
+    const numCols = L.kolommen.split(' ').length;
+    const numRows = L.rijen.split(' ').length;
+    // Bepaal wapen-positie (midden van het grid)
+    const wapenCol = Math.ceil(numCols/2);
+    const wapenRow = Math.ceil(numRows/2);
+    // Eerst alle posities als cells
+    for (const p of L.posities){
+      const c = document.createElement('div');
+      c.className = "cell label-"+(p.label||'center');
+      c.style.gridColumn = p.col;
+      c.style.gridRow = p.row;
+      vis.appendChild(c);
+    }
+    // Wapen-icoon midden
+    const w = document.createElement('div');
+    w.className = "wapen";
+    w.textContent = "⚜";
+    w.style.gridColumn = wapenCol;
+    w.style.gridRow = wapenRow;
+    w.style.position = "absolute";
+    w.style.left = "50%"; w.style.top="50%";
+    w.style.transform = "translate(-50%,-50%)";
+    w.style.width = "32px"; w.style.height="32px";
+    w.style.borderRadius = "50%";
+    w.style.fontSize = "16px";
+    vis.style.position = "relative";
+    vis.appendChild(w);
+
+    card.appendChild(vis);
+    const txt = document.createElement('div');
+    txt.innerHTML = `<small style="color:var(--muted)">Cols: <code>${L.kolommen}</code><br>Rows: <code>${L.rijen}</code></small>`;
+    card.appendChild(txt);
+    if (L.notitie){
+      const n = document.createElement('p');
+      n.style.cssText = "margin:6px 0 0;font-size:11px;color:var(--muted);font-style:italic";
+      n.textContent = L.notitie;
+      card.appendChild(n);
+    }
+    grid.appendChild(card);
+  }
+}
+
+// Tab-wissel
+document.getElementById('tabs').addEventListener('click', (e)=>{
+  if (e.target.tagName !== 'BUTTON') return;
+  const tab = e.target.dataset.tab;
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pane-'+tab).classList.add('active');
+  renderTab(tab);
+});
+
+// Search/filter listeners voor elke pane
+document.querySelectorAll('.pane').forEach(pane=>{
+  const tab = pane.id.replace('pane-','');
+  pane.querySelector('.q')?.addEventListener('input', ()=>renderTab(tab));
+  pane.querySelector('.alleen-leeg')?.addEventListener('change', ()=>renderTab(tab));
+});
+
+// Reset
+document.querySelectorAll('.reset-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const tab = b.dataset.tab;
+    if ((DIRTY[tab]?.size||0) > 0 && !confirm(`Herstel alle wijzigingen in ${tab}?`)) return;
+    TABELLEN[tab] = deepClone(ORIG[tab]);
+    DIRTY[tab] = new Set();
+    renderTab(tab);
+  });
+});
+
+// Toon JSON
+document.querySelectorAll('.show-json').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const tab = b.dataset.tab;
+    const out = JSON.stringify(TABELLEN[tab], null, 2);
+    document.getElementById('json-out').value = out;
+    document.getElementById('modal-title').textContent = `Bijgewerkte tabel: ${FILES[tab]}`;
+    document.getElementById('download-json').dataset.tab = tab;
+    document.getElementById('json-modal').classList.add('show');
+  });
+});
+
+document.getElementById('close-modal').addEventListener('click', ()=>{
+  document.getElementById('json-modal').classList.remove('show');
+});
+document.getElementById('copy-json').addEventListener('click', ()=>{
+  const ta = document.getElementById('json-out');
+  ta.select(); document.execCommand('copy');
+  alert('Gekopieerd. Plak in juiste bestand op GitHub.');
+});
+document.getElementById('download-json').addEventListener('click', (e)=>{
+  const tab = e.target.dataset.tab;
+  const blob = new Blob([JSON.stringify(TABELLEN[tab], null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = FILES[tab];
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+// Laad alle 5 tabellen
+Promise.all(Object.entries(FILES).map(([tab,file])=>
+  fetch(`_data/tabellen/${file}`).then(r=>r.json()).then(d=>{
+    TABELLEN[tab] = d;
+    ORIG[tab] = deepClone(d);
+    DIRTY[tab] = new Set();
+    const count = d.rijen ? d.rijen.length : Object.keys(d.layouts||{}).length;
+    document.getElementById('cnt-'+tab).textContent = count;
+  })
+)).then(()=>{
+  renderTab('knopen');
 });
 </script>
 </body>

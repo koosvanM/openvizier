@@ -177,8 +177,17 @@ function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
    Doel: hero's tot tegen elkaar en de schermranden
    ============================================================ */
 function gridLayout(n){
+  // Eerst: kijk in de layouts-tabel
+  const L = (window.LAYOUTS || {})[String(n)];
+  if (L){
+    return {
+      cols: L.kolommen,
+      rows: L.rijen,
+      placements: L.posities.map(p => ({col: p.col, row: p.row, label: p.label}))
+    };
+  }
+  // Fallback voor 10+: regelmatig grid
   // grid-template-columns + grid-template-rows + placeringen voor elke tegel
-  // We laten een gat in het midden voor de centrum-overlay
   if (n === 1) return { cols:"1fr", rows:"1fr", placements:[null] };
   if (n === 2) return {
     cols:"1fr 1fr", rows:"1fr",
@@ -248,15 +257,17 @@ function gridLayout(n){
       {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"},{col:"5",row:"2"}
     ]
   };
-  // 10+: regelmatig grid
+  // 10+: regelmatig grid (fallback)
   const cols = Math.ceil(Math.sqrt(n));
   const rows = Math.ceil(n / cols);
   const placements = [];
   for (let i=0;i<n;i++){
-    placements.push({col:String((i%cols)+1), row:String(Math.floor(i/cols)+1)});
+    placements.push({col:String((i%cols)+1), row:String(Math.floor(i/cols)+1), label:"center"});
   }
   return { cols: `repeat(${cols},1fr)`, rows:`repeat(${rows},1fr)`, placements };
 }
+
+// Verwijder de oude if/else cases — die staan nu in 5_layouts.json
 
 function effectiveColor(knoop){
   if (knoop.kleur) return knoop.kleur;
@@ -474,37 +485,77 @@ window.addEventListener('hashchange', ()=>{
   updateHome();
 });
 
-fetch('_data/structuur.json')
-  .then(r=>r.json())
-  .then(data=>{
-    KNOPEN = data.knopen;
-    BY_CODE = {}; CHILDREN = {};
-    for (const k of KNOPEN){
-      BY_CODE[k.code] = k;
-      if (k.ouder !== null){
-        if (!CHILDREN[k.ouder]) CHILDREN[k.ouder] = [];
-        CHILDREN[k.ouder].push(k);
+// Laad de 5 gescheiden tabellen en voeg ze samen tot één werkmodel
+Promise.all([
+  fetch('_data/tabellen/1_knopen.json').then(r=>r.json()),
+  fetch('_data/tabellen/2_routes.json').then(r=>r.json()),
+  fetch('_data/tabellen/3_beelden.json').then(r=>r.json()),
+  fetch('_data/tabellen/4_teksten_nl.json').then(r=>r.json()),
+  fetch('_data/tabellen/5_layouts.json').then(r=>r.json()),
+])
+.then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
+  // Index per code
+  const idx = (tabel) => Object.fromEntries(tabel.rijen.map(r=>[r.code, r]));
+  const kIdx = idx(knopenT), rIdx = idx(routesT), bIdx = idx(beeldenT), tIdx = idx(tekstenT);
+
+  // Bouw geunificeerde knopen-lijst met alle velden gecombineerd
+  KNOPEN = [];
+  for (const k of knopenT.rijen){
+    if (k.actief === false) continue;
+    const merged = {
+      // structuur
+      code: k.code,
+      ouder: k.ouder,
+      type: k.type,
+      status: k.status || "live",
+      // routes
+      url: (rIdx[k.code] || {}).url || "",
+      terug_naar: (rIdx[k.code] || {}).terug_naar || "",
+      // beelden
+      hero: (bIdx[k.code] || {}).hero || "",
+      hero_positie: (bIdx[k.code] || {}).hero_positie || "center",
+      hero_filter: (bIdx[k.code] || {}).hero_filter || "standaard",
+      // teksten (taalafhankelijk)
+      naam: (tIdx[k.code] || {}).naam || "",
+      ondertitel: (tIdx[k.code] || {}).ondertitel || "",
+      beschrijving: (tIdx[k.code] || {}).beschrijving || "",
+      tekst_positie: (tIdx[k.code] || {}).tekst_positie || "auto",
+      tekst_kleur: (tIdx[k.code] || {}).tekst_kleur || "licht",
+    };
+    KNOPEN.push(merged);
+  }
+
+  // Layouts globaal beschikbaar maken
+  window.LAYOUTS = layoutsT.layouts || {};
+
+  // Bouw indexen
+  BY_CODE = {}; CHILDREN = {};
+  for (const k of KNOPEN){
+    BY_CODE[k.code] = k;
+    if (k.ouder !== null){
+      if (!CHILDREN[k.ouder]) CHILDREN[k.ouder] = [];
+      CHILDREN[k.ouder].push(k);
+    }
+  }
+  for (const ouder in CHILDREN){
+    CHILDREN[ouder].sort((a,b)=>{
+      const aP = a.code.split('.').map(Number);
+      const bP = b.code.split('.').map(Number);
+      for (let i=0;i<Math.max(aP.length,bP.length);i++){
+        const ai = aP[i]||0, bi=bP[i]||0;
+        if (ai !== bi) return ai - bi;
       }
-    }
-    for (const ouder in CHILDREN){
-      CHILDREN[ouder].sort((a,b)=>{
-        const aP = a.code.split('.').map(Number);
-        const bP = b.code.split('.').map(Number);
-        for (let i=0;i<Math.max(aP.length,bP.length);i++){
-          const ai = aP[i]||0, bi=bP[i]||0;
-          if (ai !== bi) return ai - bi;
-        }
-        return 0;
-      });
-    }
-    document.getElementById('loading').style.display = 'none';
-    applyHash();
-    render();
-    updateHome();
-  })
-  .catch(err=>{
-    document.getElementById('loading').textContent = 'Kon structuur niet laden: ' + err.message;
-  });
+      return 0;
+    });
+  }
+  document.getElementById('loading').style.display = 'none';
+  applyHash();
+  render();
+  updateHome();
+})
+.catch(err=>{
+  document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
+});
 </script>
 </body>
 </html>
