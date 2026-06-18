@@ -1,13 +1,709 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=nl/">
-  <title>Het Open Vizier — Nova Democratia</title>
-  <link rel="canonical" href="https://openvizier.org/nl/">
-  <meta name="description" content="Het Open Vizier — een krant over denken zonder oogkleppen.">
+<meta charset="utf-8">
+<title>Verkennen — Het Open Vizier</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{--bg:#2e2519;--ink:#1a1a1a;--muted:#9a9385;--cream:#f6f1e6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--cream);
+    font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased;
+    overflow:hidden}
+
+  /* Vlakken-grid, paginavullend */
+  .stage{position:fixed;inset:0;display:grid;gap:0;
+         background:var(--bg);overflow:hidden;
+         min-height:100vh;min-height:100dvh}
+
+  /* Tile (paneel): geen rand, hero schermvullend, tekst overlay */
+  .tile{position:relative;overflow:hidden;cursor:pointer;
+        display:flex;align-items:center;justify-content:center;
+        transition:opacity .5s ease}
+  /* Concept-tiles: niet klikbaar + zachte sluier + 'binnenkort' label */
+  .tile.concept{cursor:default}
+  .tile.concept .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.concept:hover .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.concept:hover{filter:none}
+  .tile.concept .label::after{content:"binnenkort";display:block;
+    margin-top:.6em;font-size:.7em;font-style:italic;color:rgba(255,255,255,.55);
+    letter-spacing:1.5px;text-transform:uppercase}
+  .tile.concept .label h2{opacity:.7}
+
+  /* Niet-bereikbaar (geen URL en geen kinderen): zelfde stijl als concept */
+  .tile.onbereikbaar{cursor:default}
+  .tile.onbereikbaar .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.onbereikbaar:hover .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.onbereikbaar .label h2{opacity:.7}
+
+  /* Vervolg/Vorige paginering-tiles: zachte ink-tegel zonder hero */
+  .tile.vervolg{background:#1a1612}
+  .tile.vervolg .bg{display:none}
+  .tile.vervolg .veil{background:linear-gradient(135deg,rgba(40,32,22,.6) 0%,rgba(0,0,0,.4) 100%)}
+  .tile.vervolg .label h2{font-style:italic;letter-spacing:2px;opacity:.85}
+
+  /* Verschuif labels weg van wapen-zone, afhankelijk van rij-positie */
+  .tile.bottom-row{align-items:flex-end;padding-bottom:3vh}
+  .tile.top-row{align-items:flex-start;padding-top:5vh}
+  /* Tiles op dezelfde hoogte als het wapen (midden): label naar de zijkant */
+  .tile.mid-row.left-half{justify-content:flex-start;padding-left:3vw}
+  .tile.mid-row.right-half{justify-content:flex-end;padding-right:3vw}
+  .tile.entering{opacity:0;animation:tileIn .6s cubic-bezier(.22,1,.36,1) forwards}
+  @keyframes tileIn{
+    from{opacity:0;transform:scale(1.04)}
+    to{opacity:1;transform:scale(1)}
+  }
+  .tile .bg{position:absolute;inset:-2%;background-size:cover;
+            background-position:center;filter:sepia(.35) brightness(.85) contrast(1.05);
+            transition:filter .4s ease, transform .8s ease}
+  .tile:hover .bg{filter:sepia(.25) brightness(.95) contrast(1.1);transform:scale(1.04)}
+  .tile .veil{position:absolute;inset:0;
+              background:linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(0,0,0,.38) 100%);
+              pointer-events:none}
+  .tile .label{position:relative;z-index:2;text-align:center;padding:1.5rem;
+               max-width:90%}
+  .tile .label h2{font-size:clamp(1.5rem,3.6vw,3.2rem);font-weight:700;line-height:1.05;
+                  color:#f7efdc;letter-spacing:.5px;
+                  text-shadow:0 2px 16px rgba(0,0,0,.5),0 0 2px rgba(0,0,0,.7)}
+  .tile .label p{margin-top:.6em;font-size:clamp(.85rem,1.3vw,1.1rem);font-style:italic;
+                 color:#e3d8bc;letter-spacing:.2px;opacity:.95;
+                 text-shadow:0 1px 8px rgba(0,0,0,.6)}
+  .tile.center .label h2{font-size:clamp(1.8rem,4.2vw,3.6rem)}
+
+  /* Centrum-overlay: altijd VOLLEDIG zichtbaar, schaalt naar kleinste dimensie */
+  .center-overlay{position:fixed;left:50%;top:50%;
+                  /* Schaal op basis van kleinste van vw/vh zodat hij NOOIT afgekapt wordt */
+                  width:min(46vw,46vh,600px);
+                  height:auto;aspect-ratio:auto;z-index:5;
+                  transform:translate(-50%,-50%);
+                  background:transparent;border-radius:0;box-shadow:none;
+                  display:flex;flex-direction:column;align-items:center;
+                  cursor:pointer;padding:0;
+                  transition:transform .4s ease;pointer-events:none}
+  .center-overlay .bg,
+  .center-overlay .label{pointer-events:auto}
+  .center-overlay:hover{transform:translate(-50%,-50%) scale(1.02)}
+  .center-overlay .bg{position:relative;inset:auto;width:100%;
+                      aspect-ratio:1/1.05;
+                      background-color:transparent;
+                      background-image:url('assets/wat-opkomt/wapen_nova_democratia.png');
+                      background-size:contain;background-repeat:no-repeat;
+                      background-position:center center;
+                      filter:drop-shadow(0 18px 50px rgba(0,0,0,.55))}
+  .center-overlay .veil{display:none}
+  .center-overlay .label{position:relative;width:100%;height:auto;
+                         padding:1.4rem 0 0;display:flex;flex-direction:column;
+                         align-items:center;justify-content:flex-start;text-align:center}
+  .center-overlay h2{font-size:clamp(1.6rem,2.8vw,2.6rem);font-weight:700;
+                     color:#f7efdc;letter-spacing:1px;line-height:1;
+                     font-family:Georgia,"Times New Roman",serif;
+                     text-shadow:0 2px 14px rgba(0,0,0,.7);margin:0}
+  .center-overlay p{margin:.3em 0 0;font-size:clamp(.8rem,1vw,1rem);font-style:italic;
+                    color:#e3d8bc;opacity:.9;letter-spacing:.3px;
+                    text-shadow:0 1px 8px rgba(0,0,0,.7)}
+
+  /* Top-balk: minimalistisch, transparant */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:10;
+          padding:14px 24px;display:flex;align-items:center;gap:18px;
+          background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 100%);
+          font-size:13px}
+  .topbar a{color:#e3d8bc;text-decoration:none;padding:6px 10px;border-radius:4px;
+            transition:background .2s}
+  .topbar a:hover{background:rgba(255,255,255,.08)}
+  .topbar a.active{background:rgba(255,255,255,.15);color:#fff}
+  .topbar .title{font-size:14px;font-weight:600;letter-spacing:.6px;margin-right:auto;color:#f7efdc}
+  .topbar .home{cursor:pointer;display:none;align-items:center;gap:6px;color:#e3d8bc;
+                padding:6px 10px;border-radius:4px;background:rgba(0,0,0,.3);
+                border:1px solid rgba(255,255,255,.15);font:inherit;font-size:13px}
+  .topbar .home:hover{background:rgba(255,255,255,.1)}
+  .topbar .home.show{display:inline-flex}
+  .topbar .home svg{width:14px;height:14px}
+  .topbar .home path{fill:none;stroke:#e3d8bc;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  /* Reader overlay (artikel-preview) */
+  .reader{position:fixed;inset:0;background:rgba(20,16,12,.92);
+          display:none;align-items:center;justify-content:center;flex-direction:column;
+          padding:40px;text-align:center;z-index:20}
+  .reader.show{display:flex}
+  .reader h2{font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:1rem;color:#f7efdc}
+  .reader p{max-width:600px;color:#cdc3a8;font-size:1.05rem;line-height:1.55;margin-bottom:1.6rem}
+  .reader a.read{background:#f7efdc;color:#1a1612;padding:12px 26px;
+                 text-decoration:none;border-radius:999px;font-size:15px;letter-spacing:.4px;
+                 transition:background .2s}
+  .reader a.read:hover{background:#fff}
+  .reader button.close{margin-top:1.4rem;background:none;border:1px solid rgba(255,255,255,.2);
+                       color:#cdc3a8;padding:8px 18px;border-radius:999px;cursor:pointer;font:inherit}
+  .reader button.close:hover{color:#fff;border-color:#fff}
+
+  .hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+        color:rgba(231,222,193,.55);font-size:12px;font-style:italic;letter-spacing:.3px;
+        pointer-events:none;z-index:6;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+  .loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+           color:rgba(231,222,193,.5);font-style:italic;z-index:1}
+
+  /* Mobiele aanpassingen: wapen kleiner zodat hero's leesbaar blijven */
+  @media (max-width:760px){
+    .center-overlay{width:min(58vw,58vh,400px)}
+    .topbar a{font-size:12px;padding:5px 8px}
+    .tile .label h2{font-size:clamp(1.1rem,4.5vw,2rem)}
+    .tile .label p{font-size:clamp(.75rem,2vw,.95rem)}
+  }
+  @media (max-width:480px){
+    .center-overlay{width:min(64vw,55vh,320px)}
+    .topbar{padding:8px 12px;gap:6px}
+    .topbar a{font-size:11px;padding:4px 6px}
+    .center-overlay h2{font-size:clamp(1.2rem,4vw,1.8rem)}
+  }
+  /* Korte schermen (landscape op telefoon): wapen extra klein */
+  @media (max-height:560px){
+    .center-overlay{width:min(42vh,300px)}
+  }
+</style>
 </head>
 <body>
-  <p>Doorsturen naar <a href="nl/">Het Open Vizier</a>…</p>
+
+<div class="topbar">
+  <a href="index-klassiek.html">Klassieke voorpagina</a>
+  <a href="wat-opkomt/">Wat opkomt</a>
+  <a href="editie-0/">Editie Europa</a>
+  <a href="verkennen.html">Verkennen</a>
+  <a href="wat-opkomt/delen.html">Delen</a>
+  <span class="title" id="topbar-title"></span>
+  <button class="home" id="home" title="Terug naar begin">
+    <svg viewBox="0 0 24 24"><path d="M3 11.5 L12 4 L21 11.5 M5.5 10 V20 H18.5 V10"/></svg>
+    <span>Begin</span>
+  </button>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="center-overlay" id="center" style="display:none">
+  <div class="bg" id="center-bg"></div>
+  <div class="veil"></div>
+  <div class="label">
+    <h2 id="center-name"></h2>
+    <p id="center-sub"></p>
+  </div>
+</div>
+
+<div class="loading" id="loading">structuur laden…</div>
+
+<div class="reader" id="reader">
+  <h2 id="reader-title"></h2>
+  <p id="reader-desc"></p>
+  <a class="read" id="reader-link" href="#" target="_self">→ Lees het artikel</a>
+  <button class="close" id="reader-close">Terug</button>
+</div>
+
+<div class="hint">Klik op een blok om dieper te gaan · klik op het centrum om terug</div>
+
+<script>
+let KNOPEN = [], BY_CODE = {}, CHILDREN = {};
+const path = [];
+// Wortel-code per taal: NL=1, DE=2, EN=3, RU=4, FR=5, ES=6, IT=7, PT=8, MT=9
+const TAAL_PREFIX = {nl:'1',de:'2',en:'3',ru:'4',fr:'5',es:'6',it:'7',pt:'8',mt:'9'};
+const WORTEL_CODE = "0";  // root: oorsprong met 9 talen als kinderen
+
+function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
+
+/* ============================================================
+   LAYOUT — variabele grids op basis van aantal kinderen
+   Doel: hero's tot tegen elkaar en de schermranden
+   ============================================================ */
+function gridLayout(n){
+  // Eerst: kijk in de layouts-tabel
+  const L = (window.LAYOUTS || {})[String(n)];
+  if (L){
+    return {
+      cols: L.kolommen,
+      rows: L.rijen,
+      placements: L.posities.map(p => ({col: p.col, row: p.row, label: p.label}))
+    };
+  }
+  // Fallback voor 10+: regelmatig grid
+  // grid-template-columns + grid-template-rows + placeringen voor elke tegel
+  if (n === 1) return { cols:"1fr", rows:"1fr", placements:[null] };
+  if (n === 2) return {
+    cols:"1fr 1fr", rows:"1fr",
+    placements:[{col:"1",row:"1"},{col:"2",row:"1"}]
+  };
+  if (n === 3) return {
+    // boven 2 helften, onder 1 brede
+    cols:"1fr 1fr", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"}, {col:"2",row:"1"}, {col:"1 / 3",row:"2"}
+    ]
+  };
+  if (n === 4) return {
+    cols:"1fr 1fr", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},
+      {col:"1",row:"2"},{col:"2",row:"2"}
+    ]
+  };
+  if (n === 5) return {
+    // 3 boven + 2 onder (geen brede tile in het midden, dus geen overlap met wapen-label)
+    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
+      {col:"1",row:"2"},{col:"3",row:"2"}
+    ]
+  };
+  if (n === 6) return {
+    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
+      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"}
+    ]
+  };
+  if (n === 7) return {
+    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
+      {col:"1",row:"2"},{col:"2 / 4",row:"2"},{col:"4",row:"2"}
+    ]
+  };
+  if (n === 8) return {
+    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
+      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"}
+    ]
+  };
+  if (n === 9) return {
+    // 4x3: bovenste en onderste rij hebben 3 tiles, middenrij 2 met opening in midden
+    cols:"1fr 1fr 1fr", rows:"1fr 1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
+      {col:"1",row:"2"},                    {col:"3",row:"2"},
+      {col:"1",row:"3"},{col:"2",row:"3"},{col:"3",row:"3"},
+      // 9e: laat een dubbele cel boven onderste rij maken zou kunnen,
+      // maar voor 9 items werkt 4x2 net zo goed:
+      // beter herinrichten: 8 om de rand + 1 prominent helemaal bovenin als brede tile
+      {col:"2",row:"2"}  // achter wapen — visueel verstopt maar code blijft consistent
+    ]
+  };
+  if (n === 10) return {
+    // 5 boven + 5 onder
+    cols:"repeat(5, 1fr)", rows:"1fr 1fr",
+    placements:[
+      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},{col:"5",row:"1"},
+      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"},{col:"5",row:"2"}
+    ]
+  };
+  // 10+: regelmatig grid (fallback)
+  const cols = Math.ceil(Math.sqrt(n));
+  const rows = Math.ceil(n / cols);
+  const placements = [];
+  for (let i=0;i<n;i++){
+    placements.push({col:String((i%cols)+1), row:String(Math.floor(i/cols)+1), label:"center"});
+  }
+  return { cols: `repeat(${cols},1fr)`, rows:`repeat(${rows},1fr)`, placements };
+}
+
+// Verwijder de oude if/else cases — die staan nu in 5_layouts.json
+
+function effectiveColor(knoop){
+  if (knoop.kleur) return knoop.kleur;
+  let cur = knoop;
+  while (cur && cur.ouder){
+    cur = BY_CODE[cur.ouder];
+    if (cur && cur.kleur) return cur.kleur;
+  }
+  return "#3a342e";
+}
+
+function heroPath(knoop){
+  // valt terug op effectieve kleur als geen hero
+  return knoop.hero || null;
+}
+
+function render(){
+  const stage = document.getElementById('stage');
+  clear(stage);
+
+  const currentCode = path[path.length-1];
+  const current = BY_CODE[currentCode];
+  if (!current) return;
+  const alleKinderen = CHILDREN[currentCode] || [];
+  // Filter: alleen kinderen die actief zijn, naam hebben, en niet verborgen
+  const zichtbareKinderen = alleKinderen.filter(k =>
+    k.naam && k.naam.trim() !== "" && (k.status !== "verborgen")
+  );
+
+  // Pagineren: max 4 zichtbare per laag
+  // URL-hash kan een 'pagina' bevatten via &p=2
+  const MAX_PER_LAAG = 4;
+  let pagina = 1;
+  const paginaMatch = (location.hash || "").match(/[&?]p=(\d+)/);
+  if (paginaMatch) pagina = parseInt(paginaMatch[1], 10) || 1;
+
+  let kids;
+  let toonVervolg = false;
+  let toonVorige = false;
+
+  if (zichtbareKinderen.length <= MAX_PER_LAAG){
+    kids = zichtbareKinderen.slice();
+  } else {
+    // pagineren: 3 echte + 1 vervolg-knop per pagina, behalve laatste pagina
+    const perPagina = MAX_PER_LAAG - 1;  // 3 echte per pagina
+    const start = (pagina - 1) * perPagina;
+    const eind = start + perPagina;
+    kids = zichtbareKinderen.slice(start, eind);
+    if (eind < zichtbareKinderen.length){
+      // er is een vervolg
+      kids.push({
+        code: currentCode,
+        _synthVervolg: true,
+        _doelPagina: pagina + 1,
+        naam: "Vervolg",
+        ondertitel: `pagina ${pagina + 1} van ${Math.ceil(zichtbareKinderen.length / perPagina)}`,
+        type: "vervolg",
+        hero: "",
+      });
+    }
+    if (pagina > 1){
+      kids.unshift({
+        code: currentCode,
+        _synthVorige: true,
+        _doelPagina: pagina - 1,
+        naam: "Vorige",
+        ondertitel: `← pagina ${pagina - 1}`,
+        type: "vorige",
+        hero: "",
+      });
+      // verwijder één echte om binnen MAX te blijven
+      if (kids.length > MAX_PER_LAAG){
+        kids.splice(MAX_PER_LAAG - 1, 1);
+      }
+    }
+  }
+  const n = kids.length;
+
+  // Center-overlay altijd zichtbaar met wapen; tekst toont huidige keuze
+  const center = document.getElementById('center');
+  const centerName = document.getElementById('center-name');
+  const centerSub = document.getElementById('center-sub');
+  center.style.display = 'flex';
+  centerName.textContent = current.naam;
+  centerSub.textContent = current.ondertitel || "";
+
+  document.getElementById('topbar-title').textContent =
+    path.length > 1 ? ("· " + current.naam) : "";
+
+  // Geen kinderen → toon alleen het centrum
+  if (n === 0) return;
+
+  // Grid-layout op basis van aantal
+  const L = gridLayout(n);
+  stage.style.gridTemplateColumns = L.cols;
+  stage.style.gridTemplateRows = L.rows;
+
+  // Bepaal rij/kolom-positie van elke tile om label te plaatsen
+  function parseRow(p){
+    const r = (p && p.row) ? String(p.row) : "1";
+    return parseInt(r.split(/\s|\//)[0], 10) || 1;
+  }
+  function parseCol(p){
+    const c = (p && p.col) ? String(p.col) : "1";
+    return parseInt(c.split(/\s|\//)[0], 10) || 1;
+  }
+  const allRows = L.placements.map(parseRow);
+  const allCols = L.placements.map(parseCol);
+  const maxRow = Math.max(...allRows);
+  const minRow = Math.min(...allRows);
+  const maxCol = Math.max(...allCols);
+
+  kids.forEach((k,i)=>{
+    const p = L.placements[i] || {col:"auto",row:"auto"};
+    const tile = document.createElement('div');
+    tile.className = 'tile entering';
+    const myRow = parseRow(p);
+    const myCol = parseCol(p);
+    if (maxRow > 1){
+      if (myRow === maxRow) tile.classList.add('bottom-row');
+      else if (myRow === minRow) tile.classList.add('top-row');
+      else {
+        // middelste rij (alleen bij 3 of meer rijen)
+        tile.classList.add('mid-row');
+        if (myCol <= maxCol/2) tile.classList.add('left-half');
+        else tile.classList.add('right-half');
+      }
+    }
+    tile.style.gridColumn = p.col;
+    tile.style.gridRow = p.row;
+    tile.style.animationDelay = (i * 50) + "ms";
+    markConcept(tile, k);
+
+    const bg = document.createElement('div');
+    bg.className = 'bg';
+    if (heroPath(k)){
+      bg.style.backgroundImage = `url('${heroPath(k)}')`;
+    } else {
+      bg.style.background = effectiveColor(k);
+      bg.style.filter = 'none';
+    }
+    tile.appendChild(bg);
+
+    const veil = document.createElement('div');
+    veil.className = 'veil';
+    tile.appendChild(veil);
+
+    const label = document.createElement('div');
+    label.className = 'label';
+    const h = document.createElement('h2');
+    h.textContent = k.naam;
+    label.appendChild(h);
+    if (k.ondertitel){
+      const sub = document.createElement('p');
+      sub.textContent = k.ondertitel;
+      label.appendChild(sub);
+    }
+    tile.appendChild(label);
+
+    tile.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      onClick(k);
+    });
+    stage.appendChild(tile);
+  });
+}
+
+function onClick(node){
+  // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
+  if (node._synthVervolg || node._synthVorige){
+    const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
+    location.hash = nieuwHash;
+    return;
+  }
+  // Concept of onbereikbaar: niet doorklikbaar
+  if (node.status === "concept") return;
+  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
+    k.naam && k.status !== "verborgen"
+  );
+  if (!node.url && !heeftLevendeKinderen) return;
+  if (node.url && !heeftLevendeKinderen){
+    showReader(node);
+    return;
+  }
+  if (heeftLevendeKinderen){
+    path.push(node.code);
+    location.hash = "#code=" + node.code;
+    return;
+  }
+  if (node.url){
+    window.location.href = node.url;
+  }
+}
+
+// Bepaal of knoop bereikbaar is
+function isBereikbaar(node){
+  if (node.status === "concept") return false;
+  if (node.status === "verborgen") return false;
+  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
+    k.naam && k.status !== "verborgen"
+  );
+  return Boolean(node.url) || heeftLevendeKinderen;
+}
+
+// Visuele markering: concept of onbereikbaar
+function markConcept(tile, k){
+  // Synthetische knoppen krijgen eigen stijl
+  if (k._synthVervolg || k._synthVorige){
+    tile.classList.add("vervolg");
+    return;
+  }
+  if (k.status === "concept"){
+    tile.classList.add("concept");
+    return;
+  }
+  if (!isBereikbaar(k)){
+    tile.classList.add("onbereikbaar");
+  }
+}
+
+function goBack(){
+  if (path.length <= 1) return;
+  path.pop();
+  const newCode = path[path.length-1];
+  location.hash = newCode === "0" ? "" : "#code=" + newCode;
+}
+
+function updateHome(){
+  const h = document.getElementById('home');
+  if (path.length > 1) h.classList.add('show');
+  else h.classList.remove('show');
+}
+
+// Klik op center-overlay = stap terug
+document.getElementById('center').addEventListener('click',()=>{
+  if (path.length > 1) goBack();
+});
+
+document.getElementById('home').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  path.length = 0;
+  path.push(WORTEL_CODE);
+  location.hash = "";
+  render();
+  updateHome();
+});
+
+const reader = document.getElementById('reader');
+document.getElementById('reader-close').addEventListener('click',(e)=>{
+  e.stopPropagation();
+  reader.classList.remove('show');
+});
+reader.addEventListener('click',(e)=>{
+  if (e.target === reader) reader.classList.remove('show');
+});
+
+function showReader(node){
+  document.getElementById('reader-title').textContent = node.naam;
+  document.getElementById('reader-desc').textContent = node.beschrijving || "";
+  const readLink = document.getElementById('reader-link');
+  if (node.status === "concept"){
+    // verberg lees-knop voor concept-artikelen
+    readLink.style.display = "none";
+  } else {
+    readLink.style.display = "";
+    readLink.href = node.url;
+  }
+  reader.classList.add('show');
+}
+
+function applyHash(){
+  const h = decodeURIComponent(location.hash || "");
+  const m = h.match(/^#code=(.+)$/);
+  path.length = 0;
+  path.push(WORTEL_CODE);
+  if (!m){
+    return;  // standaard: wortel zonder hash
+  }
+  let target = m[1].trim();
+  // Compat: oude links zonder taal-prefix
+  if (!BY_CODE[target] && BY_CODE[WORTEL_CODE + "." + target]){
+    target = WORTEL_CODE + "." + target;
+  }
+  if (!BY_CODE[target]) return;
+  const trail = [];
+  let cur = BY_CODE[target];
+  while (cur && cur.code !== WORTEL_CODE){
+    trail.unshift(cur.code);
+    cur = BY_CODE[cur.ouder];
+  }
+  for (const c of trail) path.push(c);
+  const targetNode = BY_CODE[target];
+  const heeftKinderen = (CHILDREN[target] || []).length > 0;
+  if (!heeftKinderen && targetNode.url){
+    path.pop();
+    setTimeout(()=>showReader(targetNode), 50);
+  }
+}
+
+window.addEventListener('hashchange', ()=>{
+  applyHash();
+  render();
+  updateHome();
+});
+
+// Laad de 5 gescheiden tabellen en voeg ze samen tot één werkmodel
+// Taal-detectie + data-pad
+const TAAL_CODE = 'nl';  // root: laad NL als canonieke namen
+const DATA_BASE = 'nl/_data/tabellen/';
+
+Promise.all([
+  fetch(DATA_BASE+'1_knopen.json').then(r=>r.json()),
+  fetch(DATA_BASE+'2_routes.json').then(r=>r.json()),
+  fetch(DATA_BASE+'3_beelden.json').then(r=>r.json()),
+  fetch(DATA_BASE+'4_teksten_root.json').then(r=>r.json()),
+  fetch(DATA_BASE+'5_layouts.json').then(r=>r.json()),
+])
+.then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
+  // Index per code
+  const idx = (tabel) => Object.fromEntries(tabel.rijen.map(r=>[r.code, r]));
+  const kIdx = idx(knopenT), rIdx = idx(routesT), bIdx = idx(beeldenT), tIdx = idx(tekstenT);
+
+  // Bouw geunificeerde knopen-lijst met alle velden gecombineerd
+  KNOPEN = [];
+  for (const k of knopenT.rijen){
+    if (k.actief === false) continue;
+    const merged = {
+      // structuur
+      code: k.code,
+      ouder: k.ouder,
+      type: k.type,
+      status: k.status || "live",
+      // routes
+      url: (rIdx[k.code] || {}).url || "",
+      terug_naar: (rIdx[k.code] || {}).terug_naar || "",
+      // beelden
+      hero: (bIdx[k.code] || {}).hero || "",
+      hero_positie: (bIdx[k.code] || {}).hero_positie || "center",
+      hero_filter: (bIdx[k.code] || {}).hero_filter || "standaard",
+      // teksten (taalafhankelijk)
+      naam: (tIdx[k.code] || {}).naam || "",
+      ondertitel: (tIdx[k.code] || {}).ondertitel || "",
+      beschrijving: (tIdx[k.code] || {}).beschrijving || "",
+      tekst_positie: (tIdx[k.code] || {}).tekst_positie || "auto",
+      tekst_kleur: (tIdx[k.code] || {}).tekst_kleur || "licht",
+    };
+    KNOPEN.push(merged);
+  }
+
+  // Layouts globaal beschikbaar maken
+  window.LAYOUTS = layoutsT.layouts || {};
+
+  // Bouw indexen
+  BY_CODE = {}; CHILDREN = {};
+  for (const k of KNOPEN){
+    BY_CODE[k.code] = k;
+    if (k.ouder !== null){
+      if (!CHILDREN[k.ouder]) CHILDREN[k.ouder] = [];
+      CHILDREN[k.ouder].push(k);
+    }
+  }
+  for (const ouder in CHILDREN){
+    CHILDREN[ouder].sort((a,b)=>{
+      const aP = a.code.split('.').map(Number);
+      const bP = b.code.split('.').map(Number);
+      for (let i=0;i<Math.max(aP.length,bP.length);i++){
+        const ai = aP[i]||0, bi=bP[i]||0;
+        if (ai !== bi) return ai - bi;
+      }
+      return 0;
+    });
+  }
+  console.log('Verkennen geladen:', {
+    aantal_knopen: KNOPEN.length,
+    wortel: BY_CODE[WORTEL_CODE],
+    kinderen_van_wortel: CHILDREN[WORTEL_CODE]?.length || 0,
+    layouts: Object.keys(window.LAYOUTS).length
+  });
+  document.getElementById('loading').style.display = 'none';
+  applyHash();
+  render();
+  updateHome();
+})
+.catch(err=>{
+  console.error('Tabellen laden mislukt:', err);
+  document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
+});
+
+// Root-modus: klikken op een taal-tegel navigeert naar die taal's URL
+const TAAL_URL = {'1':'/nl/','2':'/de/','3':'/en/','4':'/ru/','5':'/fr/','6':'/es/','7':'/it/','8':'/pt/','9':'/mt/'};
+document.addEventListener('click', e => {
+  const tile = e.target.closest('.tile[data-code]');
+  if (!tile) return;
+  const code = tile.dataset.code;
+  if (TAAL_URL[code]) {
+    e.stopPropagation();
+    e.preventDefault();
+    window.location.href = TAAL_URL[code];
+  }
+}, true);
+
+</script>
 </body>
 </html>
