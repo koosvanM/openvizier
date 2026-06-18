@@ -179,17 +179,21 @@ for r in rijen_ruw:
     per_taal.setdefault(taal, []).append(r)
 
 for taal, rij_lijst in per_taal.items():
-    tekst_bestand = {
-        "_meta": {
-            "tabel": "teksten",
-            "versie": "2.0",
-            "taal": taal,
-            "bron": "vizier.xlsx",
-        },
-        "rijen": []
-    }
+    pad = TABDIR / f"4_teksten_{taal}.json"
+    # MERGE-MODUS: lees bestaande JSON en behoud rijen die niet in Excel zitten
+    bestaande_rijen = {}
+    if pad.exists():
+        try:
+            with open(pad) as f:
+                oud = json.load(f)
+            for r in oud.get("rijen", []):
+                bestaande_rijen[r["code"]] = r
+        except Exception:
+            pass
+
+    # Overschrijf met Excel-data
     for r in rij_lijst:
-        tekst_bestand["rijen"].append({
+        bestaande_rijen[r["code"]] = {
             "code": r["code"],
             "naam": r.get("naam", ""),
             "ondertitel": r.get("ondertitel", ""),
@@ -201,9 +205,23 @@ for taal, rij_lijst in per_taal.items():
             "auteur": r.get("auteur", ""),
             "datum_publicatie": r.get("datum_publicatie", ""),
             "gerelateerd": r.get("gerelateerd", ""),
-        })
-    json.dump(tekst_bestand, open(TABDIR / f"4_teksten_{taal}.json", "w"),
-              ensure_ascii=False, indent=2)
+        }
+
+    # Sorteer op code (natuurlijk) en schrijf weg
+    def code_sort_key(c):
+        return [int(x) if x.isdigit() else x for x in c.split(".")]
+    gesorteerd = sorted(bestaande_rijen.values(), key=lambda r: code_sort_key(r["code"]))
+
+    tekst_bestand = {
+        "_meta": {
+            "tabel": "teksten",
+            "versie": "2.0",
+            "taal": taal,
+            "bron": "vizier.xlsx + bestaande JSON (merge)",
+        },
+        "rijen": gesorteerd,
+    }
+    json.dump(tekst_bestand, open(pad, "w"), ensure_ascii=False, indent=2)
 
 # 5. LAYOUTS — uit Layouts-tab
 layouts = {
