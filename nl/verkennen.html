@@ -13,7 +13,8 @@
 
   /* Vlakken-grid, paginavullend */
   .stage{position:fixed;inset:0;display:grid;gap:0;
-         background:var(--bg);overflow:hidden}
+         background:var(--bg);overflow:hidden;
+         min-height:100vh;min-height:100dvh}
 
   /* Tile (paneel): geen rand, hero schermvullend, tekst overlay */
   .tile{position:relative;overflow:hidden;cursor:pointer;
@@ -69,9 +70,11 @@
                  text-shadow:0 1px 8px rgba(0,0,0,.6)}
   .tile.center .label h2{font-size:clamp(1.8rem,4.2vw,3.6rem)}
 
-  /* Centrum-overlay: altijd het wapen, met huidige keuze eronder — 20% groter */
-  .center-overlay{position:fixed;left:50%;top:48%;
-                  width:min(46vw,600px);height:auto;aspect-ratio:auto;z-index:5;
+  /* Centrum-overlay: altijd VOLLEDIG zichtbaar, schaalt naar kleinste dimensie */
+  .center-overlay{position:fixed;left:50%;top:50%;
+                  /* Schaal op basis van kleinste van vw/vh zodat hij NOOIT afgekapt wordt */
+                  width:min(46vw,46vh,600px);
+                  height:auto;aspect-ratio:auto;z-index:5;
                   transform:translate(-50%,-50%);
                   background:transparent;border-radius:0;box-shadow:none;
                   display:flex;flex-direction:column;align-items:center;
@@ -85,7 +88,7 @@
                       background-color:transparent;
                       background-image:url('../assets/wat-opkomt/wapen_nova_democratia.png');
                       background-size:contain;background-repeat:no-repeat;
-                      background-position:center top;
+                      background-position:center center;
                       filter:drop-shadow(0 18px 50px rgba(0,0,0,.55))}
   .center-overlay .veil{display:none}
   .center-overlay .label{position:relative;width:100%;height:auto;
@@ -139,9 +142,22 @@
   .loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
            color:rgba(231,222,193,.5);font-style:italic;z-index:1}
 
-  @media (max-width:600px){
-    .center-overlay{width:64vw}
+  /* Mobiele aanpassingen: wapen kleiner zodat hero's leesbaar blijven */
+  @media (max-width:760px){
+    .center-overlay{width:min(58vw,58vh,400px)}
     .topbar a{font-size:12px;padding:5px 8px}
+    .tile .label h2{font-size:clamp(1.1rem,4.5vw,2rem)}
+    .tile .label p{font-size:clamp(.75rem,2vw,.95rem)}
+  }
+  @media (max-width:480px){
+    .center-overlay{width:min(64vw,55vh,320px)}
+    .topbar{padding:8px 12px;gap:6px}
+    .topbar a{font-size:11px;padding:4px 6px}
+    .center-overlay h2{font-size:clamp(1.2rem,4vw,1.8rem)}
+  }
+  /* Korte schermen (landscape op telefoon): wapen extra klein */
+  @media (max-height:560px){
+    .center-overlay{width:min(42vh,300px)}
   }
 </style>
 </head>
