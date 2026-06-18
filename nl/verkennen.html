@@ -271,10 +271,12 @@ function render(){
   const pc1 = current.gradient ? current.gradient[0] : shade(current.color, 30);
   const pc2 = current.gradient ? current.gradient[1] : shade(current.color, -25);
   defs.appendChild(defGradient("grad-parent", pc1, pc2));
+  // gradient-id per kind via stabiele teller — niet via positie-index
   kids.forEach((k,i)=>{
     const c1 = k.gradient ? k.gradient[0] : shade(k.color, 25);
     const c2 = k.gradient ? k.gradient[1] : shade(k.color, -20);
-    defs.appendChild(defGradient("grad-"+i, c1, c2));
+    k._gradId = "grad-" + depth + "-" + i;
+    defs.appendChild(defGradient(k._gradId, c1, c2));
   });
   svg.appendChild(defs);
 
@@ -370,7 +372,7 @@ function render(){
 
     const c = document.createElementNS(ns,"circle");
     c.setAttribute("cx",0); c.setAttribute("cy",0); c.setAttribute("r",r);
-    c.setAttribute("fill","url(#grad-"+i+")");
+    c.setAttribute("fill","url(#"+k._gradId+")");
     c.setAttribute("stroke","rgba(255,255,255,0.35)");
     c.setAttribute("stroke-width","1.5");
     g.appendChild(c);
