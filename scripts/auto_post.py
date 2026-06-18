@@ -398,9 +398,10 @@ def main() -> int:
     have_linkedin = bool((LINKEDIN_TOKEN and LINKEDIN_AUTHOR_URN) or BUFFER_WEBHOOK_URL)
 
     if not have_mastodon and not have_linkedin and not DRY_RUN:
-        print("ERROR: no platform configured. Set MASTODON_* or LINKEDIN_* secrets.",
-              file=sys.stderr)
-        return 1
+        print("No platform configured yet (Mastodon/LinkedIn secrets are empty).")
+        print("This is fine — the workflow will start posting as soon as you add the secrets.")
+        print("See scripts/AUTO_POST_SETUP.md for instructions.")
+        return 0  # graceful exit, not a failure
 
     print(f"Platforms: mastodon={have_mastodon} linkedin={have_linkedin} dry_run={DRY_RUN}")
 
