@@ -19,11 +19,21 @@
   .tile{position:relative;overflow:hidden;cursor:pointer;
         display:flex;align-items:center;justify-content:center;
         transition:opacity .5s ease}
-  /* Concept-tiles: lichte sluier zodat ze duidelijk minder prominent zijn */
-  .tile.concept .bg{filter:sepia(.55) brightness(.55) contrast(1.05) saturate(.4)}
+  /* Concept-tiles: niet klikbaar + zachte sluier + 'binnenkort' label */
+  .tile.concept{cursor:default}
+  .tile.concept .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.concept:hover .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.concept:hover{filter:none}
   .tile.concept .label::after{content:"binnenkort";display:block;
-    margin-top:.6em;font-size:.7em;font-style:italic;color:rgba(255,255,255,.65);
+    margin-top:.6em;font-size:.7em;font-style:italic;color:rgba(255,255,255,.55);
     letter-spacing:1.5px;text-transform:uppercase}
+  .tile.concept .label h2{opacity:.7}
+
+  /* Niet-bereikbaar (geen URL en geen kinderen): zelfde stijl als concept */
+  .tile.onbereikbaar{cursor:default}
+  .tile.onbereikbaar .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.onbereikbaar:hover .bg{filter:sepia(.55) brightness(.50) contrast(1.05) saturate(.35)}
+  .tile.onbereikbaar .label h2{opacity:.7}
 
   /* Verschuif labels weg van wapen-zone, afhankelijk van rij-positie */
   .tile.bottom-row{align-items:flex-end;padding-bottom:3vh}
@@ -385,7 +395,10 @@ function render(){
 }
 
 function onClick(node){
+  // Concept of onbereikbaar: niet doorklikbaar
+  if (node.status === "concept") return;
   const heeftKinderen = (CHILDREN[node.code] || []).length > 0;
+  if (!node.url && !heeftKinderen) return;  // niets om te tonen
   if (node.url && !heeftKinderen){
     showReader(node);
     return;
@@ -400,10 +413,22 @@ function onClick(node){
   }
 }
 
-// Visuele markering voor concept-artikelen (nog niet gepubliceerd)
+// Bepaal of knoop bereikbaar is
+function isBereikbaar(node){
+  if (node.status === "concept") return false;
+  if (node.status === "verborgen") return false;
+  const heeftKinderen = (CHILDREN[node.code] || []).length > 0;
+  return Boolean(node.url) || heeftKinderen;
+}
+
+// Visuele markering: concept of onbereikbaar
 function markConcept(tile, k){
   if (k.status === "concept"){
     tile.classList.add("concept");
+    return;
+  }
+  if (!isBereikbaar(k)){
+    tile.classList.add("onbereikbaar");
   }
 }
 
