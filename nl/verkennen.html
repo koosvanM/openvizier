@@ -19,6 +19,9 @@
   .tile{position:relative;overflow:hidden;cursor:pointer;
         display:flex;align-items:center;justify-content:center;
         transition:opacity .5s ease}
+  /* Onderste rij(en): label naar onderkant zodat het wapen het niet bedekt */
+  .tile.bottom-row{align-items:flex-end;padding-bottom:3vh}
+  .tile.top-row{align-items:flex-start;padding-top:6vh}
   .tile.entering{opacity:0;animation:tileIn .6s cubic-bezier(.22,1,.36,1) forwards}
   @keyframes tileIn{
     from{opacity:0;transform:scale(1.04)}
@@ -41,9 +44,9 @@
                  text-shadow:0 1px 8px rgba(0,0,0,.6)}
   .tile.center .label h2{font-size:clamp(1.8rem,4.2vw,3.6rem)}
 
-  /* Centrum-overlay: altijd het wapen, met huidige keuze eronder */
+  /* Centrum-overlay: altijd het wapen, met huidige keuze eronder — 20% groter */
   .center-overlay{position:fixed;left:50%;top:50%;
-                  width:min(38vw,500px);height:auto;aspect-ratio:auto;z-index:5;
+                  width:min(46vw,600px);height:auto;aspect-ratio:auto;z-index:5;
                   transform:translate(-50%,-52%);
                   background:transparent;border-radius:0;box-shadow:none;
                   display:flex;flex-direction:column;align-items:center;
@@ -274,10 +277,25 @@ function render(){
   stage.style.gridTemplateColumns = L.cols;
   stage.style.gridTemplateRows = L.rows;
 
+  // Bepaal het max-row-nummer in deze layout om "bottom-row" tiles te markeren
+  const allRows = L.placements.map(p => {
+    const r = (p && p.row) ? String(p.row) : "1";
+    // "1 / 3" → pak het eerste getal
+    return parseInt(r.split(/\s|\//)[0], 10) || 1;
+  });
+  const maxRow = Math.max(...allRows);
+  const minRow = Math.min(...allRows);
+
   kids.forEach((k,i)=>{
     const p = L.placements[i] || {col:"auto",row:"auto"};
     const tile = document.createElement('div');
     tile.className = 'tile entering';
+    // Markeer onderste of bovenste rij voor label-positie
+    const myRow = parseInt(String(p.row || "1").split(/\s|\//)[0], 10) || 1;
+    if (maxRow > 1){
+      if (myRow === maxRow) tile.classList.add('bottom-row');
+      else if (myRow === minRow) tile.classList.add('top-row');
+    }
     tile.style.gridColumn = p.col;
     tile.style.gridRow = p.row;
     tile.style.animationDelay = (i * 50) + "ms";
