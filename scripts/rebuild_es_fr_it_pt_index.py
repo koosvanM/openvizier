@@ -141,9 +141,9 @@ def build_index(t):
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <style>
   body {{ background:#faf8f3; color:#1a1a1a; margin:0; font-family: Georgia, serif; }}
-  .top-band {{ background:#f5f3ee; border-bottom:1px solid #d4d1ca; }}
   .masthead {{ text-align:center; padding: 2.5rem 1.5rem 1.5rem; }}
-  .masthead__logo {{ display:inline-block; font-family:Georgia,serif; font-style:italic; font-weight:700; font-size:clamp(2rem,5vw,3.4rem); color:#1a1a1a; text-decoration:none; }}
+  .top-band {{ background:#f5f3ee; border-bottom:1px solid #d4d1ca; }}
+  .top-band a.masthead__logo {{ display:inline-block; font-family:Georgia,serif; font-style:italic; font-weight:700; font-size:clamp(2rem,5vw,3.4rem); color:#1a1a1a !important; text-decoration:none !important; }}
   .masthead__date {{ font-size:0.85rem; letter-spacing:0.08em; text-transform:uppercase; color:#1c5760; margin-top:0.5rem; }}
   .nav {{ background:#fff; border-bottom:1px solid #d4d1ca; }}
   .nav__inner {{ max-width:1200px; margin:0 auto; padding:0.6rem 1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }}
