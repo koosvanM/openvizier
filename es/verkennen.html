@@ -127,6 +127,17 @@
   @media (max-width:760px) {
     .verkennen-canvas { height:65vh; min-height:480px; }
   }
+
+  /* 3-staps-transitie: tegels uit-faden bij navigatie */
+  .stage { transition: opacity 0.25s ease; }
+  .stage.fading { opacity: 0; }
+  .stage.fading .tile { pointer-events: none; }
+  /* Home-knop krijgt een fade-in als hij verschijnt */
+  #home { transition: opacity 0.3s ease 0.15s, transform 0.3s ease; opacity: 0; transform: translateY(-4px); }
+  #home.show { opacity: 1; transform: translateY(0); }
+  /* Topbar-title soepel laten verschijnen */
+  #topbar-title { transition: opacity 0.3s ease 0.15s; opacity: 0.85; }
+
 </style>
 </head>
 <body>
@@ -320,6 +331,7 @@ function heroPath(knoop){
 function render(){
   const stage = document.getElementById('stage');
   clear(stage);
+  stage.classList.remove('fading');
 
   const currentCode = path[path.length-1];
   const current = BY_CODE[currentCode];
@@ -472,7 +484,9 @@ function onClick(node){
   // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
   if (node._synthVervolg || node._synthVorige){
     const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
-    location.hash = nieuwHash;
+    const _stage = document.getElementById('stage');
+    if (_stage) _stage.classList.add('fading');
+    setTimeout(() => { location.hash = nieuwHash; }, 280);
     return;
   }
   // Concept of onbereikbaar: niet doorklikbaar
@@ -488,7 +502,9 @@ function onClick(node){
   }
   if (heeftLevendeKinderen){
     path.push(node.code);
-    location.hash = "#code=" + node.code;
+    const _stage2 = document.getElementById('stage');
+    if (_stage2) _stage2.classList.add('fading');
+    setTimeout(() => { location.hash = "#code=" + node.code; }, 280);
     return;
   }
   if (node.url){
@@ -537,16 +553,24 @@ function updateHome(){
 
 // Klik op center-overlay = stap terug
 document.getElementById('center').addEventListener('click',()=>{
-  if (path.length > 1) goBack();
+  if (path.length > 1) {
+    const _s = document.getElementById('stage');
+    if (_s) _s.classList.add('fading');
+    setTimeout(() => goBack(), 280);
+  }
 });
 
 document.getElementById('home').addEventListener('click', (e)=>{
   e.stopPropagation();
-  path.length = 0;
-  path.push(WORTEL_CODE);
-  location.hash = "";
-  render();
-  updateHome();
+  const _stageH = document.getElementById('stage');
+  if (_stageH) _stageH.classList.add('fading');
+  setTimeout(() => {
+    path.length = 0;
+    path.push(WORTEL_CODE);
+    location.hash = "";
+    render();
+    updateHome();
+  }, 280);
 });
 
 const reader = document.getElementById('reader');
