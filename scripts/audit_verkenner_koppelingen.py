@@ -94,14 +94,16 @@ for lang, prefix in PREFIX.items():
         if not url:
             geen_url.append(code)
             continue
-        # Url wijst naar wat?
-        # Routes-url is relatief aan /<lang>/verkennen.html, dus we resolven via lang-map
-        if url.startswith("../../"):
-            test_pad = url.replace("../../", "")
-        elif url.startswith("/"):
+        # Url wijst naar wat? Routes-url is relatief aan /<lang>/verkennen.html.
+        # Resolveer netjes: combineer met de directory van verkennen.html (= <lang>/).
+        if url.startswith("/"):
             test_pad = url[1:]
         else:
-            test_pad = f"{lang}/{url}"
+            # base = <lang>/, dus combineer en normaliseer
+            import posixpath
+            test_pad = posixpath.normpath(posixpath.join(f"{lang}/", url))
+            if test_pad.startswith("./"):
+                test_pad = test_pad[2:]
         if path_exists(test_pad):
             werkend.append(code)
         else:
