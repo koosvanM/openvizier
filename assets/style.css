@@ -931,3 +931,89 @@ audio.audio-player__el {
 .version-content__lang {
   display: block;
 }
+
+/* ===== HAMBURGER (mobile menu) ===== */
+.nav__burger {
+  display: none;  /* verborgen op desktop */
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  width: 44px;
+  height: 38px;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+}
+.nav__burger-icon,
+.nav__burger-icon::before,
+.nav__burger-icon::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  position: relative;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.nav__burger-icon::before {
+  position: absolute;
+  top: -7px;
+  left: 0;
+}
+.nav__burger-icon::after {
+  position: absolute;
+  top: 7px;
+  left: 0;
+}
+.nav--open .nav__burger-icon { background: transparent; }
+.nav--open .nav__burger-icon::before { transform: translateY(7px) rotate(45deg); }
+.nav--open .nav__burger-icon::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile breakpoint: ≤720px */
+@media (max-width: 720px) {
+  .nav__burger { display: inline-flex; }
+
+  .nav__inner {
+    padding: 0.6rem 1rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--paper, #fdfbf7);
+    border-bottom: 1px solid var(--line, #d4d1ca);
+    border-top: 1px solid var(--line, #d4d1ca);
+    padding: 0.5rem 0;
+    margin: 0;
+    gap: 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+  }
+  .nav__links li { width: 100%; }
+  .nav__links a {
+    display: block;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(212, 209, 202, 0.4);
+  }
+  .nav__links li:last-child a { border-bottom: 0; }
+
+  .nav--open .nav__links { display: flex; }
+
+  .nav__lang {
+    margin-left: auto;
+  }
+  .nav__lang a {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
