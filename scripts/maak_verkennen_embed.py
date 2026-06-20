@@ -140,6 +140,9 @@ TEMPLATE = """<!DOCTYPE html>
   <span>{begin}</span>
 </button>
 
+<!-- breadcrumb-element vereist door JS, verborgen in embed -->
+<span id="topbar-title" data-prefix="" style="position:absolute;top:10px;left:60px;color:#cdc3a8;font-size:12px;font-style:italic;z-index:9;pointer-events:none;"></span>
+
 <div class="stage" id="stage"></div>
 
 <div class="center-overlay" id="center" style="display:none">
