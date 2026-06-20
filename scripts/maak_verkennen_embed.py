@@ -13,6 +13,46 @@ JS_PATH = Path("/tmp/verkennen_script.js")
 JS_BLOK = JS_PATH.read_text(encoding="utf-8")
 
 LANGS = {
+    "es": {
+        "lang": "es",
+        "title": "Explorar — Het Open Vizier",
+        "hint": "Haga clic en un bloque para profundizar · haga clic en el centro para volver",
+        "loading": "cargando estructura…",
+        "reader_cta": "→ Leer el artículo",
+        "reader_terug": "Atrás",
+        "begin": "Inicio",
+        "begin_tip": "Volver al inicio de Explorar",
+    },
+    "fr": {
+        "lang": "fr",
+        "title": "Explorer — Het Open Vizier",
+        "hint": "Cliquez sur un bloc pour aller plus profond · cliquez au centre pour revenir",
+        "loading": "chargement de la structure…",
+        "reader_cta": "→ Lire l'article",
+        "reader_terug": "Retour",
+        "begin": "Début",
+        "begin_tip": "Retour au début d'Explorer",
+    },
+    "it": {
+        "lang": "it",
+        "title": "Esplorare — Het Open Vizier",
+        "hint": "Fai clic su un blocco per andare più in profondità · fai clic al centro per tornare",
+        "loading": "caricamento struttura…",
+        "reader_cta": "→ Leggi l'articolo",
+        "reader_terug": "Indietro",
+        "begin": "Inizio",
+        "begin_tip": "Torna all'inizio di Esplorare",
+    },
+    "pt": {
+        "lang": "pt",
+        "title": "Explorar — Het Open Vizier",
+        "hint": "Clique num bloco para ir mais fundo · clique no centro para voltar",
+        "loading": "a carregar estrutura…",
+        "reader_cta": "→ Ler o artigo",
+        "reader_terug": "Voltar",
+        "begin": "Início",
+        "begin_tip": "Voltar ao início de Explorar",
+    },
     "nl": {
         "lang": "nl",
         "title": "Verkennen — Het Open Vizier",

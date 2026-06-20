@@ -39,6 +39,30 @@ LANGS = {
         "kop_lead": "Кликайте по слоям — от актуальных событий до досье, от выпуска до исследования.",
         "cta": "Открыть полный Исследователь →",
     },
+    "es": {
+        "kop_label": "Explorar",
+        "kop_titel": "El mapa de Het Open Vizier",
+        "kop_lead": "Recorra las capas — de la actualidad al dosier, de la edición a la investigación.",
+        "cta": "Abrir el Explorador completo →",
+    },
+    "fr": {
+        "kop_label": "Explorer",
+        "kop_titel": "La carte de Het Open Vizier",
+        "kop_lead": "Parcourez les couches — de l'actualité au dossier, de l'édition à la recherche.",
+        "cta": "Ouvrir l'Explorateur complet →",
+    },
+    "it": {
+        "kop_label": "Esplorare",
+        "kop_titel": "La mappa di Het Open Vizier",
+        "kop_lead": "Attraversa gli strati — dall'attualità al dossier, dall'edizione alla ricerca.",
+        "cta": "Apri l'Esploratore completo →",
+    },
+    "pt": {
+        "kop_label": "Explorar",
+        "kop_titel": "O mapa de Het Open Vizier",
+        "kop_lead": "Percorra as camadas — da atualidade ao dossiê, da edição à investigação.",
+        "cta": "Abrir o Explorador completo →",
+    },
 }
 
 
@@ -77,12 +101,19 @@ for lang, t in LANGS.items():
         print(f"  al ingebed: {lang}/index.html")
         continue
     # Vind insertion-point: na </nav>, vóór de eerste <section.
-    m = re.search(r'(</nav>)\s*(<section)', html)
+    # Probeer </nav><section> (NL/DE/EN/RU patroon) of </nav><main> (ES/FR/IT/PT)
+    m = re.search(r'(</nav>)\s*(<section|<main)', html)
     if not m:
         print(f"  insertion-point niet gevonden: {lang}/index.html")
         continue
     embed = build_embed(t)
-    new_html = html[:m.end(1)] + "\n\n" + embed + "\n" + html[m.end(1):]
+    # Voor ES/FR/IT/PT: invoegen NA <main> zodat de iframe in de main-container valt
+    if m.group(2) == '<main':
+        # Vind eind van <main ...> tag
+        main_end = html.find('>', m.start(2)) + 1
+        new_html = html[:main_end] + "\n\n" + embed + "\n" + html[main_end:]
+    else:
+        new_html = html[:m.end(1)] + "\n\n" + embed + "\n" + html[m.end(1):]
     path.write_text(new_html, encoding="utf-8")
     changed.append(f"{lang}/index.html")
 
