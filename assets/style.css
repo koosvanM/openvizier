@@ -1201,3 +1201,64 @@ audio.audio-player__el {
   }
   .navbar-bottom .navbar__terug { margin-right: 0; }
 }
+
+/* === MOBIEL-STROOMLIJNING (≤720px) — versie 2026-06-22 ===
+   Doel: één rustige iPhone-weergave. Geen dubbele knoppen, geen titel die over 3 regels breekt,
+   gratis-band compact tot één regel. */
+@media (max-width: 720px) {
+  /* 1. Titel "Het Open Vizier" past op één regel */
+  .masthead__titel {
+    font-size: clamp(1.6rem, 8vw, 2.4rem) !important;
+    line-height: 1.05 !important;
+    margin: 0.3rem auto !important;
+    word-break: keep-all;
+  }
+  .masthead {
+    padding: 0.8rem 1rem !important;
+  }
+  .masthead__editie {
+    font-size: 0.75rem !important;
+    margin: 0 !important;
+  }
+  .masthead__sub {
+    font-size: 0.85rem !important;
+    margin: 0.3rem auto !important;
+  }
+  /* 2. Verberg de TAAL-knop in de masthead op mobiel — de nav-versie blijft */
+  .masthead__taal { display: none !important; }
+  /* 2b. Idem voor expliciet vermelde lang-popovers in masthead */
+  .masthead .lang-pop { display: none !important; }
+
+  /* 3. Gratis-band compact maken */
+  .gratis-band {
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.8rem !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+  }
+  /* Verberg het middendeel + de twee em-dash separators op smal scherm */
+  .gratis-band__mid,
+  .gratis-band__sep {
+    display: none !important;
+  }
+  /* Vervang door 1 schoon scheidingsteken tussen kop en CTA */
+  .gratis-band__cta::before {
+    content: " · ";
+    color: #5a5a5a;
+  }
+
+  /* 4. Hero-afbeeldingen niet onnodig groot op mobiel */
+  .home-wo__visual img {
+    max-height: 200px !important;
+    object-fit: cover !important;
+  }
+
+  /* 5. Verkennen-grids en home-wo grids één kolom op mobiel */
+  .home-wo__rij-breed {
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem !important;
+  }
+  .home-wo__rijen {
+    grid-template-columns: 1fr !important;
+  }
+}
