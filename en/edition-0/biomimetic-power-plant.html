@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The biomimetic power plant — Het Open Vizier</title>
+  <meta name="description" content="Whitepaper Carbon-Alert R&D: the optimal system for energy processing from biomass over 25, 50, and 100 years. Three horizons — 2050, 2075, 2125 — with membranes, catalysts, actuators, and artificial photosynthesis.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/en/edition-0/biomimetic-power-plant.html">
+  <meta property="og:title" content="The biomimetic power plant">
+  <meta property="og:description" content="Three horizons — 2050, 2075, 2125 — for energy processing from biomass. Beyond Carnot, beyond 70% electrical, beyond the plant.">
+  <meta property="og:site_name" content="Het Open Vizier">
+  <style>
+    .stuur-artikel { max-width: 760px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .stuur-meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .stuur-titel { font-family: var(--font-serif, Georgia, serif); font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1.1; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; font-style: italic; }
+    .stuur-subtitel { text-align: center; color: #1c5760; font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.05rem, 2.4vw, 1.3rem); margin: 0.5rem auto 1.5rem auto; max-width: 640px; letter-spacing: 0.02em; font-weight: 600; }
+    .stuur-lead { text-align: center; color: #2a2a2a; font-style: italic; font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.1rem, 2.5vw, 1.25rem); line-height: 1.5; margin: 1.5rem auto 2rem auto; max-width: 640px; }
+    .stuur-streep { width: 60px; height: 3px; background: #1c5760; margin: 2.5rem auto; }
+    .stuur-inhoud { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.02rem, 2.3vw, 1.12rem); line-height: 1.75; color: #2a2a2a; }
+    .stuur-inhoud p { margin: 0 0 1.4rem 0; }
+    .stuur-inhoud strong { font-weight: 700; color: #1a1a1a; }
+    .stuur-inhoud h2 { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.5rem, 3.5vw, 2rem); line-height: 1.25; margin: 3.5rem 0 1.2rem 0; color: #1a1a1a; font-style: italic; }
+    .stuur-inhoud h3 { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.2rem, 2.8vw, 1.45rem); line-height: 1.3; margin: 2.5rem 0 0.8rem 0; color: #1c5760; }
+    .citaat { max-width: 660px; margin: 2.5rem auto; padding: 1.5rem 2rem; border-left: 4px solid #d4af37; background: #fbf6e9; font-style: italic; font-size: 1.08rem; line-height: 1.6; color: #1a1a1a; }
+    .citaat__bron { display: block; margin-top: 0.8rem; font-style: normal; font-size: 0.85rem; letter-spacing: 0.1em; color: #7a5c0a; font-weight: 700; }
+    .horizon { max-width: 760px; margin: 2.5rem auto; padding: 1.8rem 2rem; background: #f5f0e3; border-left: 4px solid #1c5760; }
+    .horizon__nr { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: #1c5760; font-weight: 700; margin: 0 0 0.4rem 0; }
+    .horizon h3 { font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: 1.5rem; line-height: 1.25; margin: 0 0 1rem 0; color: #1a1a1a; }
+    .horizon__cijfers { display: grid; gap: 0.8rem; grid-template-columns: 1fr; margin: 1rem 0 1.2rem 0; }
+    @media (min-width: 720px) { .horizon__cijfers { grid-template-columns: 1fr 1fr; } }
+    .horizon__cijfer { display: flex; justify-content: space-between; padding: 0.5rem 0.8rem; background: #fff; border-left: 2px solid #d4af37; font-size: 0.95rem; }
+    .horizon__cijfer span:first-child { color: #5a5a5a; }
+    .horizon__cijfer span:last-child { font-weight: 700; color: #1a1a1a; font-variant-numeric: tabular-nums; }
+    .horizon__totaal { margin-top: 1rem; padding: 1rem 1.2rem; background: #0d6068; color: #fbf6e9; font-size: 1rem; line-height: 1.5; }
+    .horizon__totaal strong { color: #d4af37; }
+    .tabel { max-width: 760px; margin: 2.5rem auto; }
+    .tabel table { width: 100%; border-collapse: collapse; font-family: var(--font-serif, Georgia, serif); font-size: 0.95rem; background: #fff; }
+    .tabel caption { caption-side: top; text-align: left; font-weight: 700; padding: 0 0 0.6rem 0; color: #1a1a1a; font-size: 1rem; }
+    .tabel th { background: #1c5760; color: #fff; text-align: left; padding: 0.6rem 0.9rem; font-weight: 600; font-size: 0.92rem; }
+    .tabel td { padding: 0.55rem 0.9rem; border-bottom: 1px solid #e7e3d8; }
+    .tabel tbody tr:nth-child(even) { background: #faf8f3; }
+    .tabel .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .tabel .acc { color: #1c5760; font-weight: 600; }
+    .vector { max-width: 760px; margin: 1.2rem auto; padding: 1.2rem 1.5rem; background: #faf8f3; border-left: 3px solid #1c5760; }
+    .vector h4 { font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: 1.15rem; margin: 0 0 0.6rem 0; color: #1c5760; }
+    .vector ul { margin: 0; padding-left: 1.3rem; font-size: 0.98rem; line-height: 1.6; }
+    .vector li { margin-bottom: 0.4rem; }
+    .vector li strong { color: #1c5760; }
+    .slot-kader { max-width: 720px; margin: 3rem auto; padding: 2rem 1.75rem; background: #0f2a36; color: #f5f0e6; border-left: 4px solid #d4af37; font-family: var(--font-serif, Georgia, serif); font-size: 1.05rem; line-height: 1.65; font-style: italic; }
+    .slot-kader p { margin: 0 0 1rem 0; }
+    .slot-kader p:last-child { margin-bottom: 0; }
+    .slot-kader__signatuur { font-style: normal; font-size: 0.85rem; letter-spacing: 0.12em; color: #d4af37; margin-top: 1rem; }
+    .bronnen { max-width: 760px; margin: 2rem auto; padding: 1.5rem 1.75rem; background: #faf8f3; border-top: 1px solid #d4d1ca; border-bottom: 1px solid #d4d1ca; }
+    .bronnen h3 { font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: #1c5760; margin: 0 0 0.8rem 0; font-weight: 700; font-style: normal; }
+    .bronnen ul { list-style: none; padding: 0; margin: 0; }
+    .bronnen li { font-family: var(--font-serif, Georgia, serif); font-size: 0.92rem; line-height: 1.5; padding: 0.5rem 0; border-bottom: 1px dotted #d4d1ca; color: #2a2a2a; }
+    .bronnen li:last-child { border-bottom: none; }
+    .terug { max-width: 760px; margin: 3rem auto; padding: 1.5rem 1.75rem; background: #faf8f3; border: 1px solid #d4d1ca; border-left: 4px solid #1c5760; }
+    .terug__kop { font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: #1c5760; margin: 0 0 0.5rem 0; font-weight: 700; }
+    .terug h3 { font-family: var(--font-serif, Georgia, serif); font-size: 1.4rem; margin: 0 0 0.5rem 0; color: #1a1a1a; font-style: italic; }
+    .terug a { color: #1c5760; font-weight: 600; text-decoration: none; }
+    .terug a:hover { text-decoration: underline; }
+    .figuur-hero { max-width: 1200px; margin: 2.5rem auto 1.5rem auto; padding: 0 1.25rem; }
+    .figuur-hero img { display: block; width: 100%; height: auto; border: 1px solid #d4d1ca; }
+    .figuur-hero figcaption { text-align: center; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: 0.92rem; line-height: 1.5; color: #5a5a5a; margin-top: 0.8rem; max-width: 780px; margin-left: auto; margin-right: auto; }
+    .figuur-inline { max-width: 880px; margin: 2.5rem auto; padding: 0 1.25rem; }
+    .figuur-inline img { display: block; width: 100%; height: auto; border: 1px solid #d4d1ca; }
+    .figuur-inline figcaption { text-align: center; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: 0.92rem; line-height: 1.5; color: #5a5a5a; margin-top: 0.7rem; }
+  </style>
+</head>
+<body>
+
+<header class="masthead">
+  <a href="/" class="masthead__taal" title="Language: English">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Language</span>
+    <span class="masthead__taal__cur">· English</span>
+  </a>
+  <p class="masthead__editie">Het Open Vizier · Europe Edition</p>
+  <h1 class="masthead__title"><a href="../" style="text-decoration:none;color:inherit;">Het Open Vizier</a></h1>
+  <p class="masthead__sub">A newspaper about thinking without blinkers</p>
+</header>
+
+<div class="gratis-band">Free information sheet without advertising<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Independent, no opinions, no data sales</strong><span class="gratis-band__sep"> — </span><a href="../keep-informed.html" class="gratis-band__cta">Keep me informed →</a></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="../">Front page</a></li>
+      <li><a href="../what-surfaces/">New</a></li>
+      <li><a href="../verkennen.html">Explore</a></li>
+      <li><a href="../research/">Research</a></li>
+      <li><a href="../climate-edition/">Climate</a></li>
+      <li><a href="../nitrogen-edition/">Nitrogen</a></li>
+      <li><a href="../germany-edition/">Germany</a></li>
+      <li><a href="./" aria-current="page">Europe</a></li>
+      <li><a href="../edition-1/">Coherence</a></li>
+      <li><a href="../edition-2/">Tax policy</a></li>
+      <li><a href="../edition-3/">Under the ice</a></li>
+      <li><a href="../edition-4/">Paper power</a></li>
+      <li><a href="../edition-5/">Forgotten order</a></li>
+      <li><a href="../edition-6/">Nova Democratia</a></li>
+      <li><a href="../share.html">Share</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="stuur-artikel">
+
+  <p class="stuur-meta">★ Whitepaper Carbon-Alert R&amp;D · June 2026</p>
+  <h1 class="stuur-titel">The biomimetic power plant</h1>
+  <p class="stuur-subtitel">The optimal system for energy processing from biomass — over 25, 50, and 100 years</p>
+
+  <p class="stuur-lead">Beyond Carnot in 25 years. Beyond 70% electrical in 50 years. Beyond the plant itself in 100 years. Not science fiction — every component mentioned has already been demonstrated in laboratories or appears in publications from the past three years.</p>
+
+  <p class="stuur-meta">by Jacobus van Merksteijn · Carbon-Alert Ltd · Palma</p>
+
+  <figure class="figuur-hero">
+    <img src="../../assets/artikel-biomimetische-krachtcentrale/hero-rendementstraject.png" alt="Efficiency trajectory 2026-2125: electrical, total energetic and land efficiency across three horizons" loading="eager" decoding="async">
+    <figcaption>Figure 1 — Three measures across three horizons: electrical per fuel energy (red), total energetic (green), land efficiency (teal). The 70%-electrical claim is reached around Horizon 2 (2075).</figcaption>
+  </figure>
+
+  <div class="stuur-streep"></div>
+
+  <div class="citaat">
+    "I propose you think out of the basic box about what the optimal system for energy processing from biomass will be over 25, 50, or 100 years — what inventions will be made? Membranes, energy recovery within the system, other catalysts…"
+    <span class="citaat__bron">★ The opening question of this research</span>
+  </div>
+
+  <div class="stuur-inhoud">
+
+    <h2>I. Summary</h2>
+
+    <p>This extension of the earlier whitepaper framework moves beyond incremental improvement of existing technology and looks at what is <em>fundamentally</em> possible over one, two, and four generations. The question: what is the optimal system for energy processing from biomass if we develop membranes, catalysts, energy recovery, and molecular machines to their thermodynamic ceiling? The answer emerges from three horizons — 2050, 2075, and 2125 — each with a coherent technology stack.</p>
+
+    <p>The core finding is that the <strong>70%-electrical claim</strong> that was under discussion in the previous session is physically achievable — not today, but within 50 years. At horizon 3 (2125) the system approaches <strong>86% electrical and 97% total energetic</strong>, provided four breakthroughs occur that have each already been demonstrated in laboratories. For land efficiency (sun → socket) the system rises from 0.4% today to more than 12% in 2125 — a factor 30 improvement that does not match silicon PV (22%), but does combine storage, food production, and CO₂ recycling in one closed cycle.</p>
+
+    <h2>II. Method — three horizons, four breakthrough vectors</h2>
+
+    <p>The analysis splits the chain from sunlight to socket into four successive efficiency steps, each with its own physical ceiling and its own development path. Per horizon, an estimate is made of which fraction of the ceiling has been reached, based on recent literature and realistic extrapolation. Not science fiction; every technology cited has already been demonstrated under lab conditions or appears in publications from the past three years.</p>
+
+    <h3>The four breakthrough vectors</h3>
+
+    <div class="vector">
+      <h4>Photosynthesis</h4>
+      <ul>
+        <li>Converting sunlight into chemical energy (biomass or direct sugar).</li>
+        <li><strong>Ceiling:</strong> C3 = 4.6%, C4 = 6.0%. Artificial photosynthesis can raise this to ~15%.</li>
+      </ul>
+    </div>
+
+    <div class="vector">
+      <h4>Biomass → sugar / usable fuel</h4>
+      <ul>
+        <li>Hydrolysis, sugar extraction, upgrading.</li>
+        <li><strong>Ceiling:</strong> ~99% with perfect one-pot enzymatic conversion.</li>
+      </ul>
+    </div>
+
+    <div class="vector">
+      <h4>Actuator</h4>
+      <ul>
+        <li>Chemical energy to mechanical work.</li>
+        <li><strong>Theoretical ceiling:</strong> ΔG/ΔH of glucose = 102.3% (because entropy gain delivers extra work).</li>
+      </ul>
+    </div>
+
+    <div class="vector">
+      <h4>Generator + control</h4>
+      <ul>
+        <li>Mechanical work to grid current.</li>
+        <li><strong>Ceiling:</strong> ~97% with integrated piezo/triboelectric arrays.</li>
+      </ul>
+    </div>
+
+    <p>On top of this chain, heat recovery is included: all non-electrical losses can partly be recovered as useful process heat or district heating. The more the system operates at room temperature (isothermal), the easier this heat can be upgraded with absorption heat pumps or thermo-electric skutterudites.</p>
+
+    <h2>III. Horizon 1 · 2050 — synthetic biology and the membrane revolution</h2>
+
+    <p>Within 25 years the plant itself will be redesigned. Rubisco, the slowest enzyme in nature and the bottleneck of photosynthesis, will be replaced by synthetic carboxylases with ten to a hundred times higher turnover. Wageningen UR, the Max Planck Institute for Molecular Plant Physiology, and the RIPE project of the University of Illinois are already working on this; early C4 engineering in rice shows a 27% increase in biomass under optimal conditions.</p>
+
+    <p>In parallel with the plant revolution, downstream processing changes. <strong>Consolidated bioprocessing (CBP)</strong> replaces the current multi-step hydrolysis with a single enzymatic vessel. Biomimetic MXene membranes — recently demonstrated on Janus architectures in a 50-fold salt gradient — deliver 85.1 watts per square metre of osmotic power and separate sugar and salts with more than 99% selectivity.</p>
+
+    <p>The actuator itself makes a leap from laboratory to workable performance: <strong>dielectric elastomers now reach 283 joules per kilogram</strong> of energy density at 200% elongation, seven times that of natural muscle. A MOF catalyst is integrated directly into the actuator matrix, so that the chemical conversion takes place at the point where mechanical work is delivered — no intermediate steps.</p>
+
+    <div class="horizon">
+      <p class="horizon__nr">★ Efficiency Horizon 1 · 2050</p>
+      <h3>Synthetic biology + membrane revolution</h3>
+      <div class="horizon__cijfers">
+        <div class="horizon__cijfer"><span>Photosynthesis (sun → biomass)</span><span>6.0%</span></div>
+        <div class="horizon__cijfer"><span>Biomass → sugar</span><span>88%</span></div>
+        <div class="horizon__cijfer"><span>Actuator (chem → mech)</span><span>55%</span></div>
+        <div class="horizon__cijfer"><span>Generator + control</span><span>90.2%</span></div>
+        <div class="horizon__cijfer"><span>Heat recovery</span><span>35%</span></div>
+      </div>
+      <div class="horizon__totaal">
+        <strong>Electrical efficiency per fuel energy: 49.6%</strong> · total energetic (CHP): 67.3% · land efficiency sun → socket: 2.62%
+      </div>
+    </div>
+
+    <h2>IV. Horizon 2 · 2075 — direct electrons and nano-ionomotors</h2>
+
+    <p>After half a century the cascade of separate steps has collapsed. There is no longer a separate actuator and generator — they have been merged into a <strong>nano-fluidic ionomotor</strong>. The current H₂/O₂ biofuel cell with direct electron transfer already delivers an open-circuit voltage of 1.14 volts, 98% of the thermodynamic upper limit of 1.23 V. By 2075 this principle operates on sugar, glucose dehydrogenase or synthetic analogues, with ferritin as electron mediator on nano-electrodes.</p>
+
+    <p>The physical landscape changes. A MW installation no longer consists of a boiler, a turbine, and a generator — but of stacked nano-fluidic membrane arrays at m²-scale. Each square metre produces tens to hundreds of watts, and <strong>the unit of scale is a residential block or a factory hall, not a power plant</strong>.</p>
+
+    <p>Quantum-enhanced photosynthesis — based on insights from the Fenna-Matthews-Olson complexes in green sulphur bacteria — increases photon harvest with photon recycling and antenna engineering. The sun→biomass efficiency reaches 10%, well above the natural C4 ceiling of 6%. Closure of the CO₂ cycle then becomes inevitable: chimney emissions are fed directly back to growth chambers, and the installation becomes net CO₂-negative rather than neutral.</p>
+
+    <div class="horizon">
+      <p class="horizon__nr">★ Efficiency Horizon 2 · 2075</p>
+      <h3>Direct electron transfer + quantum-enhanced photosynthesis</h3>
+      <div class="horizon__cijfers">
+        <div class="horizon__cijfer"><span>Photosynthesis</span><span>10.0%</span></div>
+        <div class="horizon__cijfer"><span>Biomass → sugar</span><span>96%</span></div>
+        <div class="horizon__cijfer"><span>Actuator (DET biocell)</span><span>78%</span></div>
+        <div class="horizon__cijfer"><span>Generator (integrated)</span><span>93.1%</span></div>
+        <div class="horizon__cijfer"><span>Heat recovery</span><span>60%</span></div>
+      </div>
+      <div class="horizon__totaal">
+        <strong>Electrical efficiency: 72.6%</strong> · total energetic: 89.0% · land efficiency: 6.97%
+      </div>
+    </div>
+
+    <p>At this horizon the system exceeds the 70%-electrical claim for the first time: 72.6% of the fuel energy becomes grid current, plus 16.4 percentage points of useful heat. <strong>Total energetic the system exceeds 89%.</strong></p>
+
+    <figure class="figuur-inline">
+      <img src="../../assets/artikel-biomimetische-krachtcentrale/cascade-per-horizon.png" alt="Cascade per horizon: electrical + useful heat fill the loss" loading="lazy" decoding="async">
+      <figcaption>Figure 2 — Cascade per horizon. Each generation the residual loss becomes thinner; heat recovery (green) fills a growing share of the remaining loss. At Horizon 3 the system is practically lossless.</figcaption>
+    </figure>
+
+    <h2>V. Horizon 3 · 2125 — molecular machines and artificial photosynthesis</h2>
+
+    <p>After a century the plant itself has become superfluous. Not because plants disappear — they remain, for food and biodiversity — but because artificial photosynthesis in flat, scalable installations directly converts CO₂ + H₂O + sun into sugar without the intermediate steps of cell walls, transport proteins, and metabolic overhead. The Tokyo experiment of Maeda et al. (February 2026) showed that the quantum efficiency for CO₂ conversion can already rise from 6% to 27.7% through a more stable hybrid photocatalyst. By 2125 these systems are available at m²-scale with 15%+ sun-to-sugar efficiency.</p>
+
+    <p>The actuator of 2125 is no longer a membrane; it is a <strong>molecular-machine factory</strong>. ATP-synthase analogues, self-organising catalyst arrays, and self-replicating molecular motors deliver mechanical work that approaches 90% of the ΔG/ΔH limit of glucose (102.3%). This sounds extreme but follows directly from the insight that the biological cascade — digestion, mitochondria, ATP synthesis, muscle contraction — is completely bypassed in a synthetic system. No body heat, no respiration, no ion pumps that need to be kept active.</p>
+
+    <p>The physical form of the installation changes again. <strong>MW power plants no longer exist</strong>; every home, office, and factory has its own kW-to-100kW installation embedded in the roof or wall, fed by rainwater, air CO₂, and sunlight. The electricity grid becomes a balancing network rather than a distribution network. Food, energy, and CO₂ storage come from the same closed cycle.</p>
+
+    <figure class="figuur-inline">
+      <img src="../../assets/artikel-biomimetische-krachtcentrale/kringloop-schema.svg" alt="Diagram of closed cycle with sun, CO2, water, biomimetic unit, grid current, heat, food, and CO2 storage" loading="lazy" decoding="async">
+      <figcaption>Figure 3 — The closed cycle. CO₂ + H₂O + sunlight feed an isothermal unit at room temperature. No combustion, no Carnot loss. Emitted CO₂ is fed directly back.</figcaption>
+    </figure>
+
+    <div class="horizon">
+      <p class="horizon__nr">★ Efficiency Horizon 3 · 2125</p>
+      <h3>Molecular machines + artificial photosynthesis</h3>
+      <div class="horizon__cijfers">
+        <div class="horizon__cijfer"><span>Photosynthesis (artificial)</span><span>15%</span></div>
+        <div class="horizon__cijfer"><span>CO₂/H₂O → sugar</span><span>99%</span></div>
+        <div class="horizon__cijfer"><span>Actuator (molecular machine)</span><span>90%</span></div>
+        <div class="horizon__cijfer"><span>Generator (quasi-perfect)</span><span>96.0%</span></div>
+        <div class="horizon__cijfer"><span>Heat recovery</span><span>80%</span></div>
+      </div>
+      <div class="horizon__totaal">
+        <strong>Electrical efficiency: 86.4%</strong> · total energetic: 97.3% · land efficiency: 12.83%
+      </div>
+    </div>
+
+    <figure class="figuur-inline">
+      <img src="../../assets/artikel-biomimetische-krachtcentrale/vier-doorbraak-vectoren.png" alt="Four breakthrough vectors per horizon: photosynthesis, biomass to sugar, actuator, generator, heat recovery" loading="lazy" decoding="async">
+      <figcaption>Figure 4 — Four breakthrough vectors. Each generation every step rises; the actuator step (third group) makes the most dramatic leap, from 55% in 2050 to 90% in 2125.</figcaption>
+    </figure>
+
+    <figure class="figuur-inline">
+      <img src="../../assets/artikel-biomimetische-krachtcentrale/land-efficientie.png" alt="Land efficiency sun to socket per horizon, compared to silicon PV at 22%" loading="lazy" decoding="async">
+      <figcaption>Figure 5 — Land efficiency. Silicon PV remains higher until 2125, but the biomimetic system combines electricity with food, storage, and CO₂ recycling from the same hectare.</figcaption>
+    </figure>
+
+    <h2>VI. Comparison table — three horizons</h2>
+
+    <div class="tabel">
+      <table>
+        <caption>Efficiency sun → socket, and cumulative energetic total, per horizon.</caption>
+        <thead>
+          <tr><th>Step</th><th class="num">2050</th><th class="num">2075</th><th class="num">2125</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Photosynthesis</td><td class="num">6.0%</td><td class="num">10.0%</td><td class="num acc">15%</td></tr>
+          <tr><td>Biomass → sugar</td><td class="num">88%</td><td class="num">96%</td><td class="num acc">99%</td></tr>
+          <tr><td>Actuator</td><td class="num">55%</td><td class="num">78%</td><td class="num acc">90%</td></tr>
+          <tr><td>Generator</td><td class="num">90.2%</td><td class="num">93.1%</td><td class="num acc">96.0%</td></tr>
+          <tr><td>Heat recovery</td><td class="num">35%</td><td class="num">60%</td><td class="num acc">80%</td></tr>
+          <tr><td><strong>Electrical total</strong></td><td class="num">49.6%</td><td class="num">72.6%</td><td class="num acc">86.4%</td></tr>
+          <tr><td><strong>Total energetic (CHP)</strong></td><td class="num">67.3%</td><td class="num">89.0%</td><td class="num acc">97.3%</td></tr>
+          <tr><td><strong>Land efficiency</strong></td><td class="num">2.62%</td><td class="num">6.97%</td><td class="num acc">12.83%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>VII. What inventions will be made?</h2>
+
+    <p>The opening question was explicit: membranes, energy recovery within the system, and catalysts. Here is the complete inventory per horizon, covering only technologies that have already been demonstrated in lab publications today or are within reach.</p>
+
+    <h3>Membranes</h3>
+
+    <div class="vector">
+      <ul>
+        <li><strong>2050:</strong> Biomimetic MXene membranes on Janus architecture, 85 W/m² osmotic power, sugar/salt separation more than 99% selective.</li>
+        <li><strong>2075:</strong> Sub-nanochannel membranes on MOF basis with Br⁻/NO₃⁻ selectivity of 1240, ion-selective behaviour that is programmable per molecule.</li>
+        <li><strong>2125:</strong> Self-healing membrane arrays that replicate on damage, operational lifetime more than 100 years without replacement.</li>
+      </ul>
+    </div>
+
+    <h3>Catalysts</h3>
+
+    <div class="vector">
+      <ul>
+        <li><strong>2050:</strong> MOF piezocatalysts with single-atom modifications — Ni-SAs@UiO-66-NH₂ already achieves 17,613 µmol H₂/g/h in methanol medium, highest reported.</li>
+        <li><strong>2075:</strong> Hybrid photo-piezo-electrocatalysts that combine light and mechanical stress to convert CO₂ to formate with more than 50% quantum efficiency.</li>
+        <li><strong>2125:</strong> Fully synthetic analogues of Rubisco, hydrogenase, and bilirubin oxidase, produced in industrial-scale fermenters and reusable.</li>
+      </ul>
+    </div>
+
+    <h3>Energy recovery within the system itself</h3>
+
+    <div class="vector">
+      <ul>
+        <li><strong>2050:</strong> Cascade heat pumps that upgrade actuator residual heat (40–80 °C) to process heat (120–180 °C); 35% of losses become useful.</li>
+        <li><strong>2075:</strong> Thermo-electric skutterudites with ZT &gt; 3 directly convert smaller temperature gradients into current; absorption heat pumps for low-temperature heat. 60% of losses become useful.</li>
+        <li><strong>2125:</strong> Exergy pumps that upgrade low-temperature heat against minimal exergy investment; 80% of losses become useful. The system is practically lossless.</li>
+      </ul>
+    </div>
+
+    <h3>Actuators</h3>
+
+    <div class="vector">
+      <ul>
+        <li><strong>2050:</strong> Dielectric elastomers with 283 J/kg, 7× muscle, 200% elongation at 60 V/µm.</li>
+        <li><strong>2075:</strong> Direct Electron Transfer biofuel cells delivering 8.4 mW/cm² at 0.7 V — no mediator, no overpotential losses.</li>
+        <li><strong>2125:</strong> Molecular machine factories with self-organising ATP-synthase analogues delivering isothermal chemo-mechanical work at ΔG/ΔH level.</li>
+      </ul>
+    </div>
+
+    <h3>Photosynthesis &amp; CO₂ conversion</h3>
+
+    <div class="vector">
+      <ul>
+        <li><strong>2050:</strong> Engineered C4 with synthetic Rubisco replacement, 6% theoretical maximum reached.</li>
+        <li><strong>2075:</strong> Quantum-coherent antenna systems with photon recycling, 10% efficiency.</li>
+        <li><strong>2125:</strong> Complete artificial photosynthesis in flat installations, plant superfluous, 15%.</li>
+      </ul>
+    </div>
+
+    <h2>VIII. What this means for R&amp;D positioning</h2>
+
+    <p>The three horizons offer Carbon-Alert and TerraClean a structured 100-year investment plan. The following priorities follow from the analysis:</p>
+
+    <ul>
+      <li><strong>Horizon 0→1 (2026–2050):</strong> focus on MOF catalyst IP, MXene membrane synthesis routes, and partnership with Wageningen UR for engineered C4. Estimated cumulative investment: €1.2–1.5 billion over 25 years.</li>
+      <li><strong>Horizon 1→2 (2050–2075):</strong> consortium with TU Delft, ETH Zürich, MIT, and Tokyo Tech for DET biofuel cell scale-up; standardisation of nano-fluidic ionomotors. Estimated additional investment: €4–8 billion.</li>
+      <li><strong>Horizon 2→3 (2075–2125):</strong> the molecular machine factory becomes its own industrial sector, comparable to the current semiconductor industry. Early patent portfolio is decisive.</li>
+    </ul>
+
+    <p>The Brussels industrial strategy outlined in <a href="carbon-alert-europe.html">earlier work</a> (840,000 EU jobs within clean industry) maps exactly onto this: <strong>Europe can position itself as the Horizon-2 supplier</strong> — not by following the Chinese photovoltaic path, but by investing in molecular machines and biomimetic conversion where continental science (Max Planck, Wageningen, EPFL, IMEC, Cambridge) is strong.</p>
+
+    <h2>IX. In closing — out of the basic box</h2>
+
+    <p>It is tempting to see biomass energy as an upgraded boiler with a turbine behind it. That is what it is today. But it is not what it needs to be. The plant itself does nothing with combustion; <strong>the plant does everything isothermally, at room temperature, with molecular machines</strong> that capture photons, conduct electrons, and deliver mechanical work without ever expanding a gas. The optimal system for energy processing from biomass copies this principle — and because it is synthetic, it can surpass the plant itself.</p>
+
+    <div class="slot-kader">
+      <p>Within 25 years: beyond Carnot.</p>
+      <p>Within 50 years: beyond 70% electrical.</p>
+      <p>Within 100 years: beyond the plant.</p>
+      <p>The question is not whether this will happen, but who holds the patents at the moment it does.</p>
+      <p class="slot-kader__signatuur">— Carbon-Alert Ltd · TerraClean Ltd · GuardSkin Ltd · Palma, June 2026</p>
+    </div>
+
+  </div>
+
+  <div class="bronnen">
+    <h3>★ Sources</h3>
+    <ul>
+      <li>Maeda K, Nakada R et al. <em>Stabilized hybrid photocatalyst for artificial photosynthesis.</em> Journal of the American Chemical Society, February 2026. (CO₂ → formate quantum efficiency from 6% to 27.7%)</li>
+      <li>Wang et al. <em>Biomimetic Janus MXene membrane.</em> Science Advances, September 2025. (85.1 W/m² osmotic power)</li>
+      <li>Ni-SAs@UiO-66-NH₂ piezocatalyst, <em>Activating a Metallization Switch.</em> PubMed, May 2026. (17,613 µmol H₂/g/h)</li>
+      <li><em>Ultrahigh energy density dielectric elastomer.</em> ScienceDirect, 2025. (283 J/kg, 7× natural muscle)</li>
+      <li>Zhu XG et al. <em>Improving photosynthetic efficiency.</em> Annual Review of Plant Biology, 2010. (Ceilings C3 = 4.6%, C4 = 6.0%)</li>
+      <li>DET H₂/O₂ biofuel cell, RSC 2016. (1.14 V open-circuit, 98% of ideal)</li>
+      <li><em>Engineered C4 photosynthesis.</em> Journal of Experimental Botany 2021; kinetic model 2025. (Path to 6% theoretical max)</li>
+      <li>Lehninger, <em>Principles of Biochemistry.</em> (Glucose ΔG/ΔH = 102.3%)</li>
+      <li><em>Fuel-Powered Soft Actuators.</em> Nano-Micro Letters, January 2026. (120 J/kg, no heat loss)</li>
+      <li><em>Highly selective MOF subnanochannel membrane.</em> Science Advances, 2021. (Br⁻/NO₃⁻ selectivity 1240)</li>
+    </ul>
+  </div>
+
+  <div class="terug">
+    <p class="terug__kop">★ Back to</p>
+    <h3>Europe Edition</h3>
+    <p><a href="./">⌂ Europe Edition</a> · <a href="../climate-edition/">Climate Edition</a> · <a href="../research/">Research</a></p>
+  </div>
+
+</article>
+
+<footer class="footer">
+  <p><a href="../">⌂ Front page</a> · <a href="../verkennen.html">Explore</a> · <a href="../share.html">Share</a></p>
+  <p class="footer__kleur">Het Open Vizier — a newspaper about thinking without blinkers.</p>
+</footer>
+
+</body>
+</html>
