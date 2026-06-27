@@ -5,7 +5,7 @@ name: Link-audit
 # teruggecommit. Daarna audit: als er onopgeloste fouten resteren, faalt de
 # workflow zodat ze zichtbaar worden.
 
-on:
+"on":
   push:
     branches: [main]
   workflow_dispatch:  # handmatig trigger via GitHub UI
@@ -48,9 +48,7 @@ jobs:
           git config user.email "actions@openvizier.org"
           git add -A
           if ! git diff --cached --quiet; then
-            git commit -m "Auto-fix: ${{ steps.autofix.outputs.fixes_toegepast }} broken links gerepareerd via slug-cluster-mapping
-
-[skip ci]"
+            git commit -m "Auto-fix: ${{ steps.autofix.outputs.fixes_toegepast }} broken links gerepareerd via slug-cluster-mapping [skip ci]"
             git push
           fi
 
