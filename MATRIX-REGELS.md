@@ -296,29 +296,70 @@ python3 tools/link_audit.py
 De link-audit moet 0 gebroken links tonen. Als er iets breekt, staat er
 waarschijnlijk een URL in de xlsx die naar een niet-bestaand bestand wijst.
 
-### 3.6 Live-verificatie
+### 3.6 Voorpagina bijwerken (verplicht bij elke publicatie)
+
+Dit is de dagkrant-regel (zie § 4). Voeg voor elk nieuw artikel een
+`<a class="home-wo__rij-breed">` toe als **eerste** item onder
+`<section class="home-wo">` in `<taal>/index.html`, voor alle drie talen. Oudere
+items (inclusief lead-blokken zoals "Soevereiniteit als cyclus" of
+"Wie zijn opbouwers wegjaagt") schuiven een positie omlaag.
+
+### 3.7 Live-verificatie
 
 Na Netlify-deploy (±90 s):
 
+- `https://openvizier.org/<taal>/` — controleer of het artikel als **eerste**
+  item op de voorpagina verschijnt (dagkrant-regel)
+- `https://openvizier.org/<taal>/wat-opkomt/` — controleer of het **bovenaan**
+  de chronologische lijst staat
 - `https://openvizier.org/<taal>/verkennen.html` — controleer of het artikel
   als tegel in de matrix verschijnt
-- `https://openvizier.org/<taal>/wat-opkomt/` — controleer of het bovenaan de
-  chronologische lijst staat
 - De directe artikel-URL zelf → HTTP 200
 - De editie-landingspagina waar je een kruisverwijzing plaatste
 
 ---
 
-## 4. Voorpagina-highlights
+## 4. Voorpagina en Nieuw — volgorderegel
 
-De blokken op `<taal>/index.html` onder `★ Wat opkomt` / `★ What surfaces` /
-`★ Was aufkommt` zijn **handmatig** onderhouden en worden **niet** automatisch
-uit de matrix opgehaald. Voor prominent placement op de voorpagina moet je een
-`<a class="home-wo__rij-breed">` toevoegen op de juiste plek in de betreffende
-`index.html`.
+De voorpagina en het "Nieuw"-overzicht zijn de **dagkrant** van Het Open Vizier.
+De volgorderegel is simpel en absoluut:
 
-Dat is één van de weinige plekken waar hard-coded HTML de matrix niet volgt.
-Reden: de voorpagina is redactioneel gekozen, niet automatisch chronologisch.
+> **Het laatste artikel staat altijd bovenaan. Chronologisch nieuws-eerst.**
+
+Deze regel geldt op twee plekken:
+
+### 4.1 Voorpagina (`<taal>/index.html`)
+
+Het `★ Wat opkomt` / `★ What surfaces` / `★ Was aufkommt`-blok bovenaan de
+voorpagina is **handmatig** onderhouden — het wordt niet automatisch uit de
+matrix opgehaald. Voor elke nieuwe publicatie voeg je een `<a class="home-wo__rij-breed">`
+blok toe op de **absolute top** van dat blok, boven alle bestaande items.
+
+**Er mag geen "lead-artikel" of "discussiestuk" boven het nieuwste artikel
+blijven staan.** Redactionele lead-blokken (zoals "Soevereiniteit als cyclus"
+of "Wie zijn opbouwers wegjaagt") moeten worden verplaatst naar onder de
+nieuwe items zodra er iets nieuws verschijnt. De voorpagina is een krant, geen
+vitrine.
+
+Concreet: elk nieuw artikel wordt de **eerste** `home-wo__rij-breed` onder
+`<section class="home-wo">`. Oudere lead-items schuiven een positie omlaag.
+
+### 4.2 Nieuw (`<taal>/wat-opkomt/`)
+
+De index-pagina van Nieuw moet artikelen tonen in **omgekeerde chronologische
+volgorde**: het meest recente artikel bovenaan, dan aflopend.
+
+Dit werkt automatisch als je in de xlsx per artikel het `Volgorde`-veld invult
+én de sortering van `wat-opkomt/index.html` op datum staat. Bij twijfel:
+controleer de eerste drie items van de live-pagina na deploy — als jouw nieuwe
+artikel niet op positie 1 staat, moet je de `wo-item`-blokken in
+`nl/wat-opkomt/index.html` handmatig herordenen (en de EN/DE-equivalenten).
+
+### 4.3 Waar dit niet geldt
+
+Editie-landingspagina's (`editie-2/`, `editie-klimaat/`, enz.) volgen **niet**
+de chronologische regel — die zijn thematisch geordend en respecteren de
+volgorde die in de xlsx is opgegeven onder de betreffende editie-code.
 
 ---
 
@@ -352,6 +393,15 @@ Reden: de voorpagina is redactioneel gekozen, niet automatisch chronologisch.
 
 9. **Verouderde scripts draaien.** Zie §7.
 
+10. **Dagkrant-regel op de voorpagina vergeten.** Nieuw artikel dat wel in
+    `wat-opkomt/` staat maar niet als eerste op de voorpagina prijkt, doet de
+    site aan als een archief in plaats van een krant. Zie §4.1 — elk nieuw
+    artikel is de eerste `home-wo__rij-breed`, oudere leads schuiven omlaag.
+
+11. **Volgorde op `wat-opkomt/`-index niet omgekeerd chronologisch.** Als je
+    nieuwe artikelen achteraan hebt geplakt in plaats van bovenaan, staat het
+    laatste artikel onderaan de lijst. Nieuwste bovenaan, altijd. Zie §4.2.
+
 ---
 
 ## 6. Checklist per publicatie
@@ -364,13 +414,19 @@ Reden: de voorpagina is redactioneel gekozen, niet automatisch chronologisch.
       Tekst-kleur, Status=live, Volgorde, Actief=TRUE, Auteur, Datum
 - [ ] Voor kruisverwijzingen: extra rij met dezelfde URL, andere Ouder-code,
       `Terug naar` ingevuld
+- [ ] **Dagkrant-regel voorpagina**: nieuw artikel als **eerste**
+      `<a class="home-wo__rij-breed">` onder `<section class="home-wo">` in
+      `<taal>/index.html` voor alle 3 talen; oudere lead-items zijn een
+      positie omlaag geschoven
+- [ ] **Dagkrant-regel Nieuw**: nieuw artikel als **eerste** `wo-item` in
+      `<taal>/wat-opkomt/index.html` (en EN/DE-equivalenten); oudere items zijn
+      een positie omlaag geschoven
 - [ ] `python3 scripts/xlsx_naar_json.py` lokaal gedraaid → geen fouten
 - [ ] `python3 tools/link_audit.py` → 0 gebroken links
 - [ ] Commit + push naar `main`
-- [ ] Live-check: HTTP 200 op nieuwe URLs, zichtbaar in `verkennen/` én in de
-      wat-opkomt-index van elke taal
-- [ ] Voor voorpagina-highlight: handmatig `<a class="home-wo__rij-breed">`
-      geplaatst op `<taal>/index.html` (§4)
+- [ ] Live-check: nieuw artikel staat als éérste op de voorpagina van elke taal
+- [ ] Live-check: nieuw artikel staat bovenaan `wat-opkomt/` van elke taal
+- [ ] Live-check: HTTP 200 op de nieuwe URLs, zichtbaar in `verkennen/`
 
 ---
 
