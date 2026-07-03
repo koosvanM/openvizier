@@ -11,7 +11,7 @@ daarin worden automatisch omgezet naar de vijf JSON-tabellen onder
 `../nl/_data/tabellen/` door **`xlsx_naar_json.py`** — een GitHub Action draait
 dit bij elke push die de xlsx wijzigt.
 
-**Lees eerst `../tools/MATRIX-REGELS.md` voordat je iets doet.**
+**Lees eerst `../MATRIX-REGELS.md` voordat je iets doet.**
 
 ## Scripts die je wél mag draaien
 
@@ -21,7 +21,7 @@ dit bij elke push die de xlsx wijzigt.
 
 ## Scripts die je NIET mag draaien
 
-Zie de verboden-scripts-lijst in `../tools/MATRIX-REGELS.md § 7`.
+Zie de verboden-scripts-lijst in `../MATRIX-REGELS.md § 7`.
 
 Kort samengevat: alles wat in de naam `menu`, `navigatie`, `nav`, of `rebuild`
 heeft, is verouderd en manipuleert de site buiten de matrix om. Niet draaien.
