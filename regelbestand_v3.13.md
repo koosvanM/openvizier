@@ -472,6 +472,138 @@ Volledig onderbouwingsrapport: `/home/user/workspace/engine_parameters_empirisch
 
 ---
 
+### Regel 135 — Zwitserse (CH) app-portering (v3.13)
+
+De CH-app is de derde land-versie, met Duits als hoofdtaal (naast DE).
+
+**Canonieke matrix-slot:** cluster `x.1.3.1.3.5` in `nl/_data/vizier.xlsx`:
+- NL rij 1125, ID `1.1.3.1.3.5`, "De Zwitserse Folgenkarte"
+- DE rij 1126, ID `2.1.3.1.3.5`, "Die Schweizer Folgenkarte"
+- EN rij 1127, ID `3.1.3.1.3.5`, "The Swiss Consequence Map"
+
+**URL-slot:** `/de-CH/folgenkarte-app/` (BCP-47 `de-CH` onderscheidt CH-Duits van DE-Duits).
+
+**Verplichte matrix-kolommen bij toevoegen van een nieuwe app-rij** (v3.13d correctie op v3.13a-bug):
+- Kolom 2 (`Code`), 3 (`Ouder`), 4 (`Taal`), 5 (`Type=artikel`), 6 (`Naam`), 7 (`Ondertitel`), 8 (`Beschrijving`), 9 (`URL`), 10 (`Hero`)
+- **én verplicht:** kolom 18 (`Status='live'`), 19 (`Volgorde='<n>'`), 20 (`Actief=True`)
+- Ontbrekende status/actief → rij wordt door `xlsx_naar_json.py` **overgeslagen** en verschijnt niet in het menu.
+
+**Menu-integratie (HTML-landing-pagina's):** de statische pagina's `nl/stemgedrag.html`, `de/wahlfolgen.html`, `en/vote-impact.html` bevatten één `apps-grid` div waar de landsknoppen staan. Nieuwe apps toevoegen aan alle drie pagina's is verplicht — anders is de app niet vindbaar vanuit de andere taal-menu's, ondanks matrix-registratie.
+
+**CH-startwaarden 2026:** zie Regel 134 + `/home/user/workspace/CH_startwaarden_v312.md` (SECO TiVA, BFS, OECD, admin.ch, KOF).
+
+**9 CH-partijen:** SVP, SP, Mitte, FDP, Grüne, GLP, EVP, EDU, Lega + VMP/CARB referentie.
+
+**7 CH-Grossregionen:** Zürich, Espace Mittelland, Genfersee, Nordwest, Ostschweiz, Zentralschweiz, Tessin.
+
+**22 CH-sectoren met land-specifieke aanpassingen:** S13 = Pharma & Life Sciences (i.p.v. iGaming/MT), S17 = Präzisionsindustrie/Uhrenindustrie (i.p.v. Shipping/MT).
+
+---
+
+### Regel 136 — Meertalige sector-mapping in SectorIcons.tsx (v3.13)
+
+`SectorIcons.tsx` (SVG-iconen) en `MiniHero.tsx` (emoji-fallbacks) MOETEN **één meertalige sleutel-set bevatten** die alle land-varianten dekt. Ontbrekende sleutels leiden tot lege 150×150-tegels (bug uit MT v3.12k) of witte-pagina-crashes (getClusterStyle undefined).
+
+**Canoniek sleutel-schema:**
+- NL: `S1_zorg`, `S2_onderwijs`, ..., `S22_student`
+- DE: `S1_gesundheit`, `S5_automotive`, `S13_chemie_pharma`, `S17_maschinenbau`, ..., `S22_rentner_student`
+- MT: `S1_health`, `S13_igaming`, `S17_shipping_maritime`, ..., `S22_not_employed_student_retired`
+- CH: `S1_gesundheit`, `S13_pharma`, `S17_uhrenindustrie`, ..., `S22_nicht_aktiv`
+
+**Verplicht per portering:**
+1. Voeg alle 22 sleutels toe aan `SECTOR_ICONS` én `SECTOR_CLUSTERS` in `SectorIcons.tsx`
+2. Voeg alle Q2-Q7 antwoord-sleutels toe aan `iconVoorAntwoord` map in `MiniHero.tsx`
+3. Zorg dat `getVraagLabel` op het juiste veldnaam-veld leest (`vraag` in NL/CH/DE, gebruik consistent één veldnaam)
+4. **Nooit oude land-sleutels verwijderen** — alleen toevoegen, zodat gedeelde componenten multi-land werken.
+
+---
+
+### Regel 137 — Pre-deploy checks (v3.13)
+
+Elke build voor productie MOET voor deploy deze checks doorlopen. Ontstaan uit v3.12k MT-crash (`nepkParty is not defined` — 5 typo's die de app hard lieten crashen bij eerste klik) én v3.13a CH-uitkomsten-nul-bug (leeg `partij_posities`).
+
+**Verplicht vóór elke deploy:**
+
+1. **TypeScript-lint:** `npx tsc --noEmit -p .` in de app-map. **Onbekende identifiers zoals `nepkParty`, `uitlegParty`, `iconVoorQuestion`, `start_party_advies`, `actieveParty`, `gekozenParty` mogen niet in errors verschijnen** — dat zijn refactor-typo's die runtime-crashes veroorzaken. Andere TS-warnings mogen doorheen; die blokkeren de Vite-build niet.
+2. **Build-test:** `npm run build` moet slagen.
+3. **Grep-check onvertaalde inhoud:** grep het `dist/public/index.html` voor niet-passende taal-tokens (bv. Nederlandse tekst in Malta-app, Malta-partijnamen in CH-app).
+4. **Numeriek-consistentie:** aantal partijen en elementen in de UI-badge/intro-tekst moet overeenkomen met `gevolgenkaart-persona.json`.
+5. **Data-dekkingscheck (Regel 138.2 verplicht):** run dit script en fail-fast bij assertion-fout:
+   ```python
+   import json, sys
+   p = json.load(open('<APP>/client/src/data/gevolgenkaart-persona.json'))
+   echte = [k for k, v in p['partijen'].items() if not v.get('referentie')]
+   errors = []
+   for partij in echte:
+       pos = p['partij_posities'].get(partij, {})
+       nz = sum(1 for eid, v in pos.items()
+                if v.get('positie', 0) != 0 or v.get('intensiteit', 0) != 0)
+       if nz < 146:  # 80% van 183
+           errors.append(f"{partij}: slechts {nz}/183 posities gescoord")
+   if errors:
+       print('DATA-DEKKING-FOUT:'); [print('  '+e) for e in errors]; sys.exit(1)
+   print(f'OK: alle {len(echte)} echte partijen ≥ 80% dekking')
+   ```
+6. **Browser-test na deploy:** minstens één hard-refresh + één antwoord-klik in de production-URL vanuit een cloud- of local-browser, checken op witte pagina en console-fouten.
+7. **Cascade-verschil-check (Regel 138.4):** vergelijk twee tegenpartijen met identieke persona-antwoorden. Eerste-orde-scores moeten ≥ 30 punten verschillen. Zo niet: deploy stopzetten en Regel 138 opnieuw doorlopen.
+
+**Nooit deployen zonder deze checks.** "Verifieer uitvoering + gevolg + gevolg van gevolg" begint bij het niet-crashen én bij niet-nul-scoren van de app.
+
+---
+
+### Regel 138 — Partij_posities: geen leeg-vulling, altijd 100% dekking (v3.13d)
+
+**Aanleiding:** In CH v3.13a stond de heuristiek: "vul partij_posities per element als het `domein`- of `cat`-veld een van deze programma-zoektermen bevat (bijv. `migration`, `klima`, `landwirtschaft`)." Maar het `domein`-veld bevat **codes** (`D1` t/m `D14`), geen tekst. Resultaat: ~0 matches, ~alle 183 posities bleven (0,0), cascade-scores werden bijna nul, uitkomsten leken "neutraal". Dat is een stille faalmodus die geen crash geeft maar wel de hele app zinloos maakt. Regel 138 sluit deze bugklasse uit.
+
+#### 138.1 — Dekkingseis 100 %
+
+**Elke `partij_posities`-tabel MOET voor iedere echte partij** (dus exclusief referentiemodellen VMP/CARB, die eigen scoring hebben) **alle 183 elementen expliciet scoren.**
+
+- Ieder element krijgt `{positie: X, intensiteit: Y}` met `X ∈ [-2, -1, 0, 1, 2]` en `Y ∈ [0..10]`.
+- **`positie = 0` én `intensiteit = 0` samen is verboden** voor een echte partij, tenzij een expliciete `reden`-veld staat als `"Bewusst neutral, kein Programmpunkt"` (of taal-equivalent) én dit voor **maximaal 20 %** (37 van 183) van de elementen geldt.
+- **Coalitie-vulling** (Regel 108) blijft de terugval bij oprechte 0-scores. Coalitie-vulling mag echter niet worden gebruikt als excuus om een partij lege posities te geven — die vulling is er voor incidentele gaten, niet voor structureel ontbrekende scoring.
+
+#### 138.2 — Score-methode per portering (verplicht in deze volgorde)
+
+1. **Domein-basis (14 domeinen, D1–D14):** ken per partij per domein een `(positie, intensiteit)`-paar toe, gebaseerd op de door onderzoek onderbouwde partij-profielen uit `<LAND>_startwaarden_v312.md` Vraag 3. Dit vult direct alle 183 elementen die tot dat domein behoren.
+2. **Element-overrides:** voor de 5-15 elementen per partij die duidelijk afwijken van het domein-gemiddelde (kern-standpunten, kern-tegenstellingen), zet expliciet een override op de element-ID. Documenteer met `reden`-veld.
+3. **Verificatie-script (verplicht vóór build):**
+   ```python
+   for partij in echte_partijen:
+       nz = sum(1 for eid, v in partij_posities[partij].items()
+                if v.get('positie', 0) != 0 or v.get('intensiteit', 0) != 0)
+       assert nz >= 146, f"{partij}: slechts {nz}/183 posities gescoord (< 80 % dekking)"
+   ```
+   **Faalt de assertion, deploy niet.** Terug naar stap 1.
+
+#### 138.3 — Expliciete instructies aan de subagent die partij_posities genereert
+
+Wanneer een subagent wordt ingezet om `partij_posities` te genereren voor een nieuwe portering, **moet de opdracht letterlijk deze zes eisen bevatten** (kopieerbare template):
+
+> **Opdracht partij_posities-generator (v3.13d canoniek):**
+>
+> 1. Lees `/home/user/workspace/<LAND>_startwaarden_v312.md` Vraag 3 voor de partij-profielen.
+> 2. Voor elke echte partij (geen VMP/CARB) MOET je een `(positie, intensiteit)`-paar toewijzen aan **ELK van de 183 elementen**. Positie ∈ [-2,-1,0,1,2], intensiteit ∈ [0..10].
+> 3. Gebruik domein-brede toewijzing (D1..D14) als basis, met element-overrides voor kern-standpunten. Domein afleiden uit `element.id.split('.')[0]`, **NIET** uit het `domein`-tekstveld (dat bevat codes, geen woorden).
+> 4. Verboden: matching op `element.domein` als string-zoekactie (bv. `"migration" in element['domein']`). Het veld is `D11`, niet `Migration`. Match altijd op `element.naam` als je op tekst wilt zoeken.
+> 5. Referentiemodellen (VMP, CARB) krijgen `"referentie": true` in `partijen`-meta. Hun `partij_posities` mogen uit een NL-referentie worden overgenomen.
+> 6. **Verificatie na afloop:** voor elke echte partij `sum(pos!=0 or intens!=0) >= 146` (80 % dekking). Rapporteer dit getal per partij. Als het niet wordt gehaald, ga terug naar stap 2.
+
+#### 138.4 — Zichtbaar-in-UI-check (waarom stille faalmodus juist gevaarlijk was)
+
+`besteVoor()` in `levensloopEngine.ts` neemt de best-scorende échte partij uit de Ranglijst. Bij (0,0)-posities scoren álle partijen ~0 in de cascade, wat *lijkt* op "neutrale uitkomst" maar in werkelijkheid "engine heeft niets om mee te rekenen" is. **Verplicht post-deploy sanity check:**
+
+1. Kies twee tegenpartijen (bv. SVP en SP voor CH; CDU/CSU en SP voor DE; PL en PN voor MT).
+2. Ga door de app met identieke persona-antwoorden.
+3. Kies eenmaal partij A als eigen keuze, dan partij B.
+4. **Eerste-orde-scores moeten verschillen met minstens 30 punten** (op de gebruikte schaal). Als de scores binnen 5 punten van elkaar liggen: cascade werkt niet, deploy stopzetten en 138.1/138.2 opnieuw doorlopen.
+
+#### 138.5 — Herbouw wanneer element-namen wijzigen
+
+Als de 183 element-namen worden vertaald (zoals in v3.13 voor DE/MT/CH gebeurde), **hoeft `partij_posities` NIET herzien te worden** — die is gekoppeld aan `element.id` en niet aan de tekst. Element-namen zijn UI-labels; posities zijn semantische scoring op element-ID. Deze scheiding is expliciet: **niet vertalen = niet raken**.
+
+---
+
 ## TODO's v3.14 (open)
 
 - CH `partij_posities` verfijnen via Optie-Y-programma-analyse (nu heuristiek uit Regel 135.5)
