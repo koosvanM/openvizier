@@ -183,14 +183,21 @@ function partijGroeiPerJaar(
   // v1 van bv. +300 → ~+2.5% per jaar gedurende 1e orde-venster
   const groei = new Array(jaren+1).fill(0);
   for (let j = 0; j <= jaren; j++) {
-    // v3.20.12 — Regel 142: aanloop-envelope (uit DE-app overgenomen).
-    // Voorheen sprong env1 van 0 (j=0) direct naar 0.8 (j=1) — irreële knik.
-    // Nu: trapsgewijze opbouw jaar 0-3 + langzamere demping (j/8 i.p.v. j/5).
-    // 1e orde tijdsenvelop: aanloop 0.4 (j=1), 0.85 (j≤3), 1.0 daarna; dempt uit j=8
-    const env1 = (j === 0 ? 0 : j <= 1 ? 0.4 : j <= 3 ? 0.85 : 1) * Math.max(0, 1 - j/8);
-    // 2e orde tijdsenvelop: aanloop 0.8 (j=1), 0.95 (j≤3); klokvormig piek jaar 3, breder (÷4)
-    const env2 = (j === 0 ? 0 : j <= 1 ? 0.8 : j <= 3 ? 0.95 : 1) * Math.exp(-Math.pow((j-3)/4, 2));
-    // 3e orde tijdsenvelop: oplopend vanaf jaar 3, blijvend (ongewijzigd)
+    // v3.20.13 — Regel 143: curveWaarde-envelopes (uit gezondheidsgrafiek).
+    // De v3.20.11 envelope had een discontinuïteits-knik: env1 sprong van 0 (j=0)
+    // direct naar 0.8 (j=1). De v3.20.12 fix (DE-aanloop) hielp niet volledig.
+    // v3.20.13 gebruikt dezelfde curve-vorm als de onderste NEPK/NTPK-grafiek:
+    // spike voor 1e orde, rise_plateau voor 2e orde. Beide starten bij nul en
+    // stijgen strak lineair (geen sprong).
+    //
+    // Compensatiefactoren 0.40 en 0.36 behouden de v3.20.11-amplitude (Σenv
+    // over 15 jaar identiek), zodat piek-waarden vergelijkbaar blijven.
+    //
+    // 1e orde: spike piek j=3, afloop j=10 (× 0.40 compensatie voor 2.5x oppervlakte)
+    const env1 = 0.40 * (j <= 0 ? 0 : j <= 3 ? j/3 : j >= 10 ? 0 : 1 - (j-3)/7);
+    // 2e orde: rise_plateau piek j=5, blijvend (× 0.36 compensatie voor 2.77x oppervlakte)
+    const env2 = 0.36 * (j <= 0 ? 0 : j <= 5 ? j/5 : 1);
+    // 3e orde: cumulatief vanaf jaar 3, blijvend (ongewijzigd)
     const env3 = j < 3 ? 0 : Math.min(1, (j-3)/6);
     // Effect per orde, conservatief geschaald: max ±3% per jaar bij sterke cascade.
     // Cascade-score van ~500 (sterk positief) levert ~0.5% jaarlijkse groei.
