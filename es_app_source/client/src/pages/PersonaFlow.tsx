@@ -635,6 +635,21 @@ interface EigenKeuzeProps {
   onEigenKeuze: (id: string | null) => void;
   onBekijkUitleg: () => void;
 }
+// v3.20.22 — Politieke-as-kleuren voor de eigen-keuze-pills.
+// Bron: Chapel Hill Expert Survey 2024 (LRGEN + LRECON, genormaliseerd 0-1).
+// Vloeiende RGB-overloop rood (uiterst links) → paars (midden) → blauw (uiterst rechts).
+const POLITIEKE_KLEUR: Record<string, string> = {
+  'SUMAR':    '#bb4573',  // 0.23
+  'EH Bildu': '#ba4575',  // 0.24
+  'BNG':      '#b6467c',  // 0.27
+  'ERC':      '#b04886',  // 0.31
+  'PSOE':     '#a54b99',  // 0.39
+  'PNV':      '#8052bd',  // 0.62
+  'JUNTS':    '#7b53c0',  // 0.65
+  'PP':       '#6e54c5',  // 0.72
+  'VOX':      '#4a58d5',  // 0.92
+};
+
 function EigenKeuzeBlok({ ranglijst, gekozenResultaat, partijMeta, eigenKeuze, onEigenKeuze, onBekijkUitleg }: EigenKeuzeProps) {
   return (
     <section className="px-6 sm:px-8 py-6 border-b border-slate-200 bg-gradient-to-br from-sky-50/70 via-white to-violet-50/40" data-testid="eigen-keuze-blok">
@@ -652,7 +667,8 @@ function EigenKeuzeBlok({ ranglijst, gekozenResultaat, partijMeta, eigenKeuze, o
       <div className="flex flex-wrap gap-2 mb-4">
         {ranglijst.map((r) => {
           const m = partijMeta[r.partij_id];
-          const k = naarHex(m?.kleur || '#64748b');
+          // v3.20.22 — gebruik politieke-as-kleur als beschikbaar; anders val terug op partij-eigen kleur.
+          const k = POLITIEKE_KLEUR[r.partij_id] || naarHex(m?.kleur || '#64748b');
           const isActief = eigenKeuze === r.partij_id;
           return (
             <button
