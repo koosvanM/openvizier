@@ -18,8 +18,9 @@ import { LevensloopGrafiek } from '../components/LevensloopGrafiek';
 import { GezondheidsgrafiekNL } from '../components/GezondheidsgrafiekNL';
 import { HistorischeTrend } from '../components/HistorischeTrend';
 import { berekenLevensloop, berekenNEPK } from '../lib/levensloopEngine';
-// Inline referentie-check zodat PersonaFlow de 586 KB gevolgenkaart.json niet hoeft te laden.
-const isReferentie = (partijId: string): boolean => partijId === 'CARB' || partijId === 'VMP';
+// v3.20.15 — VMP en CARB zijn normale partijen (bron: novademocratia.com
+// en openvizier.org/carbon-alert.earth). Geen speciale referentie-check meer.
+const isReferentie = (_partijId: string): boolean => false;
 
 // ============================================================================
 // KLEUR-HULPMIDDELEN
@@ -233,7 +234,7 @@ export default function PersonaFlow() {
           {/* EIGEN KEUZE — pas na eerste antwoord, ONDER de huidige vraag,
               zodat de vraag-tegels boven in beeld blijven. */}
           {heeftAntwoorden && ranglijst.length > 0 && (() => {
-            const REF_IDS = new Set(['CARB', 'VMP']);
+            const REF_IDS = new Set<string>();  // v3.20.15 leeg — VMP/CARB zijn normale partijen
             const echtePartijen = ranglijst.filter((r) => !REF_IDS.has(r.partij_id) && !isReferentie(r.partij_id));
             const eigenResultaat = eigenKeuze ? ranglijst.find((r) => r.partij_id === eigenKeuze) : null;
             return (
@@ -257,7 +258,7 @@ export default function PersonaFlow() {
 
           {/* LEVENSLOOP-PROJECTIE — 15 jaar vooruit met herkeuzemomenten */}
           {heeftAntwoorden && ranglijst.length > 0 && (() => {
-            const REF_IDS = new Set(['CARB', 'VMP']);
+            const REF_IDS = new Set<string>();  // v3.20.15 leeg — VMP/CARB zijn normale partijen
             const isRef = (id: string) => REF_IDS.has(id) || isReferentie(id);
             const echteTop = ranglijst.find((r) => !isRef(r.partij_id)) || ranglijst[0];
             const eigenPartij = eigenKeuze || echteTop.partij_id;
@@ -425,7 +426,7 @@ export default function PersonaFlow() {
 
           {/* TOPUITKOMST — computer-advies, pas na eerste antwoord */}
           {heeftAntwoorden && ranglijst.length > 0 && (() => {
-            const REF_IDS = new Set(['CARB', 'VMP']);
+            const REF_IDS = new Set<string>();  // v3.20.15 leeg — VMP/CARB zijn normale partijen
             const isRef = (id: string) => REF_IDS.has(id) || isReferentie(id);
             const refTop = ranglijst.find((r) => isRef(r.partij_id)) || null;
             const echteTop = ranglijst.find((r) => !isRef(r.partij_id)) || ranglijst[0];
