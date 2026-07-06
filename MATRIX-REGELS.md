@@ -298,11 +298,14 @@ waarschijnlijk een URL in de xlsx die naar een niet-bestaand bestand wijst.
 
 ### 3.6 Voorpagina bijwerken (verplicht bij elke publicatie)
 
-Dit is de dagkrant-regel (zie § 4). Voeg voor elk nieuw artikel een
-`<a class="home-wo__rij-breed">` toe als **eerste** item onder
-`<section class="home-wo">` in `<taal>/index.html`, voor alle drie talen. Oudere
-items (inclusief lead-blokken zoals "Soevereiniteit als cyclus" of
-"Wie zijn opbouwers wegjaagt") schuiven een positie omlaag.
+Dit is de dagkrant-regel (zie § 4.1). Voeg voor elk nieuw artikel één
+`<a class="home-wo__rij-breed">` toe direct ná `<div class="home-wo__kop">...</div>`
+in `<section class="home-wo">`, voor NL/EN/DE. Gebruik `style="margin-top:1rem;margin-bottom:2rem;"`.
+Oudere lead-blokken en de `home-wo__rijen`-container schuiven een positie omlaag.
+
+**Geen zij-ingangen** — gebruik nooit ad-hoc top-banners zoals `.pl-top`,
+`.klm-pl`, `.disc-top`, `.gem-top`, `.dgk-top` of eigen `<style>`-blokken
+boven `.home-wo`. Één patroon: `home-wo__rij-breed` binnen `.home-wo`.
 
 ### 3.7 Live-verificatie
 
@@ -333,16 +336,43 @@ Deze regel geldt op twee plekken:
 Het `★ Wat opkomt` / `★ What surfaces` / `★ Was aufkommt`-blok bovenaan de
 voorpagina is **handmatig** onderhouden — het wordt niet automatisch uit de
 matrix opgehaald. Voor elke nieuwe publicatie voeg je een `<a class="home-wo__rij-breed">`
-blok toe op de **absolute top** van dat blok, boven alle bestaande items.
+blok toe op de **absolute top** van `<section class="home-wo">`, direct na
+`<div class="home-wo__kop">...</div>` en bóven alle bestaande rijen — inclusief
+boven eventuele redactionele lead-blokken (zoals "Editie Klimaat", "Wie zijn
+opbouwers wegjaagt", "Soevereiniteit als cyclus") en bóven de
+`home-wo__kaart_kop "Aanbevolen om opnieuw te lezen"` / `home-wo__rijen`-container.
 
 **Er mag geen "lead-artikel" of "discussiestuk" boven het nieuwste artikel
-blijven staan.** Redactionele lead-blokken (zoals "Soevereiniteit als cyclus"
-of "Wie zijn opbouwers wegjaagt") moeten worden verplaatst naar onder de
-nieuwe items zodra er iets nieuws verschijnt. De voorpagina is een krant, geen
-vitrine.
+blijven staan.** De voorpagina is een krant, geen vitrine. Oudere redactionele
+lead-blokken schuiven een positie omlaag zodra er iets nieuws verschijnt.
 
-Concreet: elk nieuw artikel wordt de **eerste** `home-wo__rij-breed` onder
-`<section class="home-wo">`. Oudere lead-items schuiven een positie omlaag.
+**DOM-structuur van `<section class="home-wo">`, in volgorde:**
+
+```
+<section class="home-wo">
+  <div class="home-wo__kop"> … </div>          <!-- ★ label + intro -->
+
+  <!-- 1. NIEUWSTE ARTIKEL — dagkrant-rij (verplicht bij elke publicatie) -->
+  <a class="home-wo__rij-breed" style="margin-top:1rem;margin-bottom:2rem;"> … </a>
+
+  <!-- 2. Vaste editorial-leads (★ edities / discussiestukken), ná de dagkrant-rij -->
+  <a class="home-wo__rij-breed" style="margin-bottom:2rem;..."> … </a>
+  <a class="home-wo__rij-breed" style="margin-bottom:2rem;..."> … </a>
+
+  <!-- 3. "Aanbevolen om opnieuw te lezen" — chronologische rijen-container -->
+  <p class="home-wo__kaart_kop">Aanbevolen om opnieuw te lezen</p>
+  <div class="home-wo__rijen">
+    <a class="home-wo__rij-breed"> … </a>
+    …
+  </div>
+</section>
+```
+
+**Losse zij-ingangen (`.pl-top`, `.klm-pl`, `.disc-top`, `.gem-top`, `.dgk-top`,
+en alle andere ad-hoc top-banner-klassen) zijn verboden voor nieuwe publicaties.**
+Bestaande zij-ingangen in `<taal>/index.html` worden bij de volgende publicatie
+omgezet naar `home-wo__rij-breed` of verwijderd. Één consistent HTML-patroon:
+`home-wo__rij-breed` binnen `<section class="home-wo">`.
 
 ### 4.2 Nieuw (`<taal>/wat-opkomt/`)
 
@@ -415,9 +445,11 @@ volgorde die in de xlsx is opgegeven onder de betreffende editie-code.
 - [ ] Voor kruisverwijzingen: extra rij met dezelfde URL, andere Ouder-code,
       `Terug naar` ingevuld
 - [ ] **Dagkrant-regel voorpagina**: nieuw artikel als **eerste**
-      `<a class="home-wo__rij-breed">` onder `<section class="home-wo">` in
-      `<taal>/index.html` voor alle 3 talen; oudere lead-items zijn een
-      positie omlaag geschoven
+      `<a class="home-wo__rij-breed">` binnen `<section class="home-wo">`,
+      direct ná `<div class="home-wo__kop">...</div>`, in NL/EN/DE.
+      Oudere lead-items (Editie Klimaat, Opbouwers, enz.) staan erónder.
+- [ ] **Geen zij-ingangen** — geen `.pl-top`, `.klm-pl`, `.disc-top`, `.gem-top`,
+      `.dgk-top` of andere ad-hoc top-banners toegevoegd of achtergelaten
 - [ ] **Dagkrant-regel Nieuw**: nieuw artikel als **eerste** `wo-item` in
       `<taal>/wat-opkomt/index.html` (en EN/DE-equivalenten); oudere items zijn
       een positie omlaag geschoven
