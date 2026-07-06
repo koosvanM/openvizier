@@ -415,8 +415,16 @@ const DRIE_ORDE_TABEL: Record<string, OrdeScoring> = {
   // Referencia-modellen op plafond (identiek aan NL: VMP neutraal-plafond, CARB klimaat-plafond)
   VMP:        { E_tv: [0.06, 0.12, 0.20], alpha: [0.003, 0.006, 0.010],
                 tau:  [-0.002, -0.003, -0.005], phi: [0.004, 0.009, 0.015] },
-  CARB:       { E_tv: [0.03, 0.06, 0.10], alpha: [0.003, 0.006, 0.010],
-                tau:  [0, -0.001, -0.002],      phi: [0.002, 0.004, 0.008] },
+  // CARB kwadratisch profiel (v3.20.24, user-keuze "Sterker kwadratisch"):
+  // E_tv [0.01, 0.10, 0.40] weerspiegelt BiCRS-narratief:
+  //   1e orde (j0-3): machinebouw + aanplant, dalende werkloosheid, klein effect
+  //   2e orde (j4-8): olie-onafhankelijkheid op gang, loonstijgingen door arbeidstekort
+  //   3e orde (j9-15): volledige olie-onafhankelijkheid, 8.94M banen, ethanol 30-60ct/L,
+  //                     CO2 €40-50/ton, industrie voluit — verwachte NTPK j15 +141%
+  // Ratio 1:10:40 doorgezet in alpha en phi. tau -0.020 j15 weerspiegelt eigendom van
+  // biomass-productie in ontwikkelingslanden → kapitaalspreiding.
+  CARB:       { E_tv: [0.01, 0.10, 0.40], alpha: [0.001, 0.010, 0.040],
+                tau:  [0, -0.005, -0.020],      phi: [0.001, 0.010, 0.040] },
 
   // === DERECHA — eerst verdienen dan uitgeven (τ-, α+, φ gemengd) ===
   // PP: centro-derecha, belastingverlaging + deregulering.

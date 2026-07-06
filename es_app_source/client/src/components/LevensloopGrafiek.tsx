@@ -45,10 +45,11 @@ export function LevensloopGrafiek({ data, partijMeta, toonVMP = false, toonCARB 
   // eventuele extreme partijcurves worden bij de plotrand geclipt met een
   // caret-indicator, zodat de vergelijking tussen partijen niet verstoord
   // wordt door theoretische ijkpunten.
-  // Regel v3.12 — Y-as bereik strakker om partij-verschillen zichtbaarder te maken
-  // Historisch bewegen advies/eigen/herkeuze meestal 85-115; VMP-referentie kan tot ~125
+  // Regel v3.20.24 — Y-as uitgebreid naar 300 voor CARB kwadratisch profiel
+  // BiCRS-narratief geeft NTPK j15 +141% → inkomensindex ~280
+  // Advies/eigen/herkeuze bewegen historisch 85-115; VMP-referentie ~125; CARB nu tot ~280
   // Bij buiten-bereik-waarden worden lijnen geclamped en gemarkeerd met driehoek/pijl
-  const maxY = 130;
+  const maxY = 300;
   const minY = 80;
 
   const maxJaar = data.jaren[data.jaren.length - 1];
