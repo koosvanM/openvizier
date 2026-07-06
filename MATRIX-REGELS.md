@@ -299,13 +299,16 @@ waarschijnlijk een URL in de xlsx die naar een niet-bestaand bestand wijst.
 ### 3.6 Voorpagina bijwerken (verplicht bij elke publicatie)
 
 Dit is de dagkrant-regel (zie § 4.1). Voeg voor elk nieuw artikel één
-`<a class="home-wo__rij-breed">` toe direct ná `<div class="home-wo__kop">...</div>`
-in `<section class="home-wo">`, voor NL/EN/DE. Gebruik `style="margin-top:1rem;margin-bottom:2rem;"`.
-Oudere lead-blokken en de `home-wo__rijen`-container schuiven een positie omlaag.
+`<a class="dgk-top">` toe **direct na `</nav>`** in `<taal>/index.html`, voor
+NL/EN/DE. Deze rij staat bóven alle bestaande banners op de voorpagina — óók
+boven eventuele `.disc-top`, `.gem-top`, `.fil-top`, andere `.dgk-top`'s, en
+bóven `<section class="home-wo">`. Oudere banners schuiven een positie omlaag.
 
-**Geen zij-ingangen** — gebruik nooit ad-hoc top-banners zoals `.pl-top`,
-`.klm-pl`, `.disc-top`, `.gem-top`, `.dgk-top` of eigen `<style>`-blokken
-boven `.home-wo`. Één patroon: `home-wo__rij-breed` binnen `.home-wo`.
+Gebruik het bestaande `.dgk-top`-patroon (grid + `.dgk-top__img` / `.dgk-top__txt`
+/ `.dgk-top__tag` / `.dgk-top__h` / `.dgk-top__l` / `.dgk-top__k`). Kies een
+background-gradient die past bij het thema van het artikel (zie voorbeelden in
+het bestand). De CSS voor `.dgk-top` staat al in `<taal>/index.html` — geen
+nieuwe `<style>`-blokken toevoegen.
 
 ### 3.7 Live-verificatie
 
@@ -333,46 +336,50 @@ Deze regel geldt op twee plekken:
 
 ### 4.1 Voorpagina (`<taal>/index.html`)
 
-Het `★ Wat opkomt` / `★ What surfaces` / `★ Was aufkommt`-blok bovenaan de
-voorpagina is **handmatig** onderhouden — het wordt niet automatisch uit de
-matrix opgehaald. Voor elke nieuwe publicatie voeg je een `<a class="home-wo__rij-breed">`
-blok toe op de **absolute top** van `<section class="home-wo">`, direct na
-`<div class="home-wo__kop">...</div>` en bóven alle bestaande rijen — inclusief
-boven eventuele redactionele lead-blokken (zoals "Editie Klimaat", "Wie zijn
-opbouwers wegjaagt", "Soevereiniteit als cyclus") en bóven de
-`home-wo__kaart_kop "Aanbevolen om opnieuw te lezen"` / `home-wo__rijen`-container.
+De voorpagina is een **krant, geen vitrine**. Het nieuwste artikel staat
+**bovenaan alle content na de nav** — niet boven het `.home-wo`-blok, maar
+bovenaan de hele pagina direct na `</nav>`.
 
-**Er mag geen "lead-artikel" of "discussiestuk" boven het nieuwste artikel
-blijven staan.** De voorpagina is een krant, geen vitrine. Oudere redactionele
-lead-blokken schuiven een positie omlaag zodra er iets nieuws verschijnt.
-
-**DOM-structuur van `<section class="home-wo">`, in volgorde:**
+**DOM-volgorde van de voorpagina (na `</nav>`):**
 
 ```
+</nav>
+
+<!-- 1. NIEUWSTE ARTIKEL — dagkrant-rij (verplicht bij elke publicatie) -->
+<a class="dgk-top" href="…" style="background:linear-gradient(…);border-left-color:…;">
+  <div class="dgk-top__grid">
+    <div class="dgk-top__img"><img src="…" alt="" loading="eager" decoding="async"></div>
+    <div class="dgk-top__txt">
+      <p class="dgk-top__tag">★ NIEUW · THEMA · DATUM</p>
+      <h2 class="dgk-top__h">Titel</h2>
+      <p class="dgk-top__l">Lead in één zin.</p>
+      <span class="dgk-top__k">Lees →</span>
+    </div>
+  </div>
+</a>
+
+<!-- 2. Bestaande banners (oudere .dgk-top / .fil-top / .disc-top / .gem-top) -->
+…
+
+<!-- 3. Verkennen-embed compact -->
+<section class="verk-compact"> … </section>
+
+<!-- 4. Wat opkomt-sectie met vaste editorial-leads + Aanbevolen om opnieuw te lezen -->
 <section class="home-wo">
-  <div class="home-wo__kop"> … </div>          <!-- ★ label + intro -->
-
-  <!-- 1. NIEUWSTE ARTIKEL — dagkrant-rij (verplicht bij elke publicatie) -->
-  <a class="home-wo__rij-breed" style="margin-top:1rem;margin-bottom:2rem;"> … </a>
-
-  <!-- 2. Vaste editorial-leads (★ edities / discussiestukken), ná de dagkrant-rij -->
-  <a class="home-wo__rij-breed" style="margin-bottom:2rem;..."> … </a>
-  <a class="home-wo__rij-breed" style="margin-bottom:2rem;..."> … </a>
-
-  <!-- 3. "Aanbevolen om opnieuw te lezen" — chronologische rijen-container -->
+  <div class="home-wo__kop"> … </div>
+  <a class="home-wo__rij-breed"> … </a>   <!-- ★ vaste leads: Editie Klimaat, Opbouwers, … -->
   <p class="home-wo__kaart_kop">Aanbevolen om opnieuw te lezen</p>
   <div class="home-wo__rijen">
     <a class="home-wo__rij-breed"> … </a>
-    …
   </div>
 </section>
 ```
 
-**Losse zij-ingangen (`.pl-top`, `.klm-pl`, `.disc-top`, `.gem-top`, `.dgk-top`,
-en alle andere ad-hoc top-banner-klassen) zijn verboden voor nieuwe publicaties.**
-Bestaande zij-ingangen in `<taal>/index.html` worden bij de volgende publicatie
-omgezet naar `home-wo__rij-breed` of verwijderd. Één consistent HTML-patroon:
-`home-wo__rij-breed` binnen `<section class="home-wo">`.
+**Één patroon**: `.dgk-top` is de canonieke klasse voor top-banners direct na
+`</nav>`. Nieuwere ad-hoc klassen (`.pl-top`, `.klm-pl`) zijn verboden en
+worden bij het volgende contact met een index-file omgezet naar `.dgk-top`.
+Oudere zij-ingang-klassen (`.disc-top`, `.gem-top`, `.fil-top`) blijven bestaan
+voor bestaande banners, maar nieuwe publicaties gebruiken alleen `.dgk-top`.
 
 ### 4.2 Nieuw (`<taal>/wat-opkomt/`)
 
@@ -444,12 +451,11 @@ volgorde die in de xlsx is opgegeven onder de betreffende editie-code.
       Tekst-kleur, Status=live, Volgorde, Actief=TRUE, Auteur, Datum
 - [ ] Voor kruisverwijzingen: extra rij met dezelfde URL, andere Ouder-code,
       `Terug naar` ingevuld
-- [ ] **Dagkrant-regel voorpagina**: nieuw artikel als **eerste**
-      `<a class="home-wo__rij-breed">` binnen `<section class="home-wo">`,
-      direct ná `<div class="home-wo__kop">...</div>`, in NL/EN/DE.
-      Oudere lead-items (Editie Klimaat, Opbouwers, enz.) staan erónder.
-- [ ] **Geen zij-ingangen** — geen `.pl-top`, `.klm-pl`, `.disc-top`, `.gem-top`,
-      `.dgk-top` of andere ad-hoc top-banners toegevoegd of achtergelaten
+- [ ] **Dagkrant-regel voorpagina**: nieuw artikel als **eerste** `<a class="dgk-top">`
+      direct ná `</nav>` in NL/EN/DE. Oudere banners (`.dgk-top`, `.fil-top`,
+      `.disc-top`, `.gem-top`) staan erónder.
+- [ ] **Geen nieuwe ad-hoc banner-klassen** — geen `.pl-top`, `.klm-pl` of
+      andere eenmalige top-banner-klassen toegevoegd; alleen `.dgk-top`
 - [ ] **Dagkrant-regel Nieuw**: nieuw artikel als **eerste** `wo-item` in
       `<taal>/wat-opkomt/index.html` (en EN/DE-equivalenten); oudere items zijn
       een positie omlaag geschoven
