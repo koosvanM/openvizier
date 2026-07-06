@@ -811,6 +811,10 @@ export interface LevensloopResultaat {
   // Interpretatie: 'als deze partij haar volledige programma uitvoert, hoe beweegt
   // dan de productieve kern van de nationale economie?'. Basis 100 = vandaag.
   nepk_eigen_index: number[];
+  // v3.20.20 — NEPK-lijnen voor referentie-modellen VMP en CARB, zichtbaar
+  // wanneer hun toggle aan staat.
+  nepk_vmp_index: number[];
+  nepk_carb_index: number[];
   band_pct: number[];
   band_advies_onder: number[];
   band_advies_boven: number[];
@@ -861,16 +865,18 @@ export function berekenLevensloop(
       out[j] = baseline[j] * cum;
     }
 
-    // v3.20.19 — NEPK-koppeling: de gezondheid van het regime bepaalt de
-    // bestedingsruimte. Als NEPK stijgt bij een partij, stijgt ook het inkomen.
-    // Als NEPK crasht (bijv. -37% bij PP), kan de inkomens-index niet
-    // onafhankelijk daarvan stijgen. 1:1 koppeling per user-eis.
+    // v3.20.20 — NTPK-koppeling: bestedingsruimte volgt de productieve
+    // capaciteit van het regime (ongeacht eigendom). NTPK = E_tv × α × (1-τ).
+    // Was v3.20.19 NEPK (= NTPK × φ), maar de eigendom-schil φ hoort niet in
+    // bestedingsruimte per capita — alleen in soevereiniteitsvraag. NTPK is
+    // de juiste metric: wat wordt er geproduceerd, wat er te besteden is.
+    // 1:1 koppeling.
     try {
-      const { nepk } = bundelNEPKLijn(partij, jaren);
-      const nepk_start = nepk[0] || 1;
+      const { ntpk } = bundelNEPKLijn(partij, jaren);
+      const ntpk_start = ntpk[0] || 1;
       for (let j = 0; j <= jaren; j++) {
-        const nepk_factor = nepk[j] / nepk_start;
-        out[j] = out[j] * nepk_factor;
+        const ntpk_factor = ntpk[j] / ntpk_start;
+        out[j] = out[j] * ntpk_factor;
       }
     } catch (e) {
       // Als bundelNEPKLijn faalt, retourneer de ongekoppelde index.
@@ -894,6 +900,9 @@ export function berekenLevensloop(
     return nepk.map(v => (v / start) * 100);
   }
   const nepk_eigen_index = nepkIndexMet(eigen_partij);
+  // v3.20.20 — aparte NEPK-lijnen voor VMP en CARB (voor toggle-weergave)
+  const nepk_vmp_index = nepkIndexMet('VMP');
+  const nepk_carb_index = nepkIndexMet('CARB');
 
   // Herkozen-traject: bij elke fase-overgang heroverwegen welke partij optimaal is
   const herkeuze_index = new Array(jaren+1).fill(100);
@@ -946,6 +955,8 @@ export function berekenLevensloop(
     advies_index, eigen_index, herkeuze_index,
     vmp_index, carb_index,
     nepk_eigen_index,
+    nepk_vmp_index,
+    nepk_carb_index,
     band_pct,
     band_advies_onder, band_advies_boven,
     band_herkeuze_onder, band_herkeuze_boven,
