@@ -316,6 +316,12 @@ export function berekenBaselineDrift(jaren: number = 15): BaselineDriftResultaat
     drift_index[j] = 100 * Math.exp(cum / 100);
   }
 
+  // v3.20.15 — Regel 144: cubic-fit door ankers j=0,3,7,15 zodat de
+  // nullijn (drift_index) geen knik meer heeft bij orde-overgangen.
+  cubicFitDoorAnkers(drift_index);
+  cubicFitDoorAnkers(drift_orde1);
+  cubicFitDoorAnkers(drift_orde2);
+
   return {
     drift_index,
     drift_orde1, drift_orde2, drift_orde3,

@@ -236,13 +236,10 @@ export function berekenPartij(partij: string, antwoorden: Antwoorden): PartijRes
     const meta = partijenObj[pid];
     return meta && meta.referentie !== true;
   });
-  let coalitieVullers: string[];
-  if (partij === 'CARB' && data.partij_posities['VMP']) {
-    // CARB → vult alleen met VMP, niet met reguliere partijen
-    coalitieVullers = ['VMP'];
-  } else {
-    coalitieVullers = alleKiesbaar.filter((pid) => pid !== partij);
-  }
+  // v3.20.15 — CARB behandeld als normale partij, geen speciale VMP-only
+  // coalitie-route meer. Alle partijen (incl. VMP en CARB) gebruiken de
+  // gewone coalitie-vulling: alle andere kiesbare partijen.
+  const coalitieVullers = alleKiesbaar.filter((pid) => pid !== partij);
   const coalitieProduct: Record<string, number> = {};
   for (const el of data.elementen) {
     let som = 0;

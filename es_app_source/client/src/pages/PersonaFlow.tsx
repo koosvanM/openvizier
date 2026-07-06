@@ -87,8 +87,9 @@ export default function PersonaFlow() {
   const [uitlegPartij, setUitlegPartij] = useState<string | null>(null);
   const [eigenKeuze, setEigenKeuze] = useState<string | null>(null);
   // Regel 105 v3.9: referentiemodellen VMP en CARB — aparte toggles per model
-  const [toonVMP, setToonVMP] = useState<boolean>(false);
-  const [toonCARB, setToonCARB] = useState<boolean>(false);
+  // v3.20.15 — VMP en CARB zijn normale partijen, geen aparte toggles meer.
+  // De props toonVMP/toonCARB blijven bestaan in LevensloopGrafiek voor
+  // backward-compat maar worden altijd op false gezet.
 
   const vragen = getVragen() as Record<string, VraagData>;
   const partijMeta = getPartijMeta();
@@ -281,43 +282,8 @@ export default function PersonaFlow() {
                 <p className="text-xs text-slate-500 mb-4 leading-relaxed">
                   Index <strong>100 = vandaag</strong>. De groene gestreepte lijn toont wat er gebeurt als je bij elke levensovergang (student→starter, werkend→pensioen) de partij heroverweegt. Onzekerheidsband groeit lineair tot ±25% in jaar 15. Leverbaarheid van een partij is meegenomen op de 1e-orde score.
                 </p>
-                {/* Regel 105 v3.9: aparte toggles voor VMP en CARB */}
-                <div className="mb-3 flex items-center justify-between gap-3 flex-wrap">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <button
-                      onClick={() => setToonVMP(v => !v)}
-                      className={`text-xs px-3 py-1.5 rounded-full border-2 transition-all font-semibold ${
-                        toonVMP
-                          ? 'text-white shadow-md'
-                          : 'bg-white text-slate-700 border-slate-300 hover:border-slate-800'
-                      }`}
-                      style={toonVMP ? { backgroundColor: '#0891b2', borderColor: '#0891b2' } : {}}
-                      data-testid="btn-vmp-toggle"
-                      title="VMP-referentiemodel (theoretisch NEPK-maximaal) tonen of verbergen — regel 105 v3.9"
-                      aria-pressed={toonVMP}
-                    >
-                      {toonVMP ? '◉' : '○'} VMP {toonVMP ? 'verbergen' : 'tonen'}
-                    </button>
-                    <button
-                      onClick={() => setToonCARB(v => !v)}
-                      className={`text-xs px-3 py-1.5 rounded-full border-2 transition-all font-semibold ${
-                        toonCARB
-                          ? 'text-white shadow-md'
-                          : 'bg-white text-slate-700 border-slate-300 hover:border-slate-800'
-                      }`}
-                      style={toonCARB ? { backgroundColor: '#ea580c', borderColor: '#ea580c' } : {}}
-                      data-testid="btn-carb-toggle"
-                      title="CARB-referentiemodel (theoretisch klimaat-maximaal, Carbon-Alert BiCRS) tonen of verbergen — regel 105 v3.9"
-                      aria-pressed={toonCARB}
-                    >
-                      {toonCARB ? '◉' : '○'} CARB {toonCARB ? 'verbergen' : 'tonen'}
-                    </button>
-                  </div>
-                  <span className="text-[10px] text-slate-500 italic">
-                    Theoretische ijkpunten — niet kiesbaar op stembiljet
-                  </span>
-                </div>
-                <LevensloopGrafiek data={lev} partijMeta={partijMeta} toonVMP={toonVMP} toonCARB={toonCARB} />
+                {/* v3.20.15 — VMP en CARB zijn normale partijen: geen aparte toggles meer. */}
+                <LevensloopGrafiek data={lev} partijMeta={partijMeta} toonVMP={false} toonCARB={false} />
 
                 {/* Regel 113/114 v3.10: Gezondheidsgrafiek van Spanje (NEPK) */}
                 {(() => {
@@ -860,7 +826,7 @@ function UitlegOrdesEnBronnen() {
             </div>
           </div>
           <p className="text-xs text-slate-600 italic mt-3">
-            De referentiemodellen <strong>CARB</strong> en <strong>VMP</strong> zijn theoretische ijkpunten — ze staan niet op het stembiljet, maar tonen wat een consequent doorgevoerd sparen-en-investeren beleid in de cascade zou opleveren.
+            <strong>CARB</strong> en <strong>VMP</strong> zijn kleine partijen die volledig doorwerken op systeem-hervorming. VMP-scoring komt volledig uit novademocratia.com; CARB-scoring komt uit openvizier.org en carbon-alert.earth, aangevuld met VMP-waarden waar CARB geen eigen positie heeft. Ze worden verder als normale partijen behandeld.
           </p>
         </div>
       )}
