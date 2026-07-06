@@ -183,22 +183,13 @@ function partijGroeiPerJaar(
   // v1 van bv. +300 → ~+2.5% per jaar gedurende 1e orde-venster
   const groei = new Array(jaren+1).fill(0);
   for (let j = 0; j <= jaren; j++) {
-    // v3.20.13 — Regel 143: curveWaarde-envelopes (identiek aan gezondheidsgrafiek).
-    //
-    // De v3.20.11 envelope had een discontinuïteits-knik: env1 sprong van 0
-    // (j=0) direct naar 0.8 (j=1). Deze knik bestond in NL/EN/ES-varianten en
-    // was overal in de grafiek zichtbaar bij jaar 1.
-    //
-    // Fix: exact dezelfde curve-vormen als curveWaarde() in dit bestand, die
-    // gebruikt wordt door de onderste NEPK/NTPK-grafiek (waar geen knik zit).
-    // Geen willekeurige correctiefactoren — de amplitude volgt strikt uit de
-    // curveWaarde-definities, zoals in Regel 116-122 vastgelegd.
-    //
-    // 1e orde: spike met piek j=3, afloop j=10
-    const env1 = j <= 0 ? 0 : j <= 3 ? j/3 : j >= 10 ? 0 : 1 - (j-3)/7;
-    // 2e orde: rise_plateau met piek j=5, blijvend
-    const env2 = j <= 0 ? 0 : j <= 5 ? j/5 : 1;
-    // 3e orde: cumulatief vanaf jaar 3, blijvend (ongewijzigd)
+    // v3.20.14 — Envelope teruggezet naar v3.20.11-vorm. De knik-fix zit nu
+    // fundamenteel elders (cubic-fit door 3 ankerpunten, zie Regel 144).
+    // 1e orde tijdsenvelop: piek jaar 1, dempt uit jaar 5
+    const env1 = j === 0 ? 0 : Math.max(0, 1 - j/5);
+    // 2e orde tijdsenvelop: klokvormig piek jaar 3
+    const env2 = j === 0 ? 0 : Math.exp(-Math.pow((j-3)/3, 2));
+    // 3e orde tijdsenvelop: oplopend vanaf jaar 5, blijvend
     const env3 = j < 3 ? 0 : Math.min(1, (j-3)/6);
     // Effect per orde, conservatief geschaald: max ±3% per jaar bij sterke cascade.
     // Cascade-score van ~500 (sterk positief) levert ~0.5% jaarlijkse groei.
@@ -481,6 +472,25 @@ export const NEPK_BUNDEL_PARTIJEN = ['VMP', 'CARB', 'PP', 'PSOE', 'VOX', 'SUMAR'
 // Bereken de NEPK-tijdreeks voor één partij zonder alle diagnostiek (voor bundel-lijnen)
 // v3.20.6: retourneert nu ook NPK (Nationaal Productief Kapitaal) = NTPK + eigen productie in buitenland
 // NPK = NTPK × (1 + ψ), waar ψ = ratio buitenlandse Spaanse productie / NTPK
+// v3.20.14 — Regel 144: cubic-fit door 3 ankerpunten (j=3, 7, 15).
+// Helper: fit een gladde derdegraadspolynoom door (0, A[0]), (3, A[3]),
+// (7, A[7]), (15, A[15]) en overschrijf alle andere indices met de
+// polynoom-waarde. Verwijdert de sprongen bij j=3→4 en j=8→9 die door
+// ordeVoorJaar-stap-functie ontstaan zonder de ankerpunten (uit onderzoek)
+// aan te raken.
+function cubicFitDoorAnkers(A: number[]): void {
+  if (!A || A.length < 16) return;
+  const y0 = A[0], y3 = A[3], y7 = A[7], y15 = A[15];
+  // Inverse van 4x4 Vandermonde-achtige matrix, hardcoded:
+  const a = y0;
+  const b = -y0 * 19/35 + y3 * 35/48 - y7 * 45/224 + y15 * 7/480;
+  const c =  y0 * 5/63  - y3 * 11/72 + y7 * 9/112  - y15 / 144;
+  const d = -y0 / 315   + y3 / 144   - y7 / 224    + y15 / 1440;
+  for (let j = 1; j < 15; j++) {
+    A[j] = a + b*j + c*j*j + d*j*j*j;
+  }
+}
+
 export function bundelNEPKLijn(partij: string, jaren: number = 15): { nepk: number[]; ntpk: number[]; npk: number[] } {
   const nt: any = (personaData as any).nepk_tijdreeks || {};
   const E_tv_0 = nt.factoren?.E_tv_startwaarde_pct ?? 31.0;
@@ -524,6 +534,11 @@ export function bundelNEPKLijn(partij: string, jaren: number = 15): { nepk: numb
     t = Math.max(0.10, Math.min(0.90, t + BASELINE_dtau + scoring.tau[orde] * lev));
     p = Math.max(0.05, Math.min(0.95, p + BASELINE_dphi + scoring.phi[orde] * lev));
   }
+  // v3.20.14 — Regel 144: cubic-fit door ankers j=0,3,7,15 om de knik-sprongen
+  // uit de discrete orde-overgangen (j=3→4, j=8→9) weg te werken.
+  cubicFitDoorAnkers(nepk);
+  cubicFitDoorAnkers(ntpk);
+  cubicFitDoorAnkers(npk);
   return { nepk, ntpk, npk };
 }
 
