@@ -25,12 +25,25 @@ const isReferentie = (partijId: string): boolean => partijId === 'CARB' || parti
 // KLEUR-HULPMIDDELEN
 // ============================================================================
 const KLEUR_NAAM_HEX: Record<string, string> = {
+  // NL-namen (voor NL/EN-apps compat)
   rood: '#ef4444', donkerrood: '#b91c1c',
   groen: '#22c55e', smaragd: '#10b981', donkergroen: '#16a34a',
   blauw: '#3b82f6', donkerblauw: '#1d4ed8', turkoois: '#14b8a6',
   oranje: '#f97316', geel: '#eab308', goud: '#d97706',
   paars: '#a855f7', kastanje: '#c2410c',
   zwart: '#171717', grijs: '#525252',
+  // v3.20.25 — Spaanse partij-eigen kleuren (zoals de partij zichzelf presenteert)
+  rojo: '#ee1c25',           // PSOE
+  azul: '#0056a8',           // PP
+  verde: '#5ac035',          // VOX
+  magenta: '#e5007e',        // SUMAR
+  amarillo: '#ffb400',       // ERC (Catalaans geel)
+  'azul claro': '#4dabf5',   // JUNTS
+  'verde claro': '#78be20',  // EH Bildu
+  'verde oscuro': '#0f6b3d', // PNV (Baskisch donkergroen)
+  'azul cielo': '#3ca5d9',   // BNG
+  'verde marino': '#1f6b4e', // CARB (klimaat)
+  gris: '#9a7b1f',           // VMP (goud accent)
 };
 function naarHex(kleur: string): string {
   if (!kleur) return '#a78bfa';
@@ -668,7 +681,8 @@ function EigenKeuzeBlok({ ranglijst, gekozenResultaat, partijMeta, eigenKeuze, o
         {ranglijst.map((r) => {
           const m = partijMeta[r.partij_id];
           // v3.20.22 — gebruik politieke-as-kleur als beschikbaar; anders val terug op partij-eigen kleur.
-          const k = POLITIEKE_KLEUR[r.partij_id] || naarHex(m?.kleur || '#64748b');
+          // v3.20.25 — partij-eigen kleur (POLITIEKE_KLEUR verwijderd, terug naar partij-metadata)
+          const k = naarHex(m?.kleur || '#64748b');
           const isActief = eigenKeuze === r.partij_id;
           return (
             <button
