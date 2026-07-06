@@ -2,7 +2,7 @@
 // Voorheen (cache-first + stale-while-revalidate) leidde tot cache-verwarring:
 // gebruiker zag oude versie tot 2e refresh. Nu wordt altijd eerst het netwerk
 // gevraagd; alleen als er geen netwerk is valt de app terug op de cache.
-const CACHE_VERSION = 'gk-es-v3.20.18';
+const CACHE_VERSION = 'gk-es-v3.20.19';
 const PRECACHE_URLS = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg'];
 
 self.addEventListener('install', (event) => {

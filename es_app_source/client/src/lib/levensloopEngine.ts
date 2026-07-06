@@ -860,6 +860,22 @@ export function berekenLevensloop(
       cum *= (1 + groei[j]);
       out[j] = baseline[j] * cum;
     }
+
+    // v3.20.19 — NEPK-koppeling: de gezondheid van het regime bepaalt de
+    // bestedingsruimte. Als NEPK stijgt bij een partij, stijgt ook het inkomen.
+    // Als NEPK crasht (bijv. -37% bij PP), kan de inkomens-index niet
+    // onafhankelijk daarvan stijgen. 1:1 koppeling per user-eis.
+    try {
+      const { nepk } = bundelNEPKLijn(partij, jaren);
+      const nepk_start = nepk[0] || 1;
+      for (let j = 0; j <= jaren; j++) {
+        const nepk_factor = nepk[j] / nepk_start;
+        out[j] = out[j] * nepk_factor;
+      }
+    } catch (e) {
+      // Als bundelNEPKLijn faalt, retourneer de ongekoppelde index.
+    }
+
     return out;
   }
 
