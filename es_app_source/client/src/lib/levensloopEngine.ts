@@ -183,11 +183,14 @@ function partijGroeiPerJaar(
   // v1 van bv. +300 → ~+2.5% per jaar gedurende 1e orde-venster
   const groei = new Array(jaren+1).fill(0);
   for (let j = 0; j <= jaren; j++) {
-    // 1e orde tijdsenvelop: piek jaar 1, dempt uit jaar 5
-    const env1 = j === 0 ? 0 : Math.max(0, 1 - j/5);
-    // 2e orde tijdsenvelop: klokvormig piek jaar 3
-    const env2 = j === 0 ? 0 : Math.exp(-Math.pow((j-3)/3, 2));
-    // 3e orde tijdsenvelop: oplopend vanaf jaar 5, blijvend
+    // v3.20.12 — Regel 142: aanloop-envelope (uit DE-app overgenomen).
+    // Voorheen sprong env1 van 0 (j=0) direct naar 0.8 (j=1) — irreële knik.
+    // Nu: trapsgewijze opbouw jaar 0-3 + langzamere demping (j/8 i.p.v. j/5).
+    // 1e orde tijdsenvelop: aanloop 0.4 (j=1), 0.85 (j≤3), 1.0 daarna; dempt uit j=8
+    const env1 = (j === 0 ? 0 : j <= 1 ? 0.4 : j <= 3 ? 0.85 : 1) * Math.max(0, 1 - j/8);
+    // 2e orde tijdsenvelop: aanloop 0.8 (j=1), 0.95 (j≤3); klokvormig piek jaar 3, breder (÷4)
+    const env2 = (j === 0 ? 0 : j <= 1 ? 0.8 : j <= 3 ? 0.95 : 1) * Math.exp(-Math.pow((j-3)/4, 2));
+    // 3e orde tijdsenvelop: oplopend vanaf jaar 3, blijvend (ongewijzigd)
     const env3 = j < 3 ? 0 : Math.min(1, (j-3)/6);
     // Effect per orde, conservatief geschaald: max ±3% per jaar bij sterke cascade.
     // Cascade-score van ~500 (sterk positief) levert ~0.5% jaarlijkse groei.
