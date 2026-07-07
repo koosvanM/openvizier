@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision 2036 — Carbon-Alert Energy Hub — Het Open Vizier</title>
+<meta name="description" content="The technical design of the 100 kW Carbon-Alert energy hub. LCOE analysis, five building blocks, cash flow, risk matrix. The evidence beneath the guiding article — all figures without subsidies.">
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://openvizier.org/en/what-surfaces/carbon-alert-visie-2036.html">
+<meta property="og:title" content="Vision 2036 — Carbon-Alert Energy Hub">
+<meta property="og:description" content="The technical design of the 100 kW Carbon-Alert energy hub. LCOE analysis, five building blocks, cash flow, risk matrix. The evidence beneath the guiding article — all figures without subsidies.">
+<meta property="og:image" content="https://openvizier.org/assets/artikel-bicrs-030/05-lcoe-projectie-met-subsidiekade.png">
+<meta property="og:site_name" content="Het Open Vizier">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vision 2036 — Carbon-Alert Energy Hub">
+<meta name="twitter:description" content="The technical design of the 100 kW Carbon-Alert energy hub. LCOE analysis, five building blocks, cash flow, risk matrix. The evidence beneath the guiding article — all figures without subsidies.">
+<meta name="twitter:image" content="https://openvizier.org/assets/artikel-bicrs-030/05-lcoe-projectie-met-subsidiekade.png">
+<style>
+.wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+.wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+.wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.2; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+.wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.2rem); margin: 0.5rem auto 2rem auto; max-width: 680px; }
+.wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 1rem 0; }
+.wo-artikel__streep { width: 60px; height: 4px; background: #1c5760; margin: 2.5rem auto; }
+.wo-artikel__hero { width: 100%; max-width: 100%; margin: 0 0 2rem 0; padding: 0; text-align: center; }
+.wo-artikel__hero img { display: inline-block; width: auto; max-width: 100%; height: auto; max-height: 82vh; object-fit: contain; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); background: #f7f5ef; }
+.wo-artikel__heroCaption { max-width: 780px; margin: 0.8rem auto 0 auto; padding: 0 1.25rem; text-align: center; font-family: Georgia, serif; font-size: 0.92rem; color: #6b7280; font-style: italic; line-height: 1.55; }
+.wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; max-width: 720px; margin: 2rem auto 0 auto; }
+.wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+.wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; }
+.wo-artikel__inhoud h3 { font-family: Georgia, serif; font-size: clamp(1.25rem, 2.6vw, 1.45rem); margin: 2rem 0 0.75rem 0; color: #1a1a1a; }
+.wo-artikel__inhoud ul { margin: 0 0 1.5rem 0; padding-left: 1.5rem; }
+.wo-artikel__inhoud li { margin: 0 0 0.6rem 0; }
+.wo-artikel__inhoud a { color: #1c5760; border-bottom: 1px solid rgba(28,87,96,0.3); text-decoration: none; }
+.wo-artikel__inhoud a:hover { border-bottom-color: #1c5760; }
+.wo-artikel__inhoud table { width: 100%; border-collapse: collapse; margin: 2rem auto; font-family: Georgia, serif; font-size: 0.98rem; }
+.wo-artikel__inhoud th, .wo-artikel__inhoud td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid #d4d1ca; }
+.wo-artikel__inhoud th { background: #faf8f3; color: #1c5760; font-weight: 700; border-bottom: 2px solid #1c5760; }
+.wo-artikel__inhoud .num { text-align: right; font-variant-numeric: tabular-nums; }
+.wo-artikel__inhoud .totaal td { background: #faf8f3; font-weight: 700; border-top: 2px solid #1c5760; }
+.wo-artikel__inhoud .pullquote { font-family: Georgia, serif; font-style: italic; font-size: 1.4rem; color: #1c5760; text-align: center; padding: 1.5rem 2rem; border-top: 2px solid #1c5760; border-bottom: 2px solid #1c5760; margin: 2.5rem auto; max-width: 640px; line-height: 1.4; }
+.auteursblok { max-width: 720px; margin: 4rem auto 2rem auto; padding: 1.5rem 0; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+.auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+.auteursblok__naam { font-family: Georgia, serif; font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+.auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+.auteursblok__intro { font-family: Georgia, serif; font-size: 0.95rem; color: #4a5263; margin: 0; }
+.wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+.wo-artikel__terug a { color: #1c5760; text-decoration: none; font-size: 0.95rem; }
+@media (max-width: 720px) {
+  .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+  .wo-artikel__hero img { max-height: 60vh; }
+  .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; }
+  .auteursblok__foto img { width: 70px; height: 70px; }
+}
+</style>
+</head>
+<body>
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Language">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Language</span>
+    <span class="masthead__taal__cur">· English</span>
+  </a>
+  <div class="masthead__date">What surfaces</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">Het Open Vizier</a></h1>
+  <p class="masthead__tagline">A newspaper about thinking without blinkers</p>
+</header>
+<div class="gratis-band">Free information magazine without advertising<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Independent, no opinion, no data sales</strong><span class="gratis-band__sep"> — </span><a href="../keep-informed.html" class="gratis-band__cta">Keep me informed →</a></div>
+<nav class="nav">
+  <div class="nav__inner">
+    <ul class="nav__links">
+      <li><a href="./" aria-current="page">Front page</a></li>
+      <li><a href="../what-surfaces/">New</a></li>
+      <li><a href="../verkennen.html">Explore</a></li>
+      <li><a href="../vote-impact.html">Vote Impact</a></li>
+      <li><a href="../research/">Research</a></li>
+      <li><a href="../future/">Future</a></li>
+      <li><a href="../climate-edition/">Climate</a></li>
+      <li><a href="../nitrogen-edition/">Nitrogen</a></li>
+      <li><a href="../germany-edition/">Germany</a></li>
+      <li><a href="../edition-0/">Europe</a></li>
+      <li><a href="../leadership-edition/">Leadership</a></li>
+      <li><a href="../edition-1/">Coherence</a></li>
+      <li><a href="../edition-2/">Tax policy</a></li>
+      <li><a href="../edition-3/">Under the ice</a></li>
+      <li><a href="../edition-4/">Paper power</a></li>
+      <li><a href="../edition-5/">Forgotten order</a></li>
+      <li><a href="../edition-6/">Nova Democratia</a></li>
+      <li><a href="../philosophy/">Philosophy</a></li>
+      <li><a href="../share.html">Share</a></li>
+    </ul>
+</div>
+</nav>
+
+<article class="wo-artikel">
+  
+  
+  <h1 class="wo-artikel__titel">Vision 2036 — Carbon-Alert Energy Hub</h1>
+  
+  
+  <div class="wo-artikel__streep"></div>
+
+  <figure class="wo-artikel__hero">
+    <img src="../../assets/artikel-bicrs-030/05-lcoe-projectie-met-subsidiekade.png" alt="">
+    <figcaption class="wo-artikel__heroCaption">Production costs of bio-ethanol 2026–2040. Real market price, no SDE++ or ETS credits. Economies of scale and pellet feedstocks drive the price down to €0,25/liter in 2040.</figcaption>
+  </figure>
+
+  <div class="wo-artikel__inhoud">
+<div class="stuur-inhoud">
+
+    <p>The curve shows the real production price from the pellet factory to the distillation tower. No government support, no tradable credits — only scale, improved catalysis, and lower energy input per liter. €0,55 today. €0,45 in 2030. €0,30 in 2036. From that point, ethanol wins every comparison: per kWh, per km, per MWh of heat.</p>
+
+    <h3>1.2 The energy balance behind that single figure</h3>
+
+  </div>
+
+  <div class="tabel">
+    <table>
+      <caption>Energy balance behind the 9,97 c€/kWh</caption>
+      <thead>
+        <tr><th>Component</th><th class="num">Value</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Production costs cellulosic ethanol</td><td class="num">€0,18–€0,22/L</td><td>€0,30/L is a conservative margin</td></tr>
+        <tr><td>Energy content ethanol</td><td class="num">7,40 kWh/L</td><td>LHV at 99 % purity</td></tr>
+        <tr><td>SOFC electrical efficiency 2036</td><td class="num">78 %</td><td>Nissan Tochigi platform extrapolated</td></tr>
+        <tr><td>Fuel costs per kWhₑ 2036</td><td class="num">5,2 c€/kWhₑ</td><td>€0,30 ÷ (7,40 × 78 %)</td></tr>
+        <tr><td>CAPEX + OPEX contribution</td><td class="num">4,8 c€/kWhₑ</td><td>€1.800/kW, 20 years, 8.000 h/year</td></tr>
+        <tr><td><strong>LCOE 2036 without subsidy</strong></td><td class="num acc"><strong>9,97 c€/kWhₑ</strong></td><td>Spanish grid 21,5 c€ — minus 54 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stuur-inhoud">
+
+    <h2>2. The LCOE curve below the grid</h2>
+
+  </div>
+
+  <figure class="figuur">
+    <img decoding="async" src="../../assets/artikel-bicrs-030/05-lcoe-projectie-met-subsidiekade.png" alt="LCOE Carbon-Alert SOFC 2026-2040, break-even around 2030 against Spanish grid without subsidy" loading="lazy">
+    <figcaption>LCOE Carbon-Alert SOFC 2026–2040 (real price, without subsidy) versus Spanish grid price. Break-even around 2030 on purely its own strength.</figcaption>
+  </figure>
+
+  <div class="stuur-inhoud">
+
+    <p>The black line represents the Carbon-Alert SOFC without a single support mechanism. In 2026, still twice as expensive as the grid (38 versus 16 c€/kWh). By 2030, already cheaper. In 2036, less than half. That is not an optimistic projection — it is the extrapolation of two known forces: the 18 percent learning curve on stack costs and the steady decline of the ethanol price from €0,55 to €0,30 per liter.</p>
+
+    <h3>2.1 Cost curve in four anchor points</h3>
+
+  </div>
+
+  <div class="tabel">
+    <table>
+      <caption>LCOE projection 2026–2040, four anchor points</caption>
+      <thead>
+        <tr><th>Year</th><th class="num">CAPEX</th><th class="num">η_e</th><th class="num">Ethanol</th><th class="num">LCOE</th><th class="num">Grid</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2026</td><td class="num">€12.000/kW</td><td class="num">60 %</td><td class="num">€0,55/L</td><td class="num">38,3 c€</td><td class="num">16,0 c€</td></tr>
+        <tr><td>2030</td><td class="num">€3.500/kW</td><td class="num">70 %</td><td class="num">€0,45/L</td><td class="num acc">17,6 c€</td><td class="num">17,9 c€</td></tr>
+        <tr><td>2033</td><td class="num">€2.400/kW</td><td class="num">74 %</td><td class="num">€0,38/L</td><td class="num">13,5 c€</td><td class="num">19,7 c€</td></tr>
+        <tr><td><strong>2036</strong></td><td class="num">€1.800/kW</td><td class="num">78 %</td><td class="num">€0,30/L</td><td class="num acc"><strong>9,97 c€</strong></td><td class="num">21,5 c€</td></tr>
+        <tr><td>2040</td><td class="num">€1.000/kW</td><td class="num">80 %</td><td class="num">€0,25/L</td><td class="num acc">7,22 c€</td><td class="num">24,2 c€</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stuur-inhoud">
+
+    <blockquote>
+      <p>Optional scenario, not used as a calculation basis: when SDE++ BECCS credits of approximately €100 per ton CO₂ are included, the LCOE 2036 drops to about 7 c€/kWh and the payback period to approximately one year. That is a political bonus, not a technological merit. Therefore, all communication here is based on the real figure of 9,97 c€/kWh without subsidy.</p>
+    </blockquote>
+
+    <h2>3. Architecture — the five building blocks</h2>
+
+    <p>The hub is not a standalone fuel cell. It is an integrated system in which the Carbon-Alert BiCRS chain (Biomass with Carbon Removal and Storage) and the SOFC unit reinforce each other. Ethanol is produced on-site or regionally. The SOFC converts it into power, heat, and pure CO₂. That CO₂ can be stored or marketed. Nothing in this design leans on public support — the hub is commercially viable with €0,30 per liter of feedstock and €1.800 per kilowatt CAPEX.</p>
+
+  </div>
+
+  <div class="tabel">
+    <table>
+      <caption>Five building blocks Carbon-Alert hub</caption>
+      <thead>
+        <tr><th>Block</th><th>Function</th><th>Specification 2036</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1. Pellet fermenter</td><td>Cellulose → ethanol</td><td>On-site or regional, own pellets</td></tr>
+        <tr><td>2. Distillation + dehydration</td><td>99 % + ethanol</td><td>Waste heat from SOFC for distillation</td></tr>
+        <tr><td>3. SOFC stack 100 kW</td><td>78 % η_e, 93 % CHP</td><td>Modular, redundancy 2 × 50 kW</td></tr>
+        <tr><td>4. CHP heat utilization</td><td>15–30 kW thermal</td><td>Process heat or climate control</td></tr>
+        <tr><td>5. CO₂ capture BECCS</td><td>~70 kg CO₂/MWhₑ</td><td>Sale or geological storage</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stuur-inhoud">
+
+    <h3>3.1 Footprint and flexibility</h3>
+
+    <ul>
+      <li><strong>Footprint:</strong> 20 m² SOFC + 8 m² balance-of-plant + 30 m² distillation = 58 m² total</li>
+      <li><strong>Modularity:</strong> scalable from 25 kW (residential cluster) to 5 MW (industry or data center) with the same stack unit</li>
+      <li><strong>Fuel stock:</strong> a 2.000-liter week-tank suffices for full autonomy during grid outages</li>
+      <li><strong>Noise:</strong> &lt; 45 dB at one meter — no rotating parts, only blower and pump</li>
+      <li><strong>Maintenance:</strong> stack replacement every 7–10 years, OPEX 1,2–1,5 % of CAPEX per year</li>
+    </ul>
+
+    <h2>4. Business case — 100 kW hub 2036</h2>
+
+  </div>
+
+  <figure class="figuur">
+    <img decoding="async" src="../../assets/artikel-bicrs-030/04-kasstroom-hub-100kw.png" alt="Annual cash flow 100 kW Carbon-Alert hub 2036, net positive without subsidy" loading="lazy">
+    <figcaption>Annual cash flow 100 kW Carbon-Alert hub in 2036, without subsidy. Electricity market value (21,5 c€) minus real production cost (9,97 c€) yields an immediate positive margin.</figcaption>
+  </figure>
+
+  <div class="tabel">
+    <table>
+      <caption>Revenues and costs — market prices only</caption>
+      <thead>
+        <tr><th>Item</th><th class="num">Amount</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Annual electricity production</td><td class="num">800.000 kWh</td><td>Capacity factor 91 %</td></tr>
+        <tr><td>Electricity value (21,5 c€)</td><td class="num acc">€172.000</td><td>Self-consumption or feed-in</td></tr>
+        <tr><td>Value of residual CHP heat</td><td class="num">€18.000</td><td>20 % utilization × €0,11/kWh</td></tr>
+        <tr><td>Total annual revenue</td><td class="num acc">€190.000</td><td>Market prices, no feed-in</td></tr>
+        <tr><td>Ethanol costs (108.000 L × €0,30)</td><td class="num">−€32.400</td><td>Real production cost</td></tr>
+        <tr><td>OPEX (maintenance, insurance)</td><td class="num">−€8.000</td><td>1,5 % of CAPEX</td></tr>
+        <tr><td>Stack amortization + Depreciation</td><td class="num">−€90.000</td><td>€180.000 / 2 years effective</td></tr>
+        <tr><td>Net margin year 1</td><td class="num acc">€59.600</td><td>Increases to €100.000+ from year 4</td></tr>
+        <tr><td>Payback period</td><td class="num acc">≈ 3,0 years</td><td>CAPEX €180.000 / net cash flow</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stuur-inhoud">
+
+    <blockquote>
+      <p>A Carbon-Alert hub of €180.000 pays for itself in approximately <strong>three years</strong> — without the municipality, the national government, or the EU having to contribute a single euro. For an industrial cluster with multiple hubs, the payback period drops below 2,5 years due to operational economies of scale. SDE++ could accelerate this to approximately one year — interesting, but not necessary.</p>
+    </blockquote>
+
+    <h2>5. Why 2036 — and not 2030 or 2045</h2>
+
+    <p><strong>2030 is too early</strong> to be electrically below the grid without an unexpectedly rapid CAPEX drop. Break-even is reached, but the margin is thin.</p>
+
+    <p><strong>2045 is too late.</strong> By then, stranded assets in hydrogen infrastructure, battery factories, and large-scale grid planning will have already been formed and politically locked in.</p>
+
+    <p><strong>2036 is the optimum.</strong> SOFC will be at €1.800 per kilowatt (mass production via Doosan, Weichai, Bloom). Ethanol at €0,30 per liter. The Spanish grid will by then be at 21,5 c€/kWh due to scarcity and grid investments. Carbon-Alert is at that point already five years past break-even — no longer marginal, but dominant.</p>
+
+    <h3>5.1 Strategic sequencing</h3>
+
+    <ul>
+      <li><strong>2026–2028:</strong> pilot 25 kW at a single location, validation of 70 %+ efficiency, funding from private channels</li>
+      <li><strong>2028–2031:</strong> first commercial rollout 100 kW, break-even reached around 2030 — without subsidy</li>
+      <li><strong>2031–2036:</strong> scaling to 500+ hubs, BiCRS chain established regionally, data center and industrial contracts</li>
+      <li><strong>2036–2040:</strong> dominance in the Mediterranean mid-load market, export model to Latin America and Africa</li>
+    </ul>
+
+    <h2>6. Risks — an honest assessment</h2>
+
+  </div>
+
+  <div class="tabel">
+    <table>
+      <caption>Risks and mitigation Carbon-Alert hub</caption>
+      <thead>
+        <tr><th>Risk</th><th>Probability</th><th>Mitigation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ethanol price decreases slower than €0,30/L</td><td>Medium</td><td>Hub remains profitable up to €0,45/L; Payback period increases to 4,5 years</td></tr>
+        <tr><td>SOFC CAPEX gets stuck at €3.000/kW</td><td>Low</td><td>Doosan/Weichai/Bloom production capacity announced</td></tr>
+        <tr><td>Grid price decreases instead of increases</td><td>Low</td><td>EU grid CAPEX and CO₂ pricing make a decrease unlikely</td></tr>
+        <tr><td>Hydrogen makes a comeback</td><td class="acc">Very low</td><td>Bosch/Stellantis exits, Hyundai delay — H₂ structurally more expensive</td></tr>
+        <tr><td>Political subsidy pull for electric/H₂</td><td>High</td><td class="acc">Irrelevant. The numbers add up without subsidy — no exposure</td></tr>
+        <tr><td>BECCS credit disappears</td><td>High</td><td class="acc">Irrelevant. We are already not accounting for it — thus no impact</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stuur-inhoud">
+
+    <blockquote>
+      <p>The structural advantage of Carbon-Alert is precisely that the design <strong>does not depend on the whims of politicians and their subsidy schemes</strong>. When an SDE++ scheme is scrapped, the business plan relying on it collapses. Carbon-Alert's break-even does not change. Our business case is built on market fundamentals, not on public goodwill.</p>
+    </blockquote>
+
+    <h2>7. Conclusion — what is actually on the table</h2>
+
+    <blockquote>
+      <p>A 100 kW Carbon-Alert energy hub will deliver power in 2036 for <strong>9,97 c€/kWh</strong> — less than half the Spanish grid (21,5 c€/kWh) — with €180.000 CAPEX and a payback period of approximately three years.</p>
+      <p>All figures are calculated on the real market price of ethanol (€0,30/liter) without any government support, SDE++, ETS credits, or feed-in tariffs.</p>
+      <p>The technology is proven (Nissan 70 %, Ceres/Doosan/Weichai 50 MW). The learning curve is documentable (18 % per doubling). The competitive landscape is open (Bosch and Stellantis out of H₂).</p>
+    </blockquote>
+
+    <p>Carbon-Alert Ltd is technically ready. Economically substantiated. Politically independent. What is missing is execution capital — not vision. The next three years will determine whether we become Mediterranean and global leaders in decentralized electricity, or whether we watch as Doosan and Weichai seize our learning curve. <strong>The window is open — now.</strong></p>
+
+  </div>
+
+  <div class="triptiek-nav">
+    <p class="triptiek-nav__kop">The triptych — three documents, one message</p>
+    <ol class="triptiek-nav__lijst">
+      <li>1. <a href="aan-de-leiding-drie-blokken-zonder-subsidie.html">In the Driver's Seat or on the Luggage Rack</a> — the guiding article, the thesis</li>
+      <li class="actief">2. Vision 2036 — Carbon-Alert Energy Hub <em>(you are reading this now)</em></li>
+      <li>3. <a href="open-brief-aan-de-regeringen-van-europa.html">Open Letter to the Governments of Europe</a> — the call</li>
+    </ol>
+  </div>
+
+</article>
+
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Front page">
+  <a href="../what-surfaces/" class="navbar__terug">← Back to What Emerges</a>
+  <a href="../../en/" class="navbar__home">⌂ Front page</a>
+  <a href="../verkennen.html" class="navbar__verk">↻ Explore</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+
+<section style="background:#faf8f3;padding:3rem 0 2rem 0;margin-top:4rem;border-top:1px solid #d4d1ca;">
+  <div class="voetnoot-lijst">
+    <h3>Sources</h3>
+    <ol>
+      <li>Nissan Tochigi 70 % SOFC trial — <a href="https://autoprove.net/japanese-car/nissan/228512/">autoprove.net</a></li>
+      <li>Bosch terminates SOFC business — <a href="https://www.eenewseurope.com/en/bosch-cuts-solid-oxide-fuel-cell-business/">eenewseurope.com</a></li>
+      <li>Stellantis stops hydrogen — <a href="https://www.stellantis.com/en/news/press-releases/2025/july/stellantis-discontinues-hydrogen-fuel-cell-technology-development-program">stellantis.com</a></li>
+      <li>Hydrogen price Netherlands pump — <a href="https://allesoverwaterstof.nl/waterstofprijs-stabiel-gebleven/">allesoverwaterstof.nl</a></li>
+      <li>Ceres Power Final Results 2026 — Doosan 50 MW, Weichai license — <a href="https://www.ceres.tech/media/jpmpucda/ceres-power-holdings-plc-final-results-statement-2026-march-26.pdf">ceres.tech</a></li>
+      <li>IEA Bioenergy Task 39 — biofuel learning curves — <a href="https://task39.ieabioenergy.com/wp-content/uploads/sites/37/2020/02/Advanced-Biofuels-Potential-for-Cost-Reduction-Final-Draft.pdf">task39.ieabioenergy.com</a></li>
+    </ol>
+  </div>
+</section>
+  </div>
+
+  <div class="auteursblok">
+    <div class="auteursblok__foto"><img src="../../assets/auteur/jvm_studio.jpg" alt="Jacobus van Merksteijn"></div>
+    <div>
+      <p class="auteursblok__naam">Jacobus van Merksteijn</p>
+      <p class="auteursblok__plaats">Malta</p>
+      <p class="auteursblok__intro">Publisher of Het Open Vizier. Systems thinker on climate, energy and democracy.</p>
+    </div>
+  </div>
+
+  <p class="wo-artikel__terug"><a href="./">← Back to What surfaces</a></p>
+</article>
+
+</body>
+</html>
