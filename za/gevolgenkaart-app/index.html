@@ -38,5 +38,57 @@
         });
       }
     </script>
-  </body>
+  
+<script id="gk-header-lang">
+;(function(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var lang = params.get('lang') || 'nl';
+    var landCode = 'za';
+    var landLabels = {"nl":{"nl":"Nederland","de":"Duitsland","ch":"Zwitserland","es":"Spanje","eu":"Europa (EU-27)","us":"Verenigde Staten","cn":"China","in":"India","kr":"Zuid-Korea","jp":"Japan","tw":"Taiwan","se":"Zweden","il":"Israël","ir":"Iran","za":"Zuid-Afrika","br":"Brazilië","cu":"Cuba","sr":"Suriname"},"en":{"nl":"The Netherlands","de":"Germany","ch":"Switzerland","es":"Spain","eu":"Europe (EU-27)","us":"United States","cn":"China","in":"India","kr":"South Korea","jp":"Japan","tw":"Taiwan","se":"Sweden","il":"Israel","ir":"Iran","za":"South Africa","br":"Brazil","cu":"Cuba","sr":"Suriname"},"de":{"nl":"Niederlande","de":"Deutschland","ch":"Schweiz","es":"Spanien","eu":"Europa (EU-27)","us":"Vereinigte Staaten","cn":"China","in":"Indien","kr":"Südkorea","jp":"Japan","tw":"Taiwan","se":"Schweden","il":"Israel","ir":"Iran","za":"Südafrika","br":"Brasilien","cu":"Kuba","sr":"Suriname"},"de-CH":{"nl":"Niederlande","de":"Deutschland","ch":"Schweiz","es":"Spanien","eu":"Europa (EU-27)","us":"Vereinigte Staaten","cn":"China","in":"Indien","kr":"Südkorea","jp":"Japan","tw":"Taiwan","se":"Schweden","il":"Israel","ir":"Iran","za":"Südafrika","br":"Brasilien","cu":"Kuba","sr":"Suriname"},"es":{"nl":"Países Bajos","de":"Alemania","ch":"Suiza","es":"España","eu":"Europa (UE-27)","us":"Estados Unidos","cn":"China","in":"India","kr":"Corea del Sur","jp":"Japón","tw":"Taiwán","se":"Suecia","il":"Israel","ir":"Irán","za":"Sudáfrica","br":"Brasil","cu":"Cuba","sr":"Surinam"},"zh":{"nl":"荷兰","de":"德国","ch":"瑞士","es":"西班牙","eu":"欧盟（EU-27）","us":"美国","cn":"中国","in":"印度","kr":"韩国","jp":"日本","tw":"台湾","se":"瑞典","il":"以色列","ir":"伊朗","za":"南非","br":"巴西","cu":"古巴","sr":"苏里南"},"ja":{"nl":"オランダ","de":"ドイツ","ch":"スイス","es":"スペイン","eu":"欧州（EU-27）","us":"アメリカ合衆国","cn":"中国","in":"インド","kr":"韓国","jp":"日本","tw":"台湾","se":"スウェーデン","il":"イスラエル","ir":"イラン","za":"南アフリカ","br":"ブラジル","cu":"キューバ","sr":"スリナム"},"ko":{"nl":"네덜란드","de":"독일","ch":"스위스","es":"스페인","eu":"유럽연합 (EU-27)","us":"미국","cn":"중국","in":"인도","kr":"대한민국","jp":"일본","tw":"대만","se":"스웨덴","il":"이스라엘","ir":"이란","za":"남아프리카","br":"브라질","cu":"쿠바","sr":"수리남"},"hi":{"nl":"नीदरलैंड","de":"जर्मनी","ch":"स्विट्जरलैंड","es":"स्पेन","eu":"यूरोप (EU-27)","us":"संयुक्त राज्य","cn":"चीन","in":"भारत","kr":"दक्षिण कोरिया","jp":"जापान","tw":"ताइवान","se":"स्वीडन","il":"इज़रायल","ir":"ईरान","za":"दक्षिण अफ्रीका","br":"ब्राज़ील","cu":"क्यूबा","sr":"सूरीनाम"},"zh-TW":{"nl":"荷蘭","de":"德國","ch":"瑞士","es":"西班牙","eu":"歐盟（EU-27）","us":"美國","cn":"中國","in":"印度","kr":"南韓","jp":"日本","tw":"臺灣","se":"瑞典","il":"以色列","ir":"伊朗","za":"南非","br":"巴西","cu":"古巴","sr":"蘇里南"}};
+    var appLabels = {"nl":"Gevolgenkaart","en":"Consequence Map","de":"Folgenkarte","de-CH":"Folgenkarte","es":"Mapa de consecuencias","zh":"后果地图","ja":"影響マップ","ko":"결과 지도","hi":"परिणाम मानचित्र","zh-TW":"後果地圖"};
+    var langData = landLabels[lang] || landLabels.nl;
+    var appLabel = appLabels[lang] || appLabels.nl;
+    var land = langData[landCode] || landCode;
+    var newHeader = appLabel + ' \u2014 ' + land;
+    window.__GK_HEADER__ = newHeader;
+    // Update document title
+    document.title = newHeader;
+    // Also observe the DOM and update the header when it appears
+    var observeAndUpdate = function() {
+      // Zoek eerste element met tekst "Gevolgenkaart" of vergelijkbaar en vervang
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+      var node;
+      var patterns = [/^(Gevolgenkaart|Consequence Map|Folgenkarte|Mapa de consecuencias|Stemgedrag|Wahlfolgen|Voting Impact|后果地图|影響マップ|결과 지도|परिणाम मानचित्र|後果地圖)\s*(—|-)\s*.+$/];
+      var found = false;
+      while ((node = walker.nextNode())) {
+        if (found) break;
+        var txt = node.textContent.trim();
+        for (var i = 0; i < patterns.length; i++) {
+          if (patterns[i].test(txt)) {
+            node.textContent = newHeader;
+            found = true;
+            break;
+          }
+        }
+      }
+    };
+    // Run repeatedly for React re-renders
+    if (document.body) {
+      observeAndUpdate();
+      var obs = new MutationObserver(observeAndUpdate);
+      obs.observe(document.body, {childList:true, subtree:true, characterData:true});
+      setTimeout(function(){try{obs.disconnect();}catch(e){}}, 5000);
+    } else {
+      document.addEventListener('DOMContentLoaded', function() {
+        observeAndUpdate();
+        var obs = new MutationObserver(observeAndUpdate);
+        obs.observe(document.body, {childList:true, subtree:true, characterData:true});
+        setTimeout(function(){try{obs.disconnect();}catch(e){}}, 5000);
+      });
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
 </html>
