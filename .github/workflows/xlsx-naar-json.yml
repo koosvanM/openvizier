@@ -27,14 +27,17 @@ jobs:
       - name: Excel omzetten naar JSON-tabellen
         run: python3 scripts/xlsx_naar_json.py
 
+      - name: Kaart-menu-pagina's genereren uit matrix
+        run: python3 scripts/genereer_kaart_menus.py
+
       - name: Wijzigingen committen (indien aanwezig)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add nl/_data/tabellen/
+          git add nl/_data/tabellen/ nl/stemgedrag.html de/wahlfolgen.html en/vote-impact.html
           if git diff --staged --quiet; then
-            echo "Geen wijzigingen in tabellen."
+            echo "Geen wijzigingen."
           else
-            git commit -m "Auto-omzet: vizier.xlsx → JSON-tabellen"
+            git commit -m "Auto-omzet: vizier.xlsx → JSON-tabellen + kaart-menu's"
             git push
           fi
