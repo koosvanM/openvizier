@@ -3,7 +3,7 @@
 Genereer de kaart-menu-pagina's uit vizier.xlsx.
 
 Voor elke taal (nl/de/en):
-  Lees de 18 kaart-verwijzingen uit code x.1.3.1.3.5 t/m x.1.3.1.3.22
+  Lees de 19 kaart-verwijzingen uit code x.1.3.1.3.5 t/m x.1.3.1.3.23
   Bouw een menu-pagina met tegels naar elke kaart
   Schrijf naar:
     /nl/stemgedrag.html
@@ -111,7 +111,7 @@ def extract_land_from_url(url):
 def lees_kaarten_uit_matrix(ws, lang_prefix):
     """Lees alle kaart-verwijzingen voor een taal.
 
-    De 18 kaarten zitten op codes {lang_prefix}.1.3.1.3.5 t/m .22.
+    De 19 kaarten zitten op codes {lang_prefix}.1.3.1.3.5 t/m .23.
     """
     kaarten = []
     for r in range(3, ws.max_row + 1):
@@ -130,7 +130,7 @@ def lees_kaarten_uit_matrix(ws, lang_prefix):
             n = int(parts[5])
         except ValueError:
             continue
-        if not (5 <= n <= 22):
+        if not (5 <= n <= 23):
             continue
 
         naam = ws.cell(r, 6).value or ''
@@ -248,8 +248,8 @@ def main():
 
     for taal, cfg in TAAL_CFG.items():
         kaarten = lees_kaarten_uit_matrix(ws, cfg['lang_prefix'])
-        if len(kaarten) != 18:
-            print(f"WAARSCHUWING: taal '{taal}' heeft {len(kaarten)} kaarten in matrix (verwacht: 18)")
+        if len(kaarten) != 19:
+            print(f"WAARSCHUWING: taal '{taal}' heeft {len(kaarten)} kaarten in matrix (verwacht: 19)")
         html = genereer_menu_html(kaarten, cfg)
         cfg['menu_bestand'].write_text(html, encoding='utf-8')
         print(f"✓ {cfg['menu_bestand'].relative_to(REPO)}: {len(kaarten)} kaarten geschreven uit matrix")
