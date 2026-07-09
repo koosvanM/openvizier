@@ -99,6 +99,7 @@ HERO_PER_LAND = {
     'br': 'H_br_gevolgenkaart.jpg',
     'cu': 'H_cu_gevolgenkaart.jpg',
     'sr': 'H_sr_gevolgenkaart.jpg',
+    'uk': 'H_uk_gevolgenkaart.jpg',
 }
 
 
