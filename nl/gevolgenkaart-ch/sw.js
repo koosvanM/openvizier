@@ -1,6 +1,6 @@
 // Eenvoudige cache-first service worker voor sneller herhaalbezoek op iPhone.
 // Bij iedere build moet CACHE_VERSION ophogen zodat oude cache wordt opgeruimd.
-const CACHE_VERSION = 'gk-nl-ch-v0.2';
+const CACHE_VERSION = 'gk-nl-ch-v0.3';
 const PRECACHE_URLS = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg'];
 
 self.addEventListener('install', (event) => {
