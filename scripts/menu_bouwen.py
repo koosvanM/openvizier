@@ -96,18 +96,41 @@ JS_MARKER  = "/* ov-nav v2 — click-toggle"
 # ---------------------------------------------------------------------------
 
 def resolve_url(item: dict, taal: str, fallback: str = "nl") -> tuple[str, bool]:
-    """Return (url, is_fallback). Als url leeg is voor taal → val terug op fallback."""
+    """Return (url_relatief_aan_taalroot, is_fallback).
+
+    Als url leeg is voor de gevraagde taal → val terug op fallback-taal.
+    De teruggegeven URL is altijd relatief aan de taal-root (bv. 'wat-opkomt/'
+    of '../nl/toekomst/'). De pagina-diepte-prefix wordt later toegepast in
+    apply_depth_prefix().
+    """
     urls = item.get("urls", {})
     url = urls.get(taal, "")
     if url:
         return url, False
-    # Fallback: prefix '../{fallback}/' voor de fallback-URL
     fb_url = urls.get(fallback, "")
     if not fb_url:
         return "#", True
     if fb_url == "./":
         return f"../{fallback}/", True
     return f"../{fallback}/{fb_url}", True
+
+
+def apply_depth_prefix(url: str, depth: int) -> str:
+    """Pas '../' per niveau diepte toe. depth=0 voor {taal}/index.html.
+
+    - './' → '../' × depth (voor depth=0 blijft './')
+    - 'wat-opkomt/' → '../×depth' + 'wat-opkomt/'
+    - '../nl/toekomst/' → '../×depth' + '../nl/toekomst/'
+    - Absolute URLs (http, mailto, #) blijven ongewijzigd
+    """
+    if url.startswith(("http://", "https://", "mailto:", "#")):
+        return url
+    if depth == 0:
+        return url
+    prefix = "../" * depth
+    if url == "./":
+        return prefix
+    return prefix + url
 
 
 def build_menu_data(config: dict) -> dict[str, dict]:
@@ -179,8 +202,11 @@ def render_nav_html(menu_data: dict) -> str:
 
 
 def inject_nav(html: str, new_nav_html: str) -> str:
-    """Vervang eerste <nav>...</nav>. Voegt CSS+JS toe als markers ontbreken."""
-    # 1. Vervang <nav>-blok
+    """Vervang eerste <nav>...</nav>. Voegt CSS+JS toe als markers ontbreken.
+
+    Werkt zowel voor <nav class="ov-nav"> (nieuw) als <nav class="nav">
+    (legacy) en elke andere <nav>-vorm. Idempotent.
+    """
     new_html, count = re.subn(
         r"<nav\b[^>]*>.*?</nav>",
         lambda m: new_nav_html,
@@ -189,7 +215,7 @@ def inject_nav(html: str, new_nav_html: str) -> str:
     if count == 0:
         raise RuntimeError("Geen <nav>-blok gevonden om te vervangen")
 
-    # 2. Verwijder eerder geïnjecteerde ov-nav v2 CSS/JS blokken
+    # Verwijder eerder geïnjecteerde ov-nav v2 CSS/JS blokken
     new_html = re.sub(
         r"<style>\s*\n\s*/\* ov-nav v2.*?</style>\s*",
         "",
@@ -200,16 +226,54 @@ def inject_nav(html: str, new_nav_html: str) -> str:
         "",
         new_html, flags=re.S,
     )
-    # 3. Injecteer verse CSS vóór </head>
     if "</head>" not in new_html:
         raise RuntimeError("Geen </head> gevonden")
     new_html = new_html.replace("</head>", NAV_CSS + "</head>", 1)
-    # 4. Injecteer JS vóór </body>
     if "</body>" not in new_html:
         raise RuntimeError("Geen </body> gevonden")
     new_html = new_html.replace("</body>", NAV_JS + "</body>", 1)
-
     return new_html
+
+
+def find_pages(taal: str) -> list[Path]:
+    """Alle HTML-paginas onder {taal}/ die een <nav>-blok bevatten.
+
+    Uitzonderingen: talenring-, splash- en embed-paginas die eigen layout hebben.
+    """
+    root = REPO / taal
+    if not root.exists():
+        return []
+    pages = []
+    for p in root.rglob("*.html"):
+        # Skip specials
+        name = p.name.lower()
+        if "talenring" in name or "splash" in name or "embed" in name:
+            continue
+        # Skip _data en assets
+        if "_data" in p.parts or "assets" in p.parts:
+            continue
+        # Alleen paginas met een <nav>-blok
+        try:
+            html = p.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        if not re.search(r"<nav\b", html):
+            continue
+        pages.append(p)
+    return pages
+
+
+def page_depth(page: Path, taal: str) -> int:
+    """Aantal directories tussen page en taalroot.
+
+    - {taal}/index.html → 0
+    - {taal}/toekomst/index.html → 1
+    - {taal}/wat-opkomt/artikel.html → 1
+    """
+    rel = page.relative_to(REPO / taal)
+    # Aantal parent-directories (rel.parents heeft altijd tenminste '.').
+    parts = rel.parts
+    return len(parts) - 1  # laatste is de filename
 
 
 # ---------------------------------------------------------------------------
@@ -254,33 +318,49 @@ def main():
             json_path.write_text(payload, encoding="utf-8")
             print(f"  ✓ {json_path.relative_to(REPO)}")
 
-    # 3. Render HTML en injecteer
-    total_fallbacks = 0
+    # 3. Render HTML en injecteer op ALLE paginas per taal
+    total_pages = 0
+    total_fails = 0
     for taal in talen:
-        nav_html = render_nav_html(menu_data[taal])
-        index_path = REPO / taal / "index.html"
-        if not index_path.exists():
-            print(f"  ! Skip: {index_path.relative_to(REPO)} bestaat niet")
-            continue
-        html = index_path.read_text(encoding="utf-8")
-        try:
-            new_html = inject_nav(html, nav_html)
-        except RuntimeError as e:
-            print(f"  ! [{taal}] fout: {e}")
-            continue
+        pages = find_pages(taal)
+        print(f"\n[{taal}] {len(pages)} pagina's met een <nav>-blok")
+        ok = 0
+        fails = 0
+        for page in pages:
+            depth = page_depth(page, taal)
+            # Bouw menu-data met correcte prefix voor deze diepte
+            adjusted = {
+                "taal": taal,
+                "groepen": [
+                    {
+                        "key": g["key"],
+                        "label": g["label"],
+                        "items": [
+                            {**it, "url": apply_depth_prefix(it["url"], depth)}
+                            for it in g["items"]
+                        ],
+                    }
+                    for g in menu_data[taal]["groepen"]
+                ],
+            }
+            nav_html = render_nav_html(adjusted)
+            try:
+                html = page.read_text(encoding="utf-8", errors="ignore")
+                new_html = inject_nav(html, nav_html)
+            except RuntimeError as e:
+                fails += 1
+                print(f"  ! {page.relative_to(REPO)}: {e}")
+                continue
+            if args.dry_run:
+                pass
+            else:
+                page.write_text(new_html, encoding="utf-8")
+            ok += 1
+        print(f"  ✓ {ok} pagina's, {fails} mislukt")
+        total_pages += ok
+        total_fails += fails
 
-        # Tel fallbacks in deze taal
-        fbs = sum(1 for g in menu_data[taal]["groepen"] for it in g["items"] if it["is_fallback"])
-        total_fallbacks += fbs
-        fb_note = f" — {fbs} fallback(s) naar NL" if fbs else ""
-
-        if args.dry_run:
-            print(f"\n[dry-run] [{taal}] Zou schrijven: {index_path.relative_to(REPO)}{fb_note}")
-        else:
-            index_path.write_text(new_html, encoding="utf-8")
-            print(f"  ✓ [{taal}] {index_path.relative_to(REPO)}{fb_note}")
-
-    print(f"\nKlaar. Totale fallbacks: {total_fallbacks}")
+    print(f"\nKlaar. Totaal aangepast: {total_pages} — mislukt: {total_fails}")
 
 
 if __name__ == "__main__":

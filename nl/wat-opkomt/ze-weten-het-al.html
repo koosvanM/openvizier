@@ -77,6 +77,33 @@
   .auteursblok__foto img { width: 70px; height: 70px; }
 }
 </style>
+<style>
+  /* ov-nav v2 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__group { position:relative; }
+  .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
+  .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
+  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:50; }
+  .ov-nav__menu--wide { min-width:260px; }
+  .ov-nav__group:hover .ov-nav__menu,
+  .ov-nav__group:focus-within .ov-nav__menu { display:block; }
+  .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
+  .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
+  .ov-nav__sub { display:block; padding:0.15rem 0; background:#faf8f3; border-top:1px solid #efece3; border-bottom:1px solid #efece3; }
+  .ov-nav__sub a { padding-left:1.8rem !important; font-size:0.88rem; color:#4a5263 !important; }
+  .ov-nav__sub a::before { content:"› "; color:#9ca3af; }
+  .ov-nav__fallback { color:#9ca3af !important; font-style:italic; }
+  @media (max-width:720px) {
+    .ov-nav__inner { flex-direction:column; align-items:stretch; padding:0.25rem 0.5rem; }
+    .ov-nav__group { border-bottom:1px solid #efece3; }
+    .ov-nav__group:last-child { border-bottom:0; }
+    .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
+    .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
+    .ov-nav__group:hover .ov-nav__menu, .ov-nav__group:focus-within .ov-nav__menu { display:block; }
+  }
+</style>
 </head>
 <body>
 <header class="masthead" style="position:relative;">
@@ -90,30 +117,71 @@
   <p class="masthead__tagline">Een krant over denken zonder oogkleppen</p>
 </header>
 <div class="gratis-band">Gratis informatieblad zonder reclame<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Onafhankelijk, geen mening, geen verkoop van gegevens</strong><span class="gratis-band__sep"> — </span><a href="../op-de-hoogte.html" class="gratis-band__cta">Houd mij op de hoogte →</a></div>
-<nav class="nav">
-  <div class="nav__inner">
-    <ul class="nav__links">
-      <li><a href="./" aria-current="page">Voorpagina</a></li>
-      <li><a href="../wat-opkomt/">Nieuw</a></li>
-      <li><a href="../verkennen.html">Verkennen</a></li>
-      <li><a href="../stemgedrag.html">Stemgedrag</a></li>
-      <li><a href="../onderzoeken/">Onderzoek</a></li>
-      <li><a href="../toekomst/">Toekomst</a></li>
-      <li><a href="../editie-klimaat/">Klimaat</a></li>
-      <li><a href="../editie-stikstof/">Stikstof</a></li>
-      <li><a href="../editie-duitsland/">Duitsland</a></li>
-      <li><a href="../editie-0/">Europa</a></li>
-      <li><a href="../editie-leiderschap/">Leiderschap</a></li>
-      <li><a href="../editie-1/">Samenhang</a></li>
-      <li><a href="../editie-2/">Belastingbeleid</a></li>
-      <li><a href="../editie-3/">Onder het ijs</a></li>
-      <li><a href="../editie-4/">Papier-macht</a></li>
-      <li><a href="../editie-5/">Vergeten orde</a></li>
-      <li><a href="../editie-6/">Nova Democratia</a></li>
-      <li><a href="../filosofie/">Filosofie</a></li>
-      <li><a href="../delen.html">Delen</a></li>
-    </ul>
-</div>
+<nav class="ov-nav" aria-label="Hoofdmenu">
+  <div class="ov-nav__inner">
+    <div class="ov-nav__group" data-group="bladeren">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Bladeren <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../">Voorpagina</a>
+        <a href="../wat-opkomt/">Laatste artikelen</a>
+        <a href="../verkennen.html">Verkennen</a>
+        <a href="../stemgedrag.html">Stemgedrag</a>
+        <a href="../onderzoeken/">Onderzoek</a>
+        <a href="../toekomst/">Toekomst</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="politiek">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Politiek <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../stemgedrag.html">Stemgedrag</a>
+        <a href="../editie-leiderschap/">Leiderschap</a>
+        <a href="../editie-6/">Nova Democratia</a>
+        <a href="../wat-opkomt/de-pers-is-de-arena.html">De pers is de arena</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="edities">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Edities <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu ov-nav__menu--wide" role="menu">
+        <a href="../editie-0/">Europa</a>
+        <a href="../editie-1/">Samenhang</a>
+        <a href="../editie-2/">Belastingbeleid</a>
+        <a href="../editie-3/">Onder het ijs</a>
+        <a href="../editie-4/">Papier-macht</a>
+        <a href="../editie-5/">Vergeten orde</a>
+        <a href="../editie-6/">Nova Democratia</a>
+        <hr>
+        <a href="../editie-klimaat/">Klimaat</a>
+        <a href="../editie-stikstof/">Stikstof</a>
+        <a href="../editie-duitsland/">Duitsland</a>
+        <a href="../editie-leiderschap/">Leiderschap</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="verdiepen">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Verdiepen <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../gevolgenkaart-nl/">Gevolgenkaarten</a>
+        <span class="ov-nav__sub">
+          <a href="../gevolgenkaart-nl/">Fundament</a>
+          <a href="../gevolgenkaart-eu/">Europese & globale kaarten</a>
+          <a href="../gevolgenkaart-us/">Internationale spiegels</a>
+        </span>
+        <a href="../editie-klimaat/">BiCRS / Energie</a>
+        <a href="../editie-leiderschap/">Politiek / Hervorming</a>
+        <a href="../editie-duitsland/">Nederland & Wereld</a>
+        <a href="../filosofie/">Filosofie</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="archief">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Archief <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../dossiers/">Dossiers</a>
+        <a href="../onderzoeken/">Onderzoek</a>
+        <a href="../archief.html">Archief</a>
+        <a href="../colofon.html">Colofon</a>
+        <a href="../delen.html">Delen</a>
+      </div>
+    </div>
+  </div>
 </nav>
 
 <article class="wo-artikel">
@@ -308,5 +376,21 @@
   <p class="wo-artikel__terug"><a href="./">← Terug naar Wat opkomt</a></p>
 </article>
 
+<script>
+/* ov-nav v2 — click-toggle voor touch/mobile */
+(function(){
+  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
 </body>
 </html>

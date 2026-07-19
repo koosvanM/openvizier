@@ -48,6 +48,33 @@
       .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
     }
   </style>
+<style>
+  /* ov-nav v2 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__group { position:relative; }
+  .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
+  .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
+  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:50; }
+  .ov-nav__menu--wide { min-width:260px; }
+  .ov-nav__group:hover .ov-nav__menu,
+  .ov-nav__group:focus-within .ov-nav__menu { display:block; }
+  .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
+  .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
+  .ov-nav__sub { display:block; padding:0.15rem 0; background:#faf8f3; border-top:1px solid #efece3; border-bottom:1px solid #efece3; }
+  .ov-nav__sub a { padding-left:1.8rem !important; font-size:0.88rem; color:#4a5263 !important; }
+  .ov-nav__sub a::before { content:"› "; color:#9ca3af; }
+  .ov-nav__fallback { color:#9ca3af !important; font-style:italic; }
+  @media (max-width:720px) {
+    .ov-nav__inner { flex-direction:column; align-items:stretch; padding:0.25rem 0.5rem; }
+    .ov-nav__group { border-bottom:1px solid #efece3; }
+    .ov-nav__group:last-child { border-bottom:0; }
+    .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
+    .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
+    .ov-nav__group:hover .ov-nav__menu, .ov-nav__group:focus-within .ov-nav__menu { display:block; }
+  }
+</style>
 </head>
 <body>
 
@@ -62,29 +89,70 @@
   <p class="masthead__tagline">Eine Zeitung über Denken ohne Scheuklappen</p>
 </header>
 
-<nav class="nav">
-  <div class="nav__inner">
-    <ul class="nav__links">
-      <li><a href="../">Titelseite</a></li>
-      <li><a href="./" aria-current="page">Neu</a></li>
-      <li><a href="../verkennen.html">Verkennen</a></li>
-      <li><a href="../wahlfolgen.html">Wahlfolgen</a></li>
-      <li><a href="../forschung/">Forschung</a></li>
-      <li><a href="../zukunft/">Zukunft</a></li>
-      <li><a href="../ausgabe-klima/">Klima</a></li>
-      <li><a href="../ausgabe-stickstoff/">Stickstoff</a></li>
-      <li><a href="../ausgabe-deutschland/">Deutschland</a></li>
-      <li><a href="../ausgabe-0/">Europa</a></li>
-      <li><a href="../ausgabe-fuehrung/">Führung</a></li>
-      <li><a href="../ausgabe-1/">Zusammenhang</a></li>
-      <li><a href="../ausgabe-2/">Steuerpolitik</a></li>
-      <li><a href="../ausgabe-3/">Unter dem Eis</a></li>
-      <li><a href="../ausgabe-4/">Papier-Macht</a></li>
-      <li><a href="../ausgabe-5/">Vergessene Ordnung</a></li>
-      <li><a href="../ausgabe-6/">Nova Democratia</a></li>
-      <li><a href="../philosophie/">Philosophie</a></li>
-      <li><a href="../teilen.html">Teilen</a></li>
-    </ul>
+<nav class="ov-nav" aria-label="Hoofdmenu">
+  <div class="ov-nav__inner">
+    <div class="ov-nav__group" data-group="bladeren">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Blättern <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../">Titelseite</a>
+        <a href="../was-aufkommt/">Neueste Artikel</a>
+        <a href="../verkennen.html">Erkunden</a>
+        <a href="../wahlfolgen.html">Wahlfolgen</a>
+        <a href="../forschung/">Forschung</a>
+        <a href="../zukunft/">Zukunft</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="politiek">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Politik <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../wahlfolgen.html">Wahlfolgen</a>
+        <a href="../ausgabe-fuehrung/">Führung</a>
+        <a href="../ausgabe-6/">Nova Democratia</a>
+        <a href="../was-aufkommt/die-presse-ist-die-arena.html">Die Presse ist die Arena</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="edities">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Ausgaben <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu ov-nav__menu--wide" role="menu">
+        <a href="../ausgabe-0/">Europa</a>
+        <a href="../ausgabe-1/">Zusammenhang</a>
+        <a href="../ausgabe-2/">Steuerpolitik</a>
+        <a href="../ausgabe-3/">Unter dem Eis</a>
+        <a href="../ausgabe-4/">Papier-Macht</a>
+        <a href="../ausgabe-5/">Vergessene Ordnung</a>
+        <a href="../ausgabe-6/">Nova Democratia</a>
+        <hr>
+        <a href="../ausgabe-klima/">Klima</a>
+        <a href="../ausgabe-stickstoff/">Stickstoff</a>
+        <a href="../ausgabe-deutschland/">Deutschland</a>
+        <a href="../ausgabe-fuehrung/">Führung</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="verdiepen">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Vertiefen <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../folgenkarte-nl/">Folgenkarten</a>
+        <span class="ov-nav__sub">
+          <a href="../folgenkarte-nl/">Fundament</a>
+          <a href="../folgenkarte-eu/">Europäische & globale Karten</a>
+          <a href="../folgenkarte-us/">Internationale Spiegel</a>
+        </span>
+        <a href="../ausgabe-klima/">BiCRS / Energie</a>
+        <a href="../ausgabe-fuehrung/">Politik / Reform</a>
+        <a href="../ausgabe-deutschland/">Niederlande & Welt</a>
+        <a href="../philosophie/">Philosophie</a>
+      </div>
+    </div>
+    <div class="ov-nav__group" data-group="archief">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Archiv <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../dossiers/">Dossiers</a>
+        <a href="../forschung/">Forschung</a>
+        <a href="../archiv.html">Archiv</a>
+        <a href="../impressum.html">Impressum</a>
+        <a href="../teilen.html">Teilen</a>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -181,5 +249,21 @@
   <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
 </footer>
 
+<script>
+/* ov-nav v2 — click-toggle voor touch/mobile */
+(function(){
+  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
 </body>
 </html>
