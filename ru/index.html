@@ -135,23 +135,67 @@
 
 <div class="gratis-band">Бесплатная информационная газета без рекламы<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Независимая, никаких мнений, никакой продажи данных</strong><span class="gratis-band__sep"> — </span><a href="v-kurse.html" class="gratis-band__cta">Держите меня в курсе →</a></div>
 
-<nav class="nav">
-  <div class="nav__inner">
-    <ul class="nav__links">
-      <li><a href="./" class="active">Главная</a></li>
-      <li><a href="chto-vsplyvaet/">Что всплывает</a></li>
-      <li><a href="verkennen.html">Исследовать</a></li>
-      <li><a href="vypusk-6/">Выпуск 6</a></li>
-      <li><a href="vypusk-5/">Выпуск 5</a></li>
-      <li><a href="vypusk-4/">Выпуск 4</a></li>
-      <li><a href="vypusk-3/">Выпуск 3</a></li>
-      <li><a href="vypusk-2/">Выпуск 2</a></li>
-      <li><a href="vypusk-1/">Выпуск 1</a></li>
-      <li><a href="vypusk-0/">Выпуск Европа</a></li>
-      <li><a href="../en/philosophy/">Философия</a></li>
-      <li><a href="podelitsya.html">Поделиться</a></li>
-    </ul>
-</div>
+<nav class="ov-nav" aria-label="Листать/Углубиться">
+  <div class="ov-nav__inner">
+
+    <div class="ov-nav__group" data-group="bladeren">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Листать <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="./">Главная</a>
+        <a href="chto-vsplyvaet/">Последние статьи</a>
+        <a href="verkennen.html">Обзор</a>
+        <a href="../nl/stemgedrag.html">Голосование</a>
+        <a href="issledovanie/">Исследования</a>
+        <a href="../nl/toekomst/">Будущее</a>
+      </div>
+    </div>
+
+    <div class="ov-nav__group" data-group="edities">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Выпуски <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu ov-nav__menu--wide" role="menu">
+        <a href="vypusk-0/">Европа</a>
+        <a href="vypusk-1/">Согласованность</a>
+        <a href="vypusk-2/">Налоговая политика</a>
+        <a href="vypusk-3/">Подо льдом</a>
+        <a href="vypusk-4/">Власть бумаги</a>
+        <a href="vypusk-5/">Забытый порядок</a>
+        <a href="vypusk-6/">Nova Democratia</a>
+        <hr>
+        <a href="../nl/editie-klimaat/">Климат</a>
+        <a href="../nl/editie-stikstof/">Азот</a>
+        <a href="../nl/editie-duitsland/">Германия</a>
+        <a href="../nl/editie-leiderschap/">Лидерство</a>
+      </div>
+    </div>
+
+    <div class="ov-nav__group" data-group="verdiepen">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Углубиться <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="../nl/gevolgenkaart-nl/">Карты последствий</a>
+        <span class="ov-nav__sub">
+          <a href="../nl/gevolgenkaart-nl/">Основа</a>
+          <a href="../nl/gevolgenkaart-eu/">Европейские и глобальные карты</a>
+          <a href="../nl/gevolgenkaart-us/">Международные зеркала</a>
+        </span>
+        <a href="../nl/editie-klimaat/">BiCRS / Энергия</a>
+        <a href="../nl/editie-leiderschap/">Политика / Реформа</a>
+        <a href="../nl/editie-duitsland/">Нидерланды и мир</a>
+        <a href="../nl/filosofie/">Философия</a>
+      </div>
+    </div>
+
+    <div class="ov-nav__group" data-group="archief">
+      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Архив <span aria-hidden="true">▾</span></button>
+      <div class="ov-nav__menu" role="menu">
+        <a href="dossiers/">Досье</a>
+        <a href="issledovanie/">Исследования</a>
+        <a href="arkhiv.html">Архив</a>
+        <a href="vykhodnye-dannye.html">Выходные данные</a>
+        <a href="podelitsya.html">Поделиться</a>
+      </div>
+    </div>
+
+  </div>
 </nav>
 
 
@@ -566,5 +610,21 @@
 </footer>
 
 <script src="../assets/nav-mobile.js" defer></script>
+
+<script>
+(function(){
+  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
 </body>
 </html>
