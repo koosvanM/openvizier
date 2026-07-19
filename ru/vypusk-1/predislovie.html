@@ -18,16 +18,18 @@
     .auteursblok__link:hover { text-decoration: underline; }
     @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
 </style><style>
-  /* ov-nav v2 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  /* ov-nav v3 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
   .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
   .ov-nav__group { position:relative; }
   .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
   .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
-  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:50; }
+  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; }
   .ov-nav__menu--wide { min-width:260px; }
+  /* Twee onafhankelijke open-condities: hover óf aria-expanded=true */
   .ov-nav__group:hover .ov-nav__menu,
-  .ov-nav__group:focus-within .ov-nav__menu { display:block; }
+  .ov-nav__group:focus-within .ov-nav__menu,
+  .ov-nav__toggle[aria-expanded="true"] + .ov-nav__menu { display:block; }
   .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
   .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
   .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
@@ -41,7 +43,6 @@
     .ov-nav__group:last-child { border-bottom:0; }
     .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
     .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
-    .ov-nav__group:hover .ov-nav__menu, .ov-nav__group:focus-within .ov-nav__menu { display:block; }
   }
 </style>
 </head>
@@ -338,17 +339,23 @@
 <script src="../../assets/article-tools.js"></script>
 <script src="../../assets/nav-mobile.js" defer></script>
 <script>
-/* ov-nav v2 — click-toggle voor touch/mobile */
+/* ov-nav v3 — click-toggle voor touch/mobile */
 (function(){
   document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
     btn.addEventListener('click', function(e){
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-      e.stopPropagation();
+      e.preventDefault(); e.stopPropagation();
+      var wasOpen = btn.getAttribute('aria-expanded') === 'true';
+      /* Sluit eerst alle andere */
+      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){
+        if (b !== btn) b.setAttribute('aria-expanded','false');
+      });
+      /* Toggle deze knop */
+      btn.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
     });
   });
-  document.addEventListener('click', function(){
+  /* Klik buiten één van de dropdowns → alles dicht */
+  document.addEventListener('click', function(e){
+    if (e.target && e.target.closest && e.target.closest('.ov-nav')) return;
     document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
   });
 })();
