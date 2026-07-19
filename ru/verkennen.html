@@ -140,31 +140,37 @@
 
 </style>
 <style>
-  /* ov-nav v3 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
-  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
-  .ov-nav__group { position:relative; }
-  .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
-  .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
-  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; }
-  .ov-nav__menu--wide { min-width:260px; }
-  /* Twee onafhankelijke open-condities: hover óf aria-expanded=true */
-  .ov-nav__group:hover .ov-nav__menu,
-  .ov-nav__group:focus-within .ov-nav__menu,
-  .ov-nav__toggle[aria-expanded="true"] + .ov-nav__menu { display:block; }
-  .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
-  .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
-  .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
-  .ov-nav__sub { display:block; padding:0.15rem 0; background:#faf8f3; border-top:1px solid #efece3; border-bottom:1px solid #efece3; }
-  .ov-nav__sub a { padding-left:1.8rem !important; font-size:0.88rem; color:#4a5263 !important; }
-  .ov-nav__sub a::before { content:"› "; color:#9ca3af; }
-  .ov-nav__fallback { color:#9ca3af !important; font-style:italic; }
+  /* ov-nav v4 — platte horizontale nav, geen dropdowns (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item { display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important; font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px; font-size:0.95rem; line-height:1.2; }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
   @media (max-width:720px) {
-    .ov-nav__inner { flex-direction:column; align-items:stretch; padding:0.25rem 0.5rem; }
-    .ov-nav__group { border-bottom:1px solid #efece3; }
-    .ov-nav__group:last-child { border-bottom:0; }
-    .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
-    .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+  }
+</style>
+<style>
+  /* verkennen-menu v1 — platte lijst per rubriek */
+  .verkennen-main { max-width:1100px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+  .verkennen-intro { text-align:center; margin-bottom:2.5rem; }
+  .verkennen-intro h1 { font-family:Georgia,serif; font-size:clamp(2rem,3.5vw,2.8rem); font-weight:400; color:#1a1a1a; margin-bottom:0.75rem; }
+  .verkennen-intro p { color:#6b7280; font-size:1.05rem; line-height:1.5; max-width:640px; margin:0 auto; }
+  .vk-menu { display:flex; flex-direction:column; gap:2.5rem; }
+  .vk-rub__titel { font-family:Georgia,serif; font-size:1.35rem; color:#7a1f2b; font-weight:600; padding-bottom:0.5rem; border-bottom:2px solid #d4af37; margin-bottom:1rem; }
+  .vk-rub__lijst { list-style:none; padding:0; margin:0; }
+  .vk-item { margin:0; padding:0; border-bottom:1px solid #efece3; }
+  .vk-item:last-child { border-bottom:0; }
+  .vk-item a { display:block; padding:0.9rem 0.5rem; color:#1a1a1a; text-decoration:none; transition:background 0.15s; }
+  .vk-item a:hover { background:#f5f3ee; padding-left:1rem; }
+  .vk-item__titel { display:block; font-weight:600; font-size:1.05rem; color:#1a1a1a; line-height:1.35; }
+  .vk-item__desc { display:block; margin-top:0.25rem; font-size:0.92rem; color:#6b7280; line-height:1.45; }
+  @media (max-width:640px) {
+    .verkennen-main { padding:1.25rem 0.75rem 3rem; }
+    .vk-menu { gap:2rem; }
+    .vk-rub__titel { font-size:1.2rem; }
   }
 </style>
 </head>
@@ -186,113 +192,146 @@
 
 <nav class="ov-nav" aria-label="Hoofdmenu">
   <div class="ov-nav__inner">
-    <div class="ov-nav__group" data-group="bladeren">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Листать <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="./">Главная</a>
-        <a href="chto-vsplyvaet/">Последние статьи</a>
-        <a href="verkennen.html">Обзор</a>
-        <a href="../nl/stemgedrag.html" class="ov-nav__fallback">Голосование</a>
-        <a href="issledovanie/">Исследования</a>
-        <a href="../nl/toekomst/" class="ov-nav__fallback">Будущее</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="politiek">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Политика <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="../nl/stemgedrag.html" class="ov-nav__fallback">Голосование</a>
-        <a href="../nl/editie-leiderschap/" class="ov-nav__fallback">Лидерство</a>
-        <a href="vypusk-6/">Nova Democratia</a>
-        <a href="chto-vsplyvaet/pressa-eto-arena.html">Пресса — это арена</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="edities">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Выпуски <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu ov-nav__menu--wide" role="menu">
-        <a href="vypusk-0/">Европа</a>
-        <a href="vypusk-1/">Согласованность</a>
-        <a href="vypusk-2/">Налоговая политика</a>
-        <a href="vypusk-3/">Подо льдом</a>
-        <a href="vypusk-4/">Власть бумаги</a>
-        <a href="vypusk-5/">Забытый порядок</a>
-        <a href="vypusk-6/">Nova Democratia</a>
-        <hr>
-        <a href="../nl/editie-klimaat/" class="ov-nav__fallback">Климат</a>
-        <a href="../nl/editie-stikstof/" class="ov-nav__fallback">Азот</a>
-        <a href="../nl/editie-duitsland/" class="ov-nav__fallback">Германия</a>
-        <a href="../nl/editie-leiderschap/" class="ov-nav__fallback">Лидерство</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="verdiepen">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Углубиться <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="../nl/gevolgenkaart-nl/" class="ov-nav__fallback">Карты последствий</a>
-        <span class="ov-nav__sub">
-          <a href="../nl/gevolgenkaart-nl/" class="ov-nav__fallback">Основа</a>
-          <a href="../nl/gevolgenkaart-eu/" class="ov-nav__fallback">Европейские и глобальные карты</a>
-          <a href="../nl/gevolgenkaart-us/" class="ov-nav__fallback">Международные зеркала</a>
-        </span>
-        <a href="../nl/editie-klimaat/" class="ov-nav__fallback">BiCRS / Энергия</a>
-        <a href="../nl/editie-leiderschap/" class="ov-nav__fallback">Политика / Реформа</a>
-        <a href="../nl/editie-duitsland/" class="ov-nav__fallback">Нидерланды и мир</a>
-        <a href="../nl/filosofie/" class="ov-nav__fallback">Философия</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="archief">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Архив <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="dossiers/">Досье</a>
-        <a href="issledovanie/">Исследования</a>
-        <a href="arkhiv.html">Архив</a>
-        <a href="vykhodnye-dannye.html">Выходные данные</a>
-        <a href="podelitsya.html">Поделиться</a>
-      </div>
-    </div>
+    <a class="ov-nav__item" href="./">Главная</a>
+    <a class="ov-nav__item" href="chto-vsplyvaet/">Новое</a>
+    <a class="ov-nav__item" href="verkennen.html">Обзор</a>
+    <a class="ov-nav__item" href="vypusk-6/">Nova Democratia</a>
+    <a class="ov-nav__item" href="vypusk-2/">Налоги</a>
+    <a class="ov-nav__item" href="issledovanie/">Исследования</a>
+    <a class="ov-nav__item ov-nav__item--fallback" href="../nl/filosofie/">Философия</a>
+    <a class="ov-nav__item" href="vykhodnye-dannye.html">Выходные данные</a>
+    <a class="ov-nav__item" href="podelitsya.html">Поделиться</a>
   </div>
 </nav>
 
 <main class="verkennen-main">
-
   <section class="verkennen-intro">
-    <h1>Исследовать</h1>
-    <p>Визуальная структура «Открытого забрала». Нажмите на блок, чтобы углубиться; нажмите на центр, чтобы вернуться.</p>
+    <h1>Обзор</h1>
+    <p>Все статьи «Het Open Vizier», сгруппированные по рубрикам. Нажмите на заголовок, чтобы открыть статью.</p>
   </section>
-
-  <div class="verkennen-controls">
-    <button id="home" title="Исследовать">
-      <svg viewBox="0 0 24 24"><path d="M3 11.5 L12 4 L21 11.5 M5.5 10 V20 H18.5 V10"/></svg>
-      <span>Исследовать</span>
-    </button>
-    <span class="topbar-title" id="topbar-title" data-prefix=""></span>
+  <div class="vk-menu">
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Новое</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="chto-vsplyvaet/pressa-eto-arena.html"><span class="vk-item__titel">Пресса — это арена</span><span class="vk-item__desc">Политико-социологическая связь с налоговой политикой</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/pressa-eto-arena.html"><span class="vk-item__titel">Пресса — это арена</span><span class="vk-item__desc">Как создаётся раскол до удара</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/de-autoband-is-het-nieuwe-sigaret.html"><span class="vk-item__titel">Autoband-sigaret</span><span class="vk-item__desc">Bandenslijtage als verborgen vervuilingsdrager.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/brusselse-gevolgenkaart-bicrs.html"><span class="vk-item__titel">BiCRS-versie EU</span><span class="vk-item__desc">Volledige doorrekening Brussel met BiCRS-vervanging.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/de-brusselse-gevolgenkaart.html"><span class="vk-item__titel">Brusselse (EU)</span><span class="vk-item__desc">20 EU-scenario's × 11 mechanismen.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/europa-hoeft-geen-schadekaart-te-zijn.html"><span class="vk-item__titel">Europa-opener</span><span class="vk-item__desc">Hoe BiCRS Green Deal en CBAM kan vervangen.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/het-dagelijks-idee-ferrari-juncao.html"><span class="vk-item__titel">Ferrari Junção</span><span class="vk-item__desc">Dagelijks idee: Ferrari Junção.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/de-kantelmechanica.html"><span class="vk-item__titel">Kantelmechanica</span><span class="vk-item__desc">Hoe een gedachtegoed kantelt naar invloed.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/die-konsequenzkarte.html"><span class="vk-item__titel">Konsequenzkarte (DE)</span><span class="vk-item__desc">Duitse spiegel, Bundestag februari 2025.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/de-gevolgenkaart.html"><span class="vk-item__titel">Manifest</span><span class="vk-item__desc">Waarom de StemWijzer u nooit zal vertellen wat u eigenlijk stemt.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/manifest-ruimte-voor-het-oergevoel.html"><span class="vk-item__titel">Manifest Oergevoel</span><span class="vk-item__desc">Ruimte voor het oergevoel.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/mappa-tal-konsegwenzi.html"><span class="vk-item__titel">Mappa Malta</span><span class="vk-item__desc">Maltese politiek en EU-druk samen.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/de-op-de-natuur-aangepaste-analyse.html"><span class="vk-item__titel">Natuur-analyse</span><span class="vk-item__desc">Nederlandse cascade onder twee biomassa-sporen.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/nova-democratia-manifest.html"><span class="vk-item__titel">Nova Democratia</span><span class="vk-item__desc">De Nova Democratia / VMP politieke vorm.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/gevolgenkaart-iii-stille-analyse.html"><span class="vk-item__titel">Stille Analyse (NL)</span><span class="vk-item__desc">20 NL-posities × 11 mechanismen, met BiCRS-uitweg.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/trump-als-spiegel.html"><span class="vk-item__titel">Trump als spiegel</span><span class="vk-item__desc">Wat Trump-II met Europa doet.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/wat-ik-achterlaat-vmb-esg.html"><span class="vk-item__titel">VMB ESG</span><span class="vk-item__desc">Wat ik achterlaat — VMB ESG essay.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/wij-moeten-weer-zelf-aan-de-bak.html"><span class="vk-item__titel">Zelf aan de bak (NL)</span><span class="vk-item__desc">Nederland moet zijn eigen kracht terugvinden.</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/mirovoy-poyas-2040-2050.html"><span class="vk-item__titel">Мировой Пояс — климатический план 2040-2050</span><span class="vk-item__desc">840 000 рабочих мест в ЕС и будущее для мигрантов в Африке</span></a></li>
+        <li class="vk-item"><a href="chto-vsplyvaet/mirovoy-poyas-2040-2050.html"><span class="vk-item__titel">Мировой Пояс — климатический план 2040-2050</span><span class="vk-item__desc">840 000 рабочих мест в ЕС и будущее для мигрантов в Африке</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Выпуск Европа</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="vypusk-0/"><span class="vk-item__titel">Выпуск 0 — Европа</span><span class="vk-item__desc">Что Брюссель, Гаага, Берлин и Мальта совокупно делают с домохозяйствами континента — в зеркале того, что противопоставляет им Трамп II. Семь материалов.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Выпуск 1 · Согласованность</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="vypusk-1/predislovie.html"><span class="vk-item__titel">Зачем эта газета?</span></a></li>
+        <li class="vk-item"><a href="vypusk-1/nova-democratia.html"><span class="vk-item__titel">Что не так с партийной политикой?</span></a></li>
+        <li class="vk-item"><a href="vypusk-1/obrazovanie.html"><span class="vk-item__titel">От учебного конвейера к мастерской знаний</span></a></li>
+        <li class="vk-item"><a href="vypusk-1/termoyad.html"><span class="vk-item__titel">Термоядерный реактор без магнитной камеры</span></a></li>
+        <li class="vk-item"><a href="vypusk-1/gidrodinamika.html"><span class="vk-item__titel">Всё течёт — мать всех наук</span></a></li>
+        <li class="vk-item"><a href="vypusk-1/tekhnicheskie-resheniya.html"><span class="vk-item__titel">Что уже есть</span></a></li>
+        <li class="vk-item"><a href="vypusk-1/diskussiya.html"><span class="vk-item__titel">Как участвовать в дискуссии</span></a></li>
+        <li class="vk-item"><a href="vypusk-1/"><span class="vk-item__titel">Выпуск 1 — Предисловие</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Выпуск 2 · Налоговая политика</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="vypusk-2/termostat.html"><span class="vk-item__titel">Ваш термостат умнее вашего министра</span></a></li>
+        <li class="vk-item"><a href="vypusk-2/pochemu-ya-takoy.html"><span class="vk-item__titel">Почему я такой, какой я есть</span></a></li>
+        <li class="vk-item"><a href="vypusk-2/nova-democratia.html"><span class="vk-item__titel">Nova Democratia</span></a></li>
+        <li class="vk-item"><a href="vypusk-2/nepk-fx.html"><span class="vk-item__titel">NEPK-FX — Нейронный прогноз</span></a></li>
+        <li class="vk-item"><a href="vypusk-2/"><span class="vk-item__titel">Выпуск 2 — Термостат</span><span class="vk-item__desc">Выпуск 2 — Девять материалов о системном кризисе Нидерландов, основах для восстановления и конкретных политических рекомендациях — включая образовательную трилогию и аналитическое приложение с данными</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Выпуск 3 · Подо льдом</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="vypusk-3/artikel-00-redactie.html"><span class="vk-item__titel">Редакционное введение</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-01-oergevoel.html"><span class="vk-item__titel">Первичное чувство</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-02-zeven-dimensies.html"><span class="vk-item__titel">Семь измерений</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-03-drie-lagen.html"><span class="vk-item__titel">Три слоя мозга</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-04-communicatie.html"><span class="vk-item__titel">Коммуникация между первичными чувствами</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-05-wat-we-doen.html"><span class="vk-item__titel">Что мы делаем с детьми</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-06-mama.html"><span class="vk-item__titel">Мама, я хочу есть</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-07-ai-onderwijs.html"><span class="vk-item__titel">Образование в эпоху ИИ</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-08-retrospectief.html"><span class="vk-item__titel">Ретроспектива</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/artikel-09-oergevoel-in-beroepspraktijk.html"><span class="vk-item__titel">Первичное чувство в профессиональной практике</span></a></li>
+        <li class="vk-item"><a href="vypusk-3/"><span class="vk-item__titel">Выпуск 3 — Первичное чувство</span><span class="vk-item__desc">Концепция первичного чувства, триединого мозга и человека, которого мы перестали воспитывать.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Выпуск 4 · Власть бумаги</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="vypusk-4/artikel-00-redactie.html"><span class="vk-item__titel">Редакционное введение</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-01-wet-papier-industrie.html"><span class="vk-item__titel">Закон бумажной промышленности</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-02-ceo.html"><span class="vk-item__titel">Гендиректор и первичное чувство</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-03-consultant.html"><span class="vk-item__titel">Консультант у почти обанкротившейся компании</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-04-bankier.html"><span class="vk-item__titel">Банки, потерявшие первичное чувство</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-05-verzekeraar.html"><span class="vk-item__titel">Страховщик против жизни</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-06-toezichthouder.html"><span class="vk-item__titel">Надзорный орган, который ничего не видит</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-07-rechter.html"><span class="vk-item__titel">Судья без компаса</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-08-diepere-vraag.html"><span class="vk-item__titel">Более глубокий вопрос</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/artikel-09-retrospectief.html"><span class="vk-item__titel">Ретроспектива</span></a></li>
+        <li class="vk-item"><a href="vypusk-4/"><span class="vk-item__titel">Выпуск 4</span><span class="vk-item__desc">Выпуск о том, как правила, страховки, финансирование и надзор вытеснили первичное чувство из профессиональной практики — и что это с нами сделало.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Выпуск 5 · Забытый порядок</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="vypusk-5/artikel-00-brief-aan-lezer.html"><span class="vk-item__titel">Письмо читателю</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-01-zeven-gereedschappen.html"><span class="vk-item__titel">七つ道具 — Семеро, изменивших всё</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-02-succesformule.html"><span class="vk-item__titel">Формула успеха, которую мы забыли</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-03-vergeten-orde.html"><span class="vk-item__titel">Забытый порядок</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-04-methaan-misleiding.html"><span class="vk-item__titel">Метановое заблуждение</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-05-plant-die-verhuist.html"><span class="vk-item__titel">Растение, которое переезжает</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-06-zeven-van-bern.html"><span class="vk-item__titel">Семеро из Берна</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-07-afwijkers.html"><span class="vk-item__titel">Несогласные</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/artikel-08-eis-aan-lezer.html"><span class="vk-item__titel">Требование к читателю</span></a></li>
+        <li class="vk-item"><a href="vypusk-5/"><span class="vk-item__titel">Выпуск 5</span><span class="vk-item__desc">Что весит тяжело — и что пресса из этого делает. Диагностический выпуск в четырёх частях.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Выпуск 6 · Nova Democratia</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="vypusk-6/voorwoord-waarom-dit-moet.html"><span class="vk-item__titel">Предисловие — Почему это необходимо</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-00-brussel-als-variabele.html"><span class="vk-item__titel">Брюссель как переменная, а не константа</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-01-zes-ordes-van-fasering.html"><span class="vk-item__titel">Шесть порядков поэтапности</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-02-pareto-top12.html"><span class="vk-item__titel">Кто блокирует — и насколько серьёзно?</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-03-media-als-rekstrook.html"><span class="vk-item__titel">СМИ как тензодатчик</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-04-ordes-van-bezwaar.html"><span class="vk-item__titel">Порядки возражений</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-05-twintig-bezwaren.html"><span class="vk-item__titel">Двадцать актуальных возражений</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-06-zwitserse-spiegel.html"><span class="vk-item__titel">Швейцарское зеркало</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-07-canadese-spiegel.html"><span class="vk-item__titel">Канадское зеркало</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-08-partijen-in-kaart.html"><span class="vk-item__titel">Где стоит ваша партия?</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-09-pareto-per-actor.html"><span class="vk-item__titel">Кто сопротивляется, кто помогает?</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-10-uei.html"><span class="vk-item__titel">UEI — европейская контрсила из Швейцарии</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-11-kennislaag-als-bondgenoot.html"><span class="vk-item__titel">Слой знаний как союзник</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/aflevering-12-beste-weg-vooruit.html"><span class="vk-item__titel">Лучший путь вперёд</span></a></li>
+        <li class="vk-item"><a href="vypusk-6/"><span class="vk-item__titel">Выпуск 6</span><span class="vk-item__desc">Выпуск о физике нидерландских реформ — Парето, порядки, работающий проект и пласт знаний, несущий консервативную силу. Четырнадцать материалов.</span></a></li>
+      </ul>
+    </section>
   </div>
-
-  <div class="verkennen-canvas">
-    <div class="stage" id="stage"></div>
-
-    <!-- center-overlay verborgen (geen wapen meer) -->
-    <div class="center-overlay" id="center" style="display:none">
-      <div class="veil"></div>
-      <div class="label"><h2 id="center-name"></h2><p id="center-sub"></p></div>
-    </div>
-
-    <div class="loading" id="loading">структура загружается…</div>
-
-    <div class="reader" id="reader">
-      <h2 id="reader-title"></h2>
-      <p id="reader-desc"></p>
-      <a class="read" id="reader-link" href="#" target="_self">→ Читать статью</a>
-      <button class="close" id="reader-close">Назад</button>
-    </div>
-
-    <div class="hint">Нажмите на блок, чтобы углубиться · нажмите на центр, чтобы вернуться</div>
-  </div>
-
-<!-- NAV_BOTTOM_BEGIN -->
-<nav class="navbar-bottom" aria-label="Главная">
-  <a href="../ru/" class="navbar__home">⌂ Главная</a>
-  <a href="../ru/verkennen.html" class="navbar__verk">↻ Обзор</a>
-</nav>
-<!-- NAV_BOTTOM_END -->
 </main>
 
 <footer class="eindvoet">
@@ -300,540 +339,9 @@
   <p><a href="./">← Главная</a></p>
 </footer>
 
-<script>
-let KNOPEN = [], BY_CODE = {}, CHILDREN = {};
-const path = [];
-// Wortel-code per taal: NL=1, DE=2, EN=3, RU=4, FR=5, ES=6, IT=7, PT=8, MT=9
-const TAAL_PREFIX = {nl:'1',de:'2',en:'3',ru:'4',fr:'5',es:'6',it:'7',pt:'8',mt:'9'};
-const WORTEL_CODE = TAAL_PREFIX[document.documentElement.lang] || "1";
 
-function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
-
-/* ============================================================
-   LAYOUT — variabele grids op basis van aantal kinderen
-   Doel: hero's tot tegen elkaar en de schermranden
-   ============================================================ */
-function gridLayout(n){
-  // Eerst: kijk in de layouts-tabel
-  const L = (window.LAYOUTS || {})[String(n)];
-  if (L){
-    return {
-      cols: L.kolommen,
-      rows: L.rijen,
-      placements: L.posities.map(p => ({col: p.col, row: p.row, label: p.label}))
-    };
-  }
-  // Fallback voor 10+: regelmatig grid
-  // grid-template-columns + grid-template-rows + placeringen voor elke tegel
-  if (n === 1) return { cols:"1fr", rows:"1fr", placements:[null] };
-  if (n === 2) return {
-    cols:"1fr 1fr", rows:"1fr",
-    placements:[{col:"1",row:"1"},{col:"2",row:"1"}]
-  };
-  if (n === 3) return {
-    // boven 2 helften, onder 1 brede
-    cols:"1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"}, {col:"2",row:"1"}, {col:"1 / 3",row:"2"}
-    ]
-  };
-  if (n === 4) return {
-    cols:"1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"}
-    ]
-  };
-  if (n === 5) return {
-    // 3 boven + 2 onder (geen brede tile in het midden, dus geen overlap met wapen-label)
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},{col:"3",row:"2"}
-    ]
-  };
-  if (n === 6) return {
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"}
-    ]
-  };
-  if (n === 7) return {
-    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
-      {col:"1",row:"2"},{col:"2 / 4",row:"2"},{col:"4",row:"2"}
-    ]
-  };
-  if (n === 8) return {
-    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"}
-    ]
-  };
-  if (n === 9) return {
-    // 4x3: bovenste en onderste rij hebben 3 tiles, middenrij 2 met opening in midden
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},                    {col:"3",row:"2"},
-      {col:"1",row:"3"},{col:"2",row:"3"},{col:"3",row:"3"},
-      // 9e: laat een dubbele cel boven onderste rij maken zou kunnen,
-      // maar voor 9 items werkt 4x2 net zo goed:
-      // beter herinrichten: 8 om de rand + 1 prominent helemaal bovenin als brede tile
-      {col:"2",row:"2"}  // achter wapen — visueel verstopt maar code blijft consistent
-    ]
-  };
-  if (n === 10) return {
-    // 5 boven + 5 onder
-    cols:"repeat(5, 1fr)", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},{col:"5",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"},{col:"5",row:"2"}
-    ]
-  };
-  // 10+: regelmatig grid (fallback)
-  const cols = Math.ceil(Math.sqrt(n));
-  const rows = Math.ceil(n / cols);
-  const placements = [];
-  for (let i=0;i<n;i++){
-    placements.push({col:String((i%cols)+1), row:String(Math.floor(i/cols)+1), label:"center"});
-  }
-  return { cols: `repeat(${cols},1fr)`, rows:`repeat(${rows},1fr)`, placements };
-}
-
-// Verwijder de oude if/else cases — die staan nu in 5_layouts.json
-
-function effectiveColor(knoop){
-  if (knoop.kleur) return knoop.kleur;
-  let cur = knoop;
-  while (cur && cur.ouder){
-    cur = BY_CODE[cur.ouder];
-    if (cur && cur.kleur) return cur.kleur;
-  }
-  return "#3a342e";
-}
-
-function heroPath(knoop){
-  // valt terug op effectieve kleur als geen hero
-  return knoop.hero || null;
-}
-
-function render(){
-  const stage = document.getElementById('stage');
-  clear(stage);
-  stage.classList.remove('fading');
-
-  const currentCode = path[path.length-1];
-  const current = BY_CODE[currentCode];
-  if (!current) return;
-  const alleKinderen = CHILDREN[currentCode] || [];
-  // Filter: alleen kinderen die actief zijn, naam hebben, en niet verborgen
-  const zichtbareKinderen = alleKinderen.filter(k =>
-    k.naam && k.naam.trim() !== "" && (k.status !== "verborgen")
-  );
-
-  // Pagineren: max 10 zichtbare per laag
-  // URL-hash kan een 'pagina' bevatten via &p=2
-  const MAX_PER_LAAG = 10;
-  let pagina = 1;
-  const paginaMatch = (location.hash || "").match(/[&?]p=(\d+)/);
-  if (paginaMatch) pagina = parseInt(paginaMatch[1], 10) || 1;
-
-  let kids;
-  let toonVervolg = false;
-  let toonVorige = false;
-
-  if (zichtbareKinderen.length <= MAX_PER_LAAG){
-    kids = zichtbareKinderen.slice();
-  } else {
-    // pagineren: 3 echte + 1 vervolg-knop per pagina, behalve laatste pagina
-    const perPagina = MAX_PER_LAAG - 1;  // 3 echte per pagina
-    const start = (pagina - 1) * perPagina;
-    const eind = start + perPagina;
-    kids = zichtbareKinderen.slice(start, eind);
-    if (eind < zichtbareKinderen.length){
-      // er is een vervolg
-      kids.push({
-        code: currentCode,
-        _synthVervolg: true,
-        _doelPagina: pagina + 1,
-        naam: "Vervolg",
-        ondertitel: `pagina ${pagina + 1} van ${Math.ceil(zichtbareKinderen.length / perPagina)}`,
-        type: "vervolg",
-        hero: "",
-      });
-    }
-    if (pagina > 1){
-      kids.unshift({
-        code: currentCode,
-        _synthVorige: true,
-        _doelPagina: pagina - 1,
-        naam: "Vorige",
-        ondertitel: `← pagina ${pagina - 1}`,
-        type: "vorige",
-        hero: "",
-      });
-      // verwijder één echte om binnen MAX te blijven
-      if (kids.length > MAX_PER_LAAG){
-        kids.splice(MAX_PER_LAAG - 1, 1);
-      }
-    }
-  }
-  const n = kids.length;
-
-  // Center-overlay altijd zichtbaar met wapen; tekst toont huidige keuze
-  const center = document.getElementById('center');
-  const centerName = document.getElementById('center-name');
-  const centerSub = document.getElementById('center-sub');
-  center.style.display = 'flex';
-  centerName.textContent = current.naam;
-  centerSub.textContent = current.ondertitel || "";
-
-  document.getElementById('topbar-title').textContent =
-    path.length > 1 ? ("· " + current.naam) : "";
-
-  // Geen kinderen → toon alleen het centrum
-  if (n === 0) return;
-
-  // Grid-layout op basis van aantal
-  const L = gridLayout(n);
-  stage.style.gridTemplateColumns = L.cols;
-  stage.style.gridTemplateRows = L.rows;
-
-  // Bepaal rij/kolom-positie van elke tile om label te plaatsen
-  function parseRow(p){
-    const r = (p && p.row) ? String(p.row) : "1";
-    return parseInt(r.split(/\s|\//)[0], 10) || 1;
-  }
-  function parseCol(p){
-    const c = (p && p.col) ? String(p.col) : "1";
-    return parseInt(c.split(/\s|\//)[0], 10) || 1;
-  }
-  const allRows = L.placements.map(parseRow);
-  const allCols = L.placements.map(parseCol);
-  const maxRow = Math.max(...allRows);
-  const minRow = Math.min(...allRows);
-  const maxCol = Math.max(...allCols);
-
-  kids.forEach((k,i)=>{
-    const p = L.placements[i] || {col:"auto",row:"auto"};
-    const tile = document.createElement('div');
-    tile.className = 'tile entering';
-    const myRow = parseRow(p);
-    const myCol = parseCol(p);
-    if (maxRow > 1){
-      if (myRow === maxRow) tile.classList.add('bottom-row');
-      else if (myRow === minRow) tile.classList.add('top-row');
-      else {
-        // middelste rij (alleen bij 3 of meer rijen)
-        tile.classList.add('mid-row');
-        if (myCol <= maxCol/2) tile.classList.add('left-half');
-        else tile.classList.add('right-half');
-      }
-    }
-    tile.style.gridColumn = p.col;
-    tile.style.gridRow = p.row;
-    tile.style.animationDelay = (i * 50) + "ms";
-    markConcept(tile, k);
-
-    const bg = document.createElement('div');
-    bg.className = 'bg';
-    if (heroPath(k)){
-      bg.style.backgroundImage = `url('${heroPath(k)}')`;
-    } else {
-      bg.style.background = effectiveColor(k);
-      bg.style.filter = 'none';
-    }
-    tile.appendChild(bg);
-
-    const veil = document.createElement('div');
-    veil.className = 'veil';
-    tile.appendChild(veil);
-
-    const label = document.createElement('div');
-    label.className = 'label';
-    const h = document.createElement('h2');
-    h.textContent = k.naam;
-    label.appendChild(h);
-    if (k.ondertitel){
-      const sub = document.createElement('p');
-      sub.textContent = k.ondertitel;
-      label.appendChild(sub);
-    }
-    tile.appendChild(label);
-
-    tile.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      onClick(k);
-    });
-    stage.appendChild(tile);
-  });
-}
-
-function onClick(node){
-  // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
-  if (node._synthVervolg || node._synthVorige){
-    const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
-    const _stage = document.getElementById('stage');
-    if (_stage) _stage.classList.add('fading');
-    setTimeout(() => { location.hash = nieuwHash; }, 280);
-    return;
-  }
-  // Concept of onbereikbaar: niet doorklikbaar
-  if (node.status === "concept") return;
-  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
-    k.naam && k.status !== "verborgen"
-  );
-  if (!node.url && !heeftLevendeKinderen) return;
-  if (node.url && !heeftLevendeKinderen){
-    // Directe navigatie — geen tussenscherm
-    window.location.href = node.url;
-    return;
-  }
-  if (heeftLevendeKinderen){
-    path.push(node.code);
-    const _stage2 = document.getElementById('stage');
-    if (_stage2) _stage2.classList.add('fading');
-    setTimeout(() => { location.hash = "#code=" + node.code; }, 280);
-    return;
-  }
-  if (node.url){
-    window.location.href = node.url;
-  }
-}
-
-// Bepaal of knoop bereikbaar is
-function isBereikbaar(node){
-  if (node.status === "concept") return false;
-  if (node.status === "verborgen") return false;
-  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
-    k.naam && k.status !== "verborgen"
-  );
-  return Boolean(node.url) || heeftLevendeKinderen;
-}
-
-// Visuele markering: concept of onbereikbaar
-function markConcept(tile, k){
-  // Synthetische knoppen krijgen eigen stijl
-  if (k._synthVervolg || k._synthVorige){
-    tile.classList.add("vervolg");
-    return;
-  }
-  if (k.status === "concept"){
-    tile.classList.add("concept");
-    return;
-  }
-  if (!isBereikbaar(k)){
-    tile.classList.add("onbereikbaar");
-  }
-}
-
-function goBack(){
-  if (path.length <= 1) return;
-  path.pop();
-  const newCode = path[path.length-1];
-  location.hash = newCode === "0" ? "" : "#code=" + newCode;
-}
-
-function updateHome(){
-  const h = document.getElementById('home');
-  if (path.length > 1) h.classList.add('show');
-  else h.classList.remove('show');
-}
-
-// Klik op center-overlay = stap terug
-document.getElementById('center').addEventListener('click',()=>{
-  if (path.length > 1) {
-    const _s = document.getElementById('stage');
-    if (_s) _s.classList.add('fading');
-    setTimeout(() => goBack(), 280);
-  }
-});
-
-document.getElementById('home').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  const _stageH = document.getElementById('stage');
-  if (_stageH) _stageH.classList.add('fading');
-  setTimeout(() => {
-    path.length = 0;
-    path.push(WORTEL_CODE);
-    location.hash = "";
-    render();
-    updateHome();
-  }, 280);
-});
-
-const reader = document.getElementById('reader');
-document.getElementById('reader-close').addEventListener('click',(e)=>{
-  e.stopPropagation();
-  reader.classList.remove('show');
-});
-reader.addEventListener('click',(e)=>{
-  if (e.target === reader) reader.classList.remove('show');
-});
-
-function showReader(node){
-  document.getElementById('reader-title').textContent = node.naam;
-  document.getElementById('reader-desc').textContent = node.beschrijving || "";
-  const readLink = document.getElementById('reader-link');
-  if (node.status === "concept"){
-    // verberg lees-knop voor concept-artikelen
-    readLink.style.display = "none";
-  } else {
-    readLink.style.display = "";
-    readLink.href = node.url;
-  }
-  reader.classList.add('show');
-}
-
-function applyHash(){
-  const h = decodeURIComponent(location.hash || "");
-  const m = h.match(/^#code=([^&?]+)/);
-  path.length = 0;
-  path.push(WORTEL_CODE);
-  if (!m){
-    return;  // standaard: wortel zonder hash
-  }
-  let target = m[1].trim();
-  // Compat: oude links zonder taal-prefix
-  if (!BY_CODE[target] && BY_CODE[WORTEL_CODE + "." + target]){
-    target = WORTEL_CODE + "." + target;
-  }
-  if (!BY_CODE[target]) return;
-  const trail = [];
-  let cur = BY_CODE[target];
-  while (cur && cur.code !== WORTEL_CODE){
-    trail.unshift(cur.code);
-    cur = BY_CODE[cur.ouder];
-  }
-  for (const c of trail) path.push(c);
-  const targetNode = BY_CODE[target];
-  const heeftKinderen = (CHILDREN[target] || []).length > 0;
-  if (!heeftKinderen && targetNode.url){
-    path.pop();
-    setTimeout(()=>showReader(targetNode), 50);
-  }
-}
-
-window.addEventListener('hashchange', ()=>{
-  applyHash();
-  render();
-  updateHome();
-});
-
-// Laad de 5 gescheiden tabellen en voeg ze samen tot één werkmodel
-// Taal-detectie + data-pad
-const TAAL_CODE = document.documentElement.lang || 'nl';
-const DATA_BASE = (TAAL_CODE === 'nl') ? '_data/tabellen/' : '../nl/_data/tabellen/';
-
-Promise.all([
-  fetch(DATA_BASE+'1_knopen.json').then(r=>r.json()),
-  fetch(DATA_BASE+(TAAL_CODE==='root'?'2_routes.json':'2_routes_'+TAAL_CODE+'.json')).then(r=>r.json()),
-  fetch(DATA_BASE+'3_beelden.json').then(r=>r.json()),
-  fetch(DATA_BASE+'4_teksten_'+TAAL_CODE+'.json').then(r=>r.json()),
-  fetch(DATA_BASE+'5_layouts.json').then(r=>r.json()),
-])
-.then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
-  // Index per code
-  const idx = (tabel) => Object.fromEntries(tabel.rijen.map(r=>[r.code, r]));
-  const kIdx = idx(knopenT), rIdx = idx(routesT), bIdx = idx(beeldenT), tIdx = idx(tekstenT);
-
-  // Bouw geunificeerde knopen-lijst met alle velden gecombineerd
-  // FILTER: alleen knopen in de huidige taal (prefix WORTEL_CODE) + de wortel '0'
-  KNOPEN = [];
-  for (const k of knopenT.rijen){
-    if (k.actief === false) continue;
-    const c = String(k.code);
-    if (c !== '0' && c !== WORTEL_CODE && !c.startsWith(WORTEL_CODE + '.')) continue;
-    const merged = {
-      // structuur
-      code: k.code,
-      ouder: k.ouder,
-      type: k.type,
-      status: k.status || "live",
-      // routes
-      url: (rIdx[k.code] || {}).url || "",
-      terug_naar: (rIdx[k.code] || {}).terug_naar || "",
-      // beelden
-      hero: (bIdx[k.code] || {}).hero || "",
-      hero_positie: (bIdx[k.code] || {}).hero_positie || "center",
-      hero_filter: (bIdx[k.code] || {}).hero_filter || "standaard",
-      // teksten (taalafhankelijk)
-      naam: (tIdx[k.code] || {}).naam || "",
-      ondertitel: (tIdx[k.code] || {}).ondertitel || "",
-      beschrijving: (tIdx[k.code] || {}).beschrijving || "",
-      tekst_positie: (tIdx[k.code] || {}).tekst_positie || "auto",
-      tekst_kleur: (tIdx[k.code] || {}).tekst_kleur || "licht",
-    };
-    KNOPEN.push(merged);
-  }
-
-  // Layouts globaal beschikbaar maken
-  window.LAYOUTS = layoutsT.layouts || {};
-
-  // Bouw indexen
-  BY_CODE = {}; CHILDREN = {};
-  for (const k of KNOPEN){
-    BY_CODE[k.code] = k;
-    if (k.ouder !== null){
-      if (!CHILDREN[k.ouder]) CHILDREN[k.ouder] = [];
-      CHILDREN[k.ouder].push(k);
-    }
-  }
-  for (const ouder in CHILDREN){
-    CHILDREN[ouder].sort((a,b)=>{
-      const aP = a.code.split('.').map(Number);
-      const bP = b.code.split('.').map(Number);
-      for (let i=0;i<Math.max(aP.length,bP.length);i++){
-        const ai = aP[i]||0, bi=bP[i]||0;
-        if (ai !== bi) return ai - bi;
-      }
-      return 0;
-    });
-  }
-  console.log('Verkennen geladen:', {
-    aantal_knopen: KNOPEN.length,
-    wortel: BY_CODE[WORTEL_CODE],
-    kinderen_van_wortel: CHILDREN[WORTEL_CODE]?.length || 0,
-    layouts: Object.keys(window.LAYOUTS).length
-  });
-  document.getElementById('loading').style.display = 'none';
-  applyHash();
-  render();
-  updateHome();
-})
-.catch(err=>{
-  console.error('Tabellen laden mislukt:', err);
-  document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
-});
-</script>
 
 
 <script src="../assets/nav-mobile.js" defer></script>
-<script>
-/* ov-nav v3 — click-toggle voor touch/mobile */
-(function(){
-  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault(); e.stopPropagation();
-      var wasOpen = btn.getAttribute('aria-expanded') === 'true';
-      /* Sluit eerst alle andere */
-      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){
-        if (b !== btn) b.setAttribute('aria-expanded','false');
-      });
-      /* Toggle deze knop */
-      btn.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
-    });
-  });
-  /* Klik buiten één van de dropdowns → alles dicht */
-  document.addEventListener('click', function(e){
-    if (e.target && e.target.closest && e.target.closest('.ov-nav')) return;
-    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-  });
-})();
-</script>
 </body>
 </html>

@@ -18,31 +18,16 @@
     .auteursblok__link:hover { text-decoration: underline; }
     @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
 </style><style>
-  /* ov-nav v3 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
-  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
-  .ov-nav__group { position:relative; }
-  .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
-  .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
-  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; }
-  .ov-nav__menu--wide { min-width:260px; }
-  /* Twee onafhankelijke open-condities: hover óf aria-expanded=true */
-  .ov-nav__group:hover .ov-nav__menu,
-  .ov-nav__group:focus-within .ov-nav__menu,
-  .ov-nav__toggle[aria-expanded="true"] + .ov-nav__menu { display:block; }
-  .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
-  .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
-  .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
-  .ov-nav__sub { display:block; padding:0.15rem 0; background:#faf8f3; border-top:1px solid #efece3; border-bottom:1px solid #efece3; }
-  .ov-nav__sub a { padding-left:1.8rem !important; font-size:0.88rem; color:#4a5263 !important; }
-  .ov-nav__sub a::before { content:"› "; color:#9ca3af; }
-  .ov-nav__fallback { color:#9ca3af !important; font-style:italic; }
+  /* ov-nav v4 — platte horizontale nav, geen dropdowns (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item { display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important; font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px; font-size:0.95rem; line-height:1.2; }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
   @media (max-width:720px) {
-    .ov-nav__inner { flex-direction:column; align-items:stretch; padding:0.25rem 0.5rem; }
-    .ov-nav__group { border-bottom:1px solid #efece3; }
-    .ov-nav__group:last-child { border-bottom:0; }
-    .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
-    .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
   }
 </style>
 </head>
@@ -65,68 +50,15 @@
 
 <nav class="ov-nav" aria-label="Hoofdmenu">
   <div class="ov-nav__inner">
-    <div class="ov-nav__group" data-group="bladeren">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Листать <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="../">Главная</a>
-        <a href="../chto-vsplyvaet/">Последние статьи</a>
-        <a href="../verkennen.html">Обзор</a>
-        <a href="../../nl/stemgedrag.html" class="ov-nav__fallback">Голосование</a>
-        <a href="../issledovanie/">Исследования</a>
-        <a href="../../nl/toekomst/" class="ov-nav__fallback">Будущее</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="politiek">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Политика <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="../../nl/stemgedrag.html" class="ov-nav__fallback">Голосование</a>
-        <a href="../../nl/editie-leiderschap/" class="ov-nav__fallback">Лидерство</a>
-        <a href="../vypusk-6/">Nova Democratia</a>
-        <a href="../chto-vsplyvaet/pressa-eto-arena.html">Пресса — это арена</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="edities">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Выпуски <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu ov-nav__menu--wide" role="menu">
-        <a href="../vypusk-0/">Европа</a>
-        <a href="../vypusk-1/">Согласованность</a>
-        <a href="../vypusk-2/">Налоговая политика</a>
-        <a href="../vypusk-3/">Подо льдом</a>
-        <a href="../vypusk-4/">Власть бумаги</a>
-        <a href="../vypusk-5/">Забытый порядок</a>
-        <a href="../vypusk-6/">Nova Democratia</a>
-        <hr>
-        <a href="../../nl/editie-klimaat/" class="ov-nav__fallback">Климат</a>
-        <a href="../../nl/editie-stikstof/" class="ov-nav__fallback">Азот</a>
-        <a href="../../nl/editie-duitsland/" class="ov-nav__fallback">Германия</a>
-        <a href="../../nl/editie-leiderschap/" class="ov-nav__fallback">Лидерство</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="verdiepen">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Углубиться <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="../../nl/gevolgenkaart-nl/" class="ov-nav__fallback">Карты последствий</a>
-        <span class="ov-nav__sub">
-          <a href="../../nl/gevolgenkaart-nl/" class="ov-nav__fallback">Основа</a>
-          <a href="../../nl/gevolgenkaart-eu/" class="ov-nav__fallback">Европейские и глобальные карты</a>
-          <a href="../../nl/gevolgenkaart-us/" class="ov-nav__fallback">Международные зеркала</a>
-        </span>
-        <a href="../../nl/editie-klimaat/" class="ov-nav__fallback">BiCRS / Энергия</a>
-        <a href="../../nl/editie-leiderschap/" class="ov-nav__fallback">Политика / Реформа</a>
-        <a href="../../nl/editie-duitsland/" class="ov-nav__fallback">Нидерланды и мир</a>
-        <a href="../../nl/filosofie/" class="ov-nav__fallback">Философия</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="archief">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Архив <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="../dossiers/">Досье</a>
-        <a href="../issledovanie/">Исследования</a>
-        <a href="../arkhiv.html">Архив</a>
-        <a href="../vykhodnye-dannye.html">Выходные данные</a>
-        <a href="../podelitsya.html">Поделиться</a>
-      </div>
-    </div>
+    <a class="ov-nav__item" href="../">Главная</a>
+    <a class="ov-nav__item" href="../chto-vsplyvaet/">Новое</a>
+    <a class="ov-nav__item" href="../verkennen.html">Обзор</a>
+    <a class="ov-nav__item" href="../vypusk-6/">Nova Democratia</a>
+    <a class="ov-nav__item" href="../vypusk-2/">Налоги</a>
+    <a class="ov-nav__item" href="../issledovanie/">Исследования</a>
+    <a class="ov-nav__item ov-nav__item--fallback" href="../../nl/filosofie/">Философия</a>
+    <a class="ov-nav__item" href="../vykhodnye-dannye.html">Выходные данные</a>
+    <a class="ov-nav__item" href="../podelitsya.html">Поделиться</a>
   </div>
 </nav>
 
@@ -338,27 +270,5 @@
 
 <script src="../../assets/article-tools.js"></script>
 <script src="../../assets/nav-mobile.js" defer></script>
-<script>
-/* ov-nav v3 — click-toggle voor touch/mobile */
-(function(){
-  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault(); e.stopPropagation();
-      var wasOpen = btn.getAttribute('aria-expanded') === 'true';
-      /* Sluit eerst alle andere */
-      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){
-        if (b !== btn) b.setAttribute('aria-expanded','false');
-      });
-      /* Toggle deze knop */
-      btn.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
-    });
-  });
-  /* Klik buiten één van de dropdowns → alles dicht */
-  document.addEventListener('click', function(e){
-    if (e.target && e.target.closest && e.target.closest('.ov-nav')) return;
-    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-  });
-})();
-</script>
 </body>
 </html>

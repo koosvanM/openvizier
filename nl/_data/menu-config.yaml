@@ -2,174 +2,52 @@
 # CANONIEKE MENUCONFIGURATOR — HET OPEN VIZIER
 # =============================================================================
 #
-# Dit bestand is de EENIGE bron van waarheid voor de hoofdnavigatie op de
-# voorpagina's van nl/en/de/ru. Regenereer met:
+# Enige bron van waarheid voor de hoofdnavigatie op alle paginas.
+# Regenereer met:
 #
 #     python3 scripts/menu_bouwen.py
 #
-# Structuur:
-#   - `groepen`: lijst van dropdown-groepen in weergavevolgorde
-#   - Elke groep heeft: `key`, `labels` (per taal), en `items`
-#   - Elke item heeft: `key`, `labels` (per taal), `urls` (per taal)
-#     Optioneel: `sub_van` (voor sub-rubrieken, ingesprongen weergegeven),
-#                `scheiding_boven: true` (horizontale lijn ervoor)
-#
-# Regel: als een URL leeg is voor een taal, valt hij terug op de nl-URL,
-# geprefixt met '../nl/'.
-#
+# Structuur v4 — platte lijst, geen dropdowns meer.
+# Elk item is een directe link. Op verkennen.html vind je de volledige
+# artikelen-lijst per rubriek.
 # =============================================================================
 
 talen: [nl, en, de, ru]
 
-groepen:
+items:
 
-  # ---------------------------------------------------------------------------
-  - key: bladeren
-    labels:
-      nl: Bladeren
-      en: Browse
-      de: Blättern
-      ru: Листать
-    items:
-      - key: voorpagina
-        labels: {nl: Voorpagina, en: Front page, de: Titelseite, ru: Главная}
-        urls:   {nl: "./",       en: "./",        de: "./",       ru: "./"}
-      - key: laatste
-        labels: {nl: Laatste artikelen, en: Latest articles, de: Neueste Artikel, ru: Последние статьи}
-        urls:   {nl: "wat-opkomt/",     en: "what-surfaces/", de: "was-aufkommt/", ru: "chto-vsplyvaet/"}
-      - key: verkennen
-        labels: {nl: Verkennen, en: Explore, de: Erkunden, ru: Обзор}
-        urls:   {nl: "verkennen.html", en: "verkennen.html", de: "verkennen.html", ru: "verkennen.html"}
-      - key: stemgedrag
-        labels: {nl: Stemgedrag, en: Vote Impact, de: Wahlfolgen, ru: Голосование}
-        urls:   {nl: "stemgedrag.html", en: "vote-impact.html", de: "wahlfolgen.html", ru: ""}
-      - key: onderzoek
-        labels: {nl: Onderzoek, en: Research, de: Forschung, ru: Исследования}
-        urls:   {nl: "onderzoeken/", en: "research/", de: "forschung/", ru: "issledovanie/"}
-      - key: toekomst
-        labels: {nl: Toekomst, en: Future, de: Zukunft, ru: Будущее}
-        urls:   {nl: "toekomst/", en: "future/", de: "zukunft/", ru: ""}
+  - key: voorpagina
+    labels: {nl: Voorpagina, en: Front page, de: Titelseite, ru: Главная}
+    urls:   {nl: "./",       en: "./",        de: "./",       ru: "./"}
 
-  # ---------------------------------------------------------------------------
-  - key: politiek
-    labels:
-      nl: Politiek
-      en: Politics
-      de: Politik
-      ru: Политика
-    items:
-      - key: pol_stemgedrag
-        labels: {nl: Stemgedrag, en: Vote Impact, de: Wahlfolgen, ru: Голосование}
-        urls:   {nl: "stemgedrag.html", en: "vote-impact.html", de: "wahlfolgen.html", ru: ""}
-      - key: pol_leiderschap
-        labels: {nl: Leiderschap, en: Leadership, de: Führung, ru: Лидерство}
-        urls:   {nl: "editie-leiderschap/", en: "leadership-edition/", de: "ausgabe-fuehrung/", ru: ""}
-      - key: pol_nova
-        labels: {nl: Nova Democratia, en: Nova Democratia, de: Nova Democratia, ru: Nova Democratia}
-        urls:   {nl: "editie-6/", en: "edition-6/", de: "ausgabe-6/", ru: "vypusk-6/"}
-      - key: pol_pers_arena
-        labels: {nl: De pers is de arena, en: The press is the arena, de: Die Presse ist die Arena, ru: Пресса — это арена}
-        urls:   {nl: "wat-opkomt/de-pers-is-de-arena.html", en: "what-surfaces/the-press-is-the-arena.html", de: "was-aufkommt/die-presse-ist-die-arena.html", ru: "chto-vsplyvaet/pressa-eto-arena.html"}
+  - key: nieuw
+    labels: {nl: Nieuw, en: New, de: Neu, ru: Новое}
+    urls:   {nl: "wat-opkomt/", en: "what-surfaces/", de: "was-aufkommt/", ru: "chto-vsplyvaet/"}
 
-  # ---------------------------------------------------------------------------
-  - key: edities
-    labels:
-      nl: Edities
-      en: Editions
-      de: Ausgaben
-      ru: Выпуски
-    items:
-      - key: ed_europa
-        labels: {nl: Europa, en: Europe, de: Europa, ru: Европа}
-        urls:   {nl: "editie-0/", en: "edition-0/", de: "ausgabe-0/", ru: "vypusk-0/"}
-      - key: ed_samenhang
-        labels: {nl: Samenhang, en: Coherence, de: Zusammenhang, ru: Согласованность}
-        urls:   {nl: "editie-1/", en: "edition-1/", de: "ausgabe-1/", ru: "vypusk-1/"}
-      - key: ed_belasting
-        labels: {nl: Belastingbeleid, en: Tax policy, de: Steuerpolitik, ru: Налоговая политика}
-        urls:   {nl: "editie-2/", en: "edition-2/", de: "ausgabe-2/", ru: "vypusk-2/"}
-      - key: ed_ijs
-        labels: {nl: Onder het ijs, en: Under the ice, de: Unter dem Eis, ru: Подо льдом}
-        urls:   {nl: "editie-3/", en: "edition-3/", de: "ausgabe-3/", ru: "vypusk-3/"}
-      - key: ed_papier
-        labels: {nl: Papier-macht, en: Paper power, de: Papier-Macht, ru: Власть бумаги}
-        urls:   {nl: "editie-4/", en: "edition-4/", de: "ausgabe-4/", ru: "vypusk-4/"}
-      - key: ed_vergeten
-        labels: {nl: Vergeten orde, en: Forgotten order, de: Vergessene Ordnung, ru: Забытый порядок}
-        urls:   {nl: "editie-5/", en: "edition-5/", de: "ausgabe-5/", ru: "vypusk-5/"}
-      - key: ed_nova
-        labels: {nl: Nova Democratia, en: Nova Democratia, de: Nova Democratia, ru: Nova Democratia}
-        urls:   {nl: "editie-6/", en: "edition-6/", de: "ausgabe-6/", ru: "vypusk-6/"}
-      - key: ed_klimaat
-        scheiding_boven: true
-        labels: {nl: Klimaat, en: Climate, de: Klima, ru: Климат}
-        urls:   {nl: "editie-klimaat/", en: "climate-edition/", de: "ausgabe-klima/", ru: ""}
-      - key: ed_stikstof
-        labels: {nl: Stikstof, en: Nitrogen, de: Stickstoff, ru: Азот}
-        urls:   {nl: "editie-stikstof/", en: "nitrogen-edition/", de: "ausgabe-stickstoff/", ru: ""}
-      - key: ed_duitsland
-        labels: {nl: Duitsland, en: Germany, de: Deutschland, ru: Германия}
-        urls:   {nl: "editie-duitsland/", en: "germany-edition/", de: "ausgabe-deutschland/", ru: ""}
-      - key: ed_leider
-        labels: {nl: Leiderschap, en: Leadership, de: Führung, ru: Лидерство}
-        urls:   {nl: "editie-leiderschap/", en: "leadership-edition/", de: "ausgabe-fuehrung/", ru: ""}
+  - key: verkennen
+    labels: {nl: Overzicht, en: Overview, de: Übersicht, ru: Обзор}
+    urls:   {nl: "verkennen.html", en: "verkennen.html", de: "verkennen.html", ru: "verkennen.html"}
 
-  # ---------------------------------------------------------------------------
-  - key: verdiepen
-    labels:
-      nl: Verdiepen
-      en: Deepen
-      de: Vertiefen
-      ru: Углубиться
-    items:
-      - key: gevolgenkaarten
-        labels: {nl: Gevolgenkaarten, en: Consequence maps, de: Folgenkarten, ru: Карты последствий}
-        urls:   {nl: "gevolgenkaart-nl/", en: "consequence-nl/", de: "folgenkarte-nl/", ru: ""}
-      - key: gk_fundament
-        sub_van: gevolgenkaarten
-        labels: {nl: Fundament, en: Foundation, de: Fundament, ru: Основа}
-        urls:   {nl: "gevolgenkaart-nl/", en: "consequence-nl/", de: "folgenkarte-nl/", ru: ""}
-      - key: gk_europees
-        sub_van: gevolgenkaarten
-        labels: {nl: Europese & globale kaarten, en: European & global maps, de: Europäische & globale Karten, ru: Европейские и глобальные карты}
-        urls:   {nl: "gevolgenkaart-eu/", en: "consequence-eu/", de: "folgenkarte-eu/", ru: ""}
-      - key: gk_intl
-        sub_van: gevolgenkaarten
-        labels: {nl: Internationale spiegels, en: International mirrors, de: Internationale Spiegel, ru: Международные зеркала}
-        urls:   {nl: "gevolgenkaart-us/", en: "consequence-us/", de: "folgenkarte-us/", ru: ""}
-      - key: bicrs
-        labels: {nl: "BiCRS / Energie", en: "BiCRS / Energy", de: "BiCRS / Energie", ru: "BiCRS / Энергия"}
-        urls:   {nl: "editie-klimaat/", en: "climate-edition/", de: "ausgabe-klima/", ru: ""}
-      - key: politiek
-        labels: {nl: "Politiek / Hervorming", en: "Politics / Reform", de: "Politik / Reform", ru: "Политика / Реформа"}
-        urls:   {nl: "editie-leiderschap/", en: "leadership-edition/", de: "ausgabe-fuehrung/", ru: ""}
-      - key: nl_wereld
-        labels: {nl: Nederland & Wereld, en: Netherlands & World, de: Niederlande & Welt, ru: Нидерланды и мир}
-        urls:   {nl: "editie-duitsland/", en: "germany-edition/", de: "ausgabe-deutschland/", ru: ""}
-      - key: filosofie
-        labels: {nl: Filosofie, en: Philosophy, de: Philosophie, ru: Философия}
-        urls:   {nl: "filosofie/", en: "philosophy/", de: "philosophie/", ru: ""}
+  - key: nova
+    labels: {nl: Nova Democratia, en: Nova Democratia, de: Nova Democratia, ru: Nova Democratia}
+    urls:   {nl: "editie-6/", en: "edition-6/", de: "ausgabe-6/", ru: "vypusk-6/"}
 
-  # ---------------------------------------------------------------------------
-  - key: archief
-    labels:
-      nl: Archief
-      en: Archive
-      de: Archiv
-      ru: Архив
-    items:
-      - key: dossiers
-        labels: {nl: Dossiers, en: Dossiers, de: Dossiers, ru: Досье}
-        urls:   {nl: "dossiers/", en: "dossiers/", de: "dossiers/", ru: "dossiers/"}
-      - key: onderzoek2
-        labels: {nl: Onderzoek, en: Research, de: Forschung, ru: Исследования}
-        urls:   {nl: "onderzoeken/", en: "research/", de: "forschung/", ru: "issledovanie/"}
-      - key: archief2
-        labels: {nl: Archief, en: Archive, de: Archiv, ru: Архив}
-        urls:   {nl: "archief.html", en: "archive.html", de: "archiv.html", ru: "arkhiv.html"}
-      - key: colofon
-        labels: {nl: Colofon, en: Colophon, de: Impressum, ru: Выходные данные}
-        urls:   {nl: "colofon.html", en: "colophon.html", de: "impressum.html", ru: "vykhodnye-dannye.html"}
-      - key: delen
-        labels: {nl: Delen, en: Share, de: Teilen, ru: Поделиться}
-        urls:   {nl: "delen.html", en: "share.html", de: "teilen.html", ru: "podelitsya.html"}
+  - key: belasting
+    labels: {nl: Belasting, en: Tax, de: Steuer, ru: Налоги}
+    urls:   {nl: "editie-2/", en: "edition-2/", de: "ausgabe-2/", ru: "vypusk-2/"}
+
+  - key: onderzoek
+    labels: {nl: Onderzoek, en: Research, de: Forschung, ru: Исследования}
+    urls:   {nl: "onderzoeken/", en: "research/", de: "forschung/", ru: "issledovanie/"}
+
+  - key: filosofie
+    labels: {nl: Filosofie, en: Philosophy, de: Philosophie, ru: Философия}
+    urls:   {nl: "filosofie/", en: "philosophy/", de: "philosophie/", ru: ""}
+
+  - key: colofon
+    labels: {nl: Colofon, en: Colophon, de: Impressum, ru: Выходные данные}
+    urls:   {nl: "colofon.html", en: "colophon.html", de: "impressum.html", ru: "vykhodnye-dannye.html"}
+
+  - key: delen
+    labels: {nl: Delen, en: Share, de: Teilen, ru: Поделиться}
+    urls:   {nl: "delen.html", en: "share.html", de: "teilen.html", ru: "podelitsya.html"}

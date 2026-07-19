@@ -40,62 +40,25 @@ JSON_DIR    = REPO / "nl" / "_data" / "menu"
 # ---------------------------------------------------------------------------
 
 NAV_CSS = """<style>
-  /* ov-nav v3 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
-  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
-  .ov-nav__group { position:relative; }
-  .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
-  .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
-  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; }
-  .ov-nav__menu--wide { min-width:260px; }
-  /* Twee onafhankelijke open-condities: hover óf aria-expanded=true */
-  .ov-nav__group:hover .ov-nav__menu,
-  .ov-nav__group:focus-within .ov-nav__menu,
-  .ov-nav__toggle[aria-expanded="true"] + .ov-nav__menu { display:block; }
-  .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
-  .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
-  .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
-  .ov-nav__sub { display:block; padding:0.15rem 0; background:#faf8f3; border-top:1px solid #efece3; border-bottom:1px solid #efece3; }
-  .ov-nav__sub a { padding-left:1.8rem !important; font-size:0.88rem; color:#4a5263 !important; }
-  .ov-nav__sub a::before { content:"› "; color:#9ca3af; }
-  .ov-nav__fallback { color:#9ca3af !important; font-style:italic; }
+  /* ov-nav v4 — platte horizontale nav, geen dropdowns (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item { display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important; font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px; font-size:0.95rem; line-height:1.2; }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
   @media (max-width:720px) {
-    .ov-nav__inner { flex-direction:column; align-items:stretch; padding:0.25rem 0.5rem; }
-    .ov-nav__group { border-bottom:1px solid #efece3; }
-    .ov-nav__group:last-child { border-bottom:0; }
-    .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
-    .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
   }
 </style>
 """
 
-NAV_JS = """<script>
-/* ov-nav v3 — click-toggle voor touch/mobile */
-(function(){
-  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault(); e.stopPropagation();
-      var wasOpen = btn.getAttribute('aria-expanded') === 'true';
-      /* Sluit eerst alle andere */
-      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){
-        if (b !== btn) b.setAttribute('aria-expanded','false');
-      });
-      /* Toggle deze knop */
-      btn.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
-    });
-  });
-  /* Klik buiten één van de dropdowns → alles dicht */
-  document.addEventListener('click', function(e){
-    if (e.target && e.target.closest && e.target.closest('.ov-nav')) return;
-    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-  });
-})();
-</script>
-"""
+NAV_JS = """"""
 
 # Markers om oude/nieuwe blokken te herkennen bij regenereren
-CSS_MARKER = "/* ov-nav v3"
-JS_MARKER  = "/* ov-nav v3 — click-toggle"
+CSS_MARKER = "/* ov-nav v4"
+JS_MARKER  = None  # geen JS meer nodig in v4
 
 
 # ---------------------------------------------------------------------------
@@ -141,68 +104,33 @@ def apply_depth_prefix(url: str, depth: int) -> str:
 
 
 def build_menu_data(config: dict) -> dict[str, dict]:
-    """Bouw per taal een dict {groepen: [...]} met resolved URLs."""
+    """Bouw per taal een dict {items: [...]} met resolved URLs (v4 plat)."""
     result = {}
     for taal in config["talen"]:
-        groepen_out = []
-        for groep in config["groepen"]:
-            items_out = []
-            for item in groep["items"]:
-                url, is_fallback = resolve_url(item, taal)
-                items_out.append({
-                    "key": item["key"],
-                    "label": item["labels"].get(taal, item["labels"]["nl"]),
-                    "url": url,
-                    "sub_van": item.get("sub_van"),
-                    "scheiding_boven": item.get("scheiding_boven", False),
-                    "is_fallback": is_fallback,
-                })
-            groepen_out.append({
-                "key": groep["key"],
-                "label": groep["labels"].get(taal, groep["labels"]["nl"]),
-                "items": items_out,
+        items_out = []
+        for item in config["items"]:
+            url, is_fallback = resolve_url(item, taal)
+            items_out.append({
+                "key": item["key"],
+                "label": item["labels"].get(taal, item["labels"]["nl"]),
+                "url": url,
+                "is_fallback": is_fallback,
             })
-        result[taal] = {"taal": taal, "groepen": groepen_out}
+        result[taal] = {"taal": taal, "items": items_out}
     return result
 
 
 def render_nav_html(menu_data: dict) -> str:
-    """Genereer <nav>-HTML voor één taal."""
-    groepen = menu_data["groepen"]
+    """Genereer platte <nav>-HTML voor één taal (v4)."""
+    items = menu_data["items"]
     parts = ['<nav class="ov-nav" aria-label="Hoofdmenu">']
     parts.append('  <div class="ov-nav__inner">')
-    for groep in groepen:
-        parts.append(f'    <div class="ov-nav__group" data-group="{groep["key"]}">')
-        parts.append(
-            f'      <button type="button" class="ov-nav__toggle" '
-            f'aria-haspopup="true" aria-expanded="false">'
-            f'{groep["label"]} <span aria-hidden="true">▾</span></button>'
-        )
-        # Groep 'edities' krijgt --wide voor bredere dropdown
-        menu_cls = "ov-nav__menu ov-nav__menu--wide" if groep["key"] == "edities" else "ov-nav__menu"
-        parts.append(f'      <div class="{menu_cls}" role="menu">')
-        # Groepeer sub_van items direct achter hun ouder
-        rendered_keys = set()
-        items = groep["items"]
-        for i, item in enumerate(items):
-            if item["key"] in rendered_keys or item.get("sub_van"):
-                continue
-            if item["scheiding_boven"]:
-                parts.append('        <hr>')
-            fb_cls = ' class="ov-nav__fallback"' if item["is_fallback"] else ""
-            parts.append(f'        <a href="{item["url"]}"{fb_cls}>{item["label"]}</a>')
-            rendered_keys.add(item["key"])
-            # Zoek eventuele sub_van-kinderen
-            children = [c for c in items if c.get("sub_van") == item["key"]]
-            if children:
-                parts.append('        <span class="ov-nav__sub">')
-                for child in children:
-                    fb_cls = ' class="ov-nav__fallback"' if child["is_fallback"] else ""
-                    parts.append(f'          <a href="{child["url"]}"{fb_cls}>{child["label"]}</a>')
-                    rendered_keys.add(child["key"])
-                parts.append('        </span>')
-        parts.append('      </div>')
-        parts.append('    </div>')
+    for item in items:
+        classes = ["ov-nav__item"]
+        if item["is_fallback"]:
+            classes.append("ov-nav__item--fallback")
+        cls = " ".join(classes)
+        parts.append(f'    <a class="{cls}" href="{item["url"]}">{item["label"]}</a>')
     parts.append('  </div>')
     parts.append('</nav>')
     return "\n".join(parts)
@@ -222,23 +150,25 @@ def inject_nav(html: str, new_nav_html: str) -> str:
     if count == 0:
         raise RuntimeError("Geen <nav>-blok gevonden om te vervangen")
 
-    # Verwijder alle eerder geïnjecteerde ov-nav CSS/JS blokken (v2 en v3)
+    # Verwijder alle eerder geïnjecteerde ov-nav CSS/JS blokken (v2, v3, v4)
     new_html = re.sub(
-        r"<style>\s*\n\s*/\* ov-nav v[23].*?</style>\s*",
+        r"<style>\s*\n?\s*/\* ov-nav v[234].*?</style>\s*",
         "",
         new_html, flags=re.S,
     )
     new_html = re.sub(
-        r"<script>\s*/\* ov-nav v[23].*?</script>\s*",
+        r"<script>\s*/\* ov-nav v[234].*?</script>\s*",
         "",
         new_html, flags=re.S,
     )
     if "</head>" not in new_html:
         raise RuntimeError("Geen </head> gevonden")
     new_html = new_html.replace("</head>", NAV_CSS + "</head>", 1)
-    if "</body>" not in new_html:
-        raise RuntimeError("Geen </body> gevonden")
-    new_html = new_html.replace("</body>", NAV_JS + "</body>", 1)
+    # v4: geen JS meer nodig, skip injectie
+    if NAV_JS.strip():
+        if "</body>" not in new_html:
+            raise RuntimeError("Geen </body> gevonden")
+        new_html = new_html.replace("</body>", NAV_JS + "</body>", 1)
     return new_html
 
 
@@ -306,9 +236,9 @@ def main():
         talen = [t for t in talen if t in keep]
 
     print(f"Talen: {talen}")
-    print(f"Groepen: {len(config['groepen'])}")
-    for g in config["groepen"]:
-        print(f"  · {g['key']:12} — {len(g['items'])} items")
+    print(f"Items: {len(config['items'])}")
+    for it in config["items"]:
+        print(f"  · {it['key']:14} — {it['labels'].get('nl','?')}")
 
     # 1. Bouw menu-data
     menu_data = build_menu_data(config)
@@ -338,16 +268,9 @@ def main():
             # Bouw menu-data met correcte prefix voor deze diepte
             adjusted = {
                 "taal": taal,
-                "groepen": [
-                    {
-                        "key": g["key"],
-                        "label": g["label"],
-                        "items": [
-                            {**it, "url": apply_depth_prefix(it["url"], depth)}
-                            for it in g["items"]
-                        ],
-                    }
-                    for g in menu_data[taal]["groepen"]
+                "items": [
+                    {**it, "url": apply_depth_prefix(it["url"], depth)}
+                    for it in menu_data[taal]["items"]
                 ],
             }
             nav_html = render_nav_html(adjusted)

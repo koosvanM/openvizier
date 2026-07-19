@@ -140,31 +140,37 @@
 
 </style>
 <style>
-  /* ov-nav v3 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
-  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
-  .ov-nav__group { position:relative; }
-  .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
-  .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
-  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; }
-  .ov-nav__menu--wide { min-width:260px; }
-  /* Twee onafhankelijke open-condities: hover óf aria-expanded=true */
-  .ov-nav__group:hover .ov-nav__menu,
-  .ov-nav__group:focus-within .ov-nav__menu,
-  .ov-nav__toggle[aria-expanded="true"] + .ov-nav__menu { display:block; }
-  .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
-  .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
-  .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
-  .ov-nav__sub { display:block; padding:0.15rem 0; background:#faf8f3; border-top:1px solid #efece3; border-bottom:1px solid #efece3; }
-  .ov-nav__sub a { padding-left:1.8rem !important; font-size:0.88rem; color:#4a5263 !important; }
-  .ov-nav__sub a::before { content:"› "; color:#9ca3af; }
-  .ov-nav__fallback { color:#9ca3af !important; font-style:italic; }
+  /* ov-nav v4 — platte horizontale nav, geen dropdowns (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item { display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important; font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px; font-size:0.95rem; line-height:1.2; }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
   @media (max-width:720px) {
-    .ov-nav__inner { flex-direction:column; align-items:stretch; padding:0.25rem 0.5rem; }
-    .ov-nav__group { border-bottom:1px solid #efece3; }
-    .ov-nav__group:last-child { border-bottom:0; }
-    .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
-    .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+  }
+</style>
+<style>
+  /* verkennen-menu v1 — platte lijst per rubriek */
+  .verkennen-main { max-width:1100px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+  .verkennen-intro { text-align:center; margin-bottom:2.5rem; }
+  .verkennen-intro h1 { font-family:Georgia,serif; font-size:clamp(2rem,3.5vw,2.8rem); font-weight:400; color:#1a1a1a; margin-bottom:0.75rem; }
+  .verkennen-intro p { color:#6b7280; font-size:1.05rem; line-height:1.5; max-width:640px; margin:0 auto; }
+  .vk-menu { display:flex; flex-direction:column; gap:2.5rem; }
+  .vk-rub__titel { font-family:Georgia,serif; font-size:1.35rem; color:#7a1f2b; font-weight:600; padding-bottom:0.5rem; border-bottom:2px solid #d4af37; margin-bottom:1rem; }
+  .vk-rub__lijst { list-style:none; padding:0; margin:0; }
+  .vk-item { margin:0; padding:0; border-bottom:1px solid #efece3; }
+  .vk-item:last-child { border-bottom:0; }
+  .vk-item a { display:block; padding:0.9rem 0.5rem; color:#1a1a1a; text-decoration:none; transition:background 0.15s; }
+  .vk-item a:hover { background:#f5f3ee; padding-left:1rem; }
+  .vk-item__titel { display:block; font-weight:600; font-size:1.05rem; color:#1a1a1a; line-height:1.35; }
+  .vk-item__desc { display:block; margin-top:0.25rem; font-size:0.92rem; color:#6b7280; line-height:1.45; }
+  @media (max-width:640px) {
+    .verkennen-main { padding:1.25rem 0.75rem 3rem; }
+    .vk-menu { gap:2rem; }
+    .vk-rub__titel { font-size:1.2rem; }
   }
 </style>
 </head>
@@ -186,113 +192,215 @@
 
 <nav class="ov-nav" aria-label="Hoofdmenu">
   <div class="ov-nav__inner">
-    <div class="ov-nav__group" data-group="bladeren">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Bladeren <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="./">Voorpagina</a>
-        <a href="wat-opkomt/">Laatste artikelen</a>
-        <a href="verkennen.html">Verkennen</a>
-        <a href="stemgedrag.html">Stemgedrag</a>
-        <a href="onderzoeken/">Onderzoek</a>
-        <a href="toekomst/">Toekomst</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="politiek">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Politiek <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="stemgedrag.html">Stemgedrag</a>
-        <a href="editie-leiderschap/">Leiderschap</a>
-        <a href="editie-6/">Nova Democratia</a>
-        <a href="wat-opkomt/de-pers-is-de-arena.html">De pers is de arena</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="edities">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Edities <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu ov-nav__menu--wide" role="menu">
-        <a href="editie-0/">Europa</a>
-        <a href="editie-1/">Samenhang</a>
-        <a href="editie-2/">Belastingbeleid</a>
-        <a href="editie-3/">Onder het ijs</a>
-        <a href="editie-4/">Papier-macht</a>
-        <a href="editie-5/">Vergeten orde</a>
-        <a href="editie-6/">Nova Democratia</a>
-        <hr>
-        <a href="editie-klimaat/">Klimaat</a>
-        <a href="editie-stikstof/">Stikstof</a>
-        <a href="editie-duitsland/">Duitsland</a>
-        <a href="editie-leiderschap/">Leiderschap</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="verdiepen">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Verdiepen <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="gevolgenkaart-nl/">Gevolgenkaarten</a>
-        <span class="ov-nav__sub">
-          <a href="gevolgenkaart-nl/">Fundament</a>
-          <a href="gevolgenkaart-eu/">Europese & globale kaarten</a>
-          <a href="gevolgenkaart-us/">Internationale spiegels</a>
-        </span>
-        <a href="editie-klimaat/">BiCRS / Energie</a>
-        <a href="editie-leiderschap/">Politiek / Hervorming</a>
-        <a href="editie-duitsland/">Nederland & Wereld</a>
-        <a href="filosofie/">Filosofie</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="archief">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Archief <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="dossiers/">Dossiers</a>
-        <a href="onderzoeken/">Onderzoek</a>
-        <a href="archief.html">Archief</a>
-        <a href="colofon.html">Colofon</a>
-        <a href="delen.html">Delen</a>
-      </div>
-    </div>
+    <a class="ov-nav__item" href="./">Voorpagina</a>
+    <a class="ov-nav__item" href="wat-opkomt/">Nieuw</a>
+    <a class="ov-nav__item" href="verkennen.html">Overzicht</a>
+    <a class="ov-nav__item" href="editie-6/">Nova Democratia</a>
+    <a class="ov-nav__item" href="editie-2/">Belasting</a>
+    <a class="ov-nav__item" href="onderzoeken/">Onderzoek</a>
+    <a class="ov-nav__item" href="filosofie/">Filosofie</a>
+    <a class="ov-nav__item" href="colofon.html">Colofon</a>
+    <a class="ov-nav__item" href="delen.html">Delen</a>
   </div>
 </nav>
 
 <main class="verkennen-main">
-
   <section class="verkennen-intro">
-    <h1>Verkennen</h1>
-    <p>Een visuele structuur van Het Open Vizier. Klik op een blok om dieper te gaan; klik op het centrum om terug te keren.</p>
+    <h1>Overzicht</h1>
+    <p>Alle artikelen van Het Open Vizier, gegroepeerd per rubriek. Klik op een titel om het artikel te openen.</p>
   </section>
-
-  <div class="verkennen-controls">
-    <button id="home" title="Verkennen">
-      <svg viewBox="0 0 24 24"><path d="M3 11.5 L12 4 L21 11.5 M5.5 10 V20 H18.5 V10"/></svg>
-      <span>Verkennen</span>
-    </button>
-    <span class="topbar-title" id="topbar-title" data-prefix=""></span>
+  <div class="vk-menu">
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Nieuw</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="wat-opkomt/moet-nederland-ook-volgen.html"><span class="vk-item__titel">Moet Nederland ook volgen?</span><span class="vk-item__desc">Kruisverwijzing bij Editie 2 — Belastingbeleid</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-matrix-van-de-uittocht.html"><span class="vk-item__titel">De matrix van de uittocht</span><span class="vk-item__desc">Kruisverwijzing bij Editie 2 — Belastingbeleid</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-nederlandse-revolutie-2033.html"><span class="vk-item__titel">De Nederlandse Revolutie — voorspelling 2028-2055</span><span class="vk-item__desc">Vier historische landen wijzen dezelfde curve aan. Nederlandse schuld werkelijk 65% BBP. Duitsland op dezelfde lijn.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/vijf-landen-vijf-curves.html"><span class="vk-item__titel">Vijf landen, vijf curves — voorspelling 2028-2055</span><span class="vk-item__desc">Europese uitbreiding op De Nederlandse Revolutie</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-pers-is-de-arena.html"><span class="vk-item__titel">De pers is de arena</span><span class="vk-item__desc">Politiek-sociologisch verband met belastingbeleid</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/moet-nederland-ook-volgen.html"><span class="vk-item__titel">Moet Nederland ook volgen?</span><span class="vk-item__desc">Laten wij onze industrie zakken?</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-matrix-van-de-uittocht.html"><span class="vk-item__titel">De matrix van de uittocht</span><span class="vk-item__desc">Recordaantal miljonairs verlaat West-Europa</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/gat-in-de-grond.html"><span class="vk-item__titel">Vierhonderdvijftig miljoen voor een gat in de grond</span><span class="vk-item__desc">Zuidwending, HyStock en de anatomie van een politieke verspilling</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/naar-de-natuurschool.html"><span class="vk-item__titel">Laat de politici eerst naar de natuurschool</span><span class="vk-item__desc">Waarom drie planten wél zien wat de bufferzone-kaarten niet meer waarnemen</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/plastic-boete-carbon-credit.html"><span class="vk-item__titel">De plastic-boete die een carbon-credit had moeten zijn</span><span class="vk-item__desc">Fiscale omkering van € 433 mln per jaar via het CRCF-kader</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html"><span class="vk-item__titel">Op de bok of op de bagagedrager</span><span class="vk-item__desc">Een sturend artikel. Wie nu niet ziet en aanpakt, zit straks weer achterin. Europa heeft een keuze: zelf de teugels nemen of zich laten leiden door Tokio, Seoul en Peking. De drie blokken — bron, omze</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/actievoerders-bouwen-continenten.html"><span class="vk-item__titel">Actievoerders bouwen continenten</span><span class="vk-item__desc">Drive zoekt grond. Wat hier schuurt, kan ginds bouwen. Een open uitnodiging aan organisaties met visie en aan iedereen die zijn energie zoekt waar zij iets kan opbouwen — niet als straf, niet als afvo</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/bbp-liegt.html"><span class="vk-item__titel">Beslissen zonder uitzicht</span><span class="vk-item__desc">Het BBP telt €419 miljard aan lucht als productie. De Nederlandse schuldquote is niet 43%. Zij is 69%. Ver boven de EU-alarmgrens. En het parlement stemt met de ogen dicht.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/carbon-alert-visie-2036.html"><span class="vk-item__titel">Visie 2036 — Carbon-Alert Energie-Hub</span><span class="vk-item__desc">Het technische ontwerp van de 100 kW Carbon-Alert energie-hub. LCOE-analyse, vijf bouwblokken, kasstroom, risico-matrix. Het bewijs onder het sturend artikel — alle cijfers zonder subsidie.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-anti-immuunziekte-van-brussel.html"><span class="vk-item__titel">De anti-immuunziekte van Brussel maakt dat we arm worden</span><span class="vk-item__desc">CBAM, ETS, Pillar Two en vermogensbelastingen tegelijk. De BiCRS/Ethanol-route wordt genegeerd. Brussel maakt zijn eigen inwoners arm.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-auto-immuunziekte-slaat-toe.html"><span class="vk-item__titel">De anti-immuunziekte van onze overheid slaat toe</span><span class="vk-item__desc">Het kabinet-Jetten presenteert eind juni 2026 zijn stikstofpakket. Een aanval op het laatste productieve weefsel. En er is een andere weg.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-dertig-cent-die-europa-omdraait.html"><span class="vk-item__titel">De dertig cent die Europa omdraait</span><span class="vk-item__desc">Bio-ethanol uit cellulose-route haalt €0,30 per liter in 2036, zonder een cent subsidie. Combineer met de nieuwste brandstofcellen en je hebt stroom voor minder dan de helft van de Spaanse netprijs. I</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-metafoor-auto-immuunziekte.html"><span class="vk-item__titel">Een staat met een auto-immuunziekte</span><span class="vk-item__desc">Een zachte, beschouwende uitleg van de medische metafoor die de Brussel-campagne van Het Open Vizier draagt. Geen aanklacht, maar een beeld om mee te denken.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-methodologie-van-de-aanpassing.html"><span class="vk-item__titel">De voedingslijn</span><span class="vk-item__desc">De durf om revolutionair te zeggen dat het niet klopt ontbreekt door gebrek aan eigenkennis — een structurele fout. Heel Europa heeft zijn omwegen dichtgemetseld. De wetten van mensen kennen de toekom</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-zon-staat-op-de-evenaar.html"><span class="vk-item__titel">De zon staat op de evenaar</span><span class="vk-item__desc">Een Socratische confrontatie met de Nederlandse en Europese energieroute. Vijf oogkleppen, één route die wel werkt, en Europa terug op de leiderschapstroon — niet door overheersing, maar door partners</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/mensen-die-mee-bouwen.html"><span class="vk-item__titel">Mensen die mee bouwen</span><span class="vk-item__desc">Tropische ethanol-steden 2040. Een visionair stuk over wie Europa's energietoekomst kan helpen bouwen — als we de moed hebben de migratiekwestie en de energietransitie samen te denken. Goede huizen, s</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/open-brief-aan-de-regeringen-van-europa.html"><span class="vk-item__titel">Open brief aan de regeringen van Europa</span><span class="vk-item__desc">Een open brief aan de Europese Commissie, lidstaatregeringen en parlementen. 350.000 banen, €9 miljard jaaromzet, energie-onafhankelijkheid — zonder één eurocent subsidie. Begin nu met Carbon-Alert.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/zij-doden-hun-levensader.html"><span class="vk-item__titel">Zij doden hun levensader</span><span class="vk-item__desc">Brussel en Den Haag hebben een auto-immuunziekte. De patiënt heet Nederland. Diagnose, medische parallel, behandeling — in snijdende vorm.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/europa-opnieuw.html"><span class="vk-item__titel">Europa opnieuw</span><span class="vk-item__desc">Een manifest voor de heropstanding van een continent</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/van-de-grot-naar-de-zon.html"><span class="vk-item__titel">Van de grot naar de zon, van de aarde naar de baan, van 4D naar 7D</span><span class="vk-item__desc">Drie stappen, tweeduizend vierhonderd jaar, en één beweging</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/van-quantum-naar-7d.html"><span class="vk-item__titel">Van quantumtheorie naar 7-dim</span><span class="vk-item__desc">De volgende paradigmawisseling in de natuurkunde</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/erfenisgolf-240-miljard.html"><span class="vk-item__titel">De erfenisgolf van 240 miljard</span><span class="vk-item__desc">Laten stromen of afromen — of is er een derde weg?</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/ze-weten-het-al.html"><span class="vk-item__titel">Ze weten het al. En ze doen het niet.</span><span class="vk-item__desc">Waarom uw belastinggeld naar hagelschade gaat</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-nederlandse-revolutie-2033.html"><span class="vk-item__titel">De Nederlandse Revolutie — voorspelling 2028-2055</span><span class="vk-item__desc">Vier historische landen wijzen dezelfde curve aan. Nederlandse schuld werkelijk 65% BBP. Duitsland op dezelfde lijn.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/vijf-landen-vijf-curves.html"><span class="vk-item__titel">Vijf landen, vijf curves — voorspelling 2028-2055</span><span class="vk-item__desc">Frankrijk eerst, Spanje laatst — vijf Europese fase-3-trajecten op één as</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-pers-is-de-arena.html"><span class="vk-item__titel">De pers is de arena</span><span class="vk-item__desc">Hoe tweespalt wordt gemaakt vóór de klap komt</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html"><span class="vk-item__titel">Autoband-sigaret</span><span class="vk-item__desc">Bandenslijtage als verborgen vervuilingsdrager.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/brusselse-gevolgenkaart-bicrs.html"><span class="vk-item__titel">BiCRS-versie EU</span><span class="vk-item__desc">Volledige doorrekening Brussel met BiCRS-vervanging.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-brusselse-gevolgenkaart.html"><span class="vk-item__titel">Brusselse (EU)</span><span class="vk-item__desc">20 EU-scenario's × 11 mechanismen.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/wereldgordel-2040-2050.html"><span class="vk-item__titel">De Wereld-Gordel — klimaatplan 2040-2050</span><span class="vk-item__desc">840.000 EU-banen en toekomstperspectief in Afrika</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/wereldgordel-2040-2050.html"><span class="vk-item__titel">De Wereld-Gordel — klimaatplan 2040-2050</span><span class="vk-item__desc">840.000 EU-banen en toekomstperspectief in Afrika</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html"><span class="vk-item__titel">Eerst plukken, dan oordelen</span><span class="vk-item__desc">De cirkel van onrecht waarin Europa zichzelf vernietigt</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html"><span class="vk-item__titel">Europa-opener</span><span class="vk-item__desc">Hoe BiCRS Green Deal en CBAM kan vervangen.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/het-dagelijks-idee-ferrari-juncao.html"><span class="vk-item__titel">Ferrari Junção</span><span class="vk-item__desc">Dagelijks idee: Ferrari Junção.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-kantelmechanica.html"><span class="vk-item__titel">Kantelmechanica</span><span class="vk-item__desc">Hoe een gedachtegoed kantelt naar invloed.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/die-konsequenzkarte.html"><span class="vk-item__titel">Konsequenzkarte (DE)</span><span class="vk-item__desc">Duitse spiegel, Bundestag februari 2025.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-gevolgenkaart.html"><span class="vk-item__titel">Manifest</span><span class="vk-item__desc">Waarom de StemWijzer u nooit zal vertellen wat u eigenlijk stemt.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/manifest-ruimte-voor-het-oergevoel.html"><span class="vk-item__titel">Manifest Oergevoel</span><span class="vk-item__desc">Ruimte voor het oergevoel.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/mappa-tal-konsegwenzi.html"><span class="vk-item__titel">Mappa Malta</span><span class="vk-item__desc">Maltese politiek en EU-druk samen.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-op-de-natuur-aangepaste-analyse.html"><span class="vk-item__titel">Natuur-analyse</span><span class="vk-item__desc">Nederlandse cascade onder twee biomassa-sporen.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/nova-democratia-manifest.html"><span class="vk-item__titel">Nova Democratia</span><span class="vk-item__desc">De Nova Democratia / VMP politieke vorm.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/plundering-1-diagnose.html"><span class="vk-item__titel">Plundering 1: diagnose</span><span class="vk-item__desc">Wij plukken wie ons voedt</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/plundering-2-mechaniek.html"><span class="vk-item__titel">Plundering 2: mechaniek</span><span class="vk-item__desc">De muren die wij hebben gemetseld om onze bouwers op te sluiten</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/plundering-3-afloop.html"><span class="vk-item__titel">Plundering 3: afloop</span><span class="vk-item__desc">Waarom de plunderaars zwaarder zullen lijden dan de geplunderden</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/plundering-4-politieke-landschap.html"><span class="vk-item__titel">Plundering 4: politiek</span><span class="vk-item__desc">Wie wil wat, en waarom Brussel niet weet hoe verder</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-singaporese-gevolgenkaart.html"><span class="vk-item__titel">Singaporese</span><span class="vk-item__desc">15 SG scenario's × MOF/MAS/MOM + BiCRS-uitweg.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/gevolgenkaart-iii-stille-analyse.html"><span class="vk-item__titel">Stille Analyse (NL)</span><span class="vk-item__desc">20 NL-posities × 11 mechanismen, met BiCRS-uitweg.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/trump-als-spiegel.html"><span class="vk-item__titel">Trump als spiegel</span><span class="vk-item__desc">Wat Trump-II met Europa doet.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/wat-ik-achterlaat-vmb-esg.html"><span class="vk-item__titel">VMB ESG</span><span class="vk-item__desc">Wat ik achterlaat — VMB ESG essay.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html"><span class="vk-item__titel">Zelf aan de bak (NL)</span><span class="vk-item__desc">Nederland moet zijn eigen kracht terugvinden.</span></a></li>
+        <li class="vk-item"><a href="wat-opkomt/de-zwitserse-gevolgenkaart.html"><span class="vk-item__titel">Zwitserse</span><span class="vk-item__desc">15 Zwitserse scenario's × Bondsraad-beleid + BiCRS.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Editie Europa</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="editie-0/"><span class="vk-item__titel">Editie 0 — Europa</span><span class="vk-item__desc">Wat Brussel, Den Haag, Berlijn en Malta cumulatief doen met de huishoudens van het continent — gespiegeld in wat Trump-II tegenover ze zet. Zeven stukken d</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Editie 1 · Samenhang</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="editie-1/voorwoord.html"><span class="vk-item__titel">Waarom deze krant?</span></a></li>
+        <li class="vk-item"><a href="editie-1/denkraam-7d.html"><span class="vk-item__titel">Drie dimensies zijn te weinig</span></a></li>
+        <li class="vk-item"><a href="editie-1/nova-democratia.html"><span class="vk-item__titel">Wat is er mis met partijpolitiek?</span></a></li>
+        <li class="vk-item"><a href="editie-1/onderwijs.html"><span class="vk-item__titel">Van leerfabriek naar leerwerkplaats</span></a></li>
+        <li class="vk-item"><a href="editie-1/kernfusie.html"><span class="vk-item__titel">Een fusiereactor zonder magnetische kooi</span></a></li>
+        <li class="vk-item"><a href="editie-1/stromingsleer.html"><span class="vk-item__titel">Alles stroomt — moeder van alle wetenschap</span></a></li>
+        <li class="vk-item"><a href="editie-1/samenhang.html"><span class="vk-item__titel">Hoe alles samenhangt</span></a></li>
+        <li class="vk-item"><a href="editie-1/technische-oplossingen.html"><span class="vk-item__titel">Wat er nu al ligt</span></a></li>
+        <li class="vk-item"><a href="editie-1/discussie.html"><span class="vk-item__titel">Hoe u meedoet aan de discussie</span></a></li>
+        <li class="vk-item"><a href="editie-1/"><span class="vk-item__titel">Editie 1 — Voorwoord</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Editie 2 · Belastingbeleid</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="editie-2/thermostaat.html"><span class="vk-item__titel">Uw thermostaat is slimmer dan uw minister</span></a></li>
+        <li class="vk-item"><a href="editie-2/waarom-ik-zo-ben.html"><span class="vk-item__titel">Waarom ik ben zoals ik ben</span></a></li>
+        <li class="vk-item"><a href="editie-2/zeven-dimensies.html"><span class="vk-item__titel">Zeven Dimensies</span></a></li>
+        <li class="vk-item"><a href="editie-2/nova-democratia.html"><span class="vk-item__titel">Nova Democratia</span></a></li>
+        <li class="vk-item"><a href="editie-2/onderwijs-kies-een-kant.html"><span class="vk-item__titel">Kies een kant</span></a></li>
+        <li class="vk-item"><a href="editie-2/onderwijs-manifest.html"><span class="vk-item__titel">Terug naar de werkbank, vooruit naar het denken</span></a></li>
+        <li class="vk-item"><a href="editie-2/onderwijs-prijs-van-de-bloei.html"><span class="vk-item__titel">De prijs van de bloei</span></a></li>
+        <li class="vk-item"><a href="editie-2/beleidsadvies-aantrekken.html"><span class="vk-item__titel">Van Belasten naar Aantrekken</span></a></li>
+        <li class="vk-item"><a href="editie-2/veerkracht-selectie.html"><span class="vk-item__titel">Veerkracht en Selectie</span></a></li>
+        <li class="vk-item"><a href="editie-2/nepk-klimaatlogica.html"><span class="vk-item__titel">De NEPK-Klimaatlogica</span></a></li>
+        <li class="vk-item"><a href="editie-2/nepk-fx.html"><span class="vk-item__titel">NEPK-FX — Neurale Voorspelling</span></a></li>
+        <li class="vk-item"><a href="editie-2/"><span class="vk-item__titel">Editie 2 — Thermostaat</span><span class="vk-item__desc">Editie 2 — Negen stukken over de Nederlandse systeemcrisis, het grondvest voor herstel en concrete beleidsadviezen — inclusief een onderwijs-trilogie en een data-bijblad.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Editie 3 · Onder het ijs</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="editie-3/artikel-00-redactie.html"><span class="vk-item__titel">Redactionele inleiding</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-01-oergevoel.html"><span class="vk-item__titel">Het oergevoel</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-02-zeven-dimensies.html"><span class="vk-item__titel">De zeven dimensies</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-03-drie-lagen.html"><span class="vk-item__titel">De drie hersenlagen</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-04-communicatie.html"><span class="vk-item__titel">Communicatie tussen oergevoelens</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-05-wat-we-doen.html"><span class="vk-item__titel">Wat we kinderen aandoen</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-06-mama.html"><span class="vk-item__titel">Mama ik heb honger</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-07-ai-onderwijs.html"><span class="vk-item__titel">Onderwijs in het AI-tijdperk</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-08-retrospectief.html"><span class="vk-item__titel">Retrospectief</span></a></li>
+        <li class="vk-item"><a href="editie-3/artikel-09-oergevoel-in-beroepspraktijk.html"><span class="vk-item__titel">Het oergevoel in de beroepspraktijk</span></a></li>
+        <li class="vk-item"><a href="editie-3/"><span class="vk-item__titel">Editie 3 — Oergevoel</span><span class="vk-item__desc">Een gedachtegoed over het oergevoel, het driedubbele brein, en de mens die wij niet meer opleiden.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Editie 4 · Papier-macht</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="editie-4/artikel-00-redactie.html"><span class="vk-item__titel">Redactionele inleiding</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-01-wet-papier-industrie.html"><span class="vk-item__titel">De wet van de papier-industrie</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-02-ceo.html"><span class="vk-item__titel">De CEO en het oergevoel</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-03-consultant.html"><span class="vk-item__titel">De consultant bij het bijna-failliete bedrijf</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-04-bankier.html"><span class="vk-item__titel">Bij banken het oergevoel verloren</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-05-verzekeraar.html"><span class="vk-item__titel">De verzekeraar tegen het leven</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-06-toezichthouder.html"><span class="vk-item__titel">De toezichthouder die niets ziet</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-07-rechter.html"><span class="vk-item__titel">De rechter zonder kompas</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-08-diepere-vraag.html"><span class="vk-item__titel">De diepere vraag</span></a></li>
+        <li class="vk-item"><a href="editie-4/artikel-09-retrospectief.html"><span class="vk-item__titel">Retrospectief</span></a></li>
+        <li class="vk-item"><a href="editie-4/"><span class="vk-item__titel">Editie 4</span><span class="vk-item__desc">Een editie over hoe regels, verzekeringen, financiering en toezicht het oergevoel uit de beroepspraktijk hebben gewrongen — en wat dat met ons heeft gedaan.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Editie 5 · Vergeten orde</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="editie-5/artikel-00-brief-aan-lezer.html"><span class="vk-item__titel">Brief aan de lezer</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-01-zeven-gereedschappen.html"><span class="vk-item__titel">七つ道具 — De zeven die het verschil maakten</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-02-succesformule.html"><span class="vk-item__titel">De succesformule die wij verleerd hebben</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-03-vergeten-orde.html"><span class="vk-item__titel">De vergeten orde</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-04-methaan-misleiding.html"><span class="vk-item__titel">De methaan-misleiding</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-05-plant-die-verhuist.html"><span class="vk-item__titel">De plant die verhuist</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-06-zeven-van-bern.html"><span class="vk-item__titel">De zeven van Bern</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-07-afwijkers.html"><span class="vk-item__titel">De afwijkers</span></a></li>
+        <li class="vk-item"><a href="editie-5/artikel-08-eis-aan-lezer.html"><span class="vk-item__titel">De eis aan de lezer</span></a></li>
+        <li class="vk-item"><a href="editie-5/"><span class="vk-item__titel">Editie 5</span><span class="vk-item__desc">Wat zwaar weegt, en wat de pers ervan maakt. Een diagnostische editie in vier delen.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Editie 6 · Nova Democratia</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="editie-6/voorwoord-waarom-dit-moet.html"><span class="vk-item__titel">Voorwoord — Waarom dit moet</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-00-brussel-als-variabele.html"><span class="vk-item__titel">Brussel als variabele, niet als constante</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-01-zes-ordes-van-fasering.html"><span class="vk-item__titel">De zes ordes van fasering</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-02-pareto-top12.html"><span class="vk-item__titel">Wie blokkeert, en hoe zwaar?</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-03-media-als-rekstrook.html"><span class="vk-item__titel">Media als rekstrook</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-04-ordes-van-bezwaar.html"><span class="vk-item__titel">Ordes van bezwaar</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-05-twintig-bezwaren.html"><span class="vk-item__titel">Twintig actuele bezwaren</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-06-zwitserse-spiegel.html"><span class="vk-item__titel">De Zwitserse spiegel</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-07-canadese-spiegel.html"><span class="vk-item__titel">De Canadese spiegel</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-08-partijen-in-kaart.html"><span class="vk-item__titel">Waar staat uw partij?</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-09-pareto-per-actor.html"><span class="vk-item__titel">Wie verzet zich, wie helpt mee?</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-10-uei.html"><span class="vk-item__titel">UEI — een Europese tegenmacht uit Zwitserland</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-11-kennislaag-als-bondgenoot.html"><span class="vk-item__titel">De kennislaag als bondgenoot</span></a></li>
+        <li class="vk-item"><a href="editie-6/aflevering-12-beste-weg-vooruit.html"><span class="vk-item__titel">De beste weg vooruit</span></a></li>
+        <li class="vk-item"><a href="editie-6/"><span class="vk-item__titel">Editie 6</span><span class="vk-item__desc">Een editie over de fysica van de Nederlandse hervorming — Pareto, ordes, het ontwerp dat werkt, en de kennislaag die de behoudende kracht draagt. Veertien stukken.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Gevolgenkaarten</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="../nl/gevolgenkaart-us/"><span class="vk-item__titel">De Amerikaanse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Amerikaanse gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-br/"><span class="vk-item__titel">De Braziliaanse Gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-uk/"><span class="vk-item__titel">De Britse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Britse gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-cn/"><span class="vk-item__titel">De Chinese Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Chinese gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-cu/"><span class="vk-item__titel">De Cubaanse Gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-de/"><span class="vk-item__titel">De Duitse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Duitse gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-eu/"><span class="vk-item__titel">De Europese Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Europese gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-in/"><span class="vk-item__titel">De Indiase Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Indiase gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-ir/"><span class="vk-item__titel">De Iraanse Gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-il/"><span class="vk-item__titel">De Israëlische Gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-jp/"><span class="vk-item__titel">De Japanse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Japanse gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-nl/"><span class="vk-item__titel">De Nederlandse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Nederlandse gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-es/"><span class="vk-item__titel">De Spaanse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Spaanse gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-sr/"><span class="vk-item__titel">De Surinaamse Gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-tw/"><span class="vk-item__titel">De Taiwanese Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Taiwanese gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-za/"><span class="vk-item__titel">De Zuid-Afrikaanse Gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-kr/"><span class="vk-item__titel">De Zuid-Koreaanse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Zuid-Koreaanse gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-se/"><span class="vk-item__titel">De Zweedse Gevolgenkaart</span></a></li>
+        <li class="vk-item"><a href="../nl/gevolgenkaart-ch/"><span class="vk-item__titel">De Zwitserse Gevolgenkaart</span><span class="vk-item__desc">De persoonlijke Zwitserse gevolgenkaart</span></a></li>
+      </ul>
+    </section>
   </div>
-
-  <div class="verkennen-canvas">
-    <div class="stage" id="stage"></div>
-
-    <!-- center-overlay verborgen (geen wapen meer) -->
-    <div class="center-overlay" id="center" style="display:none">
-      <div class="veil"></div>
-      <div class="label"><h2 id="center-name"></h2><p id="center-sub"></p></div>
-    </div>
-
-    <div class="loading" id="loading">structuur laden…</div>
-
-    <div class="reader" id="reader">
-      <h2 id="reader-title"></h2>
-      <p id="reader-desc"></p>
-      <a class="read" id="reader-link" href="#" target="_self">→ Lees het artikel</a>
-      <button class="close" id="reader-close">Terug</button>
-    </div>
-
-    <div class="hint">Klik op een blok om dieper te gaan · klik op het centrum om terug</div>
-  </div>
-
-<!-- NAV_BOTTOM_BEGIN -->
-<nav class="navbar-bottom" aria-label="Voorpagina">
-  <a href="../nl/" class="navbar__home">⌂ Voorpagina</a>
-  <a href="../nl/verkennen.html" class="navbar__verk">↻ Verkennen</a>
-</nav>
-<!-- NAV_BOTTOM_END -->
 </main>
 
 <footer class="eindvoet">
@@ -300,540 +408,9 @@
   <p><a href="./">← Voorpagina</a></p>
 </footer>
 
-<script>
-let KNOPEN = [], BY_CODE = {}, CHILDREN = {};
-const path = [];
-// Wortel-code per taal: NL=1, DE=2, EN=3, RU=4, FR=5, ES=6, IT=7, PT=8, MT=9
-const TAAL_PREFIX = {nl:'1',de:'2',en:'3',ru:'4',fr:'5',es:'6',it:'7',pt:'8',mt:'9'};
-const WORTEL_CODE = TAAL_PREFIX[document.documentElement.lang] || "1";
 
-function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
-
-/* ============================================================
-   LAYOUT — variabele grids op basis van aantal kinderen
-   Doel: hero's tot tegen elkaar en de schermranden
-   ============================================================ */
-function gridLayout(n){
-  // Eerst: kijk in de layouts-tabel
-  const L = (window.LAYOUTS || {})[String(n)];
-  if (L){
-    return {
-      cols: L.kolommen,
-      rows: L.rijen,
-      placements: L.posities.map(p => ({col: p.col, row: p.row, label: p.label}))
-    };
-  }
-  // Fallback voor 10+: regelmatig grid
-  // grid-template-columns + grid-template-rows + placeringen voor elke tegel
-  if (n === 1) return { cols:"1fr", rows:"1fr", placements:[null] };
-  if (n === 2) return {
-    cols:"1fr 1fr", rows:"1fr",
-    placements:[{col:"1",row:"1"},{col:"2",row:"1"}]
-  };
-  if (n === 3) return {
-    // boven 2 helften, onder 1 brede
-    cols:"1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"}, {col:"2",row:"1"}, {col:"1 / 3",row:"2"}
-    ]
-  };
-  if (n === 4) return {
-    cols:"1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"}
-    ]
-  };
-  if (n === 5) return {
-    // 3 boven + 2 onder (geen brede tile in het midden, dus geen overlap met wapen-label)
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},{col:"3",row:"2"}
-    ]
-  };
-  if (n === 6) return {
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"}
-    ]
-  };
-  if (n === 7) return {
-    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
-      {col:"1",row:"2"},{col:"2 / 4",row:"2"},{col:"4",row:"2"}
-    ]
-  };
-  if (n === 8) return {
-    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"}
-    ]
-  };
-  if (n === 9) return {
-    // 4x3: bovenste en onderste rij hebben 3 tiles, middenrij 2 met opening in midden
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},                    {col:"3",row:"2"},
-      {col:"1",row:"3"},{col:"2",row:"3"},{col:"3",row:"3"},
-      // 9e: laat een dubbele cel boven onderste rij maken zou kunnen,
-      // maar voor 9 items werkt 4x2 net zo goed:
-      // beter herinrichten: 8 om de rand + 1 prominent helemaal bovenin als brede tile
-      {col:"2",row:"2"}  // achter wapen — visueel verstopt maar code blijft consistent
-    ]
-  };
-  if (n === 10) return {
-    // 5 boven + 5 onder
-    cols:"repeat(5, 1fr)", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},{col:"5",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"},{col:"5",row:"2"}
-    ]
-  };
-  // 10+: regelmatig grid (fallback)
-  const cols = Math.ceil(Math.sqrt(n));
-  const rows = Math.ceil(n / cols);
-  const placements = [];
-  for (let i=0;i<n;i++){
-    placements.push({col:String((i%cols)+1), row:String(Math.floor(i/cols)+1), label:"center"});
-  }
-  return { cols: `repeat(${cols},1fr)`, rows:`repeat(${rows},1fr)`, placements };
-}
-
-// Verwijder de oude if/else cases — die staan nu in 5_layouts.json
-
-function effectiveColor(knoop){
-  if (knoop.kleur) return knoop.kleur;
-  let cur = knoop;
-  while (cur && cur.ouder){
-    cur = BY_CODE[cur.ouder];
-    if (cur && cur.kleur) return cur.kleur;
-  }
-  return "#3a342e";
-}
-
-function heroPath(knoop){
-  // valt terug op effectieve kleur als geen hero
-  return knoop.hero || null;
-}
-
-function render(){
-  const stage = document.getElementById('stage');
-  clear(stage);
-  stage.classList.remove('fading');
-
-  const currentCode = path[path.length-1];
-  const current = BY_CODE[currentCode];
-  if (!current) return;
-  const alleKinderen = CHILDREN[currentCode] || [];
-  // Filter: alleen kinderen die actief zijn, naam hebben, en niet verborgen
-  const zichtbareKinderen = alleKinderen.filter(k =>
-    k.naam && k.naam.trim() !== "" && (k.status !== "verborgen")
-  );
-
-  // Pagineren: max 10 zichtbare per laag
-  // URL-hash kan een 'pagina' bevatten via &p=2
-  const MAX_PER_LAAG = 10;
-  let pagina = 1;
-  const paginaMatch = (location.hash || "").match(/[&?]p=(\d+)/);
-  if (paginaMatch) pagina = parseInt(paginaMatch[1], 10) || 1;
-
-  let kids;
-  let toonVervolg = false;
-  let toonVorige = false;
-
-  if (zichtbareKinderen.length <= MAX_PER_LAAG){
-    kids = zichtbareKinderen.slice();
-  } else {
-    // pagineren: 3 echte + 1 vervolg-knop per pagina, behalve laatste pagina
-    const perPagina = MAX_PER_LAAG - 1;  // 3 echte per pagina
-    const start = (pagina - 1) * perPagina;
-    const eind = start + perPagina;
-    kids = zichtbareKinderen.slice(start, eind);
-    if (eind < zichtbareKinderen.length){
-      // er is een vervolg
-      kids.push({
-        code: currentCode,
-        _synthVervolg: true,
-        _doelPagina: pagina + 1,
-        naam: "Vervolg",
-        ondertitel: `pagina ${pagina + 1} van ${Math.ceil(zichtbareKinderen.length / perPagina)}`,
-        type: "vervolg",
-        hero: "",
-      });
-    }
-    if (pagina > 1){
-      kids.unshift({
-        code: currentCode,
-        _synthVorige: true,
-        _doelPagina: pagina - 1,
-        naam: "Vorige",
-        ondertitel: `← pagina ${pagina - 1}`,
-        type: "vorige",
-        hero: "",
-      });
-      // verwijder één echte om binnen MAX te blijven
-      if (kids.length > MAX_PER_LAAG){
-        kids.splice(MAX_PER_LAAG - 1, 1);
-      }
-    }
-  }
-  const n = kids.length;
-
-  // Center-overlay altijd zichtbaar met wapen; tekst toont huidige keuze
-  const center = document.getElementById('center');
-  const centerName = document.getElementById('center-name');
-  const centerSub = document.getElementById('center-sub');
-  center.style.display = 'flex';
-  centerName.textContent = current.naam;
-  centerSub.textContent = current.ondertitel || "";
-
-  document.getElementById('topbar-title').textContent =
-    path.length > 1 ? ("· " + current.naam) : "";
-
-  // Geen kinderen → toon alleen het centrum
-  if (n === 0) return;
-
-  // Grid-layout op basis van aantal
-  const L = gridLayout(n);
-  stage.style.gridTemplateColumns = L.cols;
-  stage.style.gridTemplateRows = L.rows;
-
-  // Bepaal rij/kolom-positie van elke tile om label te plaatsen
-  function parseRow(p){
-    const r = (p && p.row) ? String(p.row) : "1";
-    return parseInt(r.split(/\s|\//)[0], 10) || 1;
-  }
-  function parseCol(p){
-    const c = (p && p.col) ? String(p.col) : "1";
-    return parseInt(c.split(/\s|\//)[0], 10) || 1;
-  }
-  const allRows = L.placements.map(parseRow);
-  const allCols = L.placements.map(parseCol);
-  const maxRow = Math.max(...allRows);
-  const minRow = Math.min(...allRows);
-  const maxCol = Math.max(...allCols);
-
-  kids.forEach((k,i)=>{
-    const p = L.placements[i] || {col:"auto",row:"auto"};
-    const tile = document.createElement('div');
-    tile.className = 'tile entering';
-    const myRow = parseRow(p);
-    const myCol = parseCol(p);
-    if (maxRow > 1){
-      if (myRow === maxRow) tile.classList.add('bottom-row');
-      else if (myRow === minRow) tile.classList.add('top-row');
-      else {
-        // middelste rij (alleen bij 3 of meer rijen)
-        tile.classList.add('mid-row');
-        if (myCol <= maxCol/2) tile.classList.add('left-half');
-        else tile.classList.add('right-half');
-      }
-    }
-    tile.style.gridColumn = p.col;
-    tile.style.gridRow = p.row;
-    tile.style.animationDelay = (i * 50) + "ms";
-    markConcept(tile, k);
-
-    const bg = document.createElement('div');
-    bg.className = 'bg';
-    if (heroPath(k)){
-      bg.style.backgroundImage = `url('${heroPath(k)}')`;
-    } else {
-      bg.style.background = effectiveColor(k);
-      bg.style.filter = 'none';
-    }
-    tile.appendChild(bg);
-
-    const veil = document.createElement('div');
-    veil.className = 'veil';
-    tile.appendChild(veil);
-
-    const label = document.createElement('div');
-    label.className = 'label';
-    const h = document.createElement('h2');
-    h.textContent = k.naam;
-    label.appendChild(h);
-    if (k.ondertitel){
-      const sub = document.createElement('p');
-      sub.textContent = k.ondertitel;
-      label.appendChild(sub);
-    }
-    tile.appendChild(label);
-
-    tile.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      onClick(k);
-    });
-    stage.appendChild(tile);
-  });
-}
-
-function onClick(node){
-  // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
-  if (node._synthVervolg || node._synthVorige){
-    const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
-    const _stage = document.getElementById('stage');
-    if (_stage) _stage.classList.add('fading');
-    setTimeout(() => { location.hash = nieuwHash; }, 280);
-    return;
-  }
-  // Concept of onbereikbaar: niet doorklikbaar
-  if (node.status === "concept") return;
-  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
-    k.naam && k.status !== "verborgen"
-  );
-  if (!node.url && !heeftLevendeKinderen) return;
-  if (node.url && !heeftLevendeKinderen){
-    // Directe navigatie — geen tussenscherm
-    window.location.href = node.url;
-    return;
-  }
-  if (heeftLevendeKinderen){
-    path.push(node.code);
-    const _stage2 = document.getElementById('stage');
-    if (_stage2) _stage2.classList.add('fading');
-    setTimeout(() => { location.hash = "#code=" + node.code; }, 280);
-    return;
-  }
-  if (node.url){
-    window.location.href = node.url;
-  }
-}
-
-// Bepaal of knoop bereikbaar is
-function isBereikbaar(node){
-  if (node.status === "concept") return false;
-  if (node.status === "verborgen") return false;
-  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
-    k.naam && k.status !== "verborgen"
-  );
-  return Boolean(node.url) || heeftLevendeKinderen;
-}
-
-// Visuele markering: concept of onbereikbaar
-function markConcept(tile, k){
-  // Synthetische knoppen krijgen eigen stijl
-  if (k._synthVervolg || k._synthVorige){
-    tile.classList.add("vervolg");
-    return;
-  }
-  if (k.status === "concept"){
-    tile.classList.add("concept");
-    return;
-  }
-  if (!isBereikbaar(k)){
-    tile.classList.add("onbereikbaar");
-  }
-}
-
-function goBack(){
-  if (path.length <= 1) return;
-  path.pop();
-  const newCode = path[path.length-1];
-  location.hash = newCode === "0" ? "" : "#code=" + newCode;
-}
-
-function updateHome(){
-  const h = document.getElementById('home');
-  if (path.length > 1) h.classList.add('show');
-  else h.classList.remove('show');
-}
-
-// Klik op center-overlay = stap terug
-document.getElementById('center').addEventListener('click',()=>{
-  if (path.length > 1) {
-    const _s = document.getElementById('stage');
-    if (_s) _s.classList.add('fading');
-    setTimeout(() => goBack(), 280);
-  }
-});
-
-document.getElementById('home').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  const _stageH = document.getElementById('stage');
-  if (_stageH) _stageH.classList.add('fading');
-  setTimeout(() => {
-    path.length = 0;
-    path.push(WORTEL_CODE);
-    location.hash = "";
-    render();
-    updateHome();
-  }, 280);
-});
-
-const reader = document.getElementById('reader');
-document.getElementById('reader-close').addEventListener('click',(e)=>{
-  e.stopPropagation();
-  reader.classList.remove('show');
-});
-reader.addEventListener('click',(e)=>{
-  if (e.target === reader) reader.classList.remove('show');
-});
-
-function showReader(node){
-  document.getElementById('reader-title').textContent = node.naam;
-  document.getElementById('reader-desc').textContent = node.beschrijving || "";
-  const readLink = document.getElementById('reader-link');
-  if (node.status === "concept"){
-    // verberg lees-knop voor concept-artikelen
-    readLink.style.display = "none";
-  } else {
-    readLink.style.display = "";
-    readLink.href = node.url;
-  }
-  reader.classList.add('show');
-}
-
-function applyHash(){
-  const h = decodeURIComponent(location.hash || "");
-  const m = h.match(/^#code=([^&?]+)/);
-  path.length = 0;
-  path.push(WORTEL_CODE);
-  if (!m){
-    return;  // standaard: wortel zonder hash
-  }
-  let target = m[1].trim();
-  // Compat: oude links zonder taal-prefix
-  if (!BY_CODE[target] && BY_CODE[WORTEL_CODE + "." + target]){
-    target = WORTEL_CODE + "." + target;
-  }
-  if (!BY_CODE[target]) return;
-  const trail = [];
-  let cur = BY_CODE[target];
-  while (cur && cur.code !== WORTEL_CODE){
-    trail.unshift(cur.code);
-    cur = BY_CODE[cur.ouder];
-  }
-  for (const c of trail) path.push(c);
-  const targetNode = BY_CODE[target];
-  const heeftKinderen = (CHILDREN[target] || []).length > 0;
-  if (!heeftKinderen && targetNode.url){
-    path.pop();
-    setTimeout(()=>showReader(targetNode), 50);
-  }
-}
-
-window.addEventListener('hashchange', ()=>{
-  applyHash();
-  render();
-  updateHome();
-});
-
-// Laad de 5 gescheiden tabellen en voeg ze samen tot één werkmodel
-// Taal-detectie + data-pad
-const TAAL_CODE = document.documentElement.lang || 'nl';
-const DATA_BASE = (TAAL_CODE === 'nl') ? '_data/tabellen/' : '../nl/_data/tabellen/';
-
-Promise.all([
-  fetch(DATA_BASE+'1_knopen.json').then(r=>r.json()),
-  fetch(DATA_BASE+(TAAL_CODE==='root'?'2_routes.json':'2_routes_'+TAAL_CODE+'.json')).then(r=>r.json()),
-  fetch(DATA_BASE+'3_beelden.json').then(r=>r.json()),
-  fetch(DATA_BASE+'4_teksten_'+TAAL_CODE+'.json').then(r=>r.json()),
-  fetch(DATA_BASE+'5_layouts.json').then(r=>r.json()),
-])
-.then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
-  // Index per code
-  const idx = (tabel) => Object.fromEntries(tabel.rijen.map(r=>[r.code, r]));
-  const kIdx = idx(knopenT), rIdx = idx(routesT), bIdx = idx(beeldenT), tIdx = idx(tekstenT);
-
-  // Bouw geunificeerde knopen-lijst met alle velden gecombineerd
-  // FILTER: alleen knopen in de huidige taal (prefix WORTEL_CODE) + de wortel '0'
-  KNOPEN = [];
-  for (const k of knopenT.rijen){
-    if (k.actief === false) continue;
-    const c = String(k.code);
-    if (c !== '0' && c !== WORTEL_CODE && !c.startsWith(WORTEL_CODE + '.')) continue;
-    const merged = {
-      // structuur
-      code: k.code,
-      ouder: k.ouder,
-      type: k.type,
-      status: k.status || "live",
-      // routes
-      url: (rIdx[k.code] || {}).url || "",
-      terug_naar: (rIdx[k.code] || {}).terug_naar || "",
-      // beelden
-      hero: (bIdx[k.code] || {}).hero || "",
-      hero_positie: (bIdx[k.code] || {}).hero_positie || "center",
-      hero_filter: (bIdx[k.code] || {}).hero_filter || "standaard",
-      // teksten (taalafhankelijk)
-      naam: (tIdx[k.code] || {}).naam || "",
-      ondertitel: (tIdx[k.code] || {}).ondertitel || "",
-      beschrijving: (tIdx[k.code] || {}).beschrijving || "",
-      tekst_positie: (tIdx[k.code] || {}).tekst_positie || "auto",
-      tekst_kleur: (tIdx[k.code] || {}).tekst_kleur || "licht",
-    };
-    KNOPEN.push(merged);
-  }
-
-  // Layouts globaal beschikbaar maken
-  window.LAYOUTS = layoutsT.layouts || {};
-
-  // Bouw indexen
-  BY_CODE = {}; CHILDREN = {};
-  for (const k of KNOPEN){
-    BY_CODE[k.code] = k;
-    if (k.ouder !== null){
-      if (!CHILDREN[k.ouder]) CHILDREN[k.ouder] = [];
-      CHILDREN[k.ouder].push(k);
-    }
-  }
-  for (const ouder in CHILDREN){
-    CHILDREN[ouder].sort((a,b)=>{
-      const aP = a.code.split('.').map(Number);
-      const bP = b.code.split('.').map(Number);
-      for (let i=0;i<Math.max(aP.length,bP.length);i++){
-        const ai = aP[i]||0, bi=bP[i]||0;
-        if (ai !== bi) return ai - bi;
-      }
-      return 0;
-    });
-  }
-  console.log('Verkennen geladen:', {
-    aantal_knopen: KNOPEN.length,
-    wortel: BY_CODE[WORTEL_CODE],
-    kinderen_van_wortel: CHILDREN[WORTEL_CODE]?.length || 0,
-    layouts: Object.keys(window.LAYOUTS).length
-  });
-  document.getElementById('loading').style.display = 'none';
-  applyHash();
-  render();
-  updateHome();
-})
-.catch(err=>{
-  console.error('Tabellen laden mislukt:', err);
-  document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
-});
-</script>
 
 
 <script src="../assets/nav-mobile.js" defer></script>
-<script>
-/* ov-nav v3 — click-toggle voor touch/mobile */
-(function(){
-  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault(); e.stopPropagation();
-      var wasOpen = btn.getAttribute('aria-expanded') === 'true';
-      /* Sluit eerst alle andere */
-      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){
-        if (b !== btn) b.setAttribute('aria-expanded','false');
-      });
-      /* Toggle deze knop */
-      btn.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
-    });
-  });
-  /* Klik buiten één van de dropdowns → alles dicht */
-  document.addEventListener('click', function(e){
-    if (e.target && e.target.closest && e.target.closest('.ov-nav')) return;
-    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-  });
-})();
-</script>
 </body>
 </html>

@@ -140,31 +140,37 @@
 
 </style>
 <style>
-  /* ov-nav v3 — canoniek dropdown-menu (gegenereerd via menu_bouwen.py) */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
-  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 1rem; display:flex; gap:0.25rem; justify-content:center; flex-wrap:wrap; }
-  .ov-nav__group { position:relative; }
-  .ov-nav__toggle { background:none; border:0; padding:0.75rem 1rem; font:inherit; color:#1a1a1a; font-weight:600; letter-spacing:0.02em; cursor:pointer; border-radius:4px; }
-  .ov-nav__toggle:hover, .ov-nav__toggle[aria-expanded="true"] { background:#f0ede4; color:#7a1f2b; }
-  .ov-nav__menu { display:none; position:absolute; top:100%; left:0; min-width:230px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; }
-  .ov-nav__menu--wide { min-width:260px; }
-  /* Twee onafhankelijke open-condities: hover óf aria-expanded=true */
-  .ov-nav__group:hover .ov-nav__menu,
-  .ov-nav__group:focus-within .ov-nav__menu,
-  .ov-nav__toggle[aria-expanded="true"] + .ov-nav__menu { display:block; }
-  .ov-nav__menu a { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; line-height:1.35; }
-  .ov-nav__menu a:hover { background:#f5f3ee; color:#7a1f2b !important; }
-  .ov-nav__menu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
-  .ov-nav__sub { display:block; padding:0.15rem 0; background:#faf8f3; border-top:1px solid #efece3; border-bottom:1px solid #efece3; }
-  .ov-nav__sub a { padding-left:1.8rem !important; font-size:0.88rem; color:#4a5263 !important; }
-  .ov-nav__sub a::before { content:"› "; color:#9ca3af; }
-  .ov-nav__fallback { color:#9ca3af !important; font-style:italic; }
+  /* ov-nav v4 — platte horizontale nav, geen dropdowns (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item { display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important; font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px; font-size:0.95rem; line-height:1.2; }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
   @media (max-width:720px) {
-    .ov-nav__inner { flex-direction:column; align-items:stretch; padding:0.25rem 0.5rem; }
-    .ov-nav__group { border-bottom:1px solid #efece3; }
-    .ov-nav__group:last-child { border-bottom:0; }
-    .ov-nav__toggle { width:100%; text-align:left; padding:0.85rem 1rem; }
-    .ov-nav__menu { position:static; box-shadow:none; border:0; padding:0 0 0.5rem 0; min-width:0; background:#f5f3ee; }
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+  }
+</style>
+<style>
+  /* verkennen-menu v1 — platte lijst per rubriek */
+  .verkennen-main { max-width:1100px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+  .verkennen-intro { text-align:center; margin-bottom:2.5rem; }
+  .verkennen-intro h1 { font-family:Georgia,serif; font-size:clamp(2rem,3.5vw,2.8rem); font-weight:400; color:#1a1a1a; margin-bottom:0.75rem; }
+  .verkennen-intro p { color:#6b7280; font-size:1.05rem; line-height:1.5; max-width:640px; margin:0 auto; }
+  .vk-menu { display:flex; flex-direction:column; gap:2.5rem; }
+  .vk-rub__titel { font-family:Georgia,serif; font-size:1.35rem; color:#7a1f2b; font-weight:600; padding-bottom:0.5rem; border-bottom:2px solid #d4af37; margin-bottom:1rem; }
+  .vk-rub__lijst { list-style:none; padding:0; margin:0; }
+  .vk-item { margin:0; padding:0; border-bottom:1px solid #efece3; }
+  .vk-item:last-child { border-bottom:0; }
+  .vk-item a { display:block; padding:0.9rem 0.5rem; color:#1a1a1a; text-decoration:none; transition:background 0.15s; }
+  .vk-item a:hover { background:#f5f3ee; padding-left:1rem; }
+  .vk-item__titel { display:block; font-weight:600; font-size:1.05rem; color:#1a1a1a; line-height:1.35; }
+  .vk-item__desc { display:block; margin-top:0.25rem; font-size:0.92rem; color:#6b7280; line-height:1.45; }
+  @media (max-width:640px) {
+    .verkennen-main { padding:1.25rem 0.75rem 3rem; }
+    .vk-menu { gap:2rem; }
+    .vk-rub__titel { font-size:1.2rem; }
   }
 </style>
 </head>
@@ -186,113 +192,196 @@
 
 <nav class="ov-nav" aria-label="Hoofdmenu">
   <div class="ov-nav__inner">
-    <div class="ov-nav__group" data-group="bladeren">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Browse <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="./">Front page</a>
-        <a href="what-surfaces/">Latest articles</a>
-        <a href="verkennen.html">Explore</a>
-        <a href="vote-impact.html">Vote Impact</a>
-        <a href="research/">Research</a>
-        <a href="future/">Future</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="politiek">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Politics <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="vote-impact.html">Vote Impact</a>
-        <a href="leadership-edition/">Leadership</a>
-        <a href="edition-6/">Nova Democratia</a>
-        <a href="what-surfaces/the-press-is-the-arena.html">The press is the arena</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="edities">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Editions <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu ov-nav__menu--wide" role="menu">
-        <a href="edition-0/">Europe</a>
-        <a href="edition-1/">Coherence</a>
-        <a href="edition-2/">Tax policy</a>
-        <a href="edition-3/">Under the ice</a>
-        <a href="edition-4/">Paper power</a>
-        <a href="edition-5/">Forgotten order</a>
-        <a href="edition-6/">Nova Democratia</a>
-        <hr>
-        <a href="climate-edition/">Climate</a>
-        <a href="nitrogen-edition/">Nitrogen</a>
-        <a href="germany-edition/">Germany</a>
-        <a href="leadership-edition/">Leadership</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="verdiepen">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Deepen <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="consequence-nl/">Consequence maps</a>
-        <span class="ov-nav__sub">
-          <a href="consequence-nl/">Foundation</a>
-          <a href="consequence-eu/">European & global maps</a>
-          <a href="consequence-us/">International mirrors</a>
-        </span>
-        <a href="climate-edition/">BiCRS / Energy</a>
-        <a href="leadership-edition/">Politics / Reform</a>
-        <a href="germany-edition/">Netherlands & World</a>
-        <a href="philosophy/">Philosophy</a>
-      </div>
-    </div>
-    <div class="ov-nav__group" data-group="archief">
-      <button type="button" class="ov-nav__toggle" aria-haspopup="true" aria-expanded="false">Archive <span aria-hidden="true">▾</span></button>
-      <div class="ov-nav__menu" role="menu">
-        <a href="dossiers/">Dossiers</a>
-        <a href="research/">Research</a>
-        <a href="archive.html">Archive</a>
-        <a href="colophon.html">Colophon</a>
-        <a href="share.html">Share</a>
-      </div>
-    </div>
+    <a class="ov-nav__item" href="./">Front page</a>
+    <a class="ov-nav__item" href="what-surfaces/">New</a>
+    <a class="ov-nav__item" href="verkennen.html">Overview</a>
+    <a class="ov-nav__item" href="edition-6/">Nova Democratia</a>
+    <a class="ov-nav__item" href="edition-2/">Tax</a>
+    <a class="ov-nav__item" href="research/">Research</a>
+    <a class="ov-nav__item" href="philosophy/">Philosophy</a>
+    <a class="ov-nav__item" href="colophon.html">Colophon</a>
+    <a class="ov-nav__item" href="share.html">Share</a>
   </div>
 </nav>
 
 <main class="verkennen-main">
-
   <section class="verkennen-intro">
-    <h1>Explore</h1>
-    <p>A visual structure of The Open Visor. Click on a block to go deeper; click on the centre to return.</p>
+    <h1>Overview</h1>
+    <p>All articles from Het Open Vizier, grouped by section. Click a title to open the article.</p>
   </section>
-
-  <div class="verkennen-controls">
-    <button id="home" title="Explore">
-      <svg viewBox="0 0 24 24"><path d="M3 11.5 L12 4 L21 11.5 M5.5 10 V20 H18.5 V10"/></svg>
-      <span>Explore</span>
-    </button>
-    <span class="topbar-title" id="topbar-title" data-prefix=""></span>
+  <div class="vk-menu">
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Latest</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="what-surfaces/must-the-netherlands-follow.html"><span class="vk-item__titel">Must the Netherlands follow?</span><span class="vk-item__desc">Cross-reference under Edition 2 — Tax policy</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/the-matrix-of-the-exodus.html"><span class="vk-item__titel">The matrix of the exodus</span><span class="vk-item__desc">Cross-reference under Edition 2 — Tax policy</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/the-dutch-revolution-2033.html"><span class="vk-item__titel">The Dutch Revolution — forecast 2028-2055</span><span class="vk-item__desc">Four historical countries point to the same curve. Dutch debt actually 65% of GDP. Germany on the same line.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/five-countries-five-curves.html"><span class="vk-item__titel">Five countries, five curves — forecast 2028-2055</span><span class="vk-item__desc">European extension of The Dutch Revolution</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/the-press-is-the-arena.html"><span class="vk-item__titel">The press is the arena</span><span class="vk-item__desc">Political-sociological link with tax policy</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/must-the-netherlands-follow.html"><span class="vk-item__titel">Must the Netherlands follow?</span><span class="vk-item__desc">Are we letting our industry sink?</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/the-matrix-of-the-exodus.html"><span class="vk-item__titel">The matrix of the exodus</span><span class="vk-item__desc">A record number of millionaires is leaving Western Europe</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/hole-in-the-ground.html"><span class="vk-item__titel">Four hundred and fifty million euros for a hole in the ground</span><span class="vk-item__desc">Zuidwending, HyStock, and the anatomy of a political waste</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/back-to-nature-school.html"><span class="vk-item__titel">Let the politicians go back to nature school first</span><span class="vk-item__desc">Why three plants see what three thousand four hundred buffer-zone maps no longer perceive</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/plastic-fine-carbon-credit.html"><span class="vk-item__titel">The plastic fine that should have been a carbon credit</span><span class="vk-item__desc">A fiscal reversal of € 433 million per year under the CRCF framework</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/aan-de-leiding-drie-blokken-zonder-subsidie.html"><span class="vk-item__titel">In the Driver's Seat or on the Luggage Rack</span><span class="vk-item__desc">A guiding article. Those who fail to see and act now will soon find themselves in the back again. Europe has a choice: take the reins or be led by Tokyo, Seoul, and Beijing. The three blocks — source,</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/actievoerders-bouwen-continenten.html"><span class="vk-item__titel">Activists Build Continents</span><span class="vk-item__desc">Drive seeks ground. What friction exists here can build over there. An open invitation to organizations with vision and to everyone seeking their energy where they can build something—not as punishmen</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/bbp-liegt.html"><span class="vk-item__titel">Deciding without sight</span><span class="vk-item__desc">GDP lies by € 419 billion. The debt ratio is not 43%. It is 69%. And Parliament votes with its eyes shut.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/carbon-alert-visie-2036.html"><span class="vk-item__titel">Vision 2036 — Carbon-Alert Energy Hub</span><span class="vk-item__desc">The technical design of the 100 kW Carbon-Alert energy hub. LCOE analysis, five building blocks, cash flow, risk matrix. The evidence beneath the guiding article — all figures without subsidies.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/de-auto-immuunziekte-slaat-toe.html"><span class="vk-item__titel">The anti-immune disease of our government strikes</span><span class="vk-item__desc">The nitrogen package late June 2026 — an attack on the last productive tissue. And there is another way.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/de-dertig-cent-die-europa-omdraait.html"><span class="vk-item__titel">The thirty cents that turn Europe around</span><span class="vk-item__desc">Bio-ethanol from cellulose route reaches €0.30 per liter in 2036, without a cent of subsidy. Combine with the latest fuel cells and you have power for less than half the Spanish grid price. In The Hag</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/de-grote-plundering.html"><span class="vk-item__titel">The Great Plundering</span><span class="vk-item__desc">A five-part series on how Europe plunders its productive class before the lights go out</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/de-matrix-van-de-uittocht.html"><span class="vk-item__titel">The Matrix of the Exodus</span><span class="vk-item__desc">A record number of millionaires is leaving Western Europe. The NZZ provides the picture; the Stemgedrag matrix provides the explanation.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/de-metafoor-auto-immuunziekte.html"><span class="vk-item__titel">A State with an Autoimmune Disease</span><span class="vk-item__desc">A gentle, contemplative explanation of the medical metaphor underpinning Het Open Vizier’s Brussels campaign. Not an indictment, but a lens through which to reflect.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/de-methodologie-van-de-aanpassing.html"><span class="vk-item__titel">The Supply Line</span><span class="vk-item__desc">The courage to say that something is wrong is missing due to a lack of self-knowledge—a structural error, not a character flaw. All of Europe has bricked up its detours; all laws are aimed at ensuring</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/the-singapore-consequence-map.html"><span class="vk-item__titel">The Singapore Consequences Map</span><span class="vk-item__desc">Fifteen scenarios, ten Singaporean federal mechanisms — what your share in Singapore yields by 2030 under cumulative MOF/MAS/MOM policy.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/de-zon-staat-op-de-evenaar.html"><span class="vk-item__titel">The Sun is at the Equator</span><span class="vk-item__desc">A Socratic confrontation with the Dutch and European energy route. Five sets of blinkers removed, one route that actually works, and Europe back on the throne of leadership — not through domination, b</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/europe-doesnt-have-to-be-a-damage-map.html"><span class="vk-item__titel">Europe Does Not Have to Be a Damage Map</span><span class="vk-item__desc">The short version: how BiCRS — biomass injection in the equatorial belt at €40 per tonne of CO₂ — can replace the Green Deal and CBAM. A net effect of +23 to +106% per scenario for European households</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/gat-in-de-grond.html"><span class="vk-item__titel">Four Hundred and Fifty Million for a Hole in the Ground</span><span class="vk-item__desc">Zuidwending, HyStock, and the Anatomy of Political Waste</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/mensen-die-mee-bouwen.html"><span class="vk-item__titel">People Building Together</span><span class="vk-item__desc">Tropical ethanol cities 2040 — a way out that serves both sides</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/moet-nederland-ook-volgen.html"><span class="vk-item__titel">Must the Netherlands Follow Suit — Are We Letting Our Industry Sink?</span><span class="vk-item__desc">Germany provides €10 billion in annual relief, flexibilizes the labor market, and cuts bureaucracy. The Netherlands does the opposite. The matrix calculates who pays the bill.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/naar-de-natuurschool.html"><span class="vk-item__titel">Let the politicians go to nature school first</span><span class="vk-item__desc">Why three plants see what three thousand four hundred buffer zone maps no longer perceive</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/open-brief-aan-de-regeringen-van-europa.html"><span class="vk-item__titel">Open letter to the governments of Europe</span><span class="vk-item__desc">An open letter to the European Commission, member state governments, and parliaments. 350,000 jobs, €9 billion annual turnover, energy independence — without a single euro cent in subsidies. Start now</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/plundering-0-eerst-plukken-dan-oordelen.html"><span class="vk-item__titel">First Pluck, Then Judge</span><span class="vk-item__desc">The circle of injustice in which Europe is destroying itself</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/plundering-1-diagnose.html"><span class="vk-item__titel">Diagnosis</span><span class="vk-item__desc">We fleece those who feed us</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/plundering-2-mechaniek.html"><span class="vk-item__titel">Mechanics</span><span class="vk-item__desc">The walls we built to imprison our builders</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/plundering-3-afloop.html"><span class="vk-item__titel">The Aftermath</span><span class="vk-item__desc">Why the plunderers will suffer more than the plundered</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/plundering-4-politieke-landschap.html"><span class="vk-item__titel">The Political Landscape</span><span class="vk-item__desc">Who wants what, and why Brussels doesn't know how to move forward</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/wij-moeten-weer-zelf-aan-de-bak.html"><span class="vk-item__titel">We Must Get Back to Work Ourselves</span><span class="vk-item__desc">A manifesto on industrial backbone, productive power, and the end of non-committalism</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/zij-doden-hun-levensader.html"><span class="vk-item__titel">They are killing their lifeblood</span><span class="vk-item__desc">Brussels and The Hague have an autoimmune disease. The patient is called the Netherlands.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/europe-anew.html"><span class="vk-item__titel">Europe anew</span><span class="vk-item__desc">A manifesto for the resurgence of a continent</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/from-the-cave-to-the-sun.html"><span class="vk-item__titel">From the cave to the sun, from earth to orbit, from 4D to 7D</span><span class="vk-item__desc">Three steps, twenty-four hundred years, one movement</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/from-quantum-to-7d.html"><span class="vk-item__titel">From quantum theory to 7-dim</span><span class="vk-item__desc">The next paradigm shift in physics</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/inheritance-wave-240-billion.html"><span class="vk-item__titel">The €240 billion inheritance wave</span><span class="vk-item__desc">Let it flow or skim it off — or is there a third way?</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/they-already-know.html"><span class="vk-item__titel">They already know. And they are not doing it.</span><span class="vk-item__desc">Why your tax money goes to hail damage</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/the-dutch-revolution-2033.html"><span class="vk-item__titel">The Dutch Revolution — forecast 2028-2055</span><span class="vk-item__desc">Four historical countries point to the same curve. Dutch debt actually 65% of GDP. Germany on the same line.</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/five-countries-five-curves.html"><span class="vk-item__titel">Five countries, five curves — forecast 2028-2055</span><span class="vk-item__desc">France first, Spain last — five European phase-3 trajectories on one axis</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/the-press-is-the-arena.html"><span class="vk-item__titel">The press is the arena</span><span class="vk-item__desc">How polarisation is manufactured before the crash</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/world-belt-2040-2050.html"><span class="vk-item__titel">The World-Belt — climate plan 2040-2050</span><span class="vk-item__desc">840,000 EU jobs and a future perspective in Africa</span></a></li>
+        <li class="vk-item"><a href="what-surfaces/world-belt-2040-2050.html"><span class="vk-item__titel">The World-Belt — climate plan 2040-2050</span><span class="vk-item__desc">840,000 EU jobs and a future perspective in Africa</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Europe Edition</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="edition-0/"><span class="vk-item__titel">Edition 0 — Europe</span><span class="vk-item__desc">What Brussels, The Hague, Berlin and Malta are cumulatively doing to the continent's households — mirrored against what Trump II sets against them. Seven pieces.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Edition 1 · Coherence</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="edition-1/foreword.html"><span class="vk-item__titel">Why this newspaper?</span></a></li>
+        <li class="vk-item"><a href="edition-1/dimensions.html"><span class="vk-item__titel">Three dimensions are not enough</span></a></li>
+        <li class="vk-item"><a href="edition-1/nova-democratia.html"><span class="vk-item__titel">What is wrong with party politics?</span></a></li>
+        <li class="vk-item"><a href="edition-1/education.html"><span class="vk-item__titel">From learning factory to learning workshop</span></a></li>
+        <li class="vk-item"><a href="edition-1/fusion.html"><span class="vk-item__titel">A fusion reactor without a magnetic cage</span></a></li>
+        <li class="vk-item"><a href="edition-1/fluid-dynamics.html"><span class="vk-item__titel">All flows — mother of all science</span></a></li>
+        <li class="vk-item"><a href="edition-1/synthesis.html"><span class="vk-item__titel">How everything connects</span></a></li>
+        <li class="vk-item"><a href="edition-1/technical-solutions.html"><span class="vk-item__titel">What is already in place</span></a></li>
+        <li class="vk-item"><a href="edition-1/discussion.html"><span class="vk-item__titel">How to join the debate</span></a></li>
+        <li class="vk-item"><a href="edition-1/"><span class="vk-item__titel">Edition 1 — Foreword</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Edition 2 · Tax policy</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="edition-2/thermostat.html"><span class="vk-item__titel">Your thermostat is smarter than your minister</span></a></li>
+        <li class="vk-item"><a href="edition-2/nova-democratia.html"><span class="vk-item__titel">Nova Democratia</span></a></li>
+        <li class="vk-item"><a href="edition-2/nepk-fx.html"><span class="vk-item__titel">NEPK-FX — Neural Prediction</span></a></li>
+        <li class="vk-item"><a href="edition-2/"><span class="vk-item__titel">Edition 2 — Thermostat</span><span class="vk-item__desc">Edition 2 — Nine pieces on the Dutch systemic crisis, the foundation for recovery and concrete policy advice — including an education trilogy and a data supplement.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Edition 3 · Under the ice</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="edition-3/artikel-00-redactie.html"><span class="vk-item__titel">Editorial introduction</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-01-oergevoel.html"><span class="vk-item__titel">The primal sense</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-02-zeven-dimensies.html"><span class="vk-item__titel">The seven dimensions</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-03-drie-lagen.html"><span class="vk-item__titel">The three brain layers</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-04-communicatie.html"><span class="vk-item__titel">Communication between primal senses</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-05-wat-we-doen.html"><span class="vk-item__titel">What we do to children</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-06-mama.html"><span class="vk-item__titel">Mum, I'm hungry</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-07-ai-onderwijs.html"><span class="vk-item__titel">Education in the AI era</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-08-retrospectief.html"><span class="vk-item__titel">Retrospective</span></a></li>
+        <li class="vk-item"><a href="edition-3/artikel-09-oergevoel-in-beroepspraktijk.html"><span class="vk-item__titel">The primal sense in professional practice</span></a></li>
+        <li class="vk-item"><a href="edition-3/"><span class="vk-item__titel">Edition 3 — Primal Sense</span><span class="vk-item__desc">A body of thought on the primal sense, the triune brain and the human being we no longer educate.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Edition 4 · Paper power</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="edition-4/artikel-00-redactie.html"><span class="vk-item__titel">Editorial introduction</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-01-wet-papier-industrie.html"><span class="vk-item__titel">The law of the paper industry</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-02-ceo.html"><span class="vk-item__titel">The CEO and the primal sense</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-03-consultant.html"><span class="vk-item__titel">The consultant at the near-bankrupt company</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-04-bankier.html"><span class="vk-item__titel">Banks lost the primal sense</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-05-verzekeraar.html"><span class="vk-item__titel">The insurer against life</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-06-toezichthouder.html"><span class="vk-item__titel">The regulator that sees nothing</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-07-rechter.html"><span class="vk-item__titel">The judge without a compass</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-08-diepere-vraag.html"><span class="vk-item__titel">The deeper question</span></a></li>
+        <li class="vk-item"><a href="edition-4/artikel-09-retrospectief.html"><span class="vk-item__titel">Retrospective</span></a></li>
+        <li class="vk-item"><a href="edition-4/"><span class="vk-item__titel">Edition 4</span><span class="vk-item__desc">An edition on how rules, insurance, financing and oversight have squeezed the primal sense out of professional practice — and what that has done to us.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Edition 5 · Forgotten order</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="edition-5/artikel-00-brief-aan-lezer.html"><span class="vk-item__titel">Letter to the reader</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-01-zeven-gereedschappen.html"><span class="vk-item__titel">七つ道具 — The seven that made the difference</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-02-succesformule.html"><span class="vk-item__titel">The success formula we have forgotten</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-03-vergeten-orde.html"><span class="vk-item__titel">The forgotten order</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-04-methaan-misleiding.html"><span class="vk-item__titel">The methane deception</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-05-plant-die-verhuist.html"><span class="vk-item__titel">The relocating plant</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-06-zeven-van-bern.html"><span class="vk-item__titel">The seven of Bern</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-07-afwijkers.html"><span class="vk-item__titel">The dissenters</span></a></li>
+        <li class="vk-item"><a href="edition-5/artikel-08-eis-aan-lezer.html"><span class="vk-item__titel">The demand on the reader</span></a></li>
+        <li class="vk-item"><a href="edition-5/"><span class="vk-item__titel">Edition 5</span><span class="vk-item__desc">What weighs heavily, and what the press makes of it. A diagnostic edition in four parts.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Edition 6 · Nova Democratia</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="edition-6/voorwoord-waarom-dit-moet.html"><span class="vk-item__titel">Foreword — Why this must happen</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-00-brussel-als-variabele.html"><span class="vk-item__titel">Brussels as variable, not constant</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-01-zes-ordes-van-fasering.html"><span class="vk-item__titel">The six orders of phasing</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-02-pareto-top12.html"><span class="vk-item__titel">Who blocks, and how heavily?</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-03-media-als-rekstrook.html"><span class="vk-item__titel">Media as strain gauge</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-04-ordes-van-bezwaar.html"><span class="vk-item__titel">Orders of objection</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-05-twintig-bezwaren.html"><span class="vk-item__titel">Twenty current objections</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-06-zwitserse-spiegel.html"><span class="vk-item__titel">The Swiss mirror</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-07-canadese-spiegel.html"><span class="vk-item__titel">The Canadian mirror</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-08-partijen-in-kaart.html"><span class="vk-item__titel">Where does your party stand?</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-09-pareto-per-actor.html"><span class="vk-item__titel">Who resists, who helps?</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-10-uei.html"><span class="vk-item__titel">UEI — a European counterforce from Switzerland</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-11-kennislaag-als-bondgenoot.html"><span class="vk-item__titel">The knowledge layer as ally</span></a></li>
+        <li class="vk-item"><a href="edition-6/aflevering-12-beste-weg-vooruit.html"><span class="vk-item__titel">The best way forward</span></a></li>
+        <li class="vk-item"><a href="edition-6/"><span class="vk-item__titel">Edition 6</span><span class="vk-item__desc">An edition on the physics of Dutch reform — Pareto, orders, the design that works and the knowledge layer that carries the conservative force. Fourteen pieces.</span></a></li>
+      </ul>
+    </section>
+    <section class="vk-rub">
+      <h2 class="vk-rub__titel">Consequence maps</h2>
+      <ul class="vk-rub__lijst">
+        <li class="vk-item"><a href="../en/consequence-br/"><span class="vk-item__titel">The Brazilian Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-uk/"><span class="vk-item__titel">The British Consequence Map</span><span class="vk-item__desc">The personal British Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-cn/"><span class="vk-item__titel">The China Consequence Map</span><span class="vk-item__desc">The personal China consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-cu/"><span class="vk-item__titel">The Cuban Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-nl/"><span class="vk-item__titel">The Dutch Consequence Map</span><span class="vk-item__desc">The personal Dutch consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-eu/"><span class="vk-item__titel">The European Consequence Map</span><span class="vk-item__desc">The personal European consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-de/"><span class="vk-item__titel">The German Consequence Map</span><span class="vk-item__desc">The personal German election consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-in/"><span class="vk-item__titel">The India Consequence Map</span><span class="vk-item__desc">The personal India consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-ir/"><span class="vk-item__titel">The Iranian Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-il/"><span class="vk-item__titel">The Israeli Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-jp/"><span class="vk-item__titel">The Japan Consequence Map</span><span class="vk-item__desc">The personal Japan consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-za/"><span class="vk-item__titel">The South African Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-kr/"><span class="vk-item__titel">The South Korea Consequence Map</span><span class="vk-item__desc">The personal South Korea consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-es/"><span class="vk-item__titel">The Spanish Consequence Map</span><span class="vk-item__desc">The personal Spanish consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-sr/"><span class="vk-item__titel">The Surinamese Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-se/"><span class="vk-item__titel">The Swedish Consequence Map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-ch/"><span class="vk-item__titel">The Swiss Consequence Map</span><span class="vk-item__desc">The personal Swiss consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-tw/"><span class="vk-item__titel">The Taiwan Consequence Map</span><span class="vk-item__desc">The personal Taiwan consequence-map</span></a></li>
+        <li class="vk-item"><a href="../en/consequence-us/"><span class="vk-item__titel">The US Consequence Map</span><span class="vk-item__desc">The personal US consequence-map</span></a></li>
+      </ul>
+    </section>
   </div>
-
-  <div class="verkennen-canvas">
-    <div class="stage" id="stage"></div>
-
-    <!-- center-overlay verborgen (geen wapen meer) -->
-    <div class="center-overlay" id="center" style="display:none">
-      <div class="veil"></div>
-      <div class="label"><h2 id="center-name"></h2><p id="center-sub"></p></div>
-    </div>
-
-    <div class="loading" id="loading">loading structure…</div>
-
-    <div class="reader" id="reader">
-      <h2 id="reader-title"></h2>
-      <p id="reader-desc"></p>
-      <a class="read" id="reader-link" href="#" target="_self">→ Read the article</a>
-      <button class="close" id="reader-close">Back</button>
-    </div>
-
-    <div class="hint">Click on a block to go deeper · click on the centre to return</div>
-  </div>
-
-<!-- NAV_BOTTOM_BEGIN -->
-<nav class="navbar-bottom" aria-label="Front page">
-  <a href="../en/" class="navbar__home">⌂ Front page</a>
-  <a href="../en/verkennen.html" class="navbar__verk">↻ Explore</a>
-</nav>
-<!-- NAV_BOTTOM_END -->
 </main>
 
 <footer class="eindvoet">
@@ -300,540 +389,9 @@
   <p><a href="./">← Home</a></p>
 </footer>
 
-<script>
-let KNOPEN = [], BY_CODE = {}, CHILDREN = {};
-const path = [];
-// Wortel-code per taal: NL=1, DE=2, EN=3, RU=4, FR=5, ES=6, IT=7, PT=8, MT=9
-const TAAL_PREFIX = {nl:'1',de:'2',en:'3',ru:'4',fr:'5',es:'6',it:'7',pt:'8',mt:'9'};
-const WORTEL_CODE = TAAL_PREFIX[document.documentElement.lang] || "1";
 
-function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
-
-/* ============================================================
-   LAYOUT — variabele grids op basis van aantal kinderen
-   Doel: hero's tot tegen elkaar en de schermranden
-   ============================================================ */
-function gridLayout(n){
-  // Eerst: kijk in de layouts-tabel
-  const L = (window.LAYOUTS || {})[String(n)];
-  if (L){
-    return {
-      cols: L.kolommen,
-      rows: L.rijen,
-      placements: L.posities.map(p => ({col: p.col, row: p.row, label: p.label}))
-    };
-  }
-  // Fallback voor 10+: regelmatig grid
-  // grid-template-columns + grid-template-rows + placeringen voor elke tegel
-  if (n === 1) return { cols:"1fr", rows:"1fr", placements:[null] };
-  if (n === 2) return {
-    cols:"1fr 1fr", rows:"1fr",
-    placements:[{col:"1",row:"1"},{col:"2",row:"1"}]
-  };
-  if (n === 3) return {
-    // boven 2 helften, onder 1 brede
-    cols:"1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"}, {col:"2",row:"1"}, {col:"1 / 3",row:"2"}
-    ]
-  };
-  if (n === 4) return {
-    cols:"1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"}
-    ]
-  };
-  if (n === 5) return {
-    // 3 boven + 2 onder (geen brede tile in het midden, dus geen overlap met wapen-label)
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},{col:"3",row:"2"}
-    ]
-  };
-  if (n === 6) return {
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"}
-    ]
-  };
-  if (n === 7) return {
-    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
-      {col:"1",row:"2"},{col:"2 / 4",row:"2"},{col:"4",row:"2"}
-    ]
-  };
-  if (n === 8) return {
-    cols:"1fr 1fr 1fr 1fr", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"}
-    ]
-  };
-  if (n === 9) return {
-    // 4x3: bovenste en onderste rij hebben 3 tiles, middenrij 2 met opening in midden
-    cols:"1fr 1fr 1fr", rows:"1fr 1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},
-      {col:"1",row:"2"},                    {col:"3",row:"2"},
-      {col:"1",row:"3"},{col:"2",row:"3"},{col:"3",row:"3"},
-      // 9e: laat een dubbele cel boven onderste rij maken zou kunnen,
-      // maar voor 9 items werkt 4x2 net zo goed:
-      // beter herinrichten: 8 om de rand + 1 prominent helemaal bovenin als brede tile
-      {col:"2",row:"2"}  // achter wapen — visueel verstopt maar code blijft consistent
-    ]
-  };
-  if (n === 10) return {
-    // 5 boven + 5 onder
-    cols:"repeat(5, 1fr)", rows:"1fr 1fr",
-    placements:[
-      {col:"1",row:"1"},{col:"2",row:"1"},{col:"3",row:"1"},{col:"4",row:"1"},{col:"5",row:"1"},
-      {col:"1",row:"2"},{col:"2",row:"2"},{col:"3",row:"2"},{col:"4",row:"2"},{col:"5",row:"2"}
-    ]
-  };
-  // 10+: regelmatig grid (fallback)
-  const cols = Math.ceil(Math.sqrt(n));
-  const rows = Math.ceil(n / cols);
-  const placements = [];
-  for (let i=0;i<n;i++){
-    placements.push({col:String((i%cols)+1), row:String(Math.floor(i/cols)+1), label:"center"});
-  }
-  return { cols: `repeat(${cols},1fr)`, rows:`repeat(${rows},1fr)`, placements };
-}
-
-// Verwijder de oude if/else cases — die staan nu in 5_layouts.json
-
-function effectiveColor(knoop){
-  if (knoop.kleur) return knoop.kleur;
-  let cur = knoop;
-  while (cur && cur.ouder){
-    cur = BY_CODE[cur.ouder];
-    if (cur && cur.kleur) return cur.kleur;
-  }
-  return "#3a342e";
-}
-
-function heroPath(knoop){
-  // valt terug op effectieve kleur als geen hero
-  return knoop.hero || null;
-}
-
-function render(){
-  const stage = document.getElementById('stage');
-  clear(stage);
-  stage.classList.remove('fading');
-
-  const currentCode = path[path.length-1];
-  const current = BY_CODE[currentCode];
-  if (!current) return;
-  const alleKinderen = CHILDREN[currentCode] || [];
-  // Filter: alleen kinderen die actief zijn, naam hebben, en niet verborgen
-  const zichtbareKinderen = alleKinderen.filter(k =>
-    k.naam && k.naam.trim() !== "" && (k.status !== "verborgen")
-  );
-
-  // Pagineren: max 10 zichtbare per laag
-  // URL-hash kan een 'pagina' bevatten via &p=2
-  const MAX_PER_LAAG = 10;
-  let pagina = 1;
-  const paginaMatch = (location.hash || "").match(/[&?]p=(\d+)/);
-  if (paginaMatch) pagina = parseInt(paginaMatch[1], 10) || 1;
-
-  let kids;
-  let toonVervolg = false;
-  let toonVorige = false;
-
-  if (zichtbareKinderen.length <= MAX_PER_LAAG){
-    kids = zichtbareKinderen.slice();
-  } else {
-    // pagineren: 3 echte + 1 vervolg-knop per pagina, behalve laatste pagina
-    const perPagina = MAX_PER_LAAG - 1;  // 3 echte per pagina
-    const start = (pagina - 1) * perPagina;
-    const eind = start + perPagina;
-    kids = zichtbareKinderen.slice(start, eind);
-    if (eind < zichtbareKinderen.length){
-      // er is een vervolg
-      kids.push({
-        code: currentCode,
-        _synthVervolg: true,
-        _doelPagina: pagina + 1,
-        naam: "Vervolg",
-        ondertitel: `pagina ${pagina + 1} van ${Math.ceil(zichtbareKinderen.length / perPagina)}`,
-        type: "vervolg",
-        hero: "",
-      });
-    }
-    if (pagina > 1){
-      kids.unshift({
-        code: currentCode,
-        _synthVorige: true,
-        _doelPagina: pagina - 1,
-        naam: "Vorige",
-        ondertitel: `← pagina ${pagina - 1}`,
-        type: "vorige",
-        hero: "",
-      });
-      // verwijder één echte om binnen MAX te blijven
-      if (kids.length > MAX_PER_LAAG){
-        kids.splice(MAX_PER_LAAG - 1, 1);
-      }
-    }
-  }
-  const n = kids.length;
-
-  // Center-overlay altijd zichtbaar met wapen; tekst toont huidige keuze
-  const center = document.getElementById('center');
-  const centerName = document.getElementById('center-name');
-  const centerSub = document.getElementById('center-sub');
-  center.style.display = 'flex';
-  centerName.textContent = current.naam;
-  centerSub.textContent = current.ondertitel || "";
-
-  document.getElementById('topbar-title').textContent =
-    path.length > 1 ? ("· " + current.naam) : "";
-
-  // Geen kinderen → toon alleen het centrum
-  if (n === 0) return;
-
-  // Grid-layout op basis van aantal
-  const L = gridLayout(n);
-  stage.style.gridTemplateColumns = L.cols;
-  stage.style.gridTemplateRows = L.rows;
-
-  // Bepaal rij/kolom-positie van elke tile om label te plaatsen
-  function parseRow(p){
-    const r = (p && p.row) ? String(p.row) : "1";
-    return parseInt(r.split(/\s|\//)[0], 10) || 1;
-  }
-  function parseCol(p){
-    const c = (p && p.col) ? String(p.col) : "1";
-    return parseInt(c.split(/\s|\//)[0], 10) || 1;
-  }
-  const allRows = L.placements.map(parseRow);
-  const allCols = L.placements.map(parseCol);
-  const maxRow = Math.max(...allRows);
-  const minRow = Math.min(...allRows);
-  const maxCol = Math.max(...allCols);
-
-  kids.forEach((k,i)=>{
-    const p = L.placements[i] || {col:"auto",row:"auto"};
-    const tile = document.createElement('div');
-    tile.className = 'tile entering';
-    const myRow = parseRow(p);
-    const myCol = parseCol(p);
-    if (maxRow > 1){
-      if (myRow === maxRow) tile.classList.add('bottom-row');
-      else if (myRow === minRow) tile.classList.add('top-row');
-      else {
-        // middelste rij (alleen bij 3 of meer rijen)
-        tile.classList.add('mid-row');
-        if (myCol <= maxCol/2) tile.classList.add('left-half');
-        else tile.classList.add('right-half');
-      }
-    }
-    tile.style.gridColumn = p.col;
-    tile.style.gridRow = p.row;
-    tile.style.animationDelay = (i * 50) + "ms";
-    markConcept(tile, k);
-
-    const bg = document.createElement('div');
-    bg.className = 'bg';
-    if (heroPath(k)){
-      bg.style.backgroundImage = `url('${heroPath(k)}')`;
-    } else {
-      bg.style.background = effectiveColor(k);
-      bg.style.filter = 'none';
-    }
-    tile.appendChild(bg);
-
-    const veil = document.createElement('div');
-    veil.className = 'veil';
-    tile.appendChild(veil);
-
-    const label = document.createElement('div');
-    label.className = 'label';
-    const h = document.createElement('h2');
-    h.textContent = k.naam;
-    label.appendChild(h);
-    if (k.ondertitel){
-      const sub = document.createElement('p');
-      sub.textContent = k.ondertitel;
-      label.appendChild(sub);
-    }
-    tile.appendChild(label);
-
-    tile.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      onClick(k);
-    });
-    stage.appendChild(tile);
-  });
-}
-
-function onClick(node){
-  // Synthetische 'Vervolg' / 'Vorige' knop: wijzig pagina-parameter
-  if (node._synthVervolg || node._synthVorige){
-    const nieuwHash = "#code=" + node.code + "&p=" + node._doelPagina;
-    const _stage = document.getElementById('stage');
-    if (_stage) _stage.classList.add('fading');
-    setTimeout(() => { location.hash = nieuwHash; }, 280);
-    return;
-  }
-  // Concept of onbereikbaar: niet doorklikbaar
-  if (node.status === "concept") return;
-  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
-    k.naam && k.status !== "verborgen"
-  );
-  if (!node.url && !heeftLevendeKinderen) return;
-  if (node.url && !heeftLevendeKinderen){
-    // Directe navigatie — geen tussenscherm
-    window.location.href = node.url;
-    return;
-  }
-  if (heeftLevendeKinderen){
-    path.push(node.code);
-    const _stage2 = document.getElementById('stage');
-    if (_stage2) _stage2.classList.add('fading');
-    setTimeout(() => { location.hash = "#code=" + node.code; }, 280);
-    return;
-  }
-  if (node.url){
-    window.location.href = node.url;
-  }
-}
-
-// Bepaal of knoop bereikbaar is
-function isBereikbaar(node){
-  if (node.status === "concept") return false;
-  if (node.status === "verborgen") return false;
-  const heeftLevendeKinderen = (CHILDREN[node.code] || []).some(k =>
-    k.naam && k.status !== "verborgen"
-  );
-  return Boolean(node.url) || heeftLevendeKinderen;
-}
-
-// Visuele markering: concept of onbereikbaar
-function markConcept(tile, k){
-  // Synthetische knoppen krijgen eigen stijl
-  if (k._synthVervolg || k._synthVorige){
-    tile.classList.add("vervolg");
-    return;
-  }
-  if (k.status === "concept"){
-    tile.classList.add("concept");
-    return;
-  }
-  if (!isBereikbaar(k)){
-    tile.classList.add("onbereikbaar");
-  }
-}
-
-function goBack(){
-  if (path.length <= 1) return;
-  path.pop();
-  const newCode = path[path.length-1];
-  location.hash = newCode === "0" ? "" : "#code=" + newCode;
-}
-
-function updateHome(){
-  const h = document.getElementById('home');
-  if (path.length > 1) h.classList.add('show');
-  else h.classList.remove('show');
-}
-
-// Klik op center-overlay = stap terug
-document.getElementById('center').addEventListener('click',()=>{
-  if (path.length > 1) {
-    const _s = document.getElementById('stage');
-    if (_s) _s.classList.add('fading');
-    setTimeout(() => goBack(), 280);
-  }
-});
-
-document.getElementById('home').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  const _stageH = document.getElementById('stage');
-  if (_stageH) _stageH.classList.add('fading');
-  setTimeout(() => {
-    path.length = 0;
-    path.push(WORTEL_CODE);
-    location.hash = "";
-    render();
-    updateHome();
-  }, 280);
-});
-
-const reader = document.getElementById('reader');
-document.getElementById('reader-close').addEventListener('click',(e)=>{
-  e.stopPropagation();
-  reader.classList.remove('show');
-});
-reader.addEventListener('click',(e)=>{
-  if (e.target === reader) reader.classList.remove('show');
-});
-
-function showReader(node){
-  document.getElementById('reader-title').textContent = node.naam;
-  document.getElementById('reader-desc').textContent = node.beschrijving || "";
-  const readLink = document.getElementById('reader-link');
-  if (node.status === "concept"){
-    // verberg lees-knop voor concept-artikelen
-    readLink.style.display = "none";
-  } else {
-    readLink.style.display = "";
-    readLink.href = node.url;
-  }
-  reader.classList.add('show');
-}
-
-function applyHash(){
-  const h = decodeURIComponent(location.hash || "");
-  const m = h.match(/^#code=([^&?]+)/);
-  path.length = 0;
-  path.push(WORTEL_CODE);
-  if (!m){
-    return;  // standaard: wortel zonder hash
-  }
-  let target = m[1].trim();
-  // Compat: oude links zonder taal-prefix
-  if (!BY_CODE[target] && BY_CODE[WORTEL_CODE + "." + target]){
-    target = WORTEL_CODE + "." + target;
-  }
-  if (!BY_CODE[target]) return;
-  const trail = [];
-  let cur = BY_CODE[target];
-  while (cur && cur.code !== WORTEL_CODE){
-    trail.unshift(cur.code);
-    cur = BY_CODE[cur.ouder];
-  }
-  for (const c of trail) path.push(c);
-  const targetNode = BY_CODE[target];
-  const heeftKinderen = (CHILDREN[target] || []).length > 0;
-  if (!heeftKinderen && targetNode.url){
-    path.pop();
-    setTimeout(()=>showReader(targetNode), 50);
-  }
-}
-
-window.addEventListener('hashchange', ()=>{
-  applyHash();
-  render();
-  updateHome();
-});
-
-// Laad de 5 gescheiden tabellen en voeg ze samen tot één werkmodel
-// Taal-detectie + data-pad
-const TAAL_CODE = document.documentElement.lang || 'nl';
-const DATA_BASE = (TAAL_CODE === 'nl') ? '_data/tabellen/' : '../nl/_data/tabellen/';
-
-Promise.all([
-  fetch(DATA_BASE+'1_knopen.json').then(r=>r.json()),
-  fetch(DATA_BASE+(TAAL_CODE==='root'?'2_routes.json':'2_routes_'+TAAL_CODE+'.json')).then(r=>r.json()),
-  fetch(DATA_BASE+'3_beelden.json').then(r=>r.json()),
-  fetch(DATA_BASE+'4_teksten_'+TAAL_CODE+'.json').then(r=>r.json()),
-  fetch(DATA_BASE+'5_layouts.json').then(r=>r.json()),
-])
-.then(([knopenT, routesT, beeldenT, tekstenT, layoutsT])=>{
-  // Index per code
-  const idx = (tabel) => Object.fromEntries(tabel.rijen.map(r=>[r.code, r]));
-  const kIdx = idx(knopenT), rIdx = idx(routesT), bIdx = idx(beeldenT), tIdx = idx(tekstenT);
-
-  // Bouw geunificeerde knopen-lijst met alle velden gecombineerd
-  // FILTER: alleen knopen in de huidige taal (prefix WORTEL_CODE) + de wortel '0'
-  KNOPEN = [];
-  for (const k of knopenT.rijen){
-    if (k.actief === false) continue;
-    const c = String(k.code);
-    if (c !== '0' && c !== WORTEL_CODE && !c.startsWith(WORTEL_CODE + '.')) continue;
-    const merged = {
-      // structuur
-      code: k.code,
-      ouder: k.ouder,
-      type: k.type,
-      status: k.status || "live",
-      // routes
-      url: (rIdx[k.code] || {}).url || "",
-      terug_naar: (rIdx[k.code] || {}).terug_naar || "",
-      // beelden
-      hero: (bIdx[k.code] || {}).hero || "",
-      hero_positie: (bIdx[k.code] || {}).hero_positie || "center",
-      hero_filter: (bIdx[k.code] || {}).hero_filter || "standaard",
-      // teksten (taalafhankelijk)
-      naam: (tIdx[k.code] || {}).naam || "",
-      ondertitel: (tIdx[k.code] || {}).ondertitel || "",
-      beschrijving: (tIdx[k.code] || {}).beschrijving || "",
-      tekst_positie: (tIdx[k.code] || {}).tekst_positie || "auto",
-      tekst_kleur: (tIdx[k.code] || {}).tekst_kleur || "licht",
-    };
-    KNOPEN.push(merged);
-  }
-
-  // Layouts globaal beschikbaar maken
-  window.LAYOUTS = layoutsT.layouts || {};
-
-  // Bouw indexen
-  BY_CODE = {}; CHILDREN = {};
-  for (const k of KNOPEN){
-    BY_CODE[k.code] = k;
-    if (k.ouder !== null){
-      if (!CHILDREN[k.ouder]) CHILDREN[k.ouder] = [];
-      CHILDREN[k.ouder].push(k);
-    }
-  }
-  for (const ouder in CHILDREN){
-    CHILDREN[ouder].sort((a,b)=>{
-      const aP = a.code.split('.').map(Number);
-      const bP = b.code.split('.').map(Number);
-      for (let i=0;i<Math.max(aP.length,bP.length);i++){
-        const ai = aP[i]||0, bi=bP[i]||0;
-        if (ai !== bi) return ai - bi;
-      }
-      return 0;
-    });
-  }
-  console.log('Verkennen geladen:', {
-    aantal_knopen: KNOPEN.length,
-    wortel: BY_CODE[WORTEL_CODE],
-    kinderen_van_wortel: CHILDREN[WORTEL_CODE]?.length || 0,
-    layouts: Object.keys(window.LAYOUTS).length
-  });
-  document.getElementById('loading').style.display = 'none';
-  applyHash();
-  render();
-  updateHome();
-})
-.catch(err=>{
-  console.error('Tabellen laden mislukt:', err);
-  document.getElementById('loading').textContent = 'Kon tabellen niet laden: ' + err.message;
-});
-</script>
 
 
 <script src="../assets/nav-mobile.js" defer></script>
-<script>
-/* ov-nav v3 — click-toggle voor touch/mobile */
-(function(){
-  document.querySelectorAll('.ov-nav__toggle').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      e.preventDefault(); e.stopPropagation();
-      var wasOpen = btn.getAttribute('aria-expanded') === 'true';
-      /* Sluit eerst alle andere */
-      document.querySelectorAll('.ov-nav__toggle').forEach(function(b){
-        if (b !== btn) b.setAttribute('aria-expanded','false');
-      });
-      /* Toggle deze knop */
-      btn.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
-    });
-  });
-  /* Klik buiten één van de dropdowns → alles dicht */
-  document.addEventListener('click', function(e){
-    if (e.target && e.target.closest && e.target.closest('.ov-nav')) return;
-    document.querySelectorAll('.ov-nav__toggle').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-  });
-})();
-</script>
 </body>
 </html>
