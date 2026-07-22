@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 7-Dim Film — The Open Visor</title>
+  <meta property="og:type" content="video.other">
+  <meta property="og:url" content="https://openvizier.org/en/7-dim-film/">
+  <meta property="og:title" content="The Seven Dimensions — Cinematic Essay">
+  <meta property="og:description" content="A ten-minute cinematic essay on x, y, z, t, G, W and N. Seven films in one journey. By Jacobus van Merksteijn.">
+  <meta property="og:image" content="https://openvizier.org/assets/7-dim-film/poster-16x9.jpg">
+  <meta property="og:site_name" content="Het Open Vizier">
+  <meta property="og:locale" content="en">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Seven Dimensions — Cinematic Essay">
+  <meta name="twitter:description" content="Seven films in one journey: Diagnosis, Children, G, W, N, Symphony, Brain.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/7-dim-film/poster-16x9.jpg">
+  <meta name="description" content="The Seven Dimensions — a ten-minute cinematic essay on the seven fundamental axes of reality: x, y, z, t, G, W and N. By Jacobus van Merksteijn.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --film-cream: #faf6e6;
+    --film-ink: #2a1c10;
+    --film-bordeaux: #7a1f2b;
+    --film-gold: #a9773f;
+  }
+  .film-body { background: var(--film-cream); }
+  .film-font { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; }
+
+  .film-hero {
+    background: var(--film-cream);
+    padding: 3rem 1.25rem 2rem 1.25rem;
+    text-align: center;
+    border-bottom: 1px solid #e3d9bd;
+  }
+  .film-hero__kicker {
+    font-family: Georgia, serif;
+    color: var(--film-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.8rem;
+    margin: 0 0 0.7rem 0;
+  }
+  .film-hero__title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--film-bordeaux);
+    font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+    line-height: 1.1;
+    margin: 0 0 0.6rem 0;
+  }
+  .film-hero__subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    color: var(--film-ink);
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    margin: 0 0 1.5rem 0;
+  }
+  .film-hero__lead {
+    font-family: Georgia, serif;
+    color: var(--film-ink);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 640px;
+    margin: 0 auto 1.6rem auto;
+  }
+  .film-hero__meta {
+    font-family: Georgia, serif;
+    color: #6b4a2a;
+    font-size: 0.88rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex; gap: 1.6rem; justify-content: center; flex-wrap: wrap;
+  }
+
+  .film-player {
+    background: #1a1a1a;
+    padding: 2rem 1rem 3rem 1rem;
+  }
+  .film-player__wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .film-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    display: block;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .film-chapters {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3.5rem 1.25rem;
+  }
+  .film-chapters__kop {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--film-bordeaux);
+    font-size: 2rem;
+    margin: 0 0 1.8rem 0;
+    text-align: center;
+  }
+  .chapter {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 0.5rem 1.25rem;
+    align-items: baseline;
+    padding: 1rem 1.2rem;
+    background: #fffdf7;
+    border: 1px solid #d8c9a0;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .chapter:hover { background: #f5efd8; }
+  .chapter__time {
+    font-family: Georgia, monospace;
+    font-size: 0.9rem;
+    color: var(--film-gold);
+    letter-spacing: 0.05em;
+  }
+  .chapter__title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.25rem;
+    color: var(--film-bordeaux);
+    line-height: 1.2;
+  }
+  .chapter__desc {
+    font-family: Georgia, serif;
+    font-size: 0.95rem;
+    color: var(--film-ink);
+    line-height: 1.5;
+    grid-column: 2;
+  }
+  @media (max-width: 640px) {
+    .chapter { grid-template-columns: 4rem 1fr; padding: 0.85rem 1rem; }
+  }
+
+  .film-verhaal {
+    background: #fffdf7;
+    border-top: 1px solid #e3d9bd;
+    padding: 3.5rem 1.25rem;
+  }
+  .film-verhaal__inner {
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: Georgia, serif;
+    color: var(--film-ink);
+  }
+  .film-verhaal p { font-size: 1.05rem; line-height: 1.75; margin: 0 0 1.25rem 0; }
+  .film-verhaal h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--film-bordeaux);
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem 0;
+  }
+  .film-verhaal em { font-style: italic; color: var(--film-bordeaux); }
+
+  .film-talen {
+    background: var(--film-cream);
+    border-top: 1px solid #e3d9bd;
+    padding: 2.5rem 1.25rem;
+    text-align: center;
+  }
+  .film-talen p {
+    font-family: Georgia, serif;
+    color: var(--film-ink);
+    font-size: 0.95rem;
+    margin: 0 0 1rem 0;
+    letter-spacing: 0.02em;
+  }
+  .film-talen a {
+    display: inline-block;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1.25rem;
+    color: var(--film-bordeaux);
+    text-decoration: none;
+    border: 1px solid var(--film-bordeaux);
+    border-radius: 4px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+  }
+  .film-talen a:hover {
+    background: var(--film-bordeaux);
+    color: var(--film-cream);
+  }
+</style>
+
+<style>
+  /* ov-nav v5 */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item { display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important; font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px; font-size:0.95rem; line-height:1.2; }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu { display:none; position:absolute; top:100%; left:0; min-width:200px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; border-radius:4px; }
+  .ov-nav__dropdown:hover .ov-nav__submenu, .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  .ov-nav__subitem { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35; }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--current { color:#7a1f2b !important; font-weight:600; }
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu { position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem; min-width:0; background:transparent; }
+    .ov-nav__dropdown:hover .ov-nav__submenu, .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+</style>
+</head>
+<body class="film-body">
+
+<nav class="ov-nav" aria-label="Main menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Front page</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item ov-nav__item--has-dropdown ov-nav__item--current" href="../philosophy/">Philosophy <span aria-hidden="true" class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../philosophy/">Philosophy</a>
+        <a class="ov-nav__subitem" href="../fairytales/">Fairytale</a>
+        <a class="ov-nav__subitem" href="../reading-book/">Reading Book</a>
+        <a class="ov-nav__subitem ov-nav__subitem--current" href="../7-dim-film/">7-Dim Film</a>
+      </div>
+    </div>
+    <a class="ov-nav__item" href="../what-surfaces/">New</a>
+    <a class="ov-nav__item" href="../verkennen.html">Overview</a>
+    <a class="ov-nav__item" href="../edition-6/">Nova Democratia</a>
+    <a class="ov-nav__item" href="../edition-2/">Tax</a>
+    <a class="ov-nav__item" href="../research/">Research</a>
+    <a class="ov-nav__item" href="../colophon.html">Colophon</a>
+    <a class="ov-nav__item" href="../share.html">Share</a>
+  </div>
+</nav>
+
+<section class="film-hero" id="top">
+  <p class="film-hero__kicker film-font">PHILOSOPHY · CINEMATIC ESSAY</p>
+  <h1 class="film-hero__title film-font">The Seven Dimensions</h1>
+  <p class="film-hero__subtitle film-font">A journey through <em>x, y, z, t, G, W and N</em></p>
+  <p class="film-hero__lead">
+    A ten-minute cinematic essay. Seven films in one journey —
+    from the diagnosis of our time, through the axes G, W and N, to the
+    symphony where they all meet and the brain that can hold them all.
+  </p>
+  <div class="film-hero__meta">
+    <span>Duration · 10:52</span>
+    <span>Jacobus van Merksteijn</span>
+    <span>Seven chapters</span>
+  </div>
+</section>
+
+<section class="film-player">
+  <div class="film-player__wrap">
+    <video id="filmVideo" class="film-video" controls preload="metadata"
+           poster="../../assets/7-dim-film/poster-16x9.jpg">
+      <source src="../../assets/video/zeven_dimensies_EN.mp4" type="video/mp4">
+      Your browser does not support video.
+    </video>
+  </div>
+</section>
+
+<section class="film-chapters">
+  <h2 class="film-chapters__kop film-font">Chapters</h2>
+  <div class="chapter" data-time="6">
+    <div class="chapter__time">00:06</div>
+    <div class="chapter__title film-font">1. Diagnosis</div>
+    <div class="chapter__desc">The crisis of our time — we try to live seven dimensions in four.</div>
+  </div>
+  <div class="chapter" data-time="97">
+    <div class="chapter__time">01:41</div>
+    <div class="chapter__title film-font">2. Children</div>
+    <div class="chapter__desc">What school did not teach — the wisdom we were unlearned.</div>
+  </div>
+  <div class="chapter" data-time="188">
+    <div class="chapter__time">03:12</div>
+    <div class="chapter__title film-font">3. G — Scale</div>
+    <div class="chapter__desc">The fifth dimension — the scale that moves along with what matters.</div>
+  </div>
+  <div class="chapter" data-time="279">
+    <div class="chapter__time">04:43</div>
+    <div class="chapter__title film-font">4. W — Frequency</div>
+    <div class="chapter__desc">The sixth dimension — the station you are tuned to.</div>
+  </div>
+  <div class="chapter" data-time="370">
+    <div class="chapter__time">06:14</div>
+    <div class="chapter__title film-font">5. N — Nested Realities</div>
+    <div class="chapter__desc">The seventh dimension — every choice you did not take, lived elsewhere.</div>
+  </div>
+  <div class="chapter" data-time="461">
+    <div class="chapter__time">07:45</div>
+    <div class="chapter__title film-font">6. Symphony</div>
+    <div class="chapter__desc">All seven at once — where music speaks every dimension simultaneously.</div>
+  </div>
+  <div class="chapter" data-time="552">
+    <div class="chapter__time">09:12</div>
+    <div class="chapter__title film-font">7. Brain</div>
+    <div class="chapter__desc">The language you forgot — your mind can already hold all seven.</div>
+  </div>
+</section>
+
+<section class="film-verhaal">
+  <div class="film-verhaal__inner">
+    <h2 class="film-font">Why this film</h2>
+    <p>
+      Our time feels restless. We are not crazy and we are not bad —
+      something else is happening. We are trying to live seven dimensions in four.
+    </p>
+    <p>
+      We built instruments for length, width, height and time.
+      With those same instruments we also try to measure love. And meaning.
+      And the sense that there is more. They were not made for that.
+    </p>
+    <p>
+      The fifth, sixth and seventh dimensions — <em>G</em>, <em>W</em> and <em>N</em> —
+      are not far away. They are beneath your feet, in your breath, in whom you love,
+      in what you feel without having words for it.
+    </p>
+    <p>
+      This film brings them back — in language, in image, in sound. Seven films in one,
+      each 87 seconds long, held together by one voice and one promise:
+      what you knew then is still true. You just did not need it anymore.
+    </p>
+  </div>
+</section>
+
+<section class="film-talen">
+  <p>This film is also available in other languages.</p>
+  <a href="../../nl/7-dim-film/">Nederlandse versie</a>
+  <a href="../../de/7-dim-film/">Deutsche Fassung</a>
+</section>
+
+<script>
+  document.querySelectorAll('.chapter').forEach(item => {
+    item.addEventListener('click', () => {
+      const video = document.getElementById('filmVideo');
+      video.currentTime = parseInt(item.dataset.time);
+      video.play();
+      document.querySelector('.film-player').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
