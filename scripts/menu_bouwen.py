@@ -40,16 +40,26 @@ JSON_DIR    = REPO / "nl" / "_data" / "menu"
 # ---------------------------------------------------------------------------
 
 NAV_CSS = """<style>
-  /* ov-nav v4 — platte horizontale nav, geen dropdowns (gegenereerd via menu_bouwen.py) */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; }
+  /* ov-nav v5 — platte horizontale nav met optionele dropdown per item (gegenereerd via menu_bouwen.py) */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
   .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
   .ov-nav__item { display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important; font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px; font-size:0.95rem; line-height:1.2; }
   .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
   .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
   .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+  /* Dropdown */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu { display:none; position:absolute; top:100%; left:0; min-width:200px; background:#ffffff; border:1px solid #d4d1ca; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:0.4rem 0; z-index:1000; border-radius:4px; }
+  .ov-nav__dropdown:hover .ov-nav__submenu, .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  .ov-nav__subitem { display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important; text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35; }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
   @media (max-width:720px) {
     .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
     .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu { position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem; min-width:0; background:transparent; }
+    .ov-nav__dropdown:hover .ov-nav__submenu, .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
   }
 </style>
 """
@@ -57,8 +67,8 @@ NAV_CSS = """<style>
 NAV_JS = """"""
 
 # Markers om oude/nieuwe blokken te herkennen bij regenereren
-CSS_MARKER = "/* ov-nav v4"
-JS_MARKER  = None  # geen JS meer nodig in v4
+CSS_MARKER = "/* ov-nav v5"
+JS_MARKER  = None  # geen JS meer nodig in v5
 
 
 # ---------------------------------------------------------------------------
@@ -104,24 +114,37 @@ def apply_depth_prefix(url: str, depth: int) -> str:
 
 
 def build_menu_data(config: dict) -> dict[str, dict]:
-    """Bouw per taal een dict {items: [...]} met resolved URLs (v4 plat)."""
+    """Bouw per taal een dict {items: [...]} met resolved URLs (v4 plat, met optionele sub-items)."""
     result = {}
     for taal in config["talen"]:
         items_out = []
         for item in config["items"]:
             url, is_fallback = resolve_url(item, taal)
-            items_out.append({
+            item_data = {
                 "key": item["key"],
                 "label": item["labels"].get(taal, item["labels"]["nl"]),
                 "url": url,
                 "is_fallback": is_fallback,
-            })
+            }
+            # Sub-items zijn optioneel (dropdown-menu)
+            if "sub_items" in item and item["sub_items"]:
+                subs_out = []
+                for sub in item["sub_items"]:
+                    sub_url, sub_fb = resolve_url(sub, taal)
+                    subs_out.append({
+                        "key": sub["key"],
+                        "label": sub["labels"].get(taal, sub["labels"]["nl"]),
+                        "url": sub_url,
+                        "is_fallback": sub_fb,
+                    })
+                item_data["sub_items"] = subs_out
+            items_out.append(item_data)
         result[taal] = {"taal": taal, "items": items_out}
     return result
 
 
 def render_nav_html(menu_data: dict) -> str:
-    """Genereer platte <nav>-HTML voor één taal (v4)."""
+    """Genereer platte <nav>-HTML voor één taal (v4+). Ondersteunt optionele dropdown per item."""
     items = menu_data["items"]
     parts = ['<nav class="ov-nav" aria-label="Hoofdmenu">']
     parts.append('  <div class="ov-nav__inner">')
@@ -129,8 +152,24 @@ def render_nav_html(menu_data: dict) -> str:
         classes = ["ov-nav__item"]
         if item["is_fallback"]:
             classes.append("ov-nav__item--fallback")
-        cls = " ".join(classes)
-        parts.append(f'    <a class="{cls}" href="{item["url"]}">{item["label"]}</a>')
+        subs = item.get("sub_items")
+        if subs:
+            classes.append("ov-nav__item--has-dropdown")
+            cls = " ".join(classes)
+            parts.append(f'    <div class="ov-nav__dropdown">')
+            parts.append(f'      <a class="{cls}" href="{item["url"]}">{item["label"]} <span aria-hidden="true" class="ov-nav__caret">▾</span></a>')
+            parts.append(f'      <div class="ov-nav__submenu">')
+            for sub in subs:
+                sub_classes = ["ov-nav__subitem"]
+                if sub["is_fallback"]:
+                    sub_classes.append("ov-nav__subitem--fallback")
+                sub_cls = " ".join(sub_classes)
+                parts.append(f'        <a class="{sub_cls}" href="{sub["url"]}">{sub["label"]}</a>')
+            parts.append(f'      </div>')
+            parts.append(f'    </div>')
+        else:
+            cls = " ".join(classes)
+            parts.append(f'    <a class="{cls}" href="{item["url"]}">{item["label"]}</a>')
     parts.append('  </div>')
     parts.append('</nav>')
     return "\n".join(parts)
@@ -150,14 +189,14 @@ def inject_nav(html: str, new_nav_html: str) -> str:
     if count == 0:
         raise RuntimeError("Geen <nav>-blok gevonden om te vervangen")
 
-    # Verwijder alle eerder geïnjecteerde ov-nav CSS/JS blokken (v2, v3, v4)
+    # Verwijder alle eerder geïnjecteerde ov-nav CSS/JS blokken (v2 t/m v5)
     new_html = re.sub(
-        r"<style>\s*\n?\s*/\* ov-nav v[234].*?</style>\s*",
+        r"<style>\s*\n?\s*/\* ov-nav v[2345].*?</style>\s*",
         "",
         new_html, flags=re.S,
     )
     new_html = re.sub(
-        r"<script>\s*/\* ov-nav v[234].*?</script>\s*",
+        r"<script>\s*/\* ov-nav v[2345].*?</script>\s*",
         "",
         new_html, flags=re.S,
     )
@@ -266,12 +305,17 @@ def main():
         for page in pages:
             depth = page_depth(page, taal)
             # Bouw menu-data met correcte prefix voor deze diepte
+            def _adjust(it):
+                out = {**it, "url": apply_depth_prefix(it["url"], depth)}
+                if it.get("sub_items"):
+                    out["sub_items"] = [
+                        {**s, "url": apply_depth_prefix(s["url"], depth)}
+                        for s in it["sub_items"]
+                    ]
+                return out
             adjusted = {
                 "taal": taal,
-                "items": [
-                    {**it, "url": apply_depth_prefix(it["url"], depth)}
-                    for it in menu_data[taal]["items"]
-                ],
+                "items": [_adjust(it) for it in menu_data[taal]["items"]],
             }
             nav_html = render_nav_html(adjusted)
             try:
