@@ -70,6 +70,11 @@ NAV_JS = """"""
 CSS_MARKER = "/* ov-nav v5"
 JS_MARKER  = None  # geen JS meer nodig in v5
 
+# Deel-menu assets (aparte CSS/JS, opgenomen op elke pagina met een <nav>)
+DEEL_CSS_LINK = '<link rel="stylesheet" href="{prefix}assets/deel-menu.css">'
+DEEL_JS_TAG   = '<script defer src="{prefix}assets/deel-menu.js"></script>'
+DEEL_ASSET_MARKER = 'assets/deel-menu.'
+
 
 # ---------------------------------------------------------------------------
 # Kern-logica
@@ -138,9 +143,86 @@ def build_menu_data(config: dict) -> dict[str, dict]:
                         "is_fallback": sub_fb,
                     })
                 item_data["sub_items"] = subs_out
+            # Deel-menu (speciaal): kopieer acties + msgs voor deze taal
+            if item.get("is_deel_menu"):
+                item_data["is_deel_menu"] = True
+                acties = item.get("deel_acties", {})
+                item_data["deel_acties"] = {
+                    key: {"label": val.get("labels", {}).get(taal, val.get("labels", {}).get("nl", key))}
+                    for key, val in acties.items()
+                }
+                msgs = item.get("deel_msgs", {})
+                item_data["deel_msgs"] = {
+                    key: val.get(taal, val.get("nl", ""))
+                    for key, val in msgs.items()
+                }
             items_out.append(item_data)
         result[taal] = {"taal": taal, "items": items_out}
     return result
+
+
+def _escape_attr(s: str) -> str:
+    return (str(s)
+            .replace("&", "&amp;")
+            .replace('"', "&quot;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;"))
+
+
+def render_deel_dropdown(item: dict) -> list[str]:
+    """Render het speciale deel-menu als dropdown met 4 actie-knoppen.
+
+    Metadata (vertalingen, aanmeld-pad) worden op de container gezet via
+    data-* attributen, zodat assets/deel-menu.js ze kan lezen.
+    """
+    msgs = item.get("deel_msgs", {})
+    acties = item.get("deel_acties", {})
+
+    # data-* attributen (leeg attribuut = boolean-marker voor JS-detectie)
+    data_attrs = {
+        "data-ov-deel":         "",
+        "data-msg-copied":      msgs.get("copied", ""),
+        "data-msg-copy-prompt": msgs.get("copyPrompt", ""),
+        "data-mail-subject":    msgs.get("mailSubject", ""),
+        "data-mail-footer":     msgs.get("mailFooter", ""),
+        "data-pdf-building":    msgs.get("pdfBuilding", ""),
+        "data-pdf-done":        msgs.get("pdfDone", ""),
+        "data-pdf-fail":        msgs.get("pdfFail", ""),
+        "data-pdf-source":      msgs.get("pdfSource", ""),
+        "data-pdf-note":        msgs.get("pdfNote", ""),
+        "data-gate-title":      msgs.get("gateTitle", ""),
+        "data-gate-body":       msgs.get("gateBody", ""),
+        "data-gate-submit":     msgs.get("gateSubmit", ""),
+        "data-gate-cancel":     msgs.get("gateCancel", ""),
+        "data-gate-checking":   msgs.get("gateChecking", ""),
+        "data-gate-invalid":    msgs.get("gateInvalid", ""),
+        "data-gate-wrong":      msgs.get("gateWrong", ""),
+        "data-gate-server-error": msgs.get("gateServerError", ""),
+        "data-gate-note":       msgs.get("gateNote", ""),
+    }
+    # data-* attributen renderen (leeg attribuut = boolean)
+    attr_str = " ".join(
+        (k if v == "" else f'{k}="{_escape_attr(v)}"')
+        for k, v in data_attrs.items()
+    )
+
+    pdf_label      = acties.get("pdf", {}).get("label", "PDF")
+    facebook_label = acties.get("facebook", {}).get("label", "Facebook")
+    copy_label     = acties.get("copy", {}).get("label", "Copy")
+    email_label    = acties.get("email", {}).get("label", "E-mail")
+
+    label = item["label"]
+    return [
+        f'    <div class="ov-nav__dropdown ov-deel" {attr_str}>',
+        f'      <a class="ov-nav__item ov-nav__item--has-dropdown" href="{item["url"]}">{label} <span aria-hidden="true" class="ov-nav__caret">▾</span></a>',
+        f'      <div class="ov-nav__submenu">',
+        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 {_escape_attr(pdf_label)}</span></a>',
+        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">{_escape_attr(facebook_label)}</span></a>',
+        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">{_escape_attr(copy_label)}</span></a>',
+        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">{_escape_attr(email_label)}</span></a>',
+        f'      </div>',
+        f'    </div>',
+    ]
 
 
 def render_nav_html(menu_data: dict) -> str:
@@ -149,6 +231,10 @@ def render_nav_html(menu_data: dict) -> str:
     parts = ['<nav class="ov-nav" aria-label="Hoofdmenu">']
     parts.append('  <div class="ov-nav__inner">')
     for item in items:
+        # Speciaal item: deel-menu
+        if item.get("is_deel_menu"):
+            parts.extend(render_deel_dropdown(item))
+            continue
         classes = ["ov-nav__item"]
         if item["is_fallback"]:
             classes.append("ov-nav__item--fallback")
@@ -175,11 +261,14 @@ def render_nav_html(menu_data: dict) -> str:
     return "\n".join(parts)
 
 
-def inject_nav(html: str, new_nav_html: str) -> str:
+def inject_nav(html: str, new_nav_html: str, deel_prefix: str = "") -> str:
     """Vervang eerste <nav>...</nav>. Voegt CSS+JS toe als markers ontbreken.
 
     Werkt zowel voor <nav class="ov-nav"> (nieuw) als <nav class="nav">
     (legacy) en elke andere <nav>-vorm. Idempotent.
+
+    Voegt ook éénmalig de deel-menu assets toe (assets/deel-menu.css/.js),
+    tenzij die er al staan.
     """
     new_html, count = re.subn(
         r"<nav\b[^>]*>.*?</nav>",
@@ -208,6 +297,16 @@ def inject_nav(html: str, new_nav_html: str) -> str:
         if "</body>" not in new_html:
             raise RuntimeError("Geen </body> gevonden")
         new_html = new_html.replace("</body>", NAV_JS + "</body>", 1)
+
+    # Deel-menu assets (CSS in <head>, JS voor </body>)
+    if DEEL_ASSET_MARKER not in new_html:
+        css_link = DEEL_CSS_LINK.format(prefix=deel_prefix)
+        js_tag   = DEEL_JS_TAG.format(prefix=deel_prefix)
+        new_html = new_html.replace("</head>", "  " + css_link + "\n</head>", 1)
+        if "</body>" in new_html:
+            new_html = new_html.replace("</body>", "  " + js_tag + "\n</body>", 1)
+        else:
+            new_html = new_html + "\n" + js_tag + "\n"
     return new_html
 
 
@@ -318,9 +417,11 @@ def main():
                 "items": [_adjust(it) for it in menu_data[taal]["items"]],
             }
             nav_html = render_nav_html(adjusted)
+            # Diepte-prefix voor de deel-menu assets (../× depth naar site-root, dan taal/../ = één omhoog vanaf taal)
+            deel_prefix = ("../" * (depth + 1))  # +1 om uit de taalmap te komen
             try:
                 html = page.read_text(encoding="utf-8", errors="ignore")
-                new_html = inject_nav(html, nav_html)
+                new_html = inject_nav(html, nav_html, deel_prefix=deel_prefix)
             except RuntimeError as e:
                 fails += 1
                 print(f"  ! {page.relative_to(REPO)}: {e}")

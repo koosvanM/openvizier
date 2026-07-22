@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Deel-beheer · Het Open Vizier</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 2rem 1rem; background: #faf8f3; color: #1a1a1a;
+      font: 400 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .wrap { max-width: 780px; margin: 0 auto; }
+    h1 { font: 700 26px/1.2 Georgia, serif; color: #7a1f2b; margin: 0 0 0.5rem; }
+    .subtitle { color: #4a4a4a; margin: 0 0 2rem; }
+    .card {
+      background: #ffffff; border: 1px solid #e6e2d8; border-radius: 6px;
+      padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card h2 {
+      margin: 0 0 1rem; font: 700 18px/1.3 Georgia, serif; color: #7a1f2b;
+      border-bottom: 2px solid #f5f1e6; padding-bottom: 0.5rem;
+    }
+    label { display: block; margin: 0.75rem 0 0.3rem; font-weight: 600; font-size: 14px; }
+    input[type="password"], input[type="text"], input[type="number"] {
+      width: 100%; padding: 0.7rem 0.85rem; border: 1px solid #c8c4bb;
+      border-radius: 4px; font: 500 15px/1.2 inherit;
+    }
+    input:focus { outline: 2px solid #d4af37; outline-offset: 1px; border-color: #7a1f2b; }
+    button {
+      padding: 0.65rem 1.25rem; font: 600 14px/1.2 inherit; border-radius: 4px;
+      cursor: pointer; border: 1px solid transparent; margin-top: 0.75rem;
+    }
+    .btn-primary { background: #7a1f2b; color: #faf8f3; }
+    .btn-primary:hover:not(:disabled) { background: #5f1821; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-secondary { background: transparent; color: #4a4a4a; border-color: #c8c4bb; }
+    .btn-secondary:hover { background: #f0ede4; }
+    .error {
+      margin: 0.6rem 0; padding: 0.6rem 0.85rem;
+      background: #fce8ea; border-left: 3px solid #7a1f2b; color: #5a151f;
+      font-size: 13.5px; border-radius: 3px;
+    }
+    .success {
+      margin: 0.6rem 0; padding: 0.6rem 0.85rem;
+      background: #e8f4e0; border-left: 3px solid #4a7a2b; color: #2a4515;
+      font-size: 13.5px; border-radius: 3px;
+    }
+    .code-display {
+      background: #1a1a1a; color: #f5f1e6; padding: 1rem 1.25rem;
+      border-radius: 4px; font: 700 22px/1.2 "SF Mono", Menlo, Consolas, monospace;
+      letter-spacing: 0.08em; text-align: center; margin: 0.75rem 0;
+      user-select: all; word-break: break-all;
+    }
+    .code-share {
+      background: #f5f1e6; padding: 0.85rem 1rem; border-radius: 4px;
+      margin-top: 0.75rem; font-size: 13.5px; line-height: 1.5;
+      white-space: pre-wrap; font-family: system-ui, sans-serif;
+      border-left: 3px solid #d4af37; user-select: all;
+    }
+    .code-share-header {
+      font-weight: 600; margin-bottom: 0.4rem; color: #7a1f2b;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .copy-btn {
+      background: transparent; border: 1px solid #d4af37; color: #7a1f2b;
+      padding: 0.25rem 0.6rem; font-size: 12px; border-radius: 3px;
+      cursor: pointer; margin: 0;
+    }
+    .copy-btn:hover { background: #d4af37; color: #ffffff; }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 13.5px; }
+    th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid #ececec; vertical-align: top; }
+    th { font-weight: 600; color: #4a4a4a; background: #faf8f3; }
+    td.code { font-family: "SF Mono", Menlo, monospace; font-weight: 600; }
+    tr.expired td { color: #a4a4a4; text-decoration: line-through; }
+    tr.expired td.code { text-decoration: line-through; }
+    .status-active { color: #4a7a2b; font-weight: 600; }
+    .status-expired { color: #a4a4a4; }
+    .row { display: flex; gap: 0.75rem; align-items: end; flex-wrap: wrap; }
+    .row > * { flex: 1 1 200px; }
+    .row button { flex: 0 0 auto; }
+    .row label { margin-top: 0; }
+    .hint { font-size: 12.5px; color: #6a6a6a; margin-top: 0.35rem; }
+    .empty { color: #a4a4a4; font-style: italic; padding: 1rem 0; }
+    details { margin-top: 1rem; }
+    summary { cursor: pointer; font-weight: 600; color: #7a1f2b; font-size: 14px; }
+    pre.json {
+      background: #1a1a1a; color: #f5f1e6; padding: 1rem 1.25rem; border-radius: 4px;
+      font: 13px/1.5 "SF Mono", Menlo, monospace; overflow-x: auto; max-height: 320px;
+      user-select: all;
+    }
+    #app { display: none; }
+    #login { max-width: 420px; margin: 4rem auto 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Deel-beheer</h1>
+    <p class="subtitle">Toegangscodes voor PDF-downloads · Het Open Vizier</p>
+
+    <!-- Login -->
+    <div id="login" class="card">
+      <h2>Inloggen</h2>
+      <p style="margin:0 0 0.5rem; font-size:13.5px; color:#4a4a4a;">Voer de master-key in om codes te beheren.</p>
+      <label for="master">Master-key</label>
+      <input type="password" id="master" autocomplete="off" spellcheck="false" autofocus>
+      <div id="login-error" class="error" hidden></div>
+      <button class="btn-primary" id="login-btn" style="width:100%">Ontgrendelen</button>
+    </div>
+
+    <!-- App (na login) -->
+    <div id="app">
+      <!-- Generator -->
+      <div class="card">
+        <h2>Nieuwe code genereren</h2>
+        <div class="row">
+          <div>
+            <label for="days">Geldig gedurende (dagen)</label>
+            <input type="number" id="days" value="7" min="1" max="90">
+          </div>
+          <div>
+            <label for="klant">Voor wie (label, optioneel)</label>
+            <input type="text" id="klant" placeholder="bv. Klant A · juli-editie">
+          </div>
+          <button class="btn-primary" id="gen-btn">Genereer code</button>
+        </div>
+        <div class="hint">De code wordt niet naar een server gestuurd — hij komt hieronder te staan en jij commit het bijgewerkte JSON-bestand naar de repo.</div>
+
+        <div id="new-code" hidden>
+          <div class="success" style="margin-top:1.25rem;">Nieuwe code gegenereerd. Geef deze door aan de klant.</div>
+          <div class="code-display" id="code-value"></div>
+
+          <div class="code-share">
+            <div class="code-share-header">
+              <span>📱 Klaar-om-te-versturen bericht</span>
+              <button class="copy-btn" data-copy-target="share-nl">Kopieer</button>
+            </div>
+            <div id="share-nl"></div>
+          </div>
+          <div class="code-share">
+            <div class="code-share-header">
+              <span>🇬🇧 English</span>
+              <button class="copy-btn" data-copy-target="share-en">Copy</button>
+            </div>
+            <div id="share-en"></div>
+          </div>
+          <div class="code-share">
+            <div class="code-share-header">
+              <span>🇩🇪 Deutsch</span>
+              <button class="copy-btn" data-copy-target="share-de">Kopieren</button>
+            </div>
+            <div id="share-de"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overzicht -->
+      <div class="card">
+        <h2>Actieve en verlopen codes</h2>
+        <div id="code-list-empty" class="empty" hidden>Nog geen codes.</div>
+        <table id="code-list-table" hidden>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Label</th>
+              <th>Aangemaakt</th>
+              <th>Verloopt</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="code-list"></tbody>
+        </table>
+      </div>
+
+      <!-- Export / commit-instructie -->
+      <div class="card">
+        <h2>Bijgewerkte JSON downloaden</h2>
+        <p style="margin:0 0 0.75rem; font-size:13.5px; color:#4a4a4a;">
+          Kopieer de inhoud hieronder naar <code>assets/deel-codes.json</code> in je repo,
+          commit en push. Netlify deployt automatisch en de nieuwe codes zijn direct actief.
+        </p>
+        <div class="row" style="align-items:center;">
+          <button class="btn-primary" id="download-btn">Bestand downloaden</button>
+          <button class="btn-secondary" id="copy-json-btn">JSON kopiëren</button>
+          <button class="btn-secondary" id="cleanup-btn" title="Verwijder verlopen codes uit de lijst">Verlopen opruimen</button>
+        </div>
+        <details>
+          <summary>Voorbeeld — bekijk de JSON</summary>
+          <pre class="json" id="json-preview"></pre>
+        </details>
+      </div>
+
+      <div style="text-align:center; margin: 2rem 0 1rem;">
+        <button class="btn-secondary" id="logout-btn">Uitloggen</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function() {
+  'use strict';
+  // ─────────────────────────────────────────────────────────────
+  // Config
+  // ─────────────────────────────────────────────────────────────
+  var CODES_URL = '../assets/deel-codes.json';
+  var SESSION_KEY = 'ov-admin-sessie';
+  var SESSION_UREN = 8;   // hoe lang je ingelogd blijft (browser-sessie)
+  var config = null;      // Loaded JSON
+
+  // ─────────────────────────────────────────────────────────────
+  // Utils
+  // ─────────────────────────────────────────────────────────────
+  function $(id) { return document.getElementById(id); }
+
+  function sha256(str) {
+    var buf = new TextEncoder().encode(str);
+    return crypto.subtle.digest('SHA-256', buf).then(function(hash) {
+      return Array.from(new Uint8Array(hash))
+        .map(function(b) { return b.toString(16).padStart(2, '0'); })
+        .join('');
+    });
+  }
+
+  function genereerCode() {
+    // 8 tekens, formaat XXXX-XXXX, uit alfabet zonder verwarring (geen I, O, 0, 1)
+    var alfabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    var arr = new Uint8Array(8);
+    crypto.getRandomValues(arr);
+    var code = '';
+    for (var i = 0; i < 8; i++) code += alfabet[arr[i] % alfabet.length];
+    return code.slice(0, 4) + '-' + code.slice(4);
+  }
+
+  function fmtDatum(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    return d.toLocaleDateString('nl-NL', { year: 'numeric', month: 'short', day: '2-digit' });
+  }
+
+  function toast(msg) {
+    var el = document.createElement('div');
+    el.textContent = msg;
+    el.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);'
+      + 'background:#1a1a1a;color:#faf8f3;padding:0.7rem 1.2rem;border-radius:4px;'
+      + 'z-index:9999;box-shadow:0 4px 14px rgba(0,0,0,0.25);font-size:14px;';
+    document.body.appendChild(el);
+    setTimeout(function() { el.remove(); }, 2000);
+  }
+
+  function isVerlopen(iso) { return new Date(iso).toISOString() < new Date().toISOString(); }
+
+  // ─────────────────────────────────────────────────────────────
+  // Config laden
+  // ─────────────────────────────────────────────────────────────
+  function laadConfig() {
+    return fetch(CODES_URL, { cache: 'no-cache' })
+      .then(function(r) { return r.json(); })
+      .then(function(cfg) { config = cfg; if (!config.codes) config.codes = []; return cfg; });
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // Login
+  // ─────────────────────────────────────────────────────────────
+  function checkSessie() {
+    try {
+      var s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+      if (s && s.until > new Date().toISOString() && s.hash === config._master_key_hash) return true;
+    } catch (e) { /* negeer */ }
+    return false;
+  }
+
+  function login() {
+    var val = $('master').value;
+    if (!val) return;
+    $('login-error').hidden = true;
+    var btn = $('login-btn'); btn.disabled = true; btn.textContent = 'Controleren…';
+    sha256(val).then(function(h) {
+      if (h === config._master_key_hash) {
+        var until = new Date(Date.now() + SESSION_UREN * 3600 * 1000).toISOString();
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify({ hash: h, until: until }));
+        toonApp();
+      } else {
+        $('login-error').textContent = 'Onjuiste master-key.';
+        $('login-error').hidden = false;
+        $('master').select();
+      }
+      btn.disabled = false; btn.textContent = 'Ontgrendelen';
+    });
+  }
+
+  function toonApp() {
+    $('login').style.display = 'none';
+    $('app').style.display = 'block';
+    tekenLijst();
+    updateJsonPreview();
+  }
+
+  function logout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    location.reload();
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // Codes beheren
+  // ─────────────────────────────────────────────────────────────
+  function nieuweCode() {
+    var days = parseInt($('days').value, 10) || 7;
+    if (days < 1 || days > 90) { alert('Aantal dagen moet tussen 1 en 90 liggen.'); return; }
+    var label = $('klant').value.trim();
+    var code = genereerCode();
+    var nu = new Date();
+    var verloopt = new Date(nu.getTime() + days * 24 * 3600 * 1000);
+
+    sha256(code).then(function(hash) {
+      config.codes.push({
+        hash: hash,
+        aangemaakt: nu.toISOString(),
+        verloopt: verloopt.toISOString(),
+        label: label || null,
+        dagen: days
+      });
+      toonNieuweCode(code, verloopt);
+      tekenLijst();
+      updateJsonPreview();
+    });
+  }
+
+  function toonNieuweCode(code, verloopt) {
+    $('new-code').hidden = false;
+    $('code-value').textContent = code;
+    var verlooptStr = verloopt.toLocaleDateString('nl-NL', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+    var verlooptEn = verloopt.toLocaleDateString('en-GB', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+    var verlooptDe = verloopt.toLocaleDateString('de-DE', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    $('share-nl').textContent =
+      'Beste lezer,\n\n'
+      + 'Hierbij uw toegangscode voor het downloaden van PDF-artikelen op openvizier.org:\n\n'
+      + '    ' + code + '\n\n'
+      + 'Deze code is geldig tot ' + verlooptStr + '. Ga naar een artikel op openvizier.org, klik in het menu op "Delen → PDF downloaden" en voer de code in.\n\n'
+      + 'Vriendelijke groet,\nHet Open Vizier';
+
+    $('share-en').textContent =
+      'Dear reader,\n\n'
+      + 'Here is your access code to download PDF articles at openvizier.org:\n\n'
+      + '    ' + code + '\n\n'
+      + 'This code is valid until ' + verlooptEn + '. Open any article on openvizier.org, click "Share → Download PDF" in the menu, and enter the code.\n\n'
+      + 'Best regards,\nHet Open Vizier';
+
+    $('share-de').textContent =
+      'Sehr geehrte Leserin, sehr geehrter Leser,\n\n'
+      + 'Hier ist Ihr Zugangscode zum Herunterladen von PDF-Artikeln auf openvizier.org:\n\n'
+      + '    ' + code + '\n\n'
+      + 'Dieser Code ist gültig bis ' + verlooptDe + '. Öffnen Sie einen Artikel auf openvizier.org, klicken Sie im Menü auf „Teilen → PDF herunterladen" und geben Sie den Code ein.\n\n'
+      + 'Mit freundlichen Grüßen,\nHet Open Vizier';
+  }
+
+  function tekenLijst() {
+    var tbody = $('code-list');
+    tbody.innerHTML = '';
+    if (config.codes.length === 0) {
+      $('code-list-empty').hidden = false;
+      $('code-list-table').hidden = true;
+      return;
+    }
+    $('code-list-empty').hidden = true;
+    $('code-list-table').hidden = false;
+    // Nieuwste bovenaan
+    var sorted = config.codes.slice().sort(function(a, b) {
+      return b.aangemaakt.localeCompare(a.aangemaakt);
+    });
+    sorted.forEach(function(c) {
+      var tr = document.createElement('tr');
+      var verlopen = isVerlopen(c.verloopt);
+      if (verlopen) tr.className = 'expired';
+      tr.innerHTML =
+          '<td class="code">' + c.hash.slice(0, 8) + '…</td>'
+        + '<td>' + (c.label || '<em style="color:#a4a4a4">—</em>') + '</td>'
+        + '<td>' + fmtDatum(c.aangemaakt) + '</td>'
+        + '<td>' + fmtDatum(c.verloopt) + '</td>'
+        + '<td>' + (verlopen
+              ? '<span class="status-expired">Verlopen</span>'
+              : '<span class="status-active">Actief</span>') + '</td>'
+        + '<td><button class="btn-secondary" style="padding:0.25rem 0.6rem;font-size:12px;margin:0" data-del="' + c.hash + '">Verwijder</button></td>';
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('[data-del]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (!confirm('Deze code definitief verwijderen?')) return;
+        var h = btn.getAttribute('data-del');
+        config.codes = config.codes.filter(function(c) { return c.hash !== h; });
+        tekenLijst();
+        updateJsonPreview();
+      });
+    });
+  }
+
+  function opruimen() {
+    var voor = config.codes.length;
+    config.codes = config.codes.filter(function(c) { return !isVerlopen(c.verloopt); });
+    var na = config.codes.length;
+    tekenLijst();
+    updateJsonPreview();
+    toast((voor - na) + ' verlopen code(s) verwijderd.');
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // Export
+  // ─────────────────────────────────────────────────────────────
+  function jsonString() {
+    // Zelfde structuur behouden, alleen bijgewerkte codes-array
+    var out = Object.assign({}, config);
+    return JSON.stringify(out, null, 2) + '\n';
+  }
+  function updateJsonPreview() { $('json-preview').textContent = jsonString(); }
+  function download() {
+    var blob = new Blob([jsonString()], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'deel-codes.json'; a.click();
+    URL.revokeObjectURL(url);
+    toast('Bestand gedownload. Vervang assets/deel-codes.json in je repo.');
+  }
+  function copyJson() {
+    navigator.clipboard.writeText(jsonString()).then(function() { toast('JSON gekopieerd.'); });
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // Init
+  // ─────────────────────────────────────────────────────────────
+  function bindShareCopyButtons() {
+    document.querySelectorAll('.copy-btn[data-copy-target]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var target = document.getElementById(btn.getAttribute('data-copy-target'));
+        if (!target) return;
+        navigator.clipboard.writeText(target.textContent).then(function() { toast('Gekopieerd.'); });
+      });
+    });
+  }
+
+  laadConfig().then(function() {
+    if (checkSessie()) { toonApp(); }
+    $('login-btn').addEventListener('click', login);
+    $('master').addEventListener('keydown', function(e) { if (e.key === 'Enter') login(); });
+    $('gen-btn').addEventListener('click', nieuweCode);
+    $('download-btn').addEventListener('click', download);
+    $('copy-json-btn').addEventListener('click', copyJson);
+    $('cleanup-btn').addEventListener('click', opruimen);
+    $('logout-btn').addEventListener('click', logout);
+    bindShareCopyButtons();
+  }).catch(function(err) {
+    document.body.innerHTML = '<div class="wrap"><div class="card"><h2>Fout</h2><p>Kon assets/deel-codes.json niet laden: ' + err.message + '</p></div></div>';
+  });
+})();
+</script>
+</body>
+</html>

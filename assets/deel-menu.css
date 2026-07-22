@@ -1,0 +1,95 @@
+/* ov-deel v1 — deelmenu binnen ov-nav (gestileerde PDF, Facebook, kopieer link, mailto)
+   Verwacht: <div class="ov-nav__dropdown ov-deel" data-ov-deel> ... </div>
+   Gerenderd door scripts/menu_bouwen.py.  Handmatig wijzigen niet aanbevolen. */
+
+.ov-deel .ov-nav__submenu { min-width: 240px; right: 0; left: auto; }
+.ov-deel .ov-nav__subitem { display: flex; align-items: center; gap: 0.65rem; cursor: pointer; }
+.ov-deel .ov-nav__subitem svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.75; }
+.ov-deel .ov-nav__subitem:hover svg { opacity: 1; }
+
+/* Toast (bevestiging bij kopieer link) */
+.ov-deel-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: #1a1a1a; color: #faf8f3; padding: 0.7rem 1.2rem;
+  border-radius: 4px; box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  font: 500 0.92rem/1.3 system-ui, sans-serif; letter-spacing: 0.01em;
+  opacity: 0; transition: opacity 0.2s ease; z-index: 3000; pointer-events: none;
+}
+.ov-deel-toast.is-visible { opacity: 1; }
+
+/* PDF-render workspace (verborgen) */
+.ov-deel-pdf-workspace {
+  position: fixed; left: -10000px; top: 0; width: 780px;
+  background: #faf8f3; color: #1a1a1a; padding: 0;
+  font: 400 12pt/1.55 Georgia, "Times New Roman", serif;
+}
+.ov-deel-pdf-workspace .ov-pdf-cover {
+  padding: 48px 56px 32px; border-bottom: 3px solid #7a1f2b; margin-bottom: 24px;
+}
+.ov-deel-pdf-workspace .ov-pdf-cover h1 {
+  font: 700 26pt/1.2 Georgia, serif; color: #7a1f2b; margin: 0 0 8px;
+}
+.ov-deel-pdf-workspace .ov-pdf-meta {
+  font-size: 10pt; color: #4a4a4a; margin: 0;
+}
+.ov-deel-pdf-workspace .ov-pdf-body { padding: 0 56px 32px; }
+.ov-deel-pdf-workspace .ov-pdf-body h2 { color: #7a1f2b; font-size: 16pt; margin-top: 20pt; }
+.ov-deel-pdf-workspace .ov-pdf-body h3 { color: #7a1f2b; font-size: 13pt; }
+.ov-deel-pdf-workspace .ov-pdf-body img { max-width: 100%; height: auto; }
+.ov-deel-pdf-workspace .ov-pdf-footer {
+  border-top: 1px solid #d4d1ca; padding: 16px 56px 48px; margin-top: 24px;
+  font-size: 9pt; color: #4a4a4a; line-height: 1.5;
+}
+.ov-deel-pdf-workspace .ov-pdf-footer a { color: #7a1f2b; word-break: break-all; }
+
+/* Wachtwoord-gate (modal) */
+.ov-deel-gate-overlay {
+  position: fixed; inset: 0; background: rgba(26,26,26,0.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2500; padding: 1rem;
+}
+.ov-deel-gate {
+  background: #faf8f3; color: #1a1a1a; max-width: 420px; width: 100%;
+  border-radius: 6px; padding: 1.5rem 1.75rem; box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  border-top: 4px solid #7a1f2b;
+  font: 400 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.ov-deel-gate h3 { margin: 0 0 0.5rem; font: 700 18px/1.3 Georgia, serif; color: #7a1f2b; }
+.ov-deel-gate p { margin: 0 0 1rem; color: #4a4a4a; font-size: 14px; }
+.ov-deel-gate-input {
+  width: 100%; box-sizing: border-box; padding: 0.7rem 0.85rem;
+  border: 1px solid #c8c4bb; border-radius: 4px; font: 500 15px/1.2 inherit;
+  background: #ffffff; color: #1a1a1a;
+}
+.ov-deel-gate-input:focus { outline: 2px solid #d4af37; outline-offset: 1px; border-color: #7a1f2b; }
+.ov-deel-gate-error {
+  margin-top: 0.6rem; padding: 0.5rem 0.75rem;
+  background: #fce8ea; border-left: 3px solid #7a1f2b; color: #5a151f;
+  font-size: 13px; border-radius: 3px;
+}
+.ov-deel-code-input {
+  font-family: "SF Mono", Menlo, Consolas, monospace !important;
+  font-size: 18px !important; letter-spacing: 0.15em; text-align: center;
+  text-transform: uppercase;
+}
+.ov-deel-gate-note {
+  margin: 0.9rem 0 0; font-size: 12.5px; color: #6a6a6a; text-align: center;
+}
+
+.ov-deel-gate-actions {
+  margin-top: 1.1rem; display: flex; gap: 0.6rem; justify-content: flex-end;
+}
+.ov-deel-gate-cancel, .ov-deel-gate-submit {
+  padding: 0.55rem 1.1rem; font: 600 14px/1.2 inherit; border-radius: 4px;
+  cursor: pointer; border: 1px solid transparent;
+}
+.ov-deel-gate-cancel { background: transparent; color: #4a4a4a; border-color: #c8c4bb; }
+.ov-deel-gate-cancel:hover { background: #f0ede4; }
+.ov-deel-gate-submit { background: #7a1f2b; color: #faf8f3; }
+.ov-deel-gate-submit:hover:not(:disabled) { background: #5f1821; }
+.ov-deel-gate-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Print-media alternatief (browser Cmd-P) */
+@media print {
+  .ov-nav, .ov-deel-toast, .ov-deel-pdf-workspace, .ov-deel-gate-overlay { display: none !important; }
+}
