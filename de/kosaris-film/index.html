@@ -233,14 +233,49 @@
 </section>
 
 <script>
-  document.querySelectorAll('.chapter').forEach(item => {
-    item.addEventListener('click', () => {
-      const video = document.getElementById('filmVideo');
-      video.currentTime = parseInt(item.dataset.time);
-      video.play();
-      document.querySelector('.film-player').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Kosaris-film: schone hoofdstuk-sprong zonder audio-glitch bij het seeken.
+  //
+  // De oude implementatie zette video.currentTime en riep direct play() aan.
+  // De browser begint dan de audiodecoder te leegdraaien op de OUDE positie,
+  // wat een korte kraak (~0.4s "prrrrrr") produceert voor het beeld op de
+  // nieuwe positie staat. Fix: pauzeer + mute, wacht op 'seeked', unmute
+  // met kleine fade, dan play.
+  (function() {
+    var video = document.getElementById('filmVideo');
+    if (!video) return;
+
+    function schoonSpringen(sec) {
+      var wasMuted = video.muted;
+      video.pause();
+      video.muted = true;
+      // Volgens de HTML5-spec vuurt 'seeked' na een geldige seek.
+      // We gebruiken 'once' om schoon op te ruimen.
+      var onSeeked = function() {
+        video.removeEventListener('seeked', onSeeked);
+        var p = video.play();
+        // Play kan een Promise geven; unmute pas na eerste frame.
+        var unmute = function() {
+          video.muted = wasMuted;
+        };
+        if (p && typeof p.then === 'function') {
+          p.then(function() { requestAnimationFrame(unmute); }).catch(unmute);
+        } else {
+          requestAnimationFrame(unmute);
+        }
+      };
+      video.addEventListener('seeked', onSeeked, { once: true });
+      // Zetten van currentTime na de listener zorgt dat we niets missen.
+      video.currentTime = sec;
+    }
+
+    document.querySelectorAll('.chapter').forEach(function(item) {
+      item.addEventListener('click', function() {
+        var sec = parseInt(item.dataset.time, 10) || 0;
+        schoonSpringen(sec);
+        document.querySelector('.film-player').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
-  });
+  })();
 </script>
 
   <script defer src="../../assets/deel-menu.js"></script>
