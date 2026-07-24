@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Il suo termostato è più intelligente del suo ministro — Het Open Vizier</title>
+  <meta name="description" content="E non è uno scherzo. È matematica.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<style>
+    .auteursblok { max-width: 760px; margin: 4rem auto 2rem auto; padding: 1.5rem 1.5rem; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+    .auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+    .auteursblok__tekst { line-height: 1.55; }
+    .auteursblok__naam { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+    .auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+    .auteursblok__intro { font-family: var(--serif, Georgia, serif); font-size: 0.95rem; color: #4a5263; margin: 0 0 0.5rem 0; }
+    .auteursblok__link { font-size: 0.9rem; color: #1c5760; text-decoration: none; }
+    .auteursblok__link:hover { text-decoration: underline; }
+    @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
+</style><link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Lingua: Italiano">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Lingua</span>
+    <span class="masthead__taal__cur">· Italiano</span>
+  </a>
+  <div class="masthead__date">Edizione 2 — Giovedì 28 maggio 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+
+<div class="gratis-band">Bollettino informativo gratuito e senza pubblicità<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Indipendente, nessuna opinione, nessuna vendita di dati</strong><span class="gratis-band__sep"> — </span><a href="../op-de-hoogte.html" class="gratis-band__cta">Tienimi aggiornato →</a></div>
+
+<nav class="ov-nav" aria-label="Menu principale">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Copertina</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item ov-nav__item--has-dropdown" href="../filosofie/">Filosofia <span aria-hidden="true" class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../filosofie/">Filosofia</a>
+        <a class="ov-nav__subitem" href="../sprookjes/">Racconto</a>
+        <a class="ov-nav__subitem" href="../leesboek/">Libro di lettura</a>
+        <a class="ov-nav__subitem" href="../7-dim-film/">Film 7-Dim</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Film Kosaris</a>
+      </div>
+    </div>
+    <a class="ov-nav__item" href="../wat-opkomt/">Clima</a>
+    <a class="ov-nav__item" href="../verkennen.html">Panoramica</a>
+    <a class="ov-nav__item" href="../editie-6/">Nova Democratia</a>
+    <a class="ov-nav__item" href="../editie-2/">Tasse</a>
+    <a class="ov-nav__item" href="../onderzoeken/">Ricerca</a>
+    <a class="ov-nav__item" href="../colofon.html">Colofone</a>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link copiato" data-msg-copy-prompt="Copia questo link:" data-mail-subject="Articolo di Het Open Vizier: " data-mail-footer="Condiviso via openvizier.org" data-pdf-building="Creazione PDF in corso…" data-pdf-done="PDF scaricato" data-pdf-fail="Creazione PDF non riuscita — provi Cmd+P" data-pdf-source="Fonte" data-pdf-note="Condiviso via openvizier.org — il giornale di opinione multilingue." data-gate-title="Codice di accesso" data-gate-body="Inserisca il suo codice di accesso per scaricare gli articoli in PDF." data-gate-submit="Sblocca" data-gate-cancel="Annulla" data-gate-checking="In corso…" data-gate-invalid="Inserisca un codice valido." data-gate-wrong="Codice errato o scaduto." data-gate-server-error="Impossibile verificare i codici. Riprovi più tardi." data-gate-note="Non ha ancora un codice? Contatti Het Open Vizier.">
+      <a class="ov-nav__item ov-nav__item--has-dropdown" href="#delen">Condividi <span aria-hidden="true" class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Scarica PDF</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Condividi su Facebook</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copia link</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Invia via e-mail</span></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Versione">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Estesa</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In breve</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pausa" data-resume-label="Riprendi">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Ascolta</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/nl/editie-2/thermostaat.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Articolo principale</span>
+    <h1 class="slide__title">Il suo termostato è più intelligente del suo ministro</h1>
+    <p class="slide__lead">E non è uno scherzo. È matematica.</p>
+    <p class="slide__meta">Di Jacobus van Merksteijn · 12 min di lettura · 28 maggio 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/thermostaat.jpg" alt="Termostato con banda morta">
+  </div>
+</section>
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Il conto della serva</h2>
+    <p>Vengono rubati 20.000 euro. Risolverlo costa 73.000.</p>
+    <p>Lei sa in tre secondi cosa fare: niente. Lasciar correre. Continuare con la sua vita. Chiunque abbia un libro dei conti di casa lo capisce.</p>
+    <p>Il governo no. Il governo istituisce una commissione. Assume consulenti. Scrive un protocollo. Tiene una conferenza stampa. Spende 73.000 euro per recuperarne 20.000, e lo chiama fermezza.</p>
+    <p>53.000 euro di perdita extra. Il suo denaro. Il mio denaro. Bruciato come carburante per un momento mediatico.</p>
+    <p>E lei paga. Ogni mese di nuovo. Per persone che non sanno fare i conti, ma possono governare.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Quello che un termostato capisce già</h2>
+    <p>Prenda il suo termostato. L'apparecchio più stupido di casa sua. Nessuna laurea, nessun governo, nessun consiglio consultivo. E tuttavia più intelligente di tutto il parlamento.</p>
+    <p>Ha qualcosa chiamato banda morta. Lei lo imposta a 20 gradi. A 19,9 non fa nulla. A 20,1 non fa nulla. Interviene solo quando è davvero necessario.</p>
+    <p>Perché? Perché un termostato che reagisce ad ogni 0,1 gradi si guasta in una settimana. Si autodistrugge a furia di commutazioni. Ogni ingegnere lo sa. Gli studenti di ingegneria dei controlli del primo anno lo imparano nella prima settimana. Non è un'opinione, è una legge di natura.</p>
+    <p>Ogni regolatore in ogni fabbrica funziona così. Ogni aereo. Ogni automobile. Ogni pacemaker. Un sistema di controllo senza banda morta oscilla fino ad autodistruggersi. Punto.</p>
+    <p>Il governo olandese non ha una banda morta. Ed è esattamente questo che vediamo accadere da trent'anni. Solo che lo chiamiamo "politica".</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Lo scandalo dei sussidi non è stato un incidente</h2>
+    <p>Abbiamo liquidato lo scandalo dei sussidi come un incidente. Come un fallimento amministrativo. Come pregiudizio. Come un sistema che è "deragliato".</p>
+    <p>Sciocchezze.</p>
+    <p>Lo scandalo dei sussidi è stato l'esito logico di un governo che dà la caccia a poche centinaia di euro presso madri single con un apparato di controllo che costa decine di migliaia di euro per caso. Non è deragliare. È esattamente quello che fa un sistema di controllo senza banda morta: autodistruggersi su piccole deviazioni, travolgendo nel processo le persone che ne sono l'oggetto.</p>
+    <p>Gli esecutori non erano mostri. Facevano il loro lavoro. Il lavoro era il mostro.</p>
+    <p>E sa qual è la cosa peggiore? Il sistema non è cambiato. Ci siamo scusati. Abbiamo versato del denaro. Abbiamo sostituito alcune persone. E il motore continua a girare — solo un po' più cauto su chi tritura questa volta.</p>
+    <p>Il prossimo scandalo dei sussidi è già in arrivo. Nessuno sa ancora solo quale gruppo sarà il prossimo.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">È ovunque. Basta guardare.</h2>
+    <p>La lavoratrice autonoma che non ha dipendenti, non conserva dati di clienti, e deve comunque tenere un protocollo GDPR. Protetto: nessuno. Sprecato: una settimana della sua vita. Ogni anno.</p>
+    <p>L'imprenditore che richiede 5.000 euro di sussidio e deve pagare 3.000 euro a un commercialista per dimostrare di averli davvero spesi. Il commercialista ride. Lo stato aggrotta le sopracciglia. L'imprenditore ha già perso il 60% del suo sussidio prima di aver fatto qualcosa.</p>
+    <p>Il parco giochi che viene chiuso perché l'ispezione costa più dell'attrezzo. I bambini non giocano più fuori. Ma l'ente ispettivo ha un bel rapporto annuale.</p>
+    <p>Il vicino che non può più potare il suo albero senza permesso. Due mesi di attesa. Tre moduli. Cinquecento euro. Per un ramo di due metri.</p>
+    <p>Ogni singola regola sembra ragionevole. Ogni funzionario che l'ha inventata aveva una buona storia. Un bel momento in una sala riunioni. Un sorriso persistente.</p>
+    <p>La somma totale è un paese che si strangola da solo. E le persone che stringono il laccio ottengono una promozione ogni quattro anni.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Perché questo continua ad accadere</h2>
+    <p>Perché il sistema premia chi interviene, e punisce chi non interviene.</p>
+    <p>Un ministro che "agisce con forza" finisce sul telegiornale. Un ministro che calcola che intervenire costa più del problema e perciò non fa nulla, finisce anche lui sul telegiornale — come chi guarda altrove. Come chi si sottrae. Come "qualcuno che non fa nulla contro gli abusi".</p>
+    <p>Chi crea una nuova regola ottiene credito e un'onorificenza. Chi cancella una vecchia regola si trova contro sei gruppi di interesse, una causa legale, e un articolo di giornale che insinua che sia pericoloso.</p>
+    <p>La matematica è semplice: il sistema normativo cresce sempre. Ogni legge si aggiunge. Quasi nessuna legge viene rimossa. Trent'anni dopo lei si trova in un paese in cui non può più esistere senza un permesso, e nessuno sa più spiegarle perché.</p>
+    <p>Non è un complotto. È pigrizia più incentivi. Ed è mantenuto deliberatamente da chiunque ne viva — ed è un esercito.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Una regola. Non di più.</h2>
+    <p>Propongo una sola regola. Una. Nessuna sottocategoria, nessuna eccezione, nessun comitato di saggi autorizzato a "interpretare" la regola perché questo è diventato il suo mestiere.</p>
+    <div class="callout"><p><strong>Ogni legge, controllo o correzione deve dimostrare che i costi di esecuzione sono inferiori al danno che viene prevenuto. In caso contrario: lasciar correre.</strong></p></div>
+    <p>Fatto. Tutto qui.</p>
+    <p>Nessuna etica. Nessuna politica. Nessun "sì, ma il segnale". Un numero contro un numero. Costi del problema sopra, costi della soluzione sotto, linea di frazione. Sopra l'1: non farlo. Sotto l'1: farlo. Una calcolatrice da cinque euro può farlo.</p>
+    <p>E proprio per questo sarà combattuta. Perché ogni amministratore, ogni funzionario, ogni consulente, ogni agente di controllo, ogni supervisore che ora guadagna il pane con correzioni che costano più di quanto rendano — si ritroverebbe a mani vuote.</p>
+    <p>Bene. Che vadano a fare qualcos'altro. Qualcosa di utile, magari.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Ciò che resta irrisolto — e perché non è debolezza ma maturità</h2>
+    <p>Con questa regola, parte dei problemi resterà irrisolta. Piccole frodi. Infrazioni marginali. Incidenti simbolici a cui il giornale ora dedica un'intera colonna e di cui, dopo una settimana, nessuno si ricorda più nulla.</p>
+    <p>Non è un fallimento. È diventare adulti come società.</p>
+    <p>Accettiamo ogni giorno che le persone muoiano nel traffico perché non fissiamo il limite a 30. Accettiamo che alcuni mangino in modo poco sano perché non vietiamo lo zucchero. Accettiamo cento rischi statisticamente molto più grandi di qualsiasi cosa in un fascicolo di assistenza sociale.</p>
+    <p>Ma non appena si tratta di denaro — frode, sussidi, un euro qui o là — ogni deviazione diventa improvvisamente intollerabile. Non è coerenza. È uno spasmo morale. Un riflesso che ci costa denaro e distrugge le persone.</p>
+    <p>Chi vuole combattere tutto, combatte soprattutto se stesso. E i suoi vicini. E i suoi figli. E il suo futuro.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">La controargomentazione, e perché è vile</h2>
+    <p>"Ma così accettiamo l'ingiustizia. Diamo il segnale sbagliato."</p>
+    <p>Mi risparmi.</p>
+    <p>Accettiamo l'ingiustizia anche ora. Solo che la nascondiamo. Ogni euro destinato a far rispettare un errore da cento euro non va al bambino che non riceve gli occhiali. Non va all'operatore sanitario esausto. Non va alla lista d'attesa per l'assistenza minorile. Non va al vicino che ha davvero bisogno di aiuto.</p>
+    <p>L'ingiustizia che non vediamo non è più piccola. È solo più silenziosa. E un amministratore che reagisce solo al rumore non è un amministratore. È una banderuola con una catena da sindaco.</p>
+    <p>Chi è contrario a questo principio deve spiegarmi una cosa: perché è meglio spendere 73.000 per un furto di 20.000? Mi dia il numero. Mi dia il calcolo. Non il sentimento.</p>
+    <p>Aspetto.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">In conclusione</h2>
+    <p>Dai piloti esigiamo che valutino razionalmente. Anche dai medici. Dagli ingegneri, dai contabili, dai capitani di nave e dagli operatori di grù. Tutti professionisti che ogni giorno devono scegliere quali rischi valga la pena ridurre e quali no.</p>
+    <p>Dagli amministratori ci aspettiamo l'opposto. Che affrontino ogni problema, indipendentemente dal costo. E se qualcuno propone di smettere di farlo, gli si dice che è spietato.</p>
+    <p>Spietato non è chi fa i conti. Spietato è chi, senza fare i conti, spreca il denaro degli altri per il proprio esibizionismo morale.</p>
+    <p>Un governo con una banda morta non è un governo indifferente. È un governo maturo. Uno che accetta che le sue risorse sono limitate, che le sue correzioni causano esse stesse dei danni, e che il non agire è talvolta la scelta più civile.</p>
+    <p>Non ogni deviazione merita di essere corretta.</p>
+    <p>Ed è tempo che esigiamo dai nostri amministratori ciò che da un termostato da quaranta euro consideriamo già scontato da tempo.</p>
+    <p>Altrimenti, tanto vale nominare il termostato primo ministro. Almeno lo farebbe a costi più bassi.</p>
+  </div>
+</section>
+
+
+
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Copertina">
+  <a href="../../nl/editie-2/index.html" class="navbar__terug">← Torna a Edizione 2</a>
+  <a href="../../nl/" class="navbar__home">⌂ Copertina</a>
+  <a href="../../nl/verkennen.html" class="navbar__verk">↻ Esplora</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+</div>
+<div class="version-content__kort">
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Il suo termostato è più intelligente del suo ministro</h2>
+    <p class="slide__lead">E non è uno scherzo. È matematica.</p>
+    <p>Vengono rubati 20.000 euro. Risolverlo costa 73.000. Chiunque abbia un libro dei conti di casa sa cosa fare: niente. Il governo no.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Il nucleo</h2>
+    <p>Un termostato ha una banda morta: interviene solo quando è davvero necessario. Un sistema di controllo senza banda morta oscilla fino ad autodistruggersi. Il governo olandese non ha una banda morta.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">La soluzione</h2>
+    <div class="callout">
+      <p><strong>Una regola: ogni legge, controllo o correzione deve dimostrare che i costi di esecuzione sono inferiori al danno che viene prevenuto. In caso contrario: lasciar correre.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Conclusione</h2>
+    <p>Non ogni deviazione merita di essere corretta. È tempo che esigiamo dai nostri amministratori ciò che da un termostato da quaranta euro consideriamo già scontato da tempo.</p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<aside class="auteursblok">
+  <div class="auteursblok__foto"><img decoding="async" src="../../assets/auteur/jvm_studio.jpg" alt="Jacobus van Merksteijn" loading="lazy"></div>
+  <div class="auteursblok__tekst">
+    <p class="auteur-naam">Jacobus van Merksteijn</p>
+    <p>Direttore responsabile di Het Open Vizier. Imprenditore, sviluppatore di innovazioni industriali e di governance (Carbon-Alert Ltd, TerraClean Ltd, GuardSkin Ltd). Scrive di questioni sistemiche economiche, ecologiche e politiche a partire dall'esperienza con le macchine decisionali di Bruxelles e dell'Aia.</p>
+  </div>
+</aside>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Edizione 2 — Giovedì 28 maggio 2026</p>
+    <p><a href="../">Vai a edizione 2</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+<script src="../../assets/nav-mobile.js" defer></script>
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>

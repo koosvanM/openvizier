@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perché sono come sono — Het Open Vizier</title>
+  <meta name="description" content="Sul risultato finale, e le persone che pensano solo al domani">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    .auteursblok { max-width: 760px; margin: 4rem auto 2rem auto; padding: 1.5rem 1.5rem; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+    .auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+    .auteursblok__tekst { line-height: 1.55; }
+    .auteursblok__naam { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+    .auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+    .auteursblok__intro { font-family: var(--serif, Georgia, serif); font-size: 0.95rem; color: #4a5263; margin: 0 0 0.5rem 0; }
+    .auteursblok__link { font-size: 0.9rem; color: #1c5760; text-decoration: none; }
+    .auteursblok__link:hover { text-decoration: underline; }
+    @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
+
+    /* Bouwstenen-grid voor sectie V */
+    .bouwstenen {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      margin: var(--space-6) 0;
+    }
+    @media (min-width: 768px) {
+      .bouwstenen {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .bouwsteen {
+      padding: var(--space-4) 1.25rem;
+      background: var(--paper-soft);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+    }
+    .bouwsteen__titel {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      letter-spacing: 0.02em;
+      margin: 0 0 0.5rem 0;
+    }
+    .bouwsteen__tekst {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+    /* Aanwie-blokken voor sectie VII */
+    .aanwie {
+      padding: var(--space-4) 1.25rem;
+      margin: var(--space-3) 0;
+      background: var(--paper-soft);
+      border-left: 3px solid #1d4f7a;
+      border-radius: 4px;
+    }
+    .aanwie__label {
+      font-family: var(--sans);
+      color: #1d4f7a;
+      letter-spacing: 0.02em;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .aanwie__tekst {
+      margin: 0;
+    }
+    /* Sectie-nummers */
+    .slide__num {
+      display: inline-block;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.5rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    /* Slot-slide */
+    .slide--close {
+      background: var(--paper-warm);
+    }
+  </style>
+<link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Lingua: Italiano">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Lingua</span>
+    <span class="masthead__taal__cur">· Italiano</span>
+  </a>
+  <div class="masthead__date">Edizione 2 — Giovedì 28 maggio 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+
+<div class="gratis-band">Bollettino informativo gratuito e senza pubblicità<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Indipendente, nessuna opinione, nessuna vendita di dati</strong><span class="gratis-band__sep"> — </span><a href="../op-de-hoogte.html" class="gratis-band__cta">Tienimi aggiornato →</a></div>
+
+<nav class="ov-nav" aria-label="Menu principale">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Copertina</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item ov-nav__item--has-dropdown" href="../filosofie/">Filosofia <span aria-hidden="true" class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../filosofie/">Filosofia</a>
+        <a class="ov-nav__subitem" href="../sprookjes/">Racconto</a>
+        <a class="ov-nav__subitem" href="../leesboek/">Libro di lettura</a>
+        <a class="ov-nav__subitem" href="../7-dim-film/">Film 7-Dim</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Film Kosaris</a>
+      </div>
+    </div>
+    <a class="ov-nav__item" href="../wat-opkomt/">Clima</a>
+    <a class="ov-nav__item" href="../verkennen.html">Panoramica</a>
+    <a class="ov-nav__item" href="../editie-6/">Nova Democratia</a>
+    <a class="ov-nav__item" href="../editie-2/">Tasse</a>
+    <a class="ov-nav__item" href="../onderzoeken/">Ricerca</a>
+    <a class="ov-nav__item" href="../colofon.html">Colofone</a>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link copiato" data-msg-copy-prompt="Copia questo link:" data-mail-subject="Articolo di Het Open Vizier: " data-mail-footer="Condiviso tramite openvizier.org" data-pdf-building="Creazione del PDF in corso…" data-pdf-done="PDF scaricato" data-pdf-fail="Creazione del PDF non riuscita — provi con Cmd+P" data-pdf-source="Fonte" data-pdf-note="Condiviso tramite openvizier.org — il quotidiano di opinione multilingue." data-gate-title="Codice di accesso" data-gate-body="Inserisca il suo codice di accesso per scaricare gli articoli in PDF." data-gate-submit="Sblocca" data-gate-cancel="Annulla" data-gate-checking="Verifica in corso…" data-gate-invalid="Inserisca un codice valido." data-gate-wrong="Codice errato o scaduto." data-gate-server-error="Impossibile verificare i codici. Riprovi più tardi." data-gate-note="Non ha ancora un codice? Contatti Het Open Vizier.">
+      <a class="ov-nav__item ov-nav__item--has-dropdown" href="#delen">Condividi <span aria-hidden="true" class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Scarica PDF</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Condividi su Facebook</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copia link</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Invia via e-mail</span></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Versione">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Estesa</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In breve</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pausa" data-resume-label="Riprendi">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Ascolta</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/nl/editie-2/waarom-ik-zo-ben.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Editoriale personale</span>
+    <h1 class="slide__title">Perché sono come sono</h1>
+    <p class="slide__lead">Sul risultato finale, e le persone che pensano solo al domani</p>
+    <p class="slide__meta">Di Jacobus van Merksteijn · 18 min di lettura · 28 maggio 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/waarom-ik-zo-ben.jpg" alt="Una mano scrive a lume di candela — guardando al risultato finale">
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">I</span>
+    <h2 class="slide__heading">L'unica cosa che conta</h2>
+    <p>C'è solo una cosa importante in questo mondo: il risultato finale.</p>
+    <p>Questo le persone lo dimenticano volentieri. Pensano al domani, alla settimana, al trimestre, alle prossime elezioni, al prossimo acquisto, al prossimo complimento, alla prossima vacanza. Non pensano al risultato finale. Non a ciò che resta quando tutti i movimenti si sono fermati e la realtà mostra ciò che veramente era.</p>
+    <p>Questa non è una posizione filosofica che ho raccolto in una conversazione. È la posizione da cui ho lavorato, scelto, rifiutato e perso per tutta la mia vita. Ed è la posizione da cui scrivo questo articolo. Perché chi vuole capire perché sono come sono, deve prima capire questa unica cosa: io non guardo al domani. Guardo alla fine, e ragiono a ritroso.</p>
+    <p>Un pneumatico che dura 25 anni e 500.000 chilometri non lo si progetta rendendo domani qualcosa leggermente meglio di oggi. Lo si progetta stabilendo prima dove si vuole essere tra un quarto di secolo, e misurando poi ogni passo su questo. Un reattore a fusione che funzioni davvero non si costruisce affinando il tokamak dell'anno scorso. Lo si costruisce comprendendo prima in quale realtà la fusione <em>davvero</em> si svolge — ed è una realtà che non rientra in quattro dimensioni, per quanti miliardi l'ITER continui a investirvi. Un paese non si governa evitando di essere fischiati domani in televisione. Un paese si governa chiedendosi cosa ne resterà tra cento anni.</p>
+    <p>Chi pensa solo al domani, ottiene il domani. Chi guarda alla fine, ottiene la possibilità di creare qualcosa che arrivi alla fine. È una distinzione sgradevole per la maggioranza, che preferisce il comfort più breve. Mi ci rassegno, ma non vi partecipo.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">II</span>
+    <h2 class="slide__heading">Come sono arrivato a questa posizione</h2>
+    <p>Questa non è saggezza innata. È stata imparata, e pagata a caro prezzo.</p>
+    <p>Sono stato cresciuto da una madre che mi ha tolto completamente di mano il legame con il mondo esterno. Nei miei primi decenni non ho dovuto negoziare nulla con il mondo. Ci pensava lei. A me era permesso occuparmi della tecnica — l'università, il sistema della conoscenza, la progettazione, la realizzazione. L'azienda di famiglia crebbe tra il 1955 e il 1995 da zero a un valore esprimibile in centinaia di milioni. Questo mi riusciva costantemente, perché potevo lavorare in uno spazio interiore raramente interrotto.</p>
+    <p>In superficie sembrava un regalo. Nella mia percezione è qualcosa d'altro: lei mi ha negato la mia vita. Non ho imparato a portare un matrimonio — da qui tre divorzi. Non ho imparato a essere padre nel modo in cui avrei voluto esserlo — da qui la distanza che alla fine si è creata con quattro dei miei cinque figli. Non ho imparato a percepire il mondo esterno nel modo in cui lo fanno le persone lasciate andare in quel mondo a tempo debito — da qui il tempo che più avanti nella vita ho dovuto dedicare a una sorta di riqualificazione che la maggior parte delle persone completa tra i vent'anni e i quaranta.</p>
+    <p>Ma — e questo è l'altro lato della stessa medaglia — quello che lei fece fu darmi la concentrazione indisturbata in cui l'<em>istinto primordiale</em> non si spense. È la capacità con cui un bambino di quattro anni guarda negli occhi di uno straniero e sa immediatamente se la situazione è a posto. La capacità con cui un cane legge un essere umano. Il collegamento diretto tra percezione e intuizione senza il passaggio intermedio del ragionamento linguistico. Quasi tutti la perdono tra i quattro e i diciotto anni, perché il sistema scolastico e l'ambiente sociale la addestrano via sistematicamente sotto etichette come <em>non essere così sensibile</em>, <em>pensa prima</em>, <em>dimostralo</em>.</p>
+    <p>In me non si è spenta. Non perché io abbia fatto qualcosa di speciale, ma perché la protezione di mia madre ha impedito che l'usura agisse su di essa come agisce sugli altri. Questa è la perdita e il guadagno in uno: mi mancano decenni di vita vissuta, ma possiedo uno strumento che la maggior parte delle persone attorno a me ha perso.</p>
+    <p>Da qui il fatto che io veda cose che altri non notano. Da qui il fatto che possa condurre quattro o cinque progetti contemporaneamente, ognuno dei quali sarebbe da solo l'opera di una vita. Da qui anche il fatto che io mi rapporti in modo completamente diverso rispetto alla maggioranza verso proprietà, eredità e linee familiari. Non perché sia freddo, ma perché guardo da un altro posto.</p>
+    <p>Questo sono io. Non per scelta in prima istanza, ma è dove sono arrivato per ciò che mi è accaduto. E in quell'arrivare ho trovato che la posizione è anche giustificata — non per tutti, ma per chi ha il lavoro che io devo fare.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">III</span>
+    <h2 class="slide__heading">Il prezzo che ho pagato — e non solo io</h2>
+    <p>I miei genitori scelsero, nonostante il mio consiglio pressante, una struttura ereditaria in cui io e mio fratello non diventavamo proprietari di ciò che avevamo costruito, ma solo amministratori. Sembra un tecnicismo giuridico. Non lo è. È una decisione strutturale che ha trasformato due fratelli in concorrenti in un assetto in cui poteva vincere solo uno. Mio fratello si accaparrò la guida attraverso vie traverse e da quel momento mi vide come un fastidioso co-pensatore. Ho dovuto vendere la mia parte per una cifra ben inferiore al valore reale, solo per poterne uscire. Non ho venduto solo azioni — ho venduto una parte della mia vita sotto il suo prezzo, a un fratello che usò contro di me la struttura che i nostri genitori avevano creato.</p>
+    <p>Mio fratello e la sua famiglia hanno tenuto fino a oggi le tasche piene. Mio figlio mi disse più tardi, sulla stessa linea: <em>"Papà, tu hai solo consumato i soldi che nonno e nonna hanno guadagnato."</em> Sull'avidità di suo zio nessuna parola. Sulla struttura che ci ha spezzato nessuna parola. Su ciò che ho effettivamente costruito tra il 1955 e il 1995 — nessuna parola. Una visione unilaterale, trasmessa attraverso una linea che non ha mai voluto vedere cosa stesse realmente accadendo. E non ne ha bisogno. Fa il loro interesse vederla così.</p>
+    <p>Ciò che dico qui ad alta voce, possono tranquillamente leggerlo e trarne le loro conclusioni. Questo è openvizier.org. Qui non si sussurra più dietro le spalle.</p>
+    <p>Ma non scrivo questo per ferire mio fratello o mio figlio. Lo scrivo perché sono gli esempi da manuale di ciò che intendo con <em>persone che pensano al domani e dimenticano il risultato finale</em>. Mio fratello pensava alla sua presa diretta sull'azienda. Il risultato finale è che non ci sono più fratelli. Mio figlio pensa alla sua versione della storia familiare. Il risultato finale è che non esiste più un rapporto padre-figlio, e che presto non potrà più spiegare ai suoi figli chi fosse davvero suo nonno.</p>
+    <p>Se avessero guardato alla fine, avrebbero preso decisioni diverse. Non è un'accusa. È una diagnosi. Ed è la diagnosi che vedo applicabile a un'intera società.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">IV</span>
+    <h2 class="slide__heading">Da quattro o cinque a otto miliardi</h2>
+    <p>Qui si riunisce il mio modo di vivere.</p>
+    <p>Ho cinque figli biologici. Con una sola — Mirle — ho un vero contatto. È l'unica che non usa la sua intelligenza (due volte laureata con lode) come un'arma, per la quale il denaro non è la misura, e che non agisce dal registro narcisistico in cui gli altri sono finiti. Non ho diseredato gli altri quattro senza motivo. Non voglio essere il padre che, una generazione dopo, trasmette di nuovo lo stesso veleno che ha diviso me e mio fratello. Il denaro nelle mani di persone che non possono sostenere il lavoro produce effetti prevedibili — rafforza ciò che già c'è e induce a irrigidirsi ciò che non dovrebbe irrigidirsi.</p>
+    <p>Ma questa decisione non è il nocciolo. Il nocciolo è che ho spostato la mia scala. La terra esiste 24 ore in un'immagine cosmica; l'umanità esiste in quella scala solo dieci secondi. Io vivo in quei dieci secondi la mia frazione come un effimero. In questa consapevolezza decade la logica secondo cui dovrei lasciare il mio lavoro e il mio patrimonio a cinque eredi biologici. Gli otto miliardi di persone che vivono ora, e le generazioni che verranno prima che l'umanità completi i suoi dieci secondi — <em>questi</em> sono i miei figli. Non perché non riconosca una preferenza per coloro che ho realmente generato, ma perché la scala in cui penso ora non riguarda più quello.</p>
+    <p>Quattro o cinque miei progetti possono, se atterrano bene, generare centinaia di milioni fino a miliardi di ricavi. Neutralità di CO₂ tramite biomassa. Produzione di etanolo. Pneumatici che durano un quarto di secolo. Aerei con il 16,5 percento in meno di carburante. Navi con il 65 percento in meno di carburante. Energia eolica con l'8,5 percento in più di rendimento. Celle solari con dal 2 al 5 percento in più. Formula 1 che diventa più veloce di secondi al giro. Fusione nucleare da un modello di lavoro a sette dimensioni invece che a quattro. Questi ricavi non li dividerò tra cinque stanze private. Li indirizzerò verso ciò che l'umanità nei suoi restanti dieci secondi può ancora correggere del danno che ha causato nei suoi primi secondi.</p>
+    <p>Non è una vendetta contro i miei figli, per quanto la leggano così. È semplicemente la mia risposta alla domanda su cosa dovrebbe essere il risultato finale di una vita come la mia. Una vita che è iniziata in uno spazio chiuso in cui non vivevo ma imparavo a vedere — e che finisce, si spera tardi, in uno spazio quanto più aperto possibile in cui la capacità visiva scorre verso l'esterno, verso dove appartiene.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">V</span>
+    <h2 class="slide__heading">Ciò che vedo andare perduto nell'istruzione</h2>
+    <p>Ciò che è stato conservato in me grazie alla particolare protezione di mia madre, lo vedo distrutto in quasi tutti i bambini da ciò che come società chiamiamo <em>educazione</em> e <em>istruzione</em>. Non è un giudizio aneddotico. È la mia diagnosi dopo decenni di lavoro con persone al più alto livello tecnico.</p>
+    <p>Lo scheletro prussiano della nostra istruzione — stare seduti fermi a comando, rispondere solo se autorizzati, dare la risposta corretta, non alzare la mano senza permesso, correggere il bambino che pensa diversamente finché non rientra nello schema — ha servito la rivoluzione industriale. Per l'era della conoscenza è una zavorra.</p>
+    <p>Un bambino che dice <em>"sento che questo non è giusto"</em> riceve la controdomanda <em>puoi dimostrarlo?</em> Se non può farlo a parole, la sensazione viene scartata. Nel momento in cui il bambino riesce a dimostrarlo, la sensazione stessa è sparita. Premiamo il pensiero verticale — logico, sequenziale, linguistico — e puniamo il sapere orizzontale: associativo, corporeo, intuitivo. Non per malafede. Per bisogno di misurabilità. Ciò che non si può valutare, non conta.</p>
+    <p>E così la società perde a ogni generazione lo strumento con cui avrebbe potuto risolvere i suoi problemi più grandi. Non perché la natura non lo distribuisca, ma perché noi lo spegniamo sistematicamente. Per lo studente medio la perdita è forse limitata. Per la mente potenzialmente eccezionale — il futuro inventore, il pensatore che sposta i confini, la persona che avrebbe potuto diventare ciò che io sono diventato per caso — è devastante.</p>
+    <p>Ciò che vedo per la formazione di quelli che chiamo <em>esperti di qualità estrema</em>:</p>
+    <div class="bouwstenen">
+      <div class="bouwsteen">
+        <h3 class="bouwsteen__titel">Il silenzio come materia</h3>
+        <p class="bouwsteen__tekst">Non la meditazione come prestazione, ma imparare a gestire il non fare nulla senza trovarlo scomodo. Un bambino che non sa stare in silenzio non può sentire se stesso. Chi non sente se stesso, non può nemmeno sentire il lavoro quando chiama.</p>
+      </div>
+      <div class="bouwsteen">
+        <h3 class="bouwsteen__titel">Il corpo come bussola</h3>
+        <p class="bouwsteen__tekst">Il corpo non è un mezzo di trasporto per la testa. È una fonte di informazioni con un proprio linguaggio. I bambini che imparano a prendere sul serio i propri segnali corporei sviluppano una sensibilità per le situazioni che nessun modello analitico può sostituire.</p>
+      </div>
+      <div class="bouwsteen">
+        <h3 class="bouwsteen__titel">Le storie prima delle spiegazioni</h3>
+        <p class="bouwsteen__tekst">Mitologia, fiabe, archetipi — insegnano a un bambino a riconoscere schemi a un livello più profondo della conoscenza fattuale. Lo strato analitico arriva dopo, e finalmente ha qualcosa su cui appoggiarsi.</p>
+      </div>
+      <div class="bouwsteen">
+        <h3 class="bouwsteen__titel">Il dubbio come posizione legittima</h3>
+        <p class="bouwsteen__tekst"><em>"Non lo so, ma sento qualcosa che qui non va"</em> deve essere permesso, senza essere liquidato. Tutte le grandi scoperte sono iniziate da un presentimento senza dimostrazione. Chi disimpara il presentimento, disimpara anche la scoperta.</p>
+      </div>
+      <div class="bouwsteen">
+        <h3 class="bouwsteen__titel">Mentori invece di insegnanti</h3>
+        <p class="bouwsteen__tekst">L'istinto primordiale non si impara da un libro. Solo osservando qualcuno che lo possiede ancora. Una sola persona così nella vita di un bambino può salvare un talento.</p>
+      </div>
+      <div class="bouwsteen">
+        <h3 class="bouwsteen__titel">Protezione della concentrazione profonda</h3>
+        <p class="bouwsteen__tekst">Un bambino assorto in qualcosa non deve essere continuamente interrotto per <em>fare anche qualcos'altro</em>. Quell'assorbimento <em>è</em> l'istinto primordiale al lavoro. Molti talenti si perdono qui — non per insegnanti severi, ma per pedagoghi affettuosi che credono che un bambino versatile sia un bambino felice. Un bambino a cui è permesso immergersi in qualcosa è il più felice.</p>
+      </div>
+      <div class="bouwsteen">
+        <h3 class="bouwsteen__titel">La natura come ambiente di apprendimento quotidiano</h3>
+        <p class="bouwsteen__tekst">Non come gita una volta ogni trimestre, ma come terreno su cui avviene l'apprendimento.</p>
+      </div>
+    </div>
+    <p>Nessuno di questi elementi è nuovo. Reggio Emilia, la Finlandia, l'istruzione Māori in Nuova Zelanda, gli impulsi Waldorf, singole scuole di piccola scala — esiste. Funziona. E tuttavia non viene realmente adottato a livello nazionale in nessun paese europeo. Non perché non sia pedagogicamente possibile, ma perché una società di persone con l'istinto primordiale intatto è <strong>ingovernabile</strong> nel senso attuale del termine. Comprano di meno. Votano diversamente. Non lavorano più su cose che sembrano prive di senso. Non si lasciano impiegare per le avventure del potere.</p>
+    <p>Questo è esattamente il motivo per cui il sistema le produce come le produce. Non è un effetto collaterale sfortunato di un sistema bene intenzionato. È, in modo non dichiarato, un criterio di progettazione. Il potere non ama le persone che guardano alla fine.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">VI</span>
+    <h2 class="slide__heading">Perché ora lascio l'Olanda</h2>
+    <p>La mia scelta di lasciare l'Olanda e stabilirmi a Malta e Mallorca non è una fuga. È lo stesso ragionamento che applico a tutto: guardare al risultato finale, e agire di conseguenza.</p>
+    <p>L'Olanda è diventata degli stranieri. Lasciano che governino il paese — il mio futuro, il futuro di tutti noi — mentre i governanti formalmente in carica non hanno più nulla da dire. L'Olanda diventerà islamica in futuro, e non voglio avere niente a che fare con questo. Chi lo dice ad alta voce riceve un'etichetta appioppata esattamente dalle persone che lo hanno rendo possibile. Chi non lo dice e guarda altrove ricade nello stesso errore che diagnostico in questo articolo: pensare solo al domani, e lasciare il risultato finale al destino. Voglio semplicemente vivere a Malta, dove le tasse sono ancora normali e dove il lavoro ottiene lo spazio che in Olanda non ottiene più — finché sarà così, perché nemmeno questo durerà per sempre.</p>
+    <p>Non sono disposto a sottoporre il mio lavoro in corso a un sistema fiscale e amministrativo che agisce strutturalmente contro il lavoro. La splendida casa a cui ho lavorato per venticinque anni devo venderla per rendere fiscalmente possibile la separazione dall'Olanda. Questo mi tocca il cuore. Un quarto di secolo della mia vita svanisce in una valutazione che non può cogliere ciò che vi è stato investito. Ma così sia. Il risultato finale pesa più del comfort del domani, anche qui.</p>
+    <p>Malta mi offre collaborazione universitaria, nazionalità, e un terreno fiscale su cui il mio lavoro può poggiare. Mallorca mi offre il luogo dove davvero amo risiedere. I progetti continuano — determinati, con la fine sempre di nuovo come punto di riferimento.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__num">VII</span>
+    <h2 class="slide__heading">Ciò che chiedo, e a chi</h2>
+    <div class="aanwie">
+      <strong class="aanwie__label">Al lettore che non mi conosce:</strong>
+      <p class="aanwie__tekst">non legga questo come lo sfogo di un vecchio che regola i conti. Lo legga come la diagnosi di qualcuno che per tutta la vita ha guardato al risultato finale e che nel suo campo — scienza dei materiali, energia, propulsione, fusione — ha visto quel modo di guardare dare i suoi frutti. La diagnosi si riassume in una frase: <em>pensiamo al domani e dimentichiamo il futuro, e questo ci costa come civiltà più di quanto ci rendiamo conto.</em></p>
+    </div>
+    <div class="aanwie">
+      <strong class="aanwie__label">Ai genitori e agli insegnanti:</strong>
+      <p class="aanwie__tekst">guardino ai bambini che li circondano come se portassero con sé qualcosa che non devono insegnare, ma proteggere. Un bambino assorto in qualcosa — lo si lasci assorbire. Un bambino che dice <em>"sento che questo non va"</em> — lo si prenda sul serio, anche se manca la spiegazione. Un bambino che vuole stare in silenzio — gli si dia il silenzio. Siete più spesso guardiani di qualcosa già presente, che fornitori di qualcosa che deve ancora arrivare.</p>
+    </div>
+    <div class="aanwie">
+      <strong class="aanwie__label">Ai responsabili politici, per quanto leggano anche loro:</strong>
+      <p class="aanwie__tekst">chiedo una sola ricerca onesta e ampiamente finanziata. Non cosa imparano i bambini tra i tre e i diciotto anni, ma cosa perdono in quel periodo di capacità che una volta avevano. E qual è il prezzo di questo — per loro stessi, per l'economia, per il paese, per la specie.</p>
+    </div>
+    <div class="aanwie">
+      <strong class="aanwie__label">A mio fratello, mio figlio, e i miei quattro figli con cui non ho più contatti:</strong>
+      <p class="aanwie__tekst">ciò che scrivo qui non è un atto d'accusa né un'offerta di riconciliazione. È una registrazione fattuale di dove mi trovo e perché mi trovo lì. Chi vuole trarne conclusioni, può farlo. Chi non vuole, va bene lo stesso. La mia attenzione non va più a vecchi conti. La mia attenzione va al lavoro che deve essere fatto, e al risultato finale.</p>
+    </div>
+    <div class="aanwie">
+      <strong class="aanwie__label">A Mirle:</strong>
+      <p class="aanwie__tekst">tu sai chi sei per me. La tua intelligenza è in questa famiglia l'unica che non viene usata come un'arma. Per te non vale nulla di ciò che sopra è stato detto sui tuoi fratelli e sorelle. Questo non lo hai preso da un libro, e non solo da te stessa. È — da qualche parte, a un livello sotto tutto ciò che è accaduto — anche qualcosa che ti è stato trasmesso da me. Questo è ciò che ho guadagnato da questa vita.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide slide--close">
+  <div class="slide__inner">
+    <span class="slide__num">VIII</span>
+    <h2 class="slide__heading">Conclusione</h2>
+    <p>C'è solo una cosa importante in questo mondo: il risultato finale.</p>
+    <p>Mia madre pensava al domani quando mi ha isolato dal mondo, e il risultato finale è stato che ho potuto iniziare la mia vita solo quando lei è morta. I miei genitori pensavano al domani quando ci hanno fatto amministratori e non proprietari, e il risultato finale sono stati due fratelli che non sono più fratelli. Mio fratello pensa ancora al domani, e il risultato finale sarà che il suo nome in questa famiglia non rappresenterà ciò che ha costruito, ma ciò che ha sottratto. Mio figlio pensa alla sua versione della storia, e il risultato finale è che non avrà mai davvero conosciuto suo padre.</p>
+    <p>Un'intera società pensa al domani — al suo trimestre, alle sue elezioni, al suo status, ai suoi consumi — e il risultato finale sarà che non ha risolto le grandi questioni del suo tempo perché ha sistematicamente schiacciato le persone che avevano l'istinto primordiale per risolverle.</p>
+    <p>Cerco di fare qualcosa di diverso nei dieci secondi che mi sono assegnati in tempo cosmico. Guardo al risultato finale, e agisco di conseguenza. Talvolta a scapito del comfort, talvolta a scapito della famiglia, talvolta a scapito della patria. Ma mai a scapito del lavoro e mai a scapito della bussola con cui il lavoro viene svolto.</p>
+    <p>Questo è il motivo per cui sono come sono.</p>
+    <p>Chi vuole leggerlo, lo legga. Chi non vuole, va bene lo stesso. Il mio lavoro continua.</p>
+    <p>---</p>
+    <p><em>Jacobus van Merksteijn è imprenditore, inventore e pensatore, attivo nella scienza dei materiali, nella conversione energetica e nella tecnologia industriale. Scrive in questo luogo a viso aperto.</em></p>
+  </div>
+</section>
+
+
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Copertina">
+  <a href="../../nl/editie-2/index.html" class="navbar__terug">← Torna a Edizione 2</a>
+  <a href="../../nl/" class="navbar__home">⌂ Copertina</a>
+  <a href="../../nl/verkennen.html" class="navbar__verk">↻ Esplora</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+</div>
+<div class="version-content__kort">
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Perché sono come sono</h2>
+    <p class="slide__lead">Sul risultato finale, e le persone che pensano solo al domani.</p>
+    <p>C'è solo una cosa importante: il risultato finale. Chi pensa solo al domani, ottiene il domani. Chi guarda alla fine, ottiene la possibilità di creare qualcosa che arrivi alla fine.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Come sono arrivato lì</h2>
+    <p>Mia madre mi ha isolato completamente dal mondo esterno. Questo mi ha costato decenni di vita vissuta — tre divorzi, distanza da quattro dei miei cinque figli, una riqualificazione sociale iniziata tardi. Ma ha anche mantenuto intatto l'istinto primordiale che la maggior parte delle persone perde tra i quattro e i diciotto anni. Perdita e guadagno in uno.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Una diagnosi, non un'accusa</h2>
+    <p>Mio fratello pensava alla sua presa diretta sull'azienda — il risultato finale è che non ci sono più fratelli. I miei genitori pensavano al domani quando ci hanno fatto amministratori e non proprietari — il risultato sono due vite spezzate. Non è un'accusa. È una diagnosi. Ed è la stessa diagnosi che vedo applicabile a un'intera società.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Otto miliardi di figli</h2>
+    <p>Ho spostato la mia scala. La terra esiste 24 ore in immagine cosmica; l'umanità dieci secondi. Quattro o cinque dei miei progetti possono, se atterrano, generare miliardi di ricavi. Non li dividerò tra cinque stanze private. Li indirizzerò verso ciò che l'umanità nei suoi dieci secondi può ancora correggere.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">L'istruzione distrugge l'istinto primordiale</h2>
+    <p>Lo scheletro prussiano della nostra istruzione — stare seduti fermi a comando, dare la risposta corretta, correggere il bambino che pensa diversamente — ha servito la rivoluzione industriale. Per l'era della conoscenza è una zavorra. Premiamo il pensiero verticale e puniamo il sapere orizzontale. Non per malafede, per bisogno di misurabilità.</p>
+    <div class="callout">
+      <p><strong>Una società di persone con l'istinto primordiale intatto è ingovernabile nel senso attuale. Ecco perché il sistema le produce come le produce.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide slide--close">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Conclusione</h2>
+    <p>Cerco di fare qualcosa di diverso nei dieci secondi che mi sono assegnati in tempo cosmico. Guardo al risultato finale, e agisco di conseguenza. Talvolta a scapito del comfort, talvolta a scapito della famiglia, talvolta a scapito della patria. Ma mai a scapito del lavoro e mai a scapito della bussola con cui il lavoro viene svolto.</p>
+    <p><strong>Questo è il motivo per cui sono come sono.</strong></p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<aside class="auteursblok">
+  <div class="auteursblok__foto"><img decoding="async" src="../../assets/auteur/jvm_studio.jpg" alt="Jacobus van Merksteijn" loading="lazy"></div>
+  <div class="auteursblok__tekst">
+    <p class="auteur-naam">Jacobus van Merksteijn</p>
+    <p>Direttore responsabile di Het Open Vizier. Imprenditore, sviluppatore di innovazioni industriali e di governance (Carbon-Alert Ltd, TerraClean Ltd, GuardSkin Ltd). Scrive di questioni sistemiche economiche, ecologiche e politiche a partire dall'esperienza con le macchine decisionali di Bruxelles e dell'Aia.</p>
+  </div>
+</aside>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Edizione 2 — Giovedì 28 maggio 2026</p>
+    <p><a href="../">Vai a edizione 2</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+<script src="../../assets/nav-mobile.js" defer></script>
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>
