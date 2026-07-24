@@ -1,0 +1,78 @@
+/* ov-nav — canoniek horizontaal menu met dropdowns, gedistilleerd uit nl/index.html
+   Zorgt dat alle pagina's die het menu invoegen dezelfde stijl krijgen zonder
+   inline <style> blokken.
+*/
+
+/* Masthead */
+.masthead { text-align:center; padding: 2.5rem 1.5rem 1.5rem; }
+.masthead__title { font-family: Georgia, serif; font-weight:700; font-size:clamp(2rem,5vw,3.4rem); color:#1a1a1a; margin:0; }
+.masthead__title a { color:inherit !important; text-decoration:none !important; }
+.masthead__date { font-size:0.85rem; letter-spacing:0.08em; text-transform:uppercase; color:#1c5760; margin-top:0.5rem; }
+.masthead__tagline { font-family:Georgia, serif; font-style:italic; color:#4a5263; margin-top:0.5rem; font-size:1.05rem; }
+.masthead__taal { position:absolute; top:1.5rem; right:1.5rem; font-size:0.85rem; color:#4a5263; text-decoration:none; }
+.masthead__taal__huis { font-size:1.2rem; margin-right:0.3rem; }
+.masthead__taal__label { text-transform:uppercase; letter-spacing:0.05em; }
+.masthead__taal__cur { font-weight:600; margin-left:0.2rem; color:#7a1f2b; }
+
+/* ov-nav — platte horizontale nav met zachte dropdown-overgangen */
+.ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+.ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+.ov-nav__item {
+  display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+  font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+  font-size:0.95rem; line-height:1.2;
+  transition: background-color 180ms ease-out, color 180ms ease-out;
+}
+.ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+.ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+.ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+/* Dropdown */
+.ov-nav__dropdown { position:relative; display:inline-block; }
+.ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+.ov-nav__submenu {
+  position:absolute; top:100%; left:0; min-width:220px;
+  background:#ffffff; border:1px solid #d4d1ca;
+  box-shadow:0 8px 24px rgba(0,0,0,0.10);
+  padding:0.4rem 0; z-index:1000; border-radius:4px;
+  opacity:0; visibility:hidden;
+  transform: translateY(-4px);
+  transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+}
+.ov-nav__dropdown::after {
+  content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+  pointer-events:auto;
+}
+.ov-nav__dropdown:hover .ov-nav__submenu,
+.ov-nav__dropdown:focus-within .ov-nav__submenu {
+  opacity:1; visibility:visible; transform: translateY(0);
+  transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+}
+
+.ov-nav__subitem {
+  display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+  text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+.ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+.ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+.ov-nav__submenu hr { border:0; border-top:1px solid #e4e1d8; margin:0.35rem 0; }
+
+@media (max-width:720px) {
+  .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+  .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+  .ov-nav__submenu {
+    position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+    min-width:0; background:transparent;
+    opacity:1; visibility:visible; transform:none; transition:none;
+    display:none;
+  }
+  .ov-nav__dropdown::after { display:none; }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+  .ov-nav__submenu { transform:none !important; }
+}
