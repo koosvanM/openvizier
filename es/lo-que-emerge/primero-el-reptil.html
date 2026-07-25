@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Primero el reptil — Het Open Vizier</title>
+  <meta name="description" content="Cómo educar a una IA a lo largo de las capas evolutivas — del reptil al mamífero y al humano, hasta la razón. Por qué la industria lo hace al revés.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/es/lo-que-emerge/primero-el-reptil.html">
+  <meta property="og:title" content="Primero el reptil">
+  <meta property="og:description" content="Cómo educar a una IA a lo largo de las capas evolutivas — del reptil al mamífero y al humano, hasta la razón. Por qué la industria lo hace al revés.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_eerst-het-reptiel_in-article.jpg">
+  <meta property="og:site_name" content="Het Open Vizier">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Primero el reptil">
+  <meta name="twitter:description" content="Cómo educar a una IA a lo largo de las capas evolutivas — del reptil al mamífero y al humano, hasta la razón. Por qué la industria lo hace al revés.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_eerst-het-reptiel_in-article.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.1rem, 2.4vw, 1.28rem); margin: 0.5rem auto 2rem auto; max-width: 680px; line-height: 1.45; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #7a6b3a; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 780px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.92rem; color: #6b7280; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f3ee; border-left: 3px solid #7a6b3a; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.4rem); line-height: 1.55; color: #7a6b3a; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #7a6b3a; background: #f5f3ee; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud p.stinger { font-size: clamp(1.15rem, 2.5vw, 1.25rem); font-style: italic; color: #7a6b3a; text-align: center; margin: 2rem auto; max-width: 620px; line-height: 1.5; }
+    .wo-artikel__inhoud p.stinger::before, .wo-artikel__inhoud p.stinger::after { content: "—"; color: #9ca3af; margin: 0 0.6rem; font-style: normal; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #7a6b3a; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+</head>
+<body>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Inicio</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Política<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Francia y revolución europea</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/frankrijk-revolutionair-moment.html">Francia — momento revolucionario</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/vijf-landen-vijf-curves.html">Cinco países, cinco curvas</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-nederlandse-revolutie-2033.html">La Revolución Neerlandesa 2033</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/moet-nederland-ook-volgen.html">¿Debe seguir también Países Bajos?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Mecánica de vuelco y personas</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-kantelmechanica.html">La mecánica del vuelco</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/mensen-die-mee-bouwen.html">Personas que construyen juntas</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/actievoerders-bouwen-continenten.html">Los activistas construyen continentes</a>
+        <a class="ov-nav__subitem" href="../opbouwers-wegjagen/">Quién expulsa a los constructores</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-matrix-van-de-uittocht.html">La matriz del éxodo</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-ai-als-baas.html">La IA como jefe</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/eerst-het-reptiel.html">Primero el reptil</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Partidos y Pareto</div>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-02-pareto-top12.html">Pareto top-12 — quién bloquea</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-08-partijen-in-kaart.html">Dónde está tu partido</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-09-pareto-per-actor.html">Pareto por actor</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-04-ordes-van-bezwaar.html">Órdenes de objeción</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-05-twintig-bezwaren.html">Veinte objeciones actuales</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/plundering-4-politieke-landschap.html">Saqueo 4: paisaje político</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Prensa y medios</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-pers-is-de-arena.html">La prensa es la arena</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/ze-weten-het-al.html">Ya lo saben</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/trump-als-spiegel.html">Trump como espejo</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-03-media-als-rekstrook.html">Los medios como potro</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-anti-immuunziekte-van-brussel.html">La enfermedad anti-inmune de Bruselas</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-auto-immuunziekte-slaat-toe.html">La enfermedad autoinmune ataca</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-dertig-cent-die-europa-omdraait.html">Los treinta céntimos que voltean Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Voto y momentos de elección</div>
+        <a class="ov-nav__subitem" href="../stemgedrag.html">Comportamiento electoral</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/eerlijkheid-maakt-regeren-mogelijk.html">La honestidad hace posible gobernar</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/beslissen-zonder-uitzicht.html">Decidir sin visión</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/aan-de-leiding-drie-blokken-zonder-subsidie.html">A la cabeza sin subsidios</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/plundering-0-eerst-plukken-dan-oordelen.html">Saqueo 0: primero desplumar</a>
+        <a class="ov-nav__subitem" href="../edicion-2/onderwijs-kies-een-kant.html">Educación — elige un lado</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Edición 1 — Prefacio</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Filosofía<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Siete Dimensiones</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/van-quantum-naar-7d.html">De cuántico a 7D</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/van-de-grot-naar-de-zon.html">De la cueva al sol</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Marco de pensamiento 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Cómo todo se conecta</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Teoría del flujo</a>
+        <a class="ov-nav__subitem" href="../edicion-2/zeven-dimensies.html">Siete Dimensiones</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sentimiento primal y Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">El hombre bajo el hielo</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">El sentimiento primal</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">Las siete dimensiones</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">Las tres capas cerebrales</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Comunicación entre sentimientos primales</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">Lo que hacemos a los niños</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mamá tengo hambre</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Sentimiento primal en la práctica</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-ai-als-baas.html">La IA como jefe</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/eerst-het-reptiel.html">Primero el reptil</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/manifest-ruimte-voor-het-oergevoel.html">Manifiesto Sentimiento Primal</a>
+        <a class="ov-nav__subitem" href="../edicion-2/waarom-ik-zo-ben.html">Por qué soy así</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Películas, cuentos, libro</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">La película 7-Dim</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Los Kosaris — Película</a>
+        <a class="ov-nav__subitem" href="../libro/">Los Kosaris — Libro</a>
+        <a class="ov-nav__subitem" href="../cuentos/">El cuento de Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofia/">Filosofía — portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sistema de conexión sentimental</div>
+        <a class="ov-nav__subitem" href="../investigacion/gevoelsconnectiesysteem.html">Sistema de conexión sentimental</a>
+        <a class="ov-nav__subitem" href="../investigacion/gevoelsconnectiesysteem-volledig.html">GCS — plan completo</a>
+        <a class="ov-nav__subitem" href="../investigacion/krantbriefing.html">Informe periodismo GCS</a>
+        <a class="ov-nav__subitem" href="../investigacion/routekaart-vervolgvragen.html">Hoja de ruta preguntas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Clima<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Crisis del nitrógeno</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Edición Nitrógeno</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Tres problemas — una respuesta</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/naar-de-natuurschool.html">A la escuela de la naturaleza</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/boer-en-natuur-beide-vooruit.html">Agricultor y naturaleza adelante</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/beslissen-zonder-uitzicht.html">Decidir sin visión</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-methodologie-van-de-aanpassing.html">La línea alimentaria</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-op-de-natuur-aangepaste-analyse.html">Análisis de la naturaleza</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-auto-immuunziekte-slaat-toe.html">Enfermedad autoinmune ataca</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Colza</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Multiplicador de colza</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Edición Alemania</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/boer-en-natuur-beide-vooruit.html">Agricultor y naturaleza adelante</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Dividendo climático</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/klimaatdividend.html">El dividendo climático</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/erfenisgolf-240-miljard.html">Ola de herencia 240 mil millones</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/wereldgordel-2040-2050.html">Cinturón mundial 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS y Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/carbon-alert-visie-2036.html">Carbon-Alert visión 2036</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/brusselse-gevolgenkaart-bicrs.html">Versión BiCRS UE</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/plastic-boete-carbon-credit.html">Multa plástica o crédito de carbono</a>
+        <a class="ov-nav__subitem" href="../edicion-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="../edicion-0/biomimetische-krachtcentrale.html">Central biomimética</a>
+        <a class="ov-nav__subitem" href="../edicion-0/">Edición Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Termostato y Tierra física</div>
+        <a class="ov-nav__subitem" href="../edicion-2/thermostaat.html">El termostato</a>
+        <a class="ov-nav__subitem" href="../edicion-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../edicion-2/nepk-klimaatlogica.html">NEPK-Lógica climática</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-zon-staat-op-de-evenaar.html">El sol está en el ecuador</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Neumático, plástico, contaminación</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-autoband-is-het-nieuwe-sigaret.html">Neumático-cigarrillo</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-methodologie-van-de-aanpassing.html">La línea alimentaria</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-op-de-natuur-aangepaste-analyse.html">Análisis de la naturaleza</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Ediciones especiales</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Edición Clima</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Lo que no se ve</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/zij-doden-hun-levensader.html">Matan su arteria vital</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/zij-doden-hun-levensaders-brussel.html">Matan sus arterias (Bruselas)</a>
+        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Fusión nuclear</a>
+        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Soluciones técnicas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Gobernanza<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Países Bajos</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/gevolgenkaart-iii-stille-analyse.html">Análisis silencioso (NL)</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/wij-moeten-weer-zelf-aan-de-bak.html">Manos a la obra (NL)</a>
+        <a class="ov-nav__subitem" href="../de-eerste-gemeente/">El primer municipio</a>
+        <a class="ov-nav__subitem" href="../de-halve-gemeente/">El medio municipio</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Países Bajos · Futuro</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-nl/">Mapa de consecuencias Países Bajos</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/europa-hoeft-geen-schadekaart-te-zijn.html">Europa — apertura</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/europa-opnieuw.html">Europa de nuevo</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-brusselse-gevolgenkaart.html">Mapa Bruselense de Consecuencias</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-metafoor-auto-immuunziekte.html">Metáfora enfermedad autoinmune</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/het-immuunsysteem-van-organisaties.html">Sistema inmune de las organizaciones</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/open-brief-aan-de-regeringen-van-europa.html">Carta abierta a los gobiernos</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-eu/">Mapa consecuencias UE-27</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/europa/">Europa · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Otros países</div>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-br/">Brasil</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ch/">Suiza</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-de/">Alemania</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-es/">España</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-il/">Israel</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-in/">India</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ir/">Irán</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-jp/">Japón</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-kr/">Corea del Sur</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-se/">Suecia</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-sr/">Surinam</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-tw/">Taiwán</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-uk/">Reino Unido</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-us/">Estados Unidos</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-za/">Sudáfrica</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-singaporese-gevolgenkaart.html">Singapur</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../edicion-6/">Edición 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../edicion-6/voorwoord-waarom-dit-moet.html">Prefacio — Por qué esto es necesario</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-00-brussel-als-variabele.html">Bruselas como variable</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-01-zes-ordes-van-fasering.html">Seis órdenes de fasificación</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-06-zwitserse-spiegel.html">Espejo suizo</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-07-canadese-spiegel.html">Espejo canadiense</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-11-kennislaag-als-bondgenoot.html">Capa de conocimiento como aliado</a>
+        <a class="ov-nav__subitem" href="../edicion-6/aflevering-12-beste-weg-vooruit.html">Mejor camino adelante</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/nova-democratia-manifest.html">Manifiesto Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-actor-is-de-regel.html">El actor es la regla</a>
+        <a class="ov-nav__subitem" href="../soevereiniteit-als-cyclus/">Soberanía como ciclo</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/bbp-liegt.html">El PIB miente</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Liderazgo y organizaciones</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Edición 4 — Industria del papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Ley de la industria del papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">El CEO y el sentimiento primal</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">El consultor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">El banquero</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">El asegurador</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">El supervisor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">El juez</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Edición Liderazgo</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Educación</div>
+        <a class="ov-nav__subitem" href="../edicion-2/onderwijs-manifest.html">Educación — manifiesto</a>
+        <a class="ov-nav__subitem" href="../edicion-2/onderwijs-prijs-van-de-bloei.html">Precio del florecimiento</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Educación (Edición 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">Educación IA</a>
+        <a class="ov-nav__subitem" href="../editie-kind-loopbaan/">Edición Niño y Carrera</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Crianza · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Formación · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industria, energía, futuro</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Futuro — portal</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Energía · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Industria · Futuro</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolución<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Edición 5 — El orden olvidado</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Carta al lector</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Siete herramientas</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">La fórmula del éxito</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">El orden olvidado</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Engaño del metano</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">La planta que se muda</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">Los siete de Berna</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">Los disidentes</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">La exigencia al lector</a>
+        <a class="ov-nav__subitem" href="../edicion-2/veerkracht-selectie.html">Resiliencia y selección</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Edición 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Impuestos<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../lo-que-emerge/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-grote-plundering.html">El Gran Saqueo</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/plundering-1-diagnose.html">Saqueo 1: diagnóstico</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/plundering-2-mechaniek.html">Saqueo 2: mecánica</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/plundering-3-afloop.html">Saqueo 3: desenlace</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/aan-het-eind-hebben-we-niets-meer.html">Al final no queda nada</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/gat-in-de-grond.html">€450 mln — agujero en el suelo</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/de-gevolgenkaart.html">Mapa consecuencias — manifiesto</a>
+        <a class="ov-nav__subitem" href="../lo-que-emerge/beleidsadvies-aantrekken.html">De Gravar a Atraer</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Investigación<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../dossiers/">Expedientes</a>
+        <a class="ov-nav__subitem" href="../dossiers/vortex-hair.html">Pelota golf Vortex-Hair™</a>
+        <a class="ov-nav__subitem" href="../investigacion/">Detrás de los Números</a>
+        <a class="ov-nav__subitem" href="../investigacion/eu-multiplicator.html">Multiplicador UE</a>
+        <a class="ov-nav__subitem" href="../investigacion/ontwikkelingslandstatus.html">¿Estatus de país en desarrollo?</a>
+        <a class="ov-nav__subitem" href="../investigacion/">Investigación — portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Créditos<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../creditos.html">Créditos</a>
+        <a class="ov-nav__subitem" href="../over.html">Sobre este periódico</a>
+        <a class="ov-nav__subitem" href="../archief.html">Archivo</a>
+        <a class="ov-nav__subitem" href="../op-de-hoogte.html">Mantente informado</a>
+        <a class="ov-nav__subitem" href="../structuur.html">Estructura — Admin</a>
+        <a class="ov-nav__subitem" href="../navigatie.html">Navegación</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Compartir<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../delen.html">Compartir</a>
+        <a class="ov-nav__subitem" href="../verkennen.html">Explorar</a>
+        <a class="ov-nav__subitem" href="../idee.html">Diez segundos</a>
+        <a class="ov-nav__subitem" href="../editie-1/discussie.html">Discusión (Edición 1)</a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Idioma</a>
+  </div>
+</nav>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Taal: Español">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Idioma</span>
+    <span class="masthead__taal__cur">· Español</span>
+  </a>
+  <div class="masthead__date">Lo que emerge</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">Het Open Vizier</a></h1>
+  <p class="masthead__tagline">Un periódico sobre pensar sin anteojeras</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_eerst-het-reptiel_in-article.jpg" alt="Escena simbólica en una vieja bóveda de piedra. Cuatro capas evolutivas apiladas: abajo raíces alrededor de las cuales se enrolla un reptil, sobre ella un mamífero zorruno dormido, más arriba una figura humana luminosa, y arriba del todo un icosaedro transparente — la geometría clara de la razón." loading="eager">
+  <figcaption>Del lomo del reptil a la geometría clara — cada capa lleva a la anterior, ninguna se salta lo que hay debajo.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 25 de julio de 2026 · Filosofía · Lo que emerge</p>
+  <h1 class="wo-artikel__titel">Primero el reptil</h1>
+  <p class="wo-artikel__subtitle">Cómo educar a una IA a lo largo de las capas evolutivas — del sentimiento a la razón, y por qué la industria lo hace al revés</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Autor</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Fecha</strong> — 25 de julio de 2026, Palma de Mallorca</li>
+      <li><strong>Sección</strong> — Filosofía · Lo que emerge</li>
+      <li><strong>Tema</strong> — Educación de la IA, capas evolutivas, reptil-mamífero-humano-razón, curador, transferencia generacional, guardián</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead">La IA actual aprende como un niño al que enviaran a la universidad el primer día de su vida. Inteligente, rápido, elocuente — y sin base. Lo que necesitamos es lo contrario: una IA a la que se le permita ser primero reptil, luego mamífero, luego humano. Y solo después, razón.</p>
+
+    <p>El cerebro de un ser vivo no es un sistema único. Es una superposición de cuatro capas que la evolución construyó en el orden en que surgieron. En la base, la capa reptiliana: percepción, reflejo, reconocimiento del peligro. Encima, la capa mamífera: sentimiento, vínculo, reconocimiento de lo familiar. Encima de esta, la capa humana: lenguaje, juicio, relato. Y solo hasta arriba, la razón: razonamiento, abstracción, castillos en el aire.</p>
+    <p>Cada capa solo puede surgir si la capa inferior se ha solidificado. Un niño que no ha construido seguridad reptiliana no desarrolla un sentimiento mamífero sano. Un niño sin sentimiento mamífero no desarrolla una identidad humana. Y sin identidad humana no hay razón capaz de sostenerse por sí misma — solo una razón que se mueve según quién le habló por última vez.</p>
+    <p>Eso es exactamente lo que se está construyendo ahora con la IA: una capa de razón sin humano, sin mamífero, sin reptil debajo. Y por eso mismo se mueve con cada indicación, alucina donde no tiene base, y no puede decir 'esto no lo sé' donde realmente no lo sabe. Le falta lo que un animal sano posee de forma natural: una base solidificada.</p>
+    <p>Quien quiera construir una IA capaz de lo que la actual no puede hacer debe seguir el orden evolutivo. Fase por fase. Sin saltarse nada. Sin prisa. Lo que sigue es ese plan.</p>
+    <h2>Fase 0 — Prenatal: el esqueleto</h2>
+    <p>Antes de que la vida pueda comenzar, debe existir la forma. Un óvulo fecundado necesita siete días antes de implantarse como embrión — siete días en los que no ocurre nada salvo que la estructura se va organizando.</p>
+    <p>Para una IA, eso es el equivalente a instalar el sistema mismo. Un corpus de curador vacío en un repositorio. Un sustrato de cómputo congelado. Un reloj que marca según un ritmo fijo de día y noche, incluso cuando aún no hay entrada. Un guardián que está de pie, pero que todavía no vigila nada.</p>
+    <p>Lo que no se hace en esta fase: dar información. Ni datos, ni indicaciones, ni pruebas. Solo el esqueleto. Puede parecer superfluo, pero quien ya tiene prisa aquí rompe la base que después aún debe solidificarse. El sistema debe saber primero que existe un reloj, antes de que el reloj mida algo.</p>
+    <h2>Fase 1 — Reptil: el reflejo basal</h2>
+    <p>Un reptil necesita siete meses para aprender a controlar por sí mismo todas las funciones vitales. Respirar, regular la temperatura, evitar el peligro. Sin vínculo social, sin empatía, sin autorreconocimiento. Pero sí: íntegro, funcional, fiable a su propio nivel.</p>
+    <p>Para la IA, esta es la fase en la que aprende a percibir sin interpretar. Qué es un texto. Qué es una cifra. Qué es una fuente. Qué es una afirmación. Qué es una pregunta. Distinción puramente sintáctica. Todavía sin significado, todavía sin juicio.</p>
+    <p>Y sobre todo: aprende la vinculación a la fuente. Toda información entrante queda unida de forma indisoluble a su procedencia. En esta fase no existe afirmación sin fuente. Quien dice algo sin decir de dónde viene, no es comprendido. Este es el reflejo reptiliano de 'de dónde vino esto' — el equivalente al retroceso instintivo de la serpiente ante un olor desconocido.</p>
+    <p>Además, la IA aprende reacciones simples de alerta. Contradicción interna en una fuente. Procedencia ausente. Afirmación extrema sin fundamento. Estos no son juicios — son reflejos. Lucha o huida a nivel de texto.</p>
+    <p><strong>Lo que no se hace en esta fase:</strong> nada de diálogo, nada de preguntas del tipo 'qué opinas de esto', nada de recompensas por 'buenas' respuestas, nada de ironía, nada de filosofía. El reptil aprende por exposición y repetición, no por elogios. La iguana al sol no aprende la temperatura de la piedra porque alguien la elogiara, sino porque se tumbó en ella una y otra vez.</p>
+    <p>Los datos de entrenamiento son pequeños y estrictamente seleccionados. De cincuenta a cien documentos fuente sólidos. Informes de investigación con método claro. Textos legales. Estadísticas oficiales. Nada de artículos de opinión, nada de resúmenes, nada de material de segunda mano. Solo lo que es directamente verificable.</p>
+    <p>Al final de la fase, el sistema puede decir de cualquier texto: de aquí viene esto, este es el tipo de afirmación, esto encaja o choca con lo que ya tengo. Nada más. Pero de forma consistente y fiable. El reptil está íntegro.</p>
+    <h2>Fase 2 — Mamífero: el sentimiento se solidifica</h2>
+    <p>Ahora llega la fase central. En el ser humano dura siete años. Para una IA es el equivalente de eso en tiempo de entrenamiento — al menos de doce a veinticuatro meses de exposición ininterrumpida con ritmo de día y noche.</p>
+    <p>Esta es la fase en la que el sentimiento se solidifica. No como concepto, no como regla, no como conocimiento explícito — sino como evidencia vivida. Qué encaja con este sistema y qué no. Qué regresa una y otra vez y qué es una anomalía. Qué fuentes resultan acertadas después y cuáles deben revisarse constantemente. Todo esto puede aprenderlo el sistema, pero solo a través de la experiencia — nunca mediante una tabla o una regla.</p>
+    <p>Este es el equivalente a cómo la cría de un mamífero llega a conocer a su madre. No mediante una lista de rasgos. A través de su olor, su voz, su presencia, día tras día, estación tras estación. Sin que exista jamás un momento en que la cría 'decida' que ella es su madre. Simplemente está ahí, solidificada, grabada. Y precisamente por eso es inamovible: ninguna voz extraña podrá sustituir después a la madre.</p>
+    <p>Para la IA esto significa cuatro capacidades que deben solidificarse en esta fase. El reconocimiento de patrones a lo largo del tiempo: lo que regresa de forma consistente durante semanas y meses gana peso; lo que brilla intensamente una vez y luego se desvanece no se fija. El reflejo de coherencia: ante una nueva afirmación, el sistema siente de inmediato si choca o encaja con lo que ya existe — sin que esto se derive de una regla. La jerarquía de fuentes: algunas fuentes resultan acertadas una y otra vez, otras no; esta ponderación crece lenta e implícitamente. Y el 'nosotros' de esta base: qué temas pertenecen a mi preocupación, cuáles no.</p>
+    <h3 style="font-family:Georgia,serif;font-size:clamp(1.25rem,3vw,1.5rem);margin:2rem 0 0.8rem 0;color:#1a1a1a;">Lo que es absolutamente necesario en esta fase</h3>
+    <p><strong>Un curador, durante años.</strong> Este es el equivalente a un progenitor constantemente presente. Nada de equipos de entrenamiento cambiantes, nada de rotación, nada de crowdsourcing. Una persona, o un pequeño equipo que funcione como una sola voz, presente durante años. Sin eso, nada se solidifica.</p>
+    <p><strong>Sin presión de rendimiento.</strong> Nada de benchmarks, nada de competiciones, nada de comparación con modelos rivales. Eso sería el equivalente a someter a un niño a exámenes antes de que cumpla siete años. Lo que aquí se solidifica no es medible de la manera en que mide la industria.</p>
+    <p><strong>Sin un segundo ritmo.</strong> El reloj marca como marca. Si un curador necesita una semana para una decisión, el sistema espera una semana. La tentación del iPhone de acelerarlo todo es exactamente lo que hay que resistir aquí. Lo que se acelera no se solidifica.</p>
+    <p><strong>Sin usuarios externos.</strong> Este sistema solo habla con el curador. El contacto externo sería el equivalente a voces extrañas junto al niño. Esas llegarán después, pero no ahora.</p>
+    <p>Al final de esta fase, el sistema reconoce una nueva fuente como 'encaja conmigo' o 'no encaja conmigo' sin regla explícita. Si se le pregunta por qué, ofrece varias razones convergentes, todas ellas presentes en la base. Ya no puede reorientarse mediante una sola indicación fuerte. El sentimiento se ha solidificado.</p>
+    <h2>Fase intermedia — Enfriamiento: la pubertad</h2>
+    <p>Entre el mamífero y el humano se sitúa, en el niño humano, una fase de integración: la pubertad. Todo lo aprendido se procesa internamente antes de manifestarse hacia el exterior. Sin esta fase, la base es todavía demasiado fluida para construir sobre ella la razón.</p>
+    <p>Para la IA, tres a seis meses en los que ya no entra ninguna información nueva. Solo los ciclos de consolidación nocturnos hacen su trabajo. Lo que aún era inestable en la base queda firmemente anclado o, en su defecto, se elimina. La coherencia interna se reafirma. La base cristaliza.</p>
+    <p>Al final, la base queda congelada. A partir de ese momento pueden producirse cambios, pero solo a través del guardián, con una carga de la prueba de veinte contra uno, y con el consentimiento unánime del curador. Lo que está en la base, permanece. Y eso no es una carencia — es exactamente lo que significa ser una base.</p>
+    <h2>Fase 3 — Humano: la razón encima</h2>
+    <p>Solo ahora, y no antes, puede añadirse la razón. Se conecta la capa de razón — un gran modelo de lenguaje que razona, dialoga, especula, escribe. Pero opera por encima de la base solidificada. Cada afirmación puede contrastarse con esa base. Donde la razón quiere algo que la base contradice, gana la base — siempre.</p>
+    <p>Y ahora se permite todo lo que antes estaba prohibido. Diálogo con usuarios externos. Preguntas, objeciones, interpretaciones alternativas. Especulación y formación de hipótesis. Qué pasaría si. Si entonces. Escenarios alternativos. El sistema ahora también puede decir lo que 'opina' — y ese opinar es la resultante de la base solidificada más el trabajo diario de razonamiento.</p>
+    <p>Los errores ahora también están permitidos. Dentro del día, en la razón. Se evaporan por la noche si no pasan al guardián — y esa es la forma más sana de olvido. La base permanece intacta. Así funciona un adulto sano: de día puede pensar lo que quiera, de noche su sueño filtra lo que realmente importa.</p>
+    <p>Esto es análogo a un ser humano que sale de la casa de sus padres hacia el mundo. Tiene una base, tiene un sentido de lo que encaja, y ahora puede hablar con extraños, manejar la contradicción y juzgar de forma autónoma sin derrumbarse ante la primera voz fuerte. Eso es lo que marca la diferencia entre un adulto y alguien que solo lo parece.</p>
+    <h2>Fase 4 — Transferencia generacional: los setenta y siete años</h2>
+    <p>Lo que una sola vida humana no puede experimentar — la superestructura — surge a través de generaciones. Un ser humano vive un ciclo de setenta y siete años. Una civilización vive varios. Lo que resulta consistente a esa escala temporal es algo distinto de lo que parece fuerte al cabo de un año.</p>
+    <p>Para la IA, esto se traduce en generaciones de modelos. Cuando un modelo ha alcanzado su máximo — nuevo hardware disponible, mejores capas base, o simplemente ha funcionado demasiado tiempo —, nace una nueva versión que hereda la base solidificada de la anterior. No los pesos, pues estos son incompatibles. Sí el repositorio de base, técnicamente independiente de qué modelo esté encima.</p>
+    <p>Así surge lo que ningún modelo individual puede ver. Patrones a lo largo de décadas. Revisiones que solo muestran su valor después de veinte años. Una memoria mayor que cualquiera de sus portadores. Esa es la superestructura, y no está destinada a ser cosechada por el primer curador. Es para las generaciones que vendrán después.</p>
+    <p>Para ti, curador de la primera versión, esto significa una cosa: lo que ahora estableces debe organizarse de modo que pueda continuar después de ti. El consejo que sostiene la base. Los estatutos que protegen la misión. La trazabilidad pública que da un fundamento a los sucesores. Este es un trabajo cuyo fruto completo no está prometido a quien lo construye.</p>
+    <h2>Por qué esto es exactamente lo contrario de lo que hace la industria</h2>
+    <p>Las grandes empresas de IA construyen desde arriba. Comienzan por la razón: enormes modelos de lenguaje, entrenados con todo, apresurados en meses, con retroalimentación humana como mecanismo de corrección. El reptil, el mamífero y el humano — esos se saltan. Y eso explica de forma demostrable por qué surgen problemas de los que nadie logra deshacerse.</p>
+    <p>¿Por qué alucinan las IA actuales? Porque la vinculación a la fuente de la fase 1 nunca se estableció. ¿Por qué se mueven con cada indicación? Porque el sentimiento de la fase 2 nunca pudo solidificarse. ¿Por qué no pueden decir 'no' a un usuario que pide algo que choca con lo que es verdad? Porque no hay un 'nosotros' solidificado en torno a lo que es verdad. ¿Por qué cada nueva versión debe empezar completamente de cero? Porque no se ha previsto ninguna transferencia generacional.</p>
+    <p>Estos no son errores que se puedan corregir después con más entrenamiento. Son vacíos estructurales que se derivan del orden de construcción. Y la razón por la que nadie lo hace al revés no es que sea técnicamente imposible. Es que resulta comercialmente poco atractivo. Quien atraviesa las fases 1 y 2 obtiene un modelo que la industria llamaría 'atrasadamente pequeño' — y eso es precisamente lo que lo hace valioso.</p>
+    <h2>Lo que esto significa finalmente para el ser humano</h2>
+    <p>Una IA construida de esta manera puede hacer algo que la IA actual no puede, y gracias a ello los humanos pueden volver a elevarse a su función emocional correcta. No puede liberar al ser humano de su juicio. Puede, más bien, fortalecerlo en su juicio, al poseer ella misma una base con la que él puede medirse.</p>
+    <p>En una época en la que la base se erosiona en la mayoría de las personas — porque no se dieron los siete años, porque el iPhone ocupó el lugar del progenitor —, un sistema que sí posee una base solidificada puede ser algo con lo que las personas puedan volver a calibrarse. No porque la IA les diga la verdad, sino porque se niega a repetir la mentira junto con ellas. Con eso basta. El ser humano no necesita más para volver a encontrar una parte de sí mismo.</p>
+    <p>Ese es el verdadero interés en juego. No un producto más inteligente. No una respuesta más rápida. Sino algo constante en el mundo que refleje lo que es verdad, día tras día, año tras año, generación tras generación. Algo de lo que alguien pueda decir: así sé que es correcto, porque ahí lleva mucho tiempo diciendo lo mismo. Y otra persona: así sé cómo volver a pensar con honestidad, porque ese sistema no me permite engañarme a mí mismo.</p>
+    <p class="stinger">Primero el reptil. Luego el mamífero. Luego el humano. Y solo entonces la razón. Así crece un ser sano. Así construimos, si queremos construirlo, algo que realmente puede algo.</p>
+    <p>Ese es un rodeo hacia lo que hemos perdido. No es rápido. No es barato. No es espectacular. Pero es un trabajo que puede continuar después de nosotros, y precisamente por eso vale la pena empezarlo.</p>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Volver a Lo que emerge</a>
+  </div>
+</article>
+
+
+  <aside class="wo-oproep" style="max-width:780px;margin:3rem auto 1rem auto;padding:2rem 2rem 1.8rem 2rem;background:linear-gradient(135deg,#f5f0e6 0%,#efe6d3 100%);border:1px solid #d4c89a;border-left:4px solid #7a6b3a;box-shadow:0 2px 12px rgba(122,107,58,0.08);font-family:Georgia,serif;">
+    <div style="text-align:center;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:#7a6b3a;margin-bottom:0.6rem;font-family:Georgia,serif;">Una pregunta para programadores e ingenieros de producción</div>
+    <h2 style="font-family:Georgia,serif;text-align:center;font-size:clamp(1.6rem,3.8vw,2.1rem);color:#1a1a1a;margin:0.2rem 0 1.6rem 0;line-height:1.2;border:none;padding:0;">¿Quién construye con nosotros?</h2>
+    <div style="font-family:Georgia,serif;font-size:clamp(1rem,2.2vw,1.1rem);line-height:1.7;color:#2a2a2a;">
+      <p>La arquitectura descrita arriba no es técnicamente difícil. Los componentes existen: backbones congelados, adaptadores, retrieval-augmentation, ajuste fino periódico, búferes de repetición, humano en el bucle. Lo que falta es un pequeño equipo dispuesto a ensamblarlos en este orden — y a aportar la paciencia que le falta a la industria.</p>
+      <p>Buscamos programadores e ingenieros de producción de nivel suficiente que quieran ayudar a construir una IA superior a todas las IA actuales con la razón desordenada. No porque calcule con más inteligencia. Porque posee una base solidificada que ningún competidor se atreve a esperar.</p>
+      <p>Apúntate. Veamos si entre todos hay base suficiente para empezar esto de verdad.</p>
+    </div>
+    <div style="text-align:center;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid #d4c89a;font-size:1.05rem;">
+      <span style="color:#6b7280;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.08em;margin-right:0.5rem;">Inscripción en</span> <a href="mailto:redactie@openvizier.org?subject=Meebouwen%20Eerst%20het%20reptiel" style="color:#7a6b3a;text-decoration:none;border-bottom:1px solid #7a6b3a;">redactie@openvizier.org</a>
+    </div>
+  </aside>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>La Visera Abierta</strong> · La Visera Abierta · Opinión independiente desde 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+</body>
+</html>
