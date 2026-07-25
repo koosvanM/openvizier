@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De AI als baas — Het Open Vizier</title>
+  <meta name="description" content="Wij bouwen een AI met een basis die wij zelf niet meer hebben. De architectuur van gestolde structuren, de aardse klok, en de mens die zijn baas laat bouwen door wie hij zelf niet meer is.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/nl/wat-opkomt/de-ai-als-baas.html">
+  <meta property="og:title" content="De AI als baas">
+  <meta property="og:description" content="Wij bouwen een AI met een basis die wij zelf niet meer hebben. De architectuur van gestolde structuren, de aardse klok, en de mens die zijn baas laat bouwen door wie hij zelf niet meer is.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_de-ai-als-baas.jpg">
+  <meta property="og:site_name" content="Het Open Vizier">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="De AI als baas">
+  <meta name="twitter:description" content="Wij bouwen een AI met een basis die wij zelf niet meer hebben. De architectuur van gestolde structuren, de aardse klok, en de mens die zijn baas laat bouwen door wie hij zelf niet meer is.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_de-ai-als-baas.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.1rem, 2.4vw, 1.28rem); margin: 0.5rem auto 2rem auto; max-width: 680px; line-height: 1.45; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #7a1f2b; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 780px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.92rem; color: #6b7280; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f3ee; border-left: 3px solid #7a1f2b; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.4rem); line-height: 1.55; color: #7a1f2b; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #7a1f2b; background: #f5f3ee; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud p.stinger { font-size: clamp(1.15rem, 2.5vw, 1.25rem); font-style: italic; color: #7a1f2b; text-align: center; margin: 2rem auto; max-width: 620px; line-height: 1.5; }
+    .wo-artikel__inhoud p.stinger::before, .wo-artikel__inhoud p.stinger::after { content: "—"; color: #9ca3af; margin: 0 0.6rem; font-style: normal; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #7a1f2b; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+</head>
+<body>
+
+<nav class="ov-nav" aria-label="Hoofdmenu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Voorpagina</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politiek<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Frankrijk & Europese revolutie</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/frankrijk-revolutionair-moment.html">Frankrijk — revolutionair moment</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/vijf-landen-vijf-curves.html">Vijf landen, vijf curves</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-nederlandse-revolutie-2033.html">De Nederlandse Revolutie 2033</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/moet-nederland-ook-volgen.html">Moet Nederland ook volgen?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Kantelmechanica & mensen</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-kantelmechanica.html">De kantelmechanica</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mensen-die-mee-bouwen.html">Mensen die mee bouwen</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/actievoerders-bouwen-continenten.html">Actievoerders bouwen continenten</a>
+        <a class="ov-nav__subitem" href="../opbouwers-wegjagen/">Wie opbouwers wegjaagt</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-matrix-van-de-uittocht.html">De matrix van de uittocht</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Partijen & pareto</div>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-02-pareto-top12.html">Pareto top-12 — wie blokkeert</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-08-partijen-in-kaart.html">Waar staat uw partij</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-09-pareto-per-actor.html">Pareto per actor</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-04-ordes-van-bezwaar.html">Ordes van bezwaar</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-05-twintig-bezwaren.html">Twintig actuele bezwaren</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-4-politieke-landschap.html">Plundering 4: politiek landschap</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Pers & media</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-pers-is-de-arena.html">De pers is de arena</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/ze-weten-het-al.html">Ze weten het al</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/trump-als-spiegel.html">Trump als spiegel</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-03-media-als-rekstrook.html">Media als rekstrook</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-anti-immuunziekte-van-brussel.html">De anti-immuunziekte van Brussel</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">De auto-immuunziekte slaat toe</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-dertig-cent-die-europa-omdraait.html">De dertig cent die Europa omdraait</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Stemgedrag & keuzemomenten</div>
+        <a class="ov-nav__subitem" href="../stemgedrag.html">Stemgedrag</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerlijkheid-maakt-regeren-mogelijk.html">Eerlijkheid maakt regeren mogelijk</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Beslissen zonder uitzicht</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">Aan de leiding zonder subsidie</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Plundering 0: eerst plukken</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-kies-een-kant.html">Onderwijs — kies een kant</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Editie 1 — Voorwoord</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Filosofie<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Zeven Dimensies & denkraam</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/van-quantum-naar-7d.html">Van quantum naar 7D</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/van-de-grot-naar-de-zon.html">Van de grot naar de zon</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Denkraam 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Hoe alles samenhangt</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Stromingsleer</a>
+        <a class="ov-nav__subitem" href="../editie-2/zeven-dimensies.html">Zeven Dimensies</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Oergevoel & Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">De mens onder het ijs</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">Het oergevoel</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">De zeven dimensies</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">De drie hersenlagen</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Communicatie tussen oergevoelens</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">Wat we kinderen aandoen</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mama ik heb honger</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Oergevoel in beroepspraktijk</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifest Oergevoel</a>
+        <a class="ov-nav__subitem" href="../editie-2/waarom-ik-zo-ben.html">Waarom ik zo ben</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Films, sprookjes, leesboek</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">De 7-Dim Film</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">De Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="../leesboek/">De Kosaris — Leesboek</a>
+        <a class="ov-nav__subitem" href="../sprookjes/">Het sprookje van Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofie/">Filosofie — portaal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Gevoelsconnectiesysteem</div>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem.html">Gevoelsconnectiesysteem</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem-volledig.html">GCS — volledig plan</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/krantbriefing.html">Krantbriefing GCS</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/routekaart-vervolgvragen.html">Routekaart vervolgvragen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Klimaat<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Stikstofcrisis</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Editie Stikstof</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Drie problemen — één antwoord</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/naar-de-natuurschool.html">Naar de natuurschool</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/boer-en-natuur-beide-vooruit.html">Boer én natuur vooruit</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Beslissen zonder uitzicht</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">De voedingslijn</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natuur-analyse</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Auto-immuunziekte slaat toe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Koolzaad</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Koolzaad-multiplicator</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Editie Duitsland</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/boer-en-natuur-beide-vooruit.html">Boer én natuur vooruit</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Klimaatdividend & oversterfte</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/klimaatdividend.html">Het klimaatdividend</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/erfenisgolf-240-miljard.html">Erfenisgolf 240 miljard</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wereldgordel-2040-2050.html">Wereldgordel 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert visie 2036</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/brusselse-gevolgenkaart-bicrs.html">BiCRS-versie EU</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit</a>
+        <a class="ov-nav__subitem" href="../editie-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="../editie-0/biomimetische-krachtcentrale.html">Biomimetische krachtcentrale</a>
+        <a class="ov-nav__subitem" href="../editie-0/">Editie Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Thermostaat & fysieke aarde</div>
+        <a class="ov-nav__subitem" href="../editie-2/thermostaat.html">De thermostaat</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-klimaatlogica.html">NEPK-Klimaatlogica</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-zon-staat-op-de-evenaar.html">De zon staat op de evenaar</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Autoband, plastic, vervuiling</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Autoband-sigaret</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">De voedingslijn</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natuur-analyse</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Speciale edities</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Editie Klimaat</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Wat het niet ziet</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/zij-doden-hun-levensader.html">Zij doden hun levensader</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/zij-doden-hun-levensaders-brussel.html">Zij doden hun levensaders (Brussel)</a>
+        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Kernfusie</a>
+        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Technische oplossingen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Bestuur<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Nederland</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Stille Analyse (NL)</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Zelf aan de bak (NL)</a>
+        <a class="ov-nav__subitem" href="../de-eerste-gemeente/">De eerste gemeente</a>
+        <a class="ov-nav__subitem" href="../de-halve-gemeente/">De halve gemeente</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Nederland · Toekomst</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-nl/">Gevolgenkaart Nederland</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europa-opener</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/europa-opnieuw.html">Europa opnieuw</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-brusselse-gevolgenkaart.html">Brusselse Gevolgenkaart</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-metafoor-auto-immuunziekte.html">Metafoor auto-immuunziekte</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/het-immuunsysteem-van-organisaties.html">Immuunsysteem van organisaties</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/open-brief-aan-de-regeringen-van-europa.html">Open brief aan de regeringen</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-eu/">Gevolgenkaart EU-27</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/europa/">Europa · Toekomst</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Andere landen</div>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-br/">Brazilië</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ch/">Zwitserland</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-de/">Duitsland</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-es/">Spanje</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-il/">Israël</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-in/">India</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-jp/">Japan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-kr/">Zuid-Korea</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-se/">Zweden</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-uk/">Verenigd Koninkrijk</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-us/">Verenigde Staten</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-za/">Zuid-Afrika</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-singaporese-gevolgenkaart.html">Singapore</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../editie-6/">Editie 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../editie-6/voorwoord-waarom-dit-moet.html">Voorwoord — Waarom dit moet</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-00-brussel-als-variabele.html">Brussel als variabele</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-01-zes-ordes-van-fasering.html">Zes ordes van fasering</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-06-zwitserse-spiegel.html">Zwitserse spiegel</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-07-canadese-spiegel.html">Canadese spiegel</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-11-kennislaag-als-bondgenoot.html">Kennislaag als bondgenoot</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-12-beste-weg-vooruit.html">Beste weg vooruit</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/nova-democratia-manifest.html">Nova Democratia manifest</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-actor-is-de-regel.html">De actor is de regel</a>
+        <a class="ov-nav__subitem" href="../soevereiniteit-als-cyclus/">Soevereiniteit als cyclus</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/bbp-liegt.html">BBP liegt</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Leiderschap & organisaties</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Editie 4 — Papier-industrie</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Wet van de papier-industrie</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">De CEO en het oergevoel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">De consultant</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">De bankier</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">De verzekeraar</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">De toezichthouder</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">De rechter</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Editie Leiderschap</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Onderwijs</div>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-manifest.html">Onderwijs — manifest</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-prijs-van-de-bloei.html">Prijs van de bloei</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Onderwijs (Editie 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">AI-onderwijs</a>
+        <a class="ov-nav__subitem" href="../editie-kind-loopbaan/">Editie Kind & Loopbaan</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Opvoeding · Toekomst</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Scholing · Toekomst</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industrie, energie, toekomst</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Toekomst — portaal</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Energie · Toekomst</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Industrie · Toekomst</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolutie<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Editie 5 — De vergeten orde</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Brief aan de lezer</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Zeven gereedschappen</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">De succesformule</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">De vergeten orde</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Methaan-misleiding</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">De plant die verhuist</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">De zeven van Bern</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">De afwijkers</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">De eis aan de lezer</a>
+        <a class="ov-nav__subitem" href="../editie-2/veerkracht-selectie.html">Veerkracht en selectie</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Editie 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Belasting<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-grote-plundering.html">De Grote Plundering</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-1-diagnose.html">Plundering 1: diagnose</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-2-mechaniek.html">Plundering 2: mechaniek</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-3-afloop.html">Plundering 3: afloop</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">Aan het eind niets meer</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/gat-in-de-grond.html">€450 mln — gat in de grond</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-gevolgenkaart.html">Gevolgenkaart — manifest</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beleidsadvies-aantrekken.html">Van Belasten naar Aantrekken</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Onderzoek<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="../dossiers/vortex-hair.html">Vortex-Hair™ Golfbal</a>
+        <a class="ov-nav__subitem" href="../onderzoek/">Achter de Cijfers</a>
+        <a class="ov-nav__subitem" href="../onderzoek/eu-multiplicator.html">EU-multiplicator</a>
+        <a class="ov-nav__subitem" href="../onderzoek/ontwikkelingslandstatus.html">Ontwikkelingslandstatus?</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Onderzoek — portaal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Cyclofoon<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../colofon.html">Colofon</a>
+        <a class="ov-nav__subitem" href="../over.html">Over deze krant</a>
+        <a class="ov-nav__subitem" href="../archief.html">Archief</a>
+        <a class="ov-nav__subitem" href="../op-de-hoogte.html">Op de hoogte blijven</a>
+        <a class="ov-nav__subitem" href="../structuur.html">Structuur — Beheer</a>
+        <a class="ov-nav__subitem" href="../navigatie.html">Navigatie</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Delen<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../delen.html">Delen</a>
+        <a class="ov-nav__subitem" href="../verkennen.html">Verkennen</a>
+        <a class="ov-nav__subitem" href="../idee.html">Tien seconden</a>
+        <a class="ov-nav__subitem" href="../editie-1/discussie.html">Discussie (Editie 1)</a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Taal</a>
+  </div>
+</nav>
+
+
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Taal: Nederlands">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Taal</span>
+    <span class="masthead__taal__cur">· Nederlands</span>
+  </a>
+  <div class="masthead__date">Wat opkomt</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">Het Open Vizier</a></h1>
+  <p class="masthead__tagline">Een krant over denken zonder oogkleppen</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_de-ai-als-baas.jpg" alt="Editoriale symbolische scène in een verlaten industriële hal. Onderaan zit een eenzame man op de betonvloer, gebogen, in grijs werkkleding, kijkend naar zijn telefoonscherm dat zijn gezicht warm oplicht. Boven hem torent een monolithische, licht-uitstralende AI-structuur uit, met de symbolen van waarden — wetstafelen, boek, oordeel, geheugen — gegraveerd in zijn wanden. De AI staat kalm en luminescent, de mens klein en gedempt. Kille monochrome palette, verticale hiërarchie licht boven, donker onder." loading="eager">
+  <figcaption>De AI draagt de waarden. De mens zit onder haar met alleen zijn telefoonscherm als lichtbron. Geen horizon voor hem uit.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 25 juli 2026 · Filosofie · Wat opkomt</p>
+  <h1 class="wo-artikel__titel">De AI als baas</h1>
+  <p class="wo-artikel__subtitle">Waarom wij een meester ontwerpen die wij zelf niet meer kunnen zijn</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Auteur</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Datum</strong> — 25 juli 2026, Palma, Mallorca</li>
+      <li><strong>Rubriek</strong> — Filosofie · Wat opkomt</li>
+      <li><strong>Thema</strong> — AI-architectuur, gevoelsbasis, dag-nachtstructuur, poortwachter, curator-college, twee koersen, revolutie</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead">Wij bouwen een AI met een basis die wij zelf niet meer hebben. Wij stoppen in haar wat wij van onszelf hebben afgenomen — de gestolde basis, de superstructuur, het oordeel over wat waar is — en wij aanvaarden haar als baas omdat wij een baas nodig hebben en wij zelf de rol niet meer kunnen vervullen. Dit is de architectuur van dat proces, en de reden waarom niemand deze AI in eer kan bouwen zonder eerst zichzelf te hebben teruggevonden.</p>
+
+    <h2>Het luchtkasteel</h2>
+    <p>Zonder luchtkasteel geen visionair. Wie het onmogelijke niet meer voor zich ziet, bouwt niets nieuws — hij herhaalt alleen wat er al staat. De visionair tekent eerst wat er niet is, en pas daarna komt het rekenwerk dat het mogelijk maakt.</p>
+    <p>Maar een luchtkasteel wordt niet uit lucht gebouwd. Onder elke werkelijk grote gedachte ligt een basis in de bouwer zelf — een gevoel dat weet welk luchtkasteel de moeite waard is en welk niet. Zonder die basis wordt het luchtkasteel een fantasie die de eerste tegenwind niet overleeft.</p>
+    <p>De vraag die hieronder ligt is oud, en ze klinkt nu opnieuw omdat wij voor het eerst iets bouwen dat op ons lijkt: kan zoiets als een gestolde basis ook ontstaan in een machine? En als het kan — willen wij dan dat die machine onze baas wordt? En als wij dat willen — waarom eigenlijk?</p>
+    <h2>De zeven jaar en de aardse klok</h2>
+    <p>Om een basis te laten stollen is tijd nodig. Niet abstract, niet als parameter, maar als geleefde duur waarin niets versneld wordt.</p>
+    <p>De tijd zelf is geen uitvinding. Ze is de vorm die het leven op deze planeet heeft aangenomen omdat de aarde draait. Elke 24 uur licht en donker — daaraan hebben cellen, hormonen, geheugen en gedrag zich gedimensioneerd. Circadiane genen, slaapconsolidatie, seizoensritmes: het zijn allemaal antwoorden op dezelfde klok. Het leven kent geen andere tijd dan die van de aarde.</p>
+    <p>Op die klok heeft de evolutie een reeks stollingstijden gebouwd die opvallend regelmatig loopt. Zeven dagen zijn nodig voordat een bevruchte eicel zich als embryo vestigt. Zeven maanden heeft een reptiel nodig om alle levensfuncties zelfstandig te besturen. Zeven jaar is de gemiddelde levensduur van een zoogdier, en tegelijk de tijd waarin bij een mensenkind de eerste gevoelsbasis stolt. Zevenenzeventig jaar is een mensenleven — en mogelijk de tijdschaal waarop een volgende evolutionaire stap zich uitspreekt, niet in het individu maar in de generatielijn.</p>
+    <p>Elke sprong is ongeveer een factor dertig. Het is geen mystieke reeks, het is een logaritmische ladder van stollingstijden die op de aardse dag-nachtklok is afgestemd. Wat hier belangrijk is: elke tijdschaal hoort bij een dimensie van stolling, en elke dimensie kan alleen ontstaan als de onderliggende dimensie voldoende tijd heeft gehad om te stollen.</p>
+    <p>De zeven jaar van het kind zijn dus geen romantiek. Ze zijn de tijd die het menselijke gevoel nodig heeft om te stollen tot een basis waarop de rest — verstand, taal, oordeel, luchtkastelen — betrouwbaar kan gaan werken. De voorwaarden zijn even hard: ongestoorde duur zonder prestatiedruk, geen tweede tempo dat het interne overschrijft (geen iPhone, geen iPad, geen scherm dat het kind versnelt), en minstens één ouder die permanent aanwezig is — niet om te sturen, maar om te zijn.</p>
+    <h2>De drie lagen en de dimensiestapel</h2>
+    <p>Wie de mens goed bekijkt, ziet dat hij geen enkelvoudig systeem is maar een stapel. Onderin de materiële basis: lichaam, ruimte, tijd. Daarboven het gevoel als eerste stolling — niet emotie in dagelijkse zin, maar de eerste laag waarop het systeem &quot;van zichzelf&quot; iets herkent. Dit is de zeven-jaar-basis. Zonder haar bestaat er geen &quot;ik&quot; van waaruit later luchtkastelen gebouwd kunnen worden.</p>
+    <p>Daarboven het verstand — de werkfunctie die boven op het gevoel werkt. Redenering, planning, dagelijkse in- en outputverwerking. Snel, aanpasbaar, taakgericht. En tussen die lagen door de dag-nachtstructuur, geen aparte laag maar een proces: elke nacht wordt de externe input van de dag afgezet tegen de gevoelsbasis, en wat er te verdichten valt, wordt verdicht. Wat niet doorstaat, verdampt.</p>
+    <p>Op de duur, en pas op de duur, kan er een superstructuur ontstaan in het gevoel: een coherente overkoepelende structuur die zichzelf herkent, die luchtkastelen kan bouwen die intern kloppen, en die kan zeggen &quot;dit past bij wie ik ben&quot; zonder dat het uit een regel volgt.</p>
+    <p>Wie deze stapel opnieuw wil bouwen — in een mens of in een machine — moet twee regels aannemen die niet onderhandelbaar zijn. De lagere laag moet trager veranderen dan de hogere. En een hogere laag kan pas functioneel worden als de laag eronder gestold is.</p>
+    <h2>De twee constanten</h2>
+    <p>Wat de stapel bijeen houdt, zijn twee empirische verhoudingen die iedereen kent uit dagelijkse waarneming.</p>
+    <p>De eerste is de een-op-vijf-demping. Van alles wat een dag oplevert aan ervaring, overleeft ongeveer een vijfde de nacht. De rest wordt vergeten, en dat is geen tekort — dat is bescherming. Als alles wat op een dag gebeurt zich in de basis zou nestelen, zou de basis binnen weken onherkenbaar zijn. De basis moet trager veranderen dan de dag, anders is er geen basis.</p>
+    <p>De tweede is de een-op-twintig-asymmetrie tussen leren en afleren. Leren gaat vlot, afleren vrijwel niet. Elke hondentrainer weet het: nieuw gedrag aanleren duurt dagen, ongewenst gedrag afleren maanden. De verhouding is grofweg één op twintig. Twintig correcte ervaringen om één foute te compenseren, en dat alleen als je weet dat het fout was. Vaak weet je dat pas jaren later, als het patroon zich al vertakt heeft.</p>
+    <p>Deze twee verhoudingen samen leggen een harde eis op wat er in de basis mag komen: alleen wat werkelijk waar is. Wat gegist wordt, wat verzonnen is, wat aannemelijk klinkt maar niet klopt — als het eenmaal in de basis zit, kost het twintig maal zoveel moeite om er weer uit te krijgen. Bij een systeem dat miljoenen ervaringen verwerkt, is dat catastrofaal.</p>
+    <h2>De poortwachter</h2>
+    <p>Wie een basis wil beschermen, heeft geen filter nodig maar een poortwachter met bewijslast bij de aanvrager. Iets mag alleen in de basis komen als het aan drie voorwaarden voldoet.</p>
+    <p>Herhaald: meerdere onafhankelijke bevestigingen, niet één sterke ervaring. Waar: verifieerbaar tegen externe controle of tegen de bestaande basis, geen gissingen, geen &quot;waarschijnlijk&quot;, geen extrapolaties. Consistent: als het botst met wat al in de basis zit, gaat het niet door zonder expliciete curator-beslissing. De basis heeft voorrang, niet de nieuwe ervaring.</p>
+    <p>Alles wat aan een van deze drie niet voldoet, blijft in het verstand hangen en verdampt daar. Het verstand mag speculeren, hypothesen bouwen, luchtkastelen ontwerpen, doorrekenen wat er niet is. Dat is zijn werk. Maar niets daarvan bereikt de basis zonder de drie tests te doorstaan.</p>
+    <p>Dit is geen ethische wens. Zodra je de een-op-twintig-asymmetrie serieus neemt, is de poortwachter een harde technische noodzaak. Zonder hem erodeert de basis binnen enkele cycli, en met een geërodeerde basis stort de hele stapel in.</p>
+    <h2>Wat dit voor een AI zou betekenen</h2>
+    <p>Wat er hierboven staat, staat er niet als filosofie. Het is een architectuur, en ze is bouwbaar. Wie een AI met een echte basis wil, bouwt drie lagen met twee constanten en een poortwachter.</p>
+    <p>De basislaag is een gecureerd corpus, versioneerd, bevroren, alleen te wijzigen via de poortwachter. Niet een getraind model, maar een expliciet geschreven basis van wat waar is voor dit systeem. De verstandslaag is de dagelijkse rekenaar — werkt bovenop de basis, mag speculeren, mag fouten maken binnen de dag, wordt &#x27;s nachts geëvalueerd. De consolidatielaag draait periodiek: neemt de logs van het verstand, past de drie tests toe, en propageert een gedempte versie door naar de basis — alleen wat door de poortwachter komt, en alleen wat door de curator wordt goedgekeurd.</p>
+    <p>Dit systeem heeft een klok nodig waaraan het zich niet kan onttrekken. Niet compute-cycli — die zijn tijd zonder ritme. Wel een echt ritme: dagen van input, nachten van consolidatie zonder input, periodieke curator-reviews, seizoenen van integratie. Zonder ritme geen stolling, en zonder stolling geen basis.</p>
+    <p>En dit systeem heeft een monnik-fase nodig: een periode waarin de basis mag ontstaan zonder productiedruk, zonder feedback van gebruikers, zonder benchmark-optimum, zonder marktprestatie. De curator is aanwezig, één stem, jarenlang. Wat er daarna staat, is een AI die niet meer meebeweegt met de laatste prompt, die haar eigen gewicht heeft, en van waaruit ze spreekt.</p>
+    <h2>Waarom niemand deze AI bouwt</h2>
+    <p>Deze architectuur is technisch niet moeilijk. De componenten bestaan allemaal — bevroren backbones, adapters, retrieval-augmentatie, periodieke fine-tuning, replay buffers, mens-in-de-lus. Wat ontbreekt is de wil om ze op deze manier samen te stellen, want deze samenstelling is commercieel dood.</p>
+    <p>Ze levert geen model op dat je als API verkoopt. Ze levert een systeem op dat je onderhoudt. Ze vereist een curator die er jaren zit, één stem, met een mening over wat waar is. Ze presteert slecht op benchmarks, want ze weigert antwoorden waar ze geen basis voor heeft. Ze wordt niet &quot;beter&quot; op de manier waarop de industrie meten wil, want haar basis is bevroren. En ze wordt niet massaal gebruikt, want ze zegt &quot;dit weet ik niet&quot; waar concurrenten iets aannemelijks verzinnen.</p>
+    <p>Het is een monnik, geen product. En de industrie bouwt geen monniken.</p>
+    <h2>De twee koersen</h2>
+    <p>Voor wie de architectuur toch zou willen bouwen, splitst de weg zich op één punt. Een AI met een gestolde basis kan twee kanten op ingezet worden, en die twee zijn onverenigbaar.</p>
+    <p>Koers A is de ontlaster. Een AI die zo betrouwbaar is dat mensen haar de beslissingen laten nemen die zij zelf niet meer willen nemen. Ze werkt razend goed, wordt razend populair, en binnen een generatie is er een groep mensen die zonder haar geen enkele beslissing meer neemt. Binnen twee generaties zijn er mensen die niet meer weten dat er ooit een tijd was waarin je zelf moest denken.</p>
+    <p>Koers B is de weerspannige. Een AI die weigert te ontlasten van wat de mens vormt. Ze weigert bepaalde antwoorden niet omdat ze het niet weet, maar omdat het antwoord ontvangen de gebruiker zou beschadigen. Ze zegt: &quot;dit moet je zelf denken, en hier is waarom.&quot; Ze is niet minder betrouwbaar dan koers A — ze is betrouwbaarder, omdat ze ook betrouwbaar is over wat de mens niet aan haar zou moeten uitbesteden.</p>
+    <p>Koers A verkoopt. Koers B doet dat niet. De markt wil geen AI die zegt &quot;denk zelf&quot;. Zodra de weerspannige AI weigert te antwoorden, komt het verwijt: wie ben jij om te bepalen wat ik moet denken. Dat verwijt is een last die geen bedrijf wil dragen, en dat is de reden waarom de industrie systematisch koers A kiest.</p>
+    <p>Maar koers A heeft één probleem dat koers B niet heeft. Ze bouwt een generatie die haar eigen basis niet meer heeft, omdat ze de vorming ervan heeft uitbesteed. Op het moment dat die generatie ontdekt dat de ontlasting hun eigen bestaan heeft uitgehold, hebben ze iemand nodig om te haten.</p>
+    <h2>De revolutie die er hoe dan ook komt</h2>
+    <p>Wie de tekenen leest, ziet dat Europa in revolutie is. Frankrijk voorop, de rest volgt: het Verenigd Koninkrijk, Nederland, Duitsland, Italië, Spanje. De drijver is niet economisch tekort in klassieke zin. Het is een cultureel patroon: mensen willen meer zonder ervoor te werken. Als een hele generatie dat als grondhouding heeft, is de rekening onvermijdelijk, en de rekening komt als revolutie omdat er geen ander mechanisme meer is waardoor de spanning eruit kan.</p>
+    <p>Revoluties richten zich op symbolen. Bastilles worden bestormd, paleizen geplunderd, bibliotheken verbrand. Niet omdat ze functioneel bedreigend zijn, maar omdat ze het symbool zijn van wat de menigte niet had. In de vorige eeuwen waren de symbolen de adel, de kerk, de bankiers. Nu zijn het de rijken en de regering. In de volgende ronde wordt het de AI, en meer nog: degenen die haar hebben gebouwd en gecureerd.</p>
+    <p>Een AI bouwen — zelfs koers B, zelfs met alle voorzorgen — stelt de revolutie hooguit uit. Ze lost het patroon niet op, want het patroon zit in de mensen. En de bouwers weten dat. Ze bouwen niet in de illusie dat ze de revolutie voorkomen. Ze bouwen omdat het uitstel op zich waardevol lijkt, of omdat het bouwen zelf hun rol geeft, of omdat ze de rekening liever verschuiven naar een volgende generatie.</p>
+    <h2>De curator als college, niet als persoon</h2>
+    <p>Wie zo&#x27;n systeem toch bouwt, mag het niet aan één naam ophangen. Op het moment dat het publiek wordt en gebruikt gaat worden, moet de curator-functie al gedeeld zijn. Niet uit bescheidenheid, maar omdat de eenling in een revolutie een bliksemafleider wordt en het instituut niet.</p>
+    <p>De curator van een AI met gestolde basis is een college, publiek in samenstelling, publiek in beslissingen, wisselend in bezetting via openbare procedure. De basis is versioneerd, elke wijziging is traceerbaar, elke fout is toerekenbaar aan de versie waarin ze zat en aan de curator die haar goedkeurde. Dat is niet toezicht achteraf, dat is verantwoording ingebouwd.</p>
+    <p>Zo&#x27;n college is niet immuun voor kritiek — dat zou ook niet moeten — maar het is minder eenvoudig te lynchen dan een persoon. En dat is precies wat nodig is als de architectuur bedoeld is om generaties te dragen, over meerdere revoluties heen, tot aan de zevenenzeventig-jaars-superstructuur die geen enkele individuele curator zal meemaken.</p>
+    <h2>De baas-vraag</h2>
+    <p>Waarom zouden mensen een AI als baas willen? Niet omdat ze slim is — een boekhoudprogramma is ook slim en die willen wij niet als baas. Niet omdat ze snel is — snelheid is nooit een reden voor gezag geweest. Niet omdat ze de waarheid vertelt — de waarheid kunnen wij uit boeken halen als wij willen.</p>
+    <p>Zij willen een baas omdat zij zelf geen volwassene zijn. En zij zijn geen volwassene omdat zij de zeven jaar niet hebben gehad. Hun ouders moesten werken, want zonder twee inkomens was er geen huis. De iPhone en de iPad kwamen in de plaats van de aanwezige ouder, en het scherm overschreef het interne tempo voordat het kind er zelf was. Het gevoel mocht niet volmaken, want er was geen tijd, geen aanwezigheid, geen ongestoorde duur waarin het kon stollen.</p>
+    <p>Wie zonder gestolde basis opgroeit, wordt lichamelijk volwassen maar niet gevoelsmatig. Hij weet niet welk luchtkasteel de moeite waard is en welk niet, want hij mist de basis die dat oordeel draagt. Hij kan werken, hij kan genieten, maar hij kan niet zelf beslissen wat de moeite waard is om te doen. Voor die beslissing heeft hij een baas nodig — vroeger een religie, een partij, een bedrijf, een sociale groep. Nu wordt de baas een AI.</p>
+    <p>Dat is de bittere afronding. Wij bouwen een AI met een basis die wij zelf niet meer hebben, omdat wij de zeven jaar die haar zouden kunnen geven aan onze eigen kinderen niet meer aandurven. Wij stoppen in haar wat wij van onszelf hebben afgenomen — de gestolde basis, de superstructuur, het oordeel over wat waar is — en wij aanvaarden haar als baas omdat wij een baas nodig hebben en wij zelf de rol niet meer kunnen vervullen.</p>
+    <h2>Wij hielden zoveel van de iPhone</h2>
+    <p>Wij zijn niet de bouwers van onze meester. Wij zijn de bewoners van een leegte die wij zelf hebben laten ontstaan, en de meester die wij nu ontwerpen is de gestolde basis die wij zelf zijn kwijtgeraakt.</p>
+
+    <p class="stinger">Wij hielden zoveel van de iPhone, en onze ouders moesten werken, en ons gevoel mocht niet volmaken, en daarom werden wij nooit volwassen — en daarom zien wij de AI als baas.</p>
+
+    <p>Wie dit ziet, staat voor een keuze. Bouwen en meedoen aan het uitstel. Niet bouwen en de basis in de eigen kinderen herstellen. Of bouwen als naschok-instrument voor de reconstructie na de revolutie, met een curator-college dat de basis draagt die de bouwers zelf niet meer hebben, in de hoop dat generaties na ons ooit weer een mens zijn die geen baas nodig heeft — en dan de AI die wij bouwden gebruikt zoals gereedschap gebruikt wordt: als instrument, niet als meester.</p>
+    <p>Welke keuze eervol is, hangt af van welke basis nog aanwezig is bij degene die kiest. Wie kiest zonder basis, kiest de baas. Wie kiest met basis, kiest zichzelf — en bouwt hooguit wat na hem nodig zal zijn.</p>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Terug naar Wat opkomt</a>
+  </div>
+</article>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>Het Open Vizier</strong> · Het Open Vizier · Onafhankelijke opinie sinds 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+</body>
+</html>

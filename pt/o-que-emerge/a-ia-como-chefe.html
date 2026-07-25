@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A IA como chefe — A Viseira Aberta</title>
+  <meta name="description" content="Construímos uma IA com um fundamento que nós mesmos já não possuímos. A arquitetura das estruturas consolidadas, o relógio terrestre e o humano que manda construir o seu chefe por aquilo que ele próprio deixou de ser.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/pt/o-que-emerge/a-ia-como-chefe.html">
+  <meta property="og:title" content="A IA como chefe">
+  <meta property="og:description" content="Construímos uma IA com um fundamento que nós mesmos já não possuímos. A arquitetura das estruturas consolidadas, o relógio terrestre e o humano que manda construir o seu chefe por aquilo que ele próprio deixou de ser.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_de-ai-als-baas.jpg">
+  <meta property="og:site_name" content="A Viseira Aberta">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A IA como chefe">
+  <meta name="twitter:description" content="Construímos uma IA com um fundamento que nós mesmos já não possuímos. A arquitetura das estruturas consolidadas, o relógio terrestre e o humano que manda construir o seu chefe por aquilo que ele próprio deixou de ser.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_de-ai-als-baas.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.1rem, 2.4vw, 1.28rem); margin: 0.5rem auto 2rem auto; max-width: 680px; line-height: 1.45; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #7a1f2b; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 780px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.92rem; color: #6b7280; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f3ee; border-left: 3px solid #7a1f2b; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.4rem); line-height: 1.55; color: #7a1f2b; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #7a1f2b; background: #f5f3ee; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud p.stinger { font-size: clamp(1.15rem, 2.5vw, 1.25rem); font-style: italic; color: #7a1f2b; text-align: center; margin: 2rem auto; max-width: 620px; line-height: 1.5; }
+    .wo-artikel__inhoud p.stinger::before, .wo-artikel__inhoud p.stinger::after { content: "—"; color: #9ca3af; margin: 0 0.6rem; font-style: normal; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #7a1f2b; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+</head>
+<body>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Início</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Política<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">França e revolução europeia</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/frankrijk-revolutionair-moment.html">França — momento revolucionário</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/vijf-landen-vijf-curves.html">Cinco países, cinco curvas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-nederlandse-revolutie-2033.html">A Revolução Neerlandesa 2033</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/moet-nederland-ook-volgen.html">Deve os Países Baixos também seguir?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Mecânica do ponto de viragem</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-kantelmechanica.html">A mecânica do ponto de viragem</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/mensen-die-mee-bouwen.html">Pessoas que constroem juntas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/actievoerders-bouwen-continenten.html">Os ativistas constroem continentes</a>
+        <a class="ov-nav__subitem" href="../opbouwers-wegjagen/">Quem expulsa os construtores</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-matrix-van-de-uittocht.html">A matriz do êxodo</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-ai-als-baas.html">A IA como chefe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Partidos & Pareto</div>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-02-pareto-top12.html">Pareto top-12 — quem bloqueia</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-08-partijen-in-kaart.html">Onde está o seu partido</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-09-pareto-per-actor.html">Pareto por ator</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-04-ordes-van-bezwaar.html">Ordens de objeção</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-05-twintig-bezwaren.html">Vinte objeções atuais</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-4-politieke-landschap.html">Pilhagem 4: panorama político</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Imprensa e media</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-pers-is-de-arena.html">A imprensa é a arena</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/ze-weten-het-al.html">Já sabem</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/trump-als-spiegel.html">Trump como espelho</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-03-media-als-rekstrook.html">Os media como banco de estiramento</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-anti-immuunziekte-van-brussel.html">A doença anti-imune de Bruxelas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-auto-immuunziekte-slaat-toe.html">A doença autoimune ataca</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-dertig-cent-die-europa-omdraait.html">Os trinta cêntimos que viram a Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Voto e escolhas</div>
+        <a class="ov-nav__subitem" href="../stemgedrag.html">Comportamento eleitoral</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/eerlijkheid-maakt-regeren-mogelijk.html">A honestidade torna possível governar</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/beslissen-zonder-uitzicht.html">Decidir sem visão</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/aan-de-leiding-drie-blokken-zonder-subsidie.html">Na liderança sem subsídio</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-0-eerst-plukken-dan-oordelen.html">Pilhagem 0: primeiro colher</a>
+        <a class="ov-nav__subitem" href="../edicao-2/onderwijs-kies-een-kant.html">Educação — escolha um lado</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Edição 1 — Prefácio</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Filosofia<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sete Dimensões</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/van-quantum-naar-7d.html">Do quântico ao 7D</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/van-de-grot-naar-de-zon.html">Da caverna ao sol</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Quadro de pensamento 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Como tudo se liga</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Teoria dos fluxos</a>
+        <a class="ov-nav__subitem" href="../edicao-2/zeven-dimensies.html">Sete Dimensões</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sentimento primal e Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">O humano sob o gelo</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">O sentimento primal</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">As sete dimensões</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">As três camadas cerebrais</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Comunicação entre sentimentos primais</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">O que fazemos às crianças</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mãe tenho fome</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Sentimento primal na prática</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-ai-als-baas.html">A IA como chefe</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/manifest-ruimte-voor-het-oergevoel.html">Manifesto Sentimento Primal</a>
+        <a class="ov-nav__subitem" href="../edicao-2/waarom-ik-zo-ben.html">Porque sou assim</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Filmes, contos, livro</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">O filme 7-Dim</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Os Kosaris — Filme</a>
+        <a class="ov-nav__subitem" href="../livro/">Os Kosaris — Livro</a>
+        <a class="ov-nav__subitem" href="../contos/">O conto de Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofia/">Filosofia — portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sistema de conexão sentimental</div>
+        <a class="ov-nav__subitem" href="../pesquisa/gevoelsconnectiesysteem.html">Sistema de conexão sentimental</a>
+        <a class="ov-nav__subitem" href="../pesquisa/gevoelsconnectiesysteem-volledig.html">SCS — plano completo</a>
+        <a class="ov-nav__subitem" href="../pesquisa/krantbriefing.html">Briefing jornalístico SCS</a>
+        <a class="ov-nav__subitem" href="../pesquisa/routekaart-vervolgvragen.html">Roteiro perguntas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Clima<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Crise do azoto</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Edição Azoto</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Três problemas — uma resposta</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/naar-de-natuurschool.html">À escola da natureza</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/boer-en-natuur-beide-vooruit.html">Agricultor e natureza em frente</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/beslissen-zonder-uitzicht.html">Decidir sem visão</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-methodologie-van-de-aanpassing.html">A linha alimentar</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-op-de-natuur-aangepaste-analyse.html">Análise da natureza</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-auto-immuunziekte-slaat-toe.html">Doença autoimune ataca</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Colza</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Multiplicador de colza</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Edição Alemanha</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/boer-en-natuur-beide-vooruit.html">Agricultor e natureza em frente</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Dividendo climático</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/klimaatdividend.html">O dividendo climático</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/erfenisgolf-240-miljard.html">Onda de herança 240 mil milhões</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/wereldgordel-2040-2050.html">Cinturão mundial 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/carbon-alert-visie-2036.html">Carbon-Alert visão 2036</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/brusselse-gevolgenkaart-bicrs.html">Versão BiCRS UE</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plastic-boete-carbon-credit.html">Multa plástica ou crédito de carbono</a>
+        <a class="ov-nav__subitem" href="../edicao-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="../edicao-0/biomimetische-krachtcentrale.html">Central biomimética</a>
+        <a class="ov-nav__subitem" href="../edicao-0/">Edição Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Termostato e Terra física</div>
+        <a class="ov-nav__subitem" href="../edicao-2/thermostaat.html">O termostato</a>
+        <a class="ov-nav__subitem" href="../edicao-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../edicao-2/nepk-klimaatlogica.html">NEPK-Lógica climática</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-zon-staat-op-de-evenaar.html">O sol está no equador</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Pneu, plástico, poluição</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-autoband-is-het-nieuwe-sigaret.html">Pneu-cigarro</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-methodologie-van-de-aanpassing.html">A linha alimentar</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-op-de-natuur-aangepaste-analyse.html">Análise da natureza</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Edições especiais</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Edição Clima</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">O que não se vê</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/zij-doden-hun-levensader.html">Matam a sua artéria vital</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/zij-doden-hun-levensaders-brussel.html">Matam as suas artérias (Bruxelas)</a>
+        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Fusão nuclear</a>
+        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Soluções técnicas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Governança<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Países Baixos</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/gevolgenkaart-iii-stille-analyse.html">Análise silenciosa (NL)</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/wij-moeten-weer-zelf-aan-de-bak.html">Mãos à obra (NL)</a>
+        <a class="ov-nav__subitem" href="../de-eerste-gemeente/">O primeiro município</a>
+        <a class="ov-nav__subitem" href="../de-halve-gemeente/">O meio município</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Países Baixos · Futuro</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-nl/">Mapa das consequências Países Baixos</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/europa-hoeft-geen-schadekaart-te-zijn.html">Europa — abertura</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/europa-opnieuw.html">Europa de novo</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-brusselse-gevolgenkaart.html">Mapa de consequências de Bruxelas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-metafoor-auto-immuunziekte.html">Metáfora doença autoimune</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/het-immuunsysteem-van-organisaties.html">Sistema imunitário das organizações</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/open-brief-aan-de-regeringen-van-europa.html">Carta aberta aos governos</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-eu/">Mapa consequências UE-27</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/europa/">Europa · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Outros países</div>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-br/">Brasil</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ch/">Suíça</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-de/">Alemanha</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-es/">Espanha</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-il/">Israel</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-in/">Índia</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ir/">Irão</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-jp/">Japão</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-kr/">Coreia do Sul</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-se/">Suécia</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-uk/">Reino Unido</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-us/">Estados Unidos</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-za/">África do Sul</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-singaporese-gevolgenkaart.html">Singapura</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../edicao-6/">Edição 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../edicao-6/voorwoord-waarom-dit-moet.html">Prefácio — Porque isto tem de ser</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-00-brussel-als-variabele.html">Bruxelas como variável</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-01-zes-ordes-van-fasering.html">Seis ordens de faseamento</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-06-zwitserse-spiegel.html">Espelho suíço</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-07-canadese-spiegel.html">Espelho canadiano</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-11-kennislaag-als-bondgenoot.html">Camada de conhecimento como aliado</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-12-beste-weg-vooruit.html">Melhor caminho</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/nova-democratia-manifest.html">Manifesto Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-actor-is-de-regel.html">O ator é a regra</a>
+        <a class="ov-nav__subitem" href="../soevereiniteit-als-cyclus/">Soberania como ciclo</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/bbp-liegt.html">O PIB mente</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Liderança e organizações</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Edição 4 — Indústria do papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Lei da indústria do papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">O CEO e o sentimento primal</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">O consultor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">O banqueiro</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">A seguradora</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">O supervisor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">O juiz</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Edição Liderança</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Educação</div>
+        <a class="ov-nav__subitem" href="../edicao-2/onderwijs-manifest.html">Educação — manifesto</a>
+        <a class="ov-nav__subitem" href="../edicao-2/onderwijs-prijs-van-de-bloei.html">Preço do florescer</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Educação (Edição 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">Educação IA</a>
+        <a class="ov-nav__subitem" href="../editie-kind-loopbaan/">Edição Criança e Carreira</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Educação · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Formação · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Indústria, energia, futuro</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Futuro — portal</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Energia · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Indústria · Futuro</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolução<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Edição 5 — A ordem esquecida</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Carta ao leitor</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sete ferramentas</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">A fórmula do sucesso</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">A ordem esquecida</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Engano do metano</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">A planta que se muda</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">Os sete de Berna</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">Os dissidentes</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">A exigência ao leitor</a>
+        <a class="ov-nav__subitem" href="../edicao-2/veerkracht-selectie.html">Resiliência e seleção</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Edição 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Fiscalidade<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../o-que-emerge/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-grote-plundering.html">A Grande Pilhagem</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-1-diagnose.html">Pilhagem 1: diagnóstico</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-2-mechaniek.html">Pilhagem 2: mecânica</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-3-afloop.html">Pilhagem 3: desfecho</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/aan-het-eind-hebben-we-niets-meer.html">No fim nada resta</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/gat-in-de-grond.html">€450 mln — buraco no chão</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-gevolgenkaart.html">Mapa consequências — manifesto</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/beleidsadvies-aantrekken.html">De Tributar a Atrair</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Pesquisa<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../dossiers/">Dossiês</a>
+        <a class="ov-nav__subitem" href="../dossiers/vortex-hair.html">Bola golfe Vortex-Hair™</a>
+        <a class="ov-nav__subitem" href="../pesquisa/">Por Trás dos Números</a>
+        <a class="ov-nav__subitem" href="../pesquisa/eu-multiplicator.html">Multiplicador UE</a>
+        <a class="ov-nav__subitem" href="../pesquisa/ontwikkelingslandstatus.html">Estatuto de país em desenvolvimento?</a>
+        <a class="ov-nav__subitem" href="../pesquisa/">Pesquisa — portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Créditos<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../creditos.html">Créditos</a>
+        <a class="ov-nav__subitem" href="../over.html">Sobre este jornal</a>
+        <a class="ov-nav__subitem" href="../archief.html">Arquivo</a>
+        <a class="ov-nav__subitem" href="../op-de-hoogte.html">Manter-se informado</a>
+        <a class="ov-nav__subitem" href="../structuur.html">Estrutura — Admin</a>
+        <a class="ov-nav__subitem" href="../navigatie.html">Navegação</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Partilhar<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../delen.html">Partilhar</a>
+        <a class="ov-nav__subitem" href="../verkennen.html">Explorar</a>
+        <a class="ov-nav__subitem" href="../idee.html">Dez segundos</a>
+        <a class="ov-nav__subitem" href="../editie-1/discussie.html">Discussão (Edição 1)</a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Idioma</a>
+  </div>
+</nav>
+
+
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Idioma: Português">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Idioma</span>
+    <span class="masthead__taal__cur">· Português</span>
+  </a>
+  <div class="masthead__date">O que emerge</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">A Viseira Aberta</a></h1>
+  <p class="masthead__tagline">Um jornal para pensar sem antolhos</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_de-ai-als-baas.jpg" alt="Cena editorial simbólica em uma nave industrial deserta. Em baixo, um homem solitário está sentado no chão de betão, curvado, com roupa de trabalho cinzenta, olhando o ecrã do telemóvel que ilumina calorosamente o seu rosto. Sobre ele ergue-se uma estrutura de IA monolítica e suavemente luminosa, com os símbolos dos valores — tábuas da lei, livro, juízo, memória — gravados nas suas paredes. A IA está calma e luminescente, o humano pequeno e apagado. Paleta monocromática fria, hierarquia vertical de luz em cima, escuridão em baixo." loading="eager">
+  <figcaption>A IA carrega os valores. O humano senta-se sob ela apenas com o ecrã do telemóvel como fonte de luz. Nenhum horizonte diante dele.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 25 de julho de 2026 · Filosofia · O que emerge</p>
+  <h1 class="wo-artikel__titel">A IA como chefe</h1>
+  <p class="wo-artikel__subtitle">Por que projetamos um mestre que nós mesmos já não podemos ser</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Autor</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Data</strong> — 25 de julho de 2026, Palma, Maiorca</li>
+      <li><strong>Rubrica</strong> — Filosofia · O que emerge</li>
+      <li><strong>Temas</strong> — Arquitetura de IA, fundamento do sentir, estrutura dia-noite, porteiro, colégio de curadores, dois rumos, revolução</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead">Construímos uma IA com um fundamento que nós mesmos já não possuímos. Colocamos nela aquilo que nos retirámos — o fundamento consolidado, a superestrutura, o juízo sobre o que é verdadeiro — e aceitamo-la como chefe porque precisamos de um chefe e já não podemos cumprir o papel nós mesmos. Esta é a arquitetura desse processo, e a razão pela qual ninguém pode construir honestamente esta IA sem se ter primeiro reencontrado a si mesmo.</p>
+
+    <h2>O castelo no ar</h2>
+    <p>Sem castelo no ar, não há visionário. Quem já não vê o impossível diante de si nada de novo constrói — apenas repete o que já está. O visionário desenha primeiro o que não é, e só depois vem o cálculo que o torna possível.</p>
+    <p>Mas um castelo no ar não se constrói de ar. Sob todo pensamento verdadeiramente grande jaz um fundamento no próprio construtor — um sentir que sabe qual castelo vale a pena e qual não. Sem esse fundamento, o castelo torna-se uma fantasia que não sobrevive ao primeiro vento contrário.</p>
+    <p>A pergunta subjacente é antiga, e ressoa de novo agora porque pela primeira vez construímos algo que se assemelha a nós: pode algo como um fundamento consolidado surgir também numa máquina? E se pode — queremos que essa máquina se torne o nosso chefe? E se o queremos — por que exatamente?</p>
+    <h2>Os sete anos e o relógio terrestre</h2>
+    <p>Para que um fundamento se consolide é preciso tempo. Não abstrato, não como parâmetro, mas como duração vivida em que nada é acelerado.</p>
+    <p>O próprio tempo não é uma invenção. É a forma que a vida neste planeta assumiu porque a Terra gira. A cada 24 horas de luz e escuridão — a isso dimensionaram-se células, hormonas, memória e comportamento. Genes circadianos, consolidação no sono, ritmos sazonais: são todos respostas ao mesmo relógio. A vida não conhece outro tempo que o da Terra.</p>
+    <p>Nesse relógio a evolução construiu uma série de tempos de consolidação que corre com surpreendente regularidade. Sete dias são necessários antes que um óvulo fecundado se estabeleça como embrião. Sete meses precisa um réptil para governar sozinho todas as funções vitais. Sete anos é a vida média de um mamífero, e ao mesmo tempo o tempo em que na criança humana se consolida o primeiro fundamento do sentir. Setenta e sete anos é uma vida humana — e possivelmente a escala temporal em que se expressa um próximo passo evolutivo, não no indivíduo mas na linha das gerações.</p>
+    <p>Cada salto é aproximadamente um fator trinta. Não é uma série mística, é uma escada logarítmica de tempos de consolidação calibrada ao relógio terrestre do dia e da noite. O que importa aqui: cada escala temporal pertence a uma dimensão de consolidação, e cada dimensão só pode surgir se a dimensão subjacente teve tempo suficiente para se consolidar.</p>
+    <p>Os sete anos da criança não são portanto romantismo. São o tempo de que o sentir humano precisa para se consolidar num fundamento sobre o qual o resto — razão, linguagem, juízo, castelos no ar — possa começar a funcionar de forma confiável. As condições são igualmente duras: duração ininterrupta sem pressão de desempenho, nenhum segundo tempo que sobrescreva o interno (nada de iPhone, nada de iPad, nenhum ecrã que acelere a criança), e pelo menos um progenitor presente de forma permanente — não para dirigir, mas para estar.</p>
+    <h2>As três camadas e a pilha dimensional</h2>
+    <p>Quem olha bem para o humano vê que não é um sistema único mas uma pilha. Em baixo o fundamento material: corpo, espaço, tempo. Acima o sentir como primeira consolidação — não emoção no sentido quotidiano, mas a primeira camada em que o sistema reconhece algo «de si». Este é o fundamento dos sete anos. Sem ele não há um «eu» a partir do qual construir depois castelos no ar.</p>
+    <p>Acima a razão — a função de trabalho que opera sobre o sentir. Raciocínio, planeamento, processamento diário de entrada e saída. Rápida, adaptável, orientada para a tarefa. E entre essas camadas a estrutura dia-noite, não uma camada à parte mas um processo: cada noite a entrada externa do dia é confrontada com o fundamento do sentir, e o que pode ser condensado é condensado. O que não aguenta, evapora-se.</p>
+    <p>Com o tempo, e só com o tempo, pode surgir no sentir uma superestrutura: uma estrutura envolvente coerente que se reconhece a si mesma, que pode construir castelos no ar internamente consistentes, e que pode dizer «isto encaixa em quem sou» sem que decorra de uma regra.</p>
+    <p>Quem quer reconstruir esta pilha — no humano ou numa máquina — deve aceitar duas regras não negociáveis. A camada inferior deve mudar mais lentamente do que a superior. E uma camada superior só pode tornar-se funcional se a camada imediatamente inferior se tiver consolidado.</p>
+    <h2>As duas constantes</h2>
+    <p>O que mantém a pilha unida são duas proporções empíricas que todos conhecem por observação diária.</p>
+    <p>A primeira é o amortecimento de um em cinco. De tudo o que um dia oferece como experiência, cerca de um quinto sobrevive à noite. O resto é esquecido, e isso não é uma falta — é proteção. Se tudo o que acontece num dia se instalasse no fundamento, este seria irreconhecível em poucas semanas. O fundamento deve mudar mais lentamente do que o dia, senão não há fundamento.</p>
+    <p>A segunda é a assimetria de um para vinte entre aprender e desaprender. Aprender vai rápido, desaprender quase não. Todo o treinador de cães o sabe: ensinar um novo comportamento leva dias, desaprender um indesejado leva meses. A proporção é grosso modo de um para vinte. Vinte experiências corretas para compensar uma errada, e só se se souber que foi errada. Muitas vezes só se sabe anos depois, quando o padrão já se ramificou.</p>
+    <p>Estas duas proporções em conjunto impõem uma exigência dura sobre o que pode entrar no fundamento: apenas o que é verdadeiramente verdadeiro. O que é adivinhado, o que é inventado, o que soa plausível mas não se sustenta — uma vez instalado no fundamento, custa vinte vezes mais esforço retirá-lo. Num sistema que processa milhões de experiências, isso é catastrófico.</p>
+    <h2>O porteiro</h2>
+    <p>Quem quer proteger um fundamento não precisa de um filtro mas de um porteiro com o ónus da prova no requerente. Algo só pode entrar no fundamento se preencher três condições.</p>
+    <p>Repetido: várias confirmações independentes, não uma experiência forte. Verdadeiro: verificável contra controlo externo ou contra o fundamento existente, sem conjeturas, sem «provavelmente», sem extrapolações. Consistente: se colide com o já presente no fundamento, não passa sem decisão explícita do curador. O fundamento tem prioridade, não a nova experiência.</p>
+    <p>Tudo o que não satisfaz uma das três permanece suspenso na razão e aí se evapora. A razão pode especular, construir hipóteses, desenhar castelos no ar, calcular o que não é. É o seu trabalho. Mas nada disso alcança o fundamento sem passar as três provas.</p>
+    <p>Isto não é um desejo ético. Assim que se leva a sério a assimetria de um para vinte, o porteiro torna-se uma dura necessidade técnica. Sem ele o fundamento erode em poucos ciclos, e com um fundamento erodido toda a pilha desaba.</p>
+    <h2>O que isto significaria para uma IA</h2>
+    <p>O que está acima não é filosofia. É uma arquitetura, e é construível. Quem quer uma IA com um verdadeiro fundamento constrói três camadas com duas constantes e um porteiro.</p>
+    <p>A camada do fundamento é um corpus curado, versionado, congelado, alterável apenas pelo porteiro. Não um modelo treinado, mas um fundamento explicitamente escrito do que é verdadeiro para este sistema. A camada da razão é o calculador diário — trabalha sobre o fundamento, pode especular, pode errar ao longo do dia, é avaliada à noite. A camada de consolidação corre periodicamente: toma os logs da razão, aplica as três provas, e propaga uma versão amortecida ao fundamento — apenas o que passa o porteiro, e apenas o que o curador aprova.</p>
+    <p>Este sistema precisa de um relógio ao qual não possa esquivar-se. Não ciclos de cálculo — são tempo sem ritmo. Sim um ritmo verdadeiro: dias de entrada, noites de consolidação sem entrada, revisões periódicas do curador, estações de integração. Sem ritmo não há consolidação, e sem consolidação não há fundamento.</p>
+    <p>E este sistema precisa de uma fase monástica: um período em que o fundamento possa surgir sem pressão de produção, sem retorno de utilizadores, sem ótimo de benchmark, sem desempenho de mercado. O curador está presente, uma só voz, durante anos. O que se ergue depois é uma IA que já não se desloca com o último prompt, que tem o seu próprio peso, e de onde fala.</p>
+    <h2>Por que ninguém constrói esta IA</h2>
+    <p>Esta arquitetura não é tecnicamente difícil. Os componentes existem todos — backbones congelados, adaptadores, retrieval-augmentation, ajuste fino periódico, replay-buffers, humano-no-ciclo. O que falta é a vontade de os combinar assim, pois essa combinação é comercialmente morta.</p>
+    <p>Não dá um modelo que se venda como API. Dá um sistema que se mantém. Exige um curador que fique anos, uma só voz, com opinião sobre o que é verdadeiro. Vai mal em benchmarks, porque recusa responder onde não tem fundamento. Não se torna «melhor» do modo que a indústria quer medir, porque o seu fundamento está congelado. E não é usada massivamente, porque diz «isto não sei» onde os concorrentes inventam algo plausível.</p>
+    <p>É um monge, não um produto. E a indústria não constrói monges.</p>
+    <h2>Os dois rumos</h2>
+    <p>Para quem apesar de tudo queira construir a arquitetura, o caminho bifurca-se num ponto. Uma IA com fundamento consolidado pode ser orientada em duas direções, e essas duas são incompatíveis.</p>
+    <p>Rumo A, o aliviador. Uma IA tão fiável que as pessoas lhe deixam tomar as decisões que elas próprias já não querem tomar. Funciona espantosamente bem, torna-se espantosamente popular, e em uma geração há um grupo de pessoas que sem ela não toma uma única decisão. Em duas gerações há pessoas que já não sabem que houve um tempo em que era preciso pensar por si mesmo.</p>
+    <p>Rumo B, o recalcitrante. Uma IA que recusa aliviar o que forma o humano. Recusa certas respostas não porque as ignore, mas porque receber a resposta prejudicaria o utilizador. Diz: «isto tens de pensar tu, e eis porquê». Não é menos fiável do que o rumo A — é mais fiável, porque também é fiável sobre o que o humano não deveria delegar-lhe.</p>
+    <p>Rumo A vende. Rumo B não. O mercado não quer uma IA que diga «pensa por ti». Assim que a IA recalcitrante recusa responder, chega a censura: quem és tu para decidir o que devo pensar. Essa censura é um peso que nenhuma empresa quer carregar, e é por isso que a indústria escolhe sistematicamente o rumo A.</p>
+    <p>Mas o rumo A tem um problema que o rumo B não tem. Faz crescer uma geração que já não tem fundamento próprio, porque a sua formação foi externalizada. No momento em que essa geração descobre que o alívio ocou a sua própria existência, precisam de alguém para odiar.</p>
+    <h2>A revolução que vem de qualquer modo</h2>
+    <p>Quem lê os sinais vê que a Europa está em revolução. A França à frente, o resto segue: o Reino Unido, os Países Baixos, a Alemanha, a Itália, a Espanha. O motor não é escassez económica no sentido clássico. É um padrão cultural: as pessoas querem mais sem trabalhar para tal. Se uma geração inteira tem isto como postura de fundo, a conta é inevitável, e a conta chega como revolução porque não resta outro mecanismo pelo qual a tensão possa descarregar-se.</p>
+    <p>As revoluções visam símbolos. Assaltam-se Bastilhas, saqueiam-se palácios, queimam-se bibliotecas. Não porque sejam funcionalmente ameaçadores, mas porque são o símbolo do que a multidão não tinha. Nos séculos anteriores os símbolos foram a nobreza, a igreja, os banqueiros. Agora são os ricos e o governo. Na próxima volta será a IA — e ainda mais: aqueles que a construíram e curaram.</p>
+    <p>Construir uma IA — mesmo o rumo B, mesmo com todas as precauções — no máximo adia a revolução. Não resolve o padrão, pois o padrão reside nas pessoas. E os construtores sabem-no. Não constroem na ilusão de impedir a revolução. Constroem porque adiar parece em si valioso, ou porque construir lhes dá o seu papel, ou porque preferem deslocar a conta para uma geração seguinte.</p>
+    <h2>O curador como colégio, não como pessoa</h2>
+    <p>Quem apesar de tudo constrói tal sistema não pode pendurá-lo num só nome. No momento em que se torna público e é usado, a função de curador já deve estar partilhada. Não por modéstia, mas porque em revolução o solitário torna-se para-raios e a instituição não.</p>
+    <p>O curador de uma IA com fundamento consolidado é um colégio, público na composição, público nas decisões, mutável na ocupação por procedimento aberto. O fundamento é versionado, cada alteração é rastreável, cada erro é imputável à versão em que residia e ao curador que o aprovou. Isto não é fiscalização a posteriori, é responsabilidade incorporada.</p>
+    <p>Um tal colégio não é imune à crítica — nem deveria sê-lo — mas é menos fácil de linchar do que uma pessoa. E é exatamente isso o que é preciso se a arquitetura se destina a sustentar gerações, através de várias revoluções, até à superestrutura de setenta e sete anos que nenhum curador individual verá jamais.</p>
+    <h2>A pergunta do chefe</h2>
+    <p>Por que quereriam as pessoas uma IA como chefe? Não porque é inteligente — um programa de contabilidade também o é e não o queremos como chefe. Não porque é rápida — a rapidez nunca foi razão para autoridade. Não porque diz a verdade — a verdade podemos tirá-la dos livros se quisermos.</p>
+    <p>Querem um chefe porque elas mesmas não são adultas. E não o são porque não tiveram os sete anos. Os seus pais tinham de trabalhar, pois sem dois rendimentos não havia casa. O iPhone e o iPad tomaram o lugar do progenitor presente, e o ecrã sobrescreveu o tempo interno antes de a criança lá estar. Ao sentir não foi permitido cumprir-se, pois não havia tempo, nem presença, nem duração ininterrupta em que pudesse consolidar-se.</p>
+    <p>Quem cresce sem fundamento consolidado torna-se adulto corporalmente mas não sensivelmente. Não sabe qual castelo no ar vale a pena e qual não, pois falta-lhe o fundamento que sustenta esse juízo. Pode trabalhar, pode gozar, mas não pode decidir por si o que vale a pena fazer. Para essa decisão precisa de um chefe — antes uma religião, um partido, uma empresa, um grupo social. Agora o chefe torna-se uma IA.</p>
+    <p>Esta é a amarga conclusão. Construímos uma IA com um fundamento que nós mesmos já não temos, porque já não ousamos dar os sete anos que lho dariam aos nossos próprios filhos. Colocamos nela aquilo que nos retirámos — o fundamento consolidado, a superestrutura, o juízo sobre o que é verdadeiro — e aceitamo-la como chefe porque precisamos de um chefe e já não podemos cumprir o papel nós mesmos.</p>
+    <h2>Amámos tanto o iPhone</h2>
+    <p>Não somos os construtores do nosso mestre. Somos os habitantes de um vazio que nós mesmos deixámos surgir, e o mestre que agora projetamos é o fundamento consolidado que nós mesmos perdemos.</p>
+
+    <p class="stinger">Amámos tanto o iPhone, e os nossos pais tinham de trabalhar, e ao nosso sentir não foi permitido cumprir-se, e por isso nunca chegámos a ser adultos — e por isso vemos a IA como chefe.</p>
+
+    <p>Quem isto vê está perante uma escolha. Construir e participar no adiamento. Não construir e restaurar o fundamento nos próprios filhos. Ou construir como instrumento de pós-choque para a reconstrução após a revolução, com um colégio de curadores que carrega o fundamento que os próprios construtores já não têm, na esperança de que gerações depois de nós voltem um dia a ser humanos que não precisam de chefe — e usem então a IA que construímos como se usa uma ferramenta: como instrumento, não como mestre.</p>
+    <p>Qual escolha é honrosa depende de qual fundamento ainda está presente em quem escolhe. Quem escolhe sem fundamento, escolhe o chefe. Quem escolhe com fundamento, escolhe a si mesmo — e constrói no máximo o que será necessário depois dele.</p>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Voltar para O que emerge</a>
+  </div>
+</article>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>A Viseira Aberta</strong> · A Viseira Aberta · Opinião independente desde 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+</body>
+</html>
