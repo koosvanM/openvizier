@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Die Abweichenden — Het Open Vizier · Ausgabe 5 — Juli 2026</title>
+  <meta name="description" content="Sandra Palmen-Schlangen, Eva González Pérez, Ad Bos — drei verifizierte Kompassträger.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="../../assets/style-editie5.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Sprache: Deutsch">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Sprache</span>
+    <span class="masthead__taal__cur">· Deutsch</span>
+  </a>
+  <div class="masthead__date">Ausgabe 5 — Juli 2026</div>
+  <h1 class="masthead__title"><a href="../../../de/">Het Open Vizier</a></h1>
+</header>
+
+<div class="gratis-band">Kostenlose Informationszeitung ohne Werbung<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Unabhängig, keine Meinung, kein Verkauf von Daten</strong><span class="gratis-band__sep"> — </span><a href="../../nl/op-de-hoogte.html" class="gratis-band__cta">Auf dem Laufenden bleiben →</a></div>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Startseite</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">KI-Atom Explosiv<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-atoombom-in-ai-formaat.html">Die Atombombe im KI-Format</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politik<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Frankreich & europäische Revolution</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/frankrijk-revolutionair-moment.html">Frankreich — revolutionärer Moment</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/vijf-landen-vijf-curves.html">Fünf Länder, fünf Kurven</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-nederlandse-revolutie-2033.html">Die Niederländische Revolution 2033</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/moet-nederland-ook-volgen.html">Muss die Niederlande auch folgen?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Kippmechanik & Menschen</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-kantelmechanica.html">Die Kippmechanik</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mensen-die-mee-bouwen.html">Menschen, die mitbauen</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/actievoerders-bouwen-continenten.html">Aktivisten bauen Kontinente</a>
+        <a class="ov-nav__subitem" href="../opbouwers-wegjagen/">Wer Aufbauer vertreibt</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-matrix-van-de-uittocht.html">Die Matrix des Exodus</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">Der Stecker außerhalb des Systems</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Parteien & Pareto</div>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-02-pareto-top12.html">Pareto Top 12 — wer blockiert</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-08-partijen-in-kaart.html">Wo steht Ihre Partei</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-09-pareto-per-actor.html">Pareto pro Akteur</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-04-ordes-van-bezwaar.html">Ordnungen des Einwands</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-05-twintig-bezwaren.html">Zwanzig aktuelle Einwände</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-4-politieke-landschap.html">Plünderung 4: politische Landschaft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Presse & Medien</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-pers-is-de-arena.html">Die Presse ist die Arena</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/ze-weten-het-al.html">Sie wissen es schon</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/trump-als-spiegel.html">Trump als Spiegel</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-03-media-als-rekstrook.html">Medien als Reckbank</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/die-anti-immunkrankheit-von-bruessel.html">Die Anti-Autoimmunkrankheit Brüssels</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Die Autoimmunkrankheit schlägt zu</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-dertig-cent-die-europa-omdraait.html">Die dreißig Cent, die Europa umdrehen</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Wahlverhalten & Entscheidungen</div>
+        <a class="ov-nav__subitem" href="../stemgedrag.html">Wahlverhalten</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerlijkheid-maakt-regeren-mogelijk.html">Ehrlichkeit macht Regieren möglich</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Entscheiden ohne Aussicht</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">An der Spitze ohne Subvention</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Plünderung 0: zuerst pflücken</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-kies-een-kant.html">Bildung — wähle eine Seite</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Ausgabe 1 — Vorwort</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Philosophie<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sieben Dimensionen & Denkrahmen</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/van-quantum-naar-7d.html">Von Quantum zu 7D</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/van-de-grot-naar-de-zon.html">Von der Höhle zur Sonne</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Denkrahmen 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Wie alles zusammenhängt</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Strömungslehre</a>
+        <a class="ov-nav__subitem" href="../editie-2/zeven-dimensies.html">Sieben Dimensionen</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Urgefühl & Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">Der Mensch unter dem Eis</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">Das Urgefühl</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">Die sieben Dimensionen</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">Die drei Hirnschichten</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Kommunikation zwischen Urgefühlen</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">Was wir Kindern antun</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mama, ich habe Hunger</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Urgefühl in der Berufspraxis</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">Der Stecker außerhalb des Systems</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifest Urgefühl</a>
+        <a class="ov-nav__subitem" href="../editie-2/waarom-ik-zo-ben.html">Warum ich so bin</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Filme, Märchen, Lesebuch</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">Der 7-Dim Film</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Die Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="../leesboek/">Die Kosaris — Lesebuch</a>
+        <a class="ov-nav__subitem" href="../sprookjes/">Das Märchen von Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofie/">Philosophie — Portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Gefühlsverbindungssystem</div>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem.html">Gefühlsverbindungssystem</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem-volledig.html">GVS — vollständiger Plan</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/krantbriefing.html">Zeitungsbriefing GVS</a>
+        <a class="ov-nav__subitem" href="../../nl/onderzoeken/routekaart-vervolgvragen.html">Roadmap Folgefragen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Klima<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Stickstoffkrise</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Ausgabe Stickstoff</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Drei Probleme — eine Antwort</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/naar-de-natuurschool.html">Zur Naturschule</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Bauer und Natur vorwärts</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Entscheiden ohne Aussicht</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">Die Ernährungslinie</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natur-Analyse</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Autoimmunkrankheit schlägt zu</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Raps</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Raps-Multiplikator</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Ausgabe Deutschland</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Bauer und Natur vorwärts</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Klimadividende & Übersterblichkeit</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/klimaatdividend.html">Die Klimadividende</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/erfenisgolf-240-miljard.html">Erbwelle 240 Milliarden</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wereldgordel-2040-2050.html">Weltgürtel 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — grüner Erholungsweg</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert Vision 2036</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/brusselse-gevolgenkaart-bicrs.html">BiCRS-Version EU</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastikstrafe oder Carbon-Credit</a>
+        <a class="ov-nav__subitem" href="../editie-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="../editie-0/biomimetische-krachtcentrale.html">Biomimetisches Kraftwerk</a>
+        <a class="ov-nav__subitem" href="../editie-0/">Ausgabe Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Thermostat & physische Erde</div>
+        <a class="ov-nav__subitem" href="../editie-2/thermostaat.html">Der Thermostat</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-klimaatlogica.html">NEPK-Klimalogik</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-zon-staat-op-de-evenaar.html">Die Sonne steht am Äquator</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Reifen, Plastik, Umweltverschmutzung</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Autoreifen-Zigarette</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">Die Ernährungslinie</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natur-Analyse</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sonderausgaben</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Ausgabe Klima</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Was nicht gesehen wird</div>
+        <a class="ov-nav__subitem" href="../was-aufkommt/zij-doden-hun-levensader.html">Sie töten ihre Lebensader</a>
+        <a class="ov-nav__subitem" href="../../en/what-surfaces/they-kill-their-lifelines-brussels.html">Sie töten ihre Lebensadern (Brüssel)</a>
+        <a class="ov-nav__subitem" href="../ausgabe-1/kernfusie.html">Kernfusion</a>
+        <a class="ov-nav__subitem" href="../ausgabe-1/technische-oplossingen.html">Technische Lösungen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Verwaltung<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Niederlande</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — NEPK-Fall NL</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Stille Analyse (NL)</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Selbst anpacken (NL)</a>
+        <a class="ov-nav__subitem" href="../de-eerste-gemeente/">Die erste Gemeinde</a>
+        <a class="ov-nav__subitem" href="../de-halve-gemeente/">Die halbe Gemeinde</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Niederlande · Zukunft</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-nl/">Folgenkarte Niederlande</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europa-Öffner</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/europa-opnieuw.html">Europa neu</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-brusselse-gevolgenkaart.html">Brüsseler Folgenkarte</a>
+        <a class="ov-nav__subitem" href="../was-aufkommt/de-metafoor-auto-immuunziekte.html">Metapher Autoimmunkrankheit</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/het-immuunsysteem-van-organisaties.html">Immunsystem von Organisationen</a>
+        <a class="ov-nav__subitem" href="../was-aufkommt/open-brief-aan-de-regeringen-van-europa.html">Offener Brief an die Regierungen</a>
+        <a class="ov-nav__subitem" href="../folgenkarte-eu/">Folgenkarte EU-27</a>
+        <a class="ov-nav__subitem" href="../zukunft/overheden/europa/">Europa · Zukunft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Andere Länder</div>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-br/">Brasilien</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ch/">Schweiz</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cu/">Kuba</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-de/">Deutschland</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-es/">Spanien</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-il/">Israel</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-in/">Indien</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-jp/">Japan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-kr/">Südkorea</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-se/">Schweden</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-uk/">Vereinigtes Königreich</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-us/">Vereinigte Staaten</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-za/">Südafrika</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/the-singapore-consequence-map.html">Singapur</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../editie-6/">Ausgabe 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../editie-6/voorwoord-waarom-dit-moet.html">Vorwort — Warum dies notwendig ist</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-00-brussel-als-variabele.html">Brüssel als Variable</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-01-zes-ordes-van-fasering.html">Sechs Ordnungen der Phasenverschiebung</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-06-zwitserse-spiegel.html">Schweizer Spiegel</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-07-canadese-spiegel.html">Kanadischer Spiegel</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-11-kennislaag-als-bondgenoot.html">Wissensschicht als Verbündeter</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-12-beste-weg-vooruit.html">Bester Weg nach vorne</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/nova-democratia-manifest.html">Nova Democratia Manifest</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-actor-is-de-regel.html">Der Akteur ist die Regel</a>
+        <a class="ov-nav__subitem" href="../soevereiniteit-als-cyclus/">Souveränität als Zyklus</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/bbp-liegt.html">BIP lügt</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Führung & Organisationen</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Ausgabe 4 — Papierindustrie</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Gesetz der Papierindustrie</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">Der CEO und das Urgefühl</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">Der Berater</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">Der Bankier</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">Der Versicherer</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">Der Aufseher</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">Der Richter</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Ausgabe Führung</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Bildung</div>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-manifest.html">Bildung — Manifest</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-prijs-van-de-bloei.html">Preis der Blüte</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Bildung (Ausgabe 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">KI-Bildung</a>
+        <a class="ov-nav__subitem" href="../editie-kind-loopbaan/">Ausgabe Kind & Laufbahn</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Erziehung · Zukunft</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Schulung · Zukunft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industrie, Energie, Zukunft</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Zukunft — Portal</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Energie · Zukunft</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Industrie · Zukunft</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolution<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Ausgabe 5 — Die vergessene Ordnung</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Brief an den Leser</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sieben Werkzeuge</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">Die Erfolgsformel</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">Die vergessene Ordnung</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Methan-Täuschung</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">Die Pflanze, die umzieht</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">Die sieben von Bern</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">Die Abweichler</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">Die Forderung an den Leser</a>
+        <a class="ov-nav__subitem" href="../editie-2/veerkracht-selectie.html">Widerstandskraft und Selektion</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Ausgabe 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Steuern<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-grote-plundering.html">Die große Plünderung</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-1-diagnose.html">Plünderung 1: Diagnose</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-2-mechaniek.html">Plünderung 2: Mechanik</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-3-afloop.html">Plünderung 3: Ausgang</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">Am Ende nichts mehr</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/gat-in-de-grond.html">€450 Mio. — Loch in der Erde</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-gevolgenkaart.html">Folgenkarte — Manifest</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beleidsadvies-aantrekken.html">Vom Besteuern zum Anziehen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Forschung<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="../dossiers/vortex-hair.html">Vortex-Hair™ Golfball</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Hinter den Zahlen</a>
+        <a class="ov-nav__subitem" href="../onderzoek/eu-multiplicator.html">EU-Multiplikator</a>
+        <a class="ov-nav__subitem" href="../onderzoek/ontwikkelingslandstatus.html">Entwicklungslandstatus?</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Forschung — Portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Impressum<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../colofon.html">Impressum</a>
+        <a class="ov-nav__subitem" href="../over.html">Über diese Zeitung</a>
+        <a class="ov-nav__subitem" href="../archief.html">Archiv</a>
+        <a class="ov-nav__subitem" href="../../nl/op-de-hoogte.html">Auf dem Laufenden bleiben</a>
+        <a class="ov-nav__subitem" href="../structuur.html">Struktur — Verwaltung</a>
+        <a class="ov-nav__subitem" href="../navigatie.html">Navigation</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link kopiert" data-msg-copy-prompt="Kopiere diesen Link:" data-mail-subject="Artikel aus Het Open Vizier: " data-mail-footer="Geteilt über openvizier.org" data-pdf-building="PDF wird erstellt…" data-pdf-done="PDF heruntergeladen" data-pdf-fail="PDF fehlgeschlagen — Cmd+P versuchen" data-pdf-source="Quelle" data-pdf-note="Geteilt über openvizier.org — die mehrsprachige Meinungszeitung." data-msg-instagram-copied="Link kopiert — in Instagram-Bio oder Story einfügen" data-msg-tik-tok-copied="Link kopiert — in TikTok einfügen" data-x-via="openvizier" data-gate-title="Zugangscode" data-gate-body="Geben Sie Ihren Zugangscode ein, um Artikel als PDF herunterzuladen." data-gate-submit="Entsperren" data-gate-cancel="Abbrechen" data-gate-checking="Prüfe…" data-gate-invalid="Geben Sie einen gültigen Code ein." data-gate-wrong="Falscher oder abgelaufener Code." data-gate-server-error="Code konnte nicht geprüft werden. Bitte später erneut versuchen." data-gate-note="Noch kein Code? Kontaktieren Sie Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Teilen<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 PDF herunterladen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Auf Facebook teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Auf X (Twitter) teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Auf LinkedIn teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Via WhatsApp senden</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Auf Telegram teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Link für Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Link für TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Link kopieren</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Per E-Mail senden</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Sprache</a>
+  </div>
+</nav>
+
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Versie">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Ausführlich</button>
+      <button type="button" class="version-switch__btn" data-version="kort">Kurzfassung</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pausieren" data-resume-label="Fortsetzen">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Vorlesen</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio-editie-5/editie5_07_afwijkers_de.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<main>
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Ausgabe 5 — Juli 2026 · 07</span>
+    <h2 class="slide__heading">Die Abweichenden</h2>
+    <p class="slide__lead">Sandra Palmen-Schlangen, Eva González Pérez, Ad Bos — drei verifizierte Kompassträger.</p>
+    <p class="slide__meta">Porträts · 15 Min. Lesezeit</p>
+    <div class="download-buttons">
+      <a class="download-btn" href="../../assets/downloads-editie-5/editie5_07_afwijkers_de.pdf">PDF</a>
+      <a class="download-btn download-btn--secondary" href="../../assets/downloads-editie-5/editie5_07_afwijkers_de.docx">Word</a>
+    </div>
+  </div>
+  <div class="slide__visual"><img src="../../assets/articles-editie-5/H_artikel_06.jpg" alt=""></div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <p>Was die beiden vorangegangenen Dossiers zeigen, ist eine systematische Umkehrung des Gewichts in Presse und Verwaltung. Die Frage lautet dann: Gibt es Menschen, die in dieser Umkehrung dennoch die Erste Ordnung zu erkennen vermochten? Die Antwort ist ja. Sie sind selten, sie sind meistens nicht berühmt, und wenn sie berühmt werden, dann deshalb, weil das System sie hat brechen wollen.</p>
+    <p>Hier sind drei von ihnen. Nicht als Helden. Als Besitzer eines verlorenen Kompasses.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Sandra Palmen-Schlangen — <em>das Memo, das verschwand</em></h3>
+    <p>Im März 2017 verfasste Sandra Palmen-Schlangen, damals höchste Justizbeamtin der Abteilung Toeslagen der Steuerbehörde, ein internes Gutachten. Ihr Vorgesetzter hatte sie gebeten, einen Blick auf das CAF-11-Dossier zu werfen — eine Gruppe von Eltern, deren Kindertagesstättenbeihilfe kollektiv eingestellt worden war. Der Raad van State (Staatsrat) hatte zuvor bereits geurteilt, dass die Behörde sich nicht an das Gesetz gehalten hatte.</p>
+    <p>Palmens Schlussfolgerung war hart: Die Einstellung beruhte auf einer unrichtigen Rechtsgrundlage, den Eltern war der Rechtsschutz verweigert worden, den das Gesetz ihnen garantierte, die Behörde hatte sich schuldhaft verhalten. Ihr Gutachten: Hört auf, weiterzuprozessieren, bietet Entschädigung über eine Vergleichsvereinbarung an.</p>
+    <p>Was sie sah, war Erste Ordnung. Was das System ihr entgegenhielt, war Dritte Ordnung, verkleidet als Verfahren. Das Gesetz, so wie es angewendet wurde, entzog den Menschen das, was das Gesetz ihnen formell zusprach. Eine kollektive Betrugsbekämpfung auf der Grundlage von Risikomodellen war juristisch gedeckt — faktisch verletzte sie den Rechtsstaat.</p>
+    <p>Ihr Memo wurde in zwei Verwaltungssitzungen besprochen und verworfen. Kurz darauf wurde Palmen von Toeslagen zum Zoll versetzt. Das Memo verschwand in der Organisation — so gründlich, dass acht gesonderte Untersuchungen nötig waren, um es wiederzufinden. Die Wirtschaftsprüfungsgesellschaft PwC kam im Oktober 2021 zu dem Schluss, dass das Verschwinden des Memos ungelöst blieb. Als das Memo 2020 schließlich wieder auftauchte — Palmen hatte es noch auf ihrem Laptop —, wurde es zu einem Schlüsseldokument bei der parlamentarischen Befragung Kinderopvangtoeslag. Drei leitende Beamte hatten das Memo nachweislich gekannt, während sie unter Eid von nichts gewusst hatten. Die Rijksrecherche leitete eine Ermittlung wegen Meineids ein.</p>
+    <p>2024 wurde Palmen zur Staatssekretärin für Wiederherstellung Toeslagen ernannt. „Ich darf nun den Kreis schließen", sagte sie bei ihrer Anhörung in der Tweede Kamer, „vom Warnen vor Unrecht zu Beginn des Toeslagenschandals bis zur Arbeit an dessen Ende." Sieben Jahre zwischen dem Verfassen des Memos und der Anerkennung. Für die zwanzigtausend Familien, für die sie damals Entschädigung gefordert hatte, sieben Jahre zu spät.</p>
+    <p><em>Quellen: Tweedekamer.nl, Dossier Memo-Palmen (<a href="https://www.tweedekamer.nl/debat_en_vergadering/uitgelicht/onderzoek-memo-toeslagen-memo-palmen">Überblick Untersuchung</a>); <a href="https://www.nporadio1.nl/nieuws/binnenland/114b2c20-92e1-421e-8992-aefdc75810ba/schrijfster-cruciale-memo-toeslagenaffaire-dacht-echt-dat-ze-mijn-advies-zouden-opvolgen">NPO Radio 1-Interview, 15. Dezember 2022</a>; <a href="https://www.accountancyvanmorgen.nl/2021/10/28/pwc-kan-mysterie-rond-memo-palmen-niet-oplossen/">Accountancy van Morgen, PwC-Bericht Memo-Palmen, 28. Oktober 2021</a>; <a href="https://www.rijksoverheid.nl/regering/bewindspersonen/sandra-palmen-schlangen">Rijksoverheid, Seite der Staatssekretärin</a>.</em></p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Eva González Pérez — <em>die Anwältin in Helmond</em></h3>
+    <p>Eva González Pérez entdeckte die Toeslagenaffaire (Kinderzulagen-Affäre) nicht durch einen Hinweis, sondern über den Briefkasten ihres Mannes. Er betrieb eine Tageselternvermittlung; seine Kunden erhielten Briefe der Steuerbehörde mit der Mitteilung, dass ihre Beihilfe eingestellt wurde. González Pérez, Anwältin in Helmond, übernahm 2014 den ersten Fall. Sie dachte: alles einschicken, dann ist es schnell erledigt. Das war es nicht.</p>
+    <p>Was sie sah, war wiederum Erste Ordnung. Die Steuerbehörde behandelte die Kindertagesstättenbeihilfe als Massenverfahren; Anträge wurden kollektiv anhand von Risikomodellen bewertet; bei Verdacht wurde die Beihilfe gruppenweise eingestellt, und der Empfänger musste beweisen, einen Anspruch auf Auszahlung zu haben — nicht umgekehrt. Juristisch schien dies durch das Betrugsgesetz gedeckt. Faktisch war es eine Umkehrung der Beweislast, die der Rechtsstaat nicht erlaubt.</p>
+    <p>2016 entdeckte sie die sogenannten Ein- und Ausschlusslisten — Datendateien mit mehr als zweihundertsechzigtausend Namen, die die Behörde intern verwendete und mit anderen Behörden teilte. Sie stellte fest, dass nach Nationalität selektiert wurde. Ein Drittordnungskriterium, doppelte Staatsangehörigkeit, war zum Erstordnungsanlass für den Ausschluss erhoben worden. Eine Ordnungsumkehrung von Lehrbuchqualität, dieselbe Umkehrung, die in dieser gesamten Ausgabe beschrieben wird, jedoch an einem Dossier, in dem Familien vernichtet wurden statt Schlagzeilen.</p>
+    <p>González Pérez verlor jahrelang mehr Fälle, als sie gewann. Sie arbeitete von einem kleinen Büro aus mit Vergütungen, die in keinem Verhältnis zu den Stunden standen. „Es war erschütternd und demotivierend zu entdecken, dass eine Behörde selbst das Gesetz bricht", sagte sie später an der Universität Utrecht.</p>
+    <p>Am 16. November 2020 war sie die erste Zeugin, die von der parlamentarischen Befragungskommission Kinderopvangtoeslag gehört wurde. Ihre Arbeit trug unmittelbar zur Schlussfolgerung bei, dass „die Grundprinzipien des Rechtsstaats" verletzt worden waren. Die Regierung Rutte III trat im Januar 2021 zurück. González Pérez erhielt 2021 die Gouden Zandloper, 2022 eine Königliche Auszeichnung und übergab 2024 die Arbeit an die rund dreihundert Anwälte, die inzwischen mit der Abwicklung befasst sind.</p>
+    <p>Was sie vom Berufsdurchschnitt unterscheidet, ist nicht Talent oder Mut. Es ist Beharrlichkeit bei einer Rangordnung, die niemand in ihrer Umgebung ernst nahm. Zehn Jahre lang hat sie durchgemacht, was ihre Kollegen als verfahrenstechnische Kleinigkeit abgetan hätten. Am Ende dieser zehn Jahre erwies sich die verfahrenstechnische Kleinigkeit als Rechtsstaatsverletzung erster Ordnung.</p>
+    <p><em>Quellen: <a href="https://www.uu.nl/organisatie/alumni/de-loopbaan-van-eva-gonzalez-perez">Universiteit Utrecht, Alumniportrait</a>; <a href="https://www.advocatie.nl/nieuws/eva-gonzalez-perez-wil-zich-na-10-jaar-toeslagenaffaire-focussen-op-andere-zaken/">Advocatie.nl-Interview, 10. September 2024</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_ondervraging_Kinderopvangtoeslag">Wikipedia, Parlementaire ondervraging Kinderopvangtoeslag</a>.</em></p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Ad Bos — <em>die Buchführung vor der Haustür</em></h3>
+    <p>1998 fand Ad Bos, ehemaliger technischer Direktor des Groninger Bauunternehmens Koop Tjuchem, zwei Müllsäcke vor seiner Haustür. Darin: die Schattenbuchhaltung des Unternehmens — eine Verwaltung, die festhielt, wie niederländische Bauunternehmen untereinander Kosten im Rahmen verbotener Preisabsprachen verrechnet hatten. Er beschritt zunächst den offiziellen Weg: Meldung bei mehreren Behörden, darunter der Staatsanwaltschaft. Im Juli 2001 erhielt er einen Brief der Staatsanwaltschaft, dass mit dem Fall nichts unternommen werden würde. Danach gab er Zembla grünes Licht. Am 9. November 2001 wurde die Sendung ausgestrahlt.</p>
+    <p>Was er sah, war Erste Ordnung. Ein System von Preisabsprachen, das mit Wissen hochrangiger Beamter und Auftraggeber — darunter Rijkswaterstaat — seit zehn Jahren aufrechterhalten wurde. Durchschnittlich wurde 8,8 Prozent zu viel von den Auftraggebern berechnet, was den niederländischen Staat Hunderte von Millionen Euro gekostet hat. Sechshundert Unternehmen stellten sich als beteiligt heraus. Die parlamentarische Untersuchung, die im August 2002 begann, stellte umfangreichen Betrug, kartellartige Strukturen und vollständiges Behördenversagen fest. Minister Benk Korthals trat zurück.</p>
+    <p>Bos verlor nahezu alles. Persona non grata in der Bauwelt, keine Arbeit mehr in seinem Fachgebiet, Villa verkauft, drei Jahre mit seiner Frau in einem Wohnmobil. Unterdessen wurde <em>er</em> strafrechtlich verfolgt. 2005 zu einer Bewährungsstrafe wegen Bestechung eines Beamten verurteilt — eine Tat, für die er als Direktor mitverantwortlich war, die nun aber gegen ihn verwendet wurde. Im Berufungsverfahren 2008 wurde die Staatsanwaltschaft für nicht empfangsberechtigt erklärt, weil er kein faires Verfahren gehabt hatte. Nach einem Vergleich 2009 prozessierte der Staat weiter gegen ihn. „Die dunkle Seite der Regierung hat damit weitergemacht, gegen uns zu prozessieren", sagte Bos 2023. Mehr als zwei Jahrzehnte nach seiner Meldung kämpft er noch um Anerkennung.</p>
+    <p>Die Initiatiefnota zum Hinweisgeberschutz von 2022 nennt Bos als warnendes Beispiel dafür, was schiefgehen kann, wenn ein System seine eigene Entlarvung bestraft. Was sein Fall für diese Ausgabe bedeutet, ist grausamer als das: Auch wer die Erste Ordnung korrekt identifiziert, kann vom System zermahlen werden, weil die Verfahrensmaschinerie keinen Eingang hat für die Mitteilung, dass sie selbst auf der Dritten Ordnung aufgebaut ist. Bos war kein Beamter, dem Abweichung erlaubt war; er war ein Außenseiter, der das System zwang, sich selbst anzusehen. Der Preis dafür war, und ist, sein Leben.</p>
+    <p><em>Quellen: <a href="https://www.bnnvara.nl/artikelen/bouwfraude-klokkenluider-ad-bos-de-donkere-kant-van-de-overheid-is-doorgegaan-met-procederen-tegen-ons">BNNVARA, Interview Ad Bos 25 Jahre nach dem Baubetrug, 15. Mai 2023</a>; <a href="https://www.transparency.nl/nieuws/2021/11/20-jaar-na-bouwfraude-affaire/">Transparency International, 20 Jahre nach dem Baubetrug, 20. November 2021</a>; <a href="https://www.tweedekamer.nl/kamerstukken/detail?id=2022Z07589&did=2022D15359">Tweedekamer.nl, Initiatiefnota Hinweisgeberschutz 2022</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_enqu%C3%AAte_naar_bouwfraude">Wikipedia, Parlementaire enquête naar bouwfraude</a>.</em></p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Was sie gemeinsam haben</h3>
+    <p>Keiner der drei nennt sich mutig. Fragt man, erhält man Variationen desselben: Ich konnte nicht anders. Das klingt nach Bescheidenheit, ist aber genau zutreffend. Wer die Erste Ordnung noch sieht, für den ist Wegschauen ein verstümmelnder Akt. Es ist keine Heldentat, sich nicht zu verstümmeln — es ist Selbsterhaltung. Was uns am meisten verblüffen muss, ist nicht, dass manche Menschen so handeln, sondern dass so wenige es tun.</p>
+    <p>Ihr gemeinsames Merkmal ist nicht Mut, nicht politische Überzeugung, nicht Ideologie. Es ist, dass sie im entscheidenden Moment in der Lage waren, ihren Blick vom Papier vor ihnen zu lösen und zu sehen, was das Verfahren verbarg. Ein Ordnungsinstinkt, den unsere Gesellschaft im zwanzigsten Jahrhundert breit besaß und im einundzwanzigsten systematisch verlernt hat.</p>
+    <p>Deshalb ist Ausgabe 5 nicht nur eine Diagnose. Sie ist auch eine Ehrerbietung. An Menschen, die in einer ordnungsverkehrten Welt dennoch die Mühe auf sich genommen haben, die Erste Ordnung zu sehen.</p>
+    <p>Es ist ihnen gleichgültig, diese Ehrerbietung. Genau deshalb bekommen sie sie.</p>
+  </div>
+</section>
+</div>
+<div class="version-content__kort" style="display:none">
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <p>Was die beiden vorangegangenen Dossiers zeigen, ist eine systematische Umkehrung des Gewichts in Presse und Verwaltung. Die Frage lautet dann: Gibt es Menschen, die in dieser Umkehrung dennoch die Erste Ordnung zu erkennen vermochten? Die Antwort ist ja. Sie sind selten, sie sind meistens nicht berühmt, und wenn sie berühmt werden, dann deshalb, weil das System sie hat brechen wollen.</p>
+    <p>Hier sind drei von ihnen. Nicht als Helden. Als Besitzer eines verlorenen Kompasses.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Sandra Palmen-Schlangen — <em>das Memo, das verschwand</em></h3>
+    <p>Im März 2017 verfasste Sandra Palmen-Schlangen, damals höchste Justizbeamtin der Abteilung Toeslagen der Steuerbehörde, ein internes Gutachten. Ihr Vorgesetzter hatte sie gebeten, einen Blick auf das CAF-11-Dossier zu werfen — eine Gruppe von Eltern, deren Kindertagesstättenbeihilfe kollektiv eingestellt worden war. Der Raad van State (Staatsrat) hatte zuvor bereits geurteilt, dass die Behörde sich nicht an das Gesetz gehalten hatte.</p>
+    <p>Palmens Schlussfolgerung war hart: Die Einstellung beruhte auf einer unrichtigen Rechtsgrundlage, den Eltern war der Rechtsschutz verweigert worden, den das Gesetz ihnen garantierte, die Behörde hatte sich schuldhaft verhalten. Ihr Gutachten: Hört auf, weiterzuprozessieren, bietet Entschädigung über eine Vergleichsvereinbarung an.</p>
+    <p>Was sie sah, war Erste Ordnung. Was das System ihr entgegenhielt, war Dritte Ordnung, verkleidet als Verfahren. Das Gesetz, so wie es angewendet wurde, entzog den Menschen das, was das Gesetz ihnen formell zusprach. Eine kollektive Betrugsbekämpfung auf der Grundlage von Risikomodellen war juristisch gedeckt — faktisch verletzte sie den Rechtsstaat.</p>
+    <p>Ihr Memo wurde in zwei Verwaltungssitzungen besprochen und verworfen. Kurz darauf wurde Palmen von Toeslagen zum Zoll versetzt. Das Memo verschwand in der Organisation — so gründlich, dass acht gesonderte Untersuchungen nötig waren, um es wiederzufinden. Die Wirtschaftsprüfungsgesellschaft PwC kam im Oktober 2021 zu dem Schluss, dass das Verschwinden des Memos ungelöst blieb. Als das Memo 2020 schließlich wieder auftauchte — Palmen hatte es noch auf ihrem Laptop —, wurde es zu einem Schlüsseldokument bei der parlamentarischen Befragung Kinderopvangtoeslag. Drei leitende Beamte hatten das Memo nachweislich gekannt, während sie unter Eid von nichts gewusst hatten. Die Rijksrecherche leitete eine Ermittlung wegen Meineids ein.</p>
+    <p>2024 wurde Palmen zur Staatssekretärin für Wiederherstellung Toeslagen ernannt. „Ich darf nun den Kreis schließen", sagte sie bei ihrer Anhörung in der Tweede Kamer, „vom Warnen vor Unrecht zu Beginn des Toeslagenschandals bis zur Arbeit an dessen Ende." Sieben Jahre zwischen dem Verfassen des Memos und der Anerkennung. Für die zwanzigtausend Familien, für die sie damals Entschädigung gefordert hatte, sieben Jahre zu spät.</p>
+    <p><em>Quellen: Tweedekamer.nl, Dossier Memo-Palmen (<a href="https://www.tweedekamer.nl/debat_en_vergadering/uitgelicht/onderzoek-memo-toeslagen-memo-palmen">Überblick Untersuchung</a>); <a href="https://www.nporadio1.nl/nieuws/binnenland/114b2c20-92e1-421e-8992-aefdc75810ba/schrijfster-cruciale-memo-toeslagenaffaire-dacht-echt-dat-ze-mijn-advies-zouden-opvolgen">NPO Radio 1-Interview, 15. Dezember 2022</a>; <a href="https://www.accountancyvanmorgen.nl/2021/10/28/pwc-kan-mysterie-rond-memo-palmen-niet-oplossen/">Accountancy van Morgen, PwC-Bericht Memo-Palmen, 28. Oktober 2021</a>; <a href="https://www.rijksoverheid.nl/regering/bewindspersonen/sandra-palmen-schlangen">Rijksoverheid, Seite der Staatssekretärin</a>.</em></p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Eva González Pérez — <em>die Anwältin in Helmond</em></h3>
+    <p>Eva González Pérez entdeckte die Toeslagenaffaire (Kinderzulagen-Affäre) nicht durch einen Hinweis, sondern über den Briefkasten ihres Mannes. Er betrieb eine Tageselternvermittlung; seine Kunden erhielten Briefe der Steuerbehörde mit der Mitteilung, dass ihre Beihilfe eingestellt wurde. González Pérez, Anwältin in Helmond, übernahm 2014 den ersten Fall. Sie dachte: alles einschicken, dann ist es schnell erledigt. Das war es nicht.</p>
+    <p>Was sie sah, war wiederum Erste Ordnung. Die Steuerbehörde behandelte die Kindertagesstättenbeihilfe als Massenverfahren; Anträge wurden kollektiv anhand von Risikomodellen bewertet; bei Verdacht wurde die Beihilfe gruppenweise eingestellt, und der Empfänger musste beweisen, einen Anspruch auf Auszahlung zu haben — nicht umgekehrt. Juristisch schien dies durch das Betrugsgesetz gedeckt. Faktisch war es eine Umkehrung der Beweislast, die der Rechtsstaat nicht erlaubt.</p>
+    <p>2016 entdeckte sie die sogenannten Ein- und Ausschlusslisten — Datendateien mit mehr als zweihundertsechzigtausend Namen, die die Behörde intern verwendete und mit anderen Behörden teilte. Sie stellte fest, dass nach Nationalität selektiert wurde. Ein Drittordnungskriterium, doppelte Staatsangehörigkeit, war zum Erstordnungsanlass für den Ausschluss erhoben worden. Eine Ordnungsumkehrung von Lehrbuchqualität, dieselbe Umkehrung, die in dieser gesamten Ausgabe beschrieben wird, jedoch an einem Dossier, in dem Familien vernichtet wurden statt Schlagzeilen.</p>
+    <p>González Pérez verlor jahrelang mehr Fälle, als sie gewann. Sie arbeitete von einem kleinen Büro aus mit Vergütungen, die in keinem Verhältnis zu den Stunden standen. „Es war erschütternd und demotivierend zu entdecken, dass eine Behörde selbst das Gesetz bricht", sagte sie später an der Universität Utrecht.</p>
+    <p>Am 16. November 2020 war sie die erste Zeugin, die von der parlamentarischen Befragungskommission Kinderopvangtoeslag gehört wurde. Ihre Arbeit trug unmittelbar zur Schlussfolgerung bei, dass „die Grundprinzipien des Rechtsstaats" verletzt worden waren. Die Regierung Rutte III trat im Januar 2021 zurück. González Pérez erhielt 2021 die Gouden Zandloper, 2022 eine Königliche Auszeichnung und übergab 2024 die Arbeit an die rund dreihundert Anwälte, die inzwischen mit der Abwicklung befasst sind.</p>
+    <p>Was sie vom Berufsdurchschnitt unterscheidet, ist nicht Talent oder Mut. Es ist Beharrlichkeit bei einer Rangordnung, die niemand in ihrer Umgebung ernst nahm. Zehn Jahre lang hat sie durchgemacht, was ihre Kollegen als verfahrenstechnische Kleinigkeit abgetan hätten. Am Ende dieser zehn Jahre erwies sich die verfahrenstechnische Kleinigkeit als Rechtsstaatsverletzung erster Ordnung.</p>
+    <p><em>Quellen: <a href="https://www.uu.nl/organisatie/alumni/de-loopbaan-van-eva-gonzalez-perez">Universiteit Utrecht, Alumniportrait</a>; <a href="https://www.advocatie.nl/nieuws/eva-gonzalez-perez-wil-zich-na-10-jaar-toeslagenaffaire-focussen-op-andere-zaken/">Advocatie.nl-Interview, 10. September 2024</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_ondervraging_Kinderopvangtoeslag">Wikipedia, Parlementaire ondervraging Kinderopvangtoeslag</a>.</em></p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Ad Bos — <em>die Buchführung vor der Haustür</em></h3>
+    <p>1998 fand Ad Bos, ehemaliger technischer Direktor des Groninger Bauunternehmens Koop Tjuchem, zwei Müllsäcke vor seiner Haustür. Darin: die Schattenbuchhaltung des Unternehmens — eine Verwaltung, die festhielt, wie niederländische Bauunternehmen untereinander Kosten im Rahmen verbotener Preisabsprachen verrechnet hatten. Er beschritt zunächst den offiziellen Weg: Meldung bei mehreren Behörden, darunter der Staatsanwaltschaft. Im Juli 2001 erhielt er einen Brief der Staatsanwaltschaft, dass mit dem Fall nichts unternommen werden würde. Danach gab er Zembla grünes Licht. Am 9. November 2001 wurde die Sendung ausgestrahlt.</p>
+    <p>Was er sah, war Erste Ordnung. Ein System von Preisabsprachen, das mit Wissen hochrangiger Beamter und Auftraggeber — darunter Rijkswaterstaat — seit zehn Jahren aufrechterhalten wurde. Durchschnittlich wurde 8,8 Prozent zu viel von den Auftraggebern berechnet, was den niederländischen Staat Hunderte von Millionen Euro gekostet hat. Sechshundert Unternehmen stellten sich als beteiligt heraus. Die parlamentarische Untersuchung, die im August 2002 begann, stellte umfangreichen Betrug, kartellartige Strukturen und vollständiges Behördenversagen fest. Minister Benk Korthals trat zurück.</p>
+    <p>Bos verlor nahezu alles. Persona non grata in der Bauwelt, keine Arbeit mehr in seinem Fachgebiet, Villa verkauft, drei Jahre mit seiner Frau in einem Wohnmobil. Unterdessen wurde <em>er</em> strafrechtlich verfolgt. 2005 zu einer Bewährungsstrafe wegen Bestechung eines Beamten verurteilt — eine Tat, für die er als Direktor mitverantwortlich war, die nun aber gegen ihn verwendet wurde. Im Berufungsverfahren 2008 wurde die Staatsanwaltschaft für nicht empfangsberechtigt erklärt, weil er kein faires Verfahren gehabt hatte. Nach einem Vergleich 2009 prozessierte der Staat weiter gegen ihn. „Die dunkle Seite der Regierung hat damit weitergemacht, gegen uns zu prozessieren", sagte Bos 2023. Mehr als zwei Jahrzehnte nach seiner Meldung kämpft er noch um Anerkennung.</p>
+    <p>Die Initiatiefnota zum Hinweisgeberschutz von 2022 nennt Bos als warnendes Beispiel dafür, was schiefgehen kann, wenn ein System seine eigene Entlarvung bestraft. Was sein Fall für diese Ausgabe bedeutet, ist grausamer als das: Auch wer die Erste Ordnung korrekt identifiziert, kann vom System zermahlen werden, weil die Verfahrensmaschinerie keinen Eingang hat für die Mitteilung, dass sie selbst auf der Dritten Ordnung aufgebaut ist. Bos war kein Beamter, dem Abweichung erlaubt war; er war ein Außenseiter, der das System zwang, sich selbst anzusehen. Der Preis dafür war, und ist, sein Leben.</p>
+    <p><em>Quellen: <a href="https://www.bnnvara.nl/artikelen/bouwfraude-klokkenluider-ad-bos-de-donkere-kant-van-de-overheid-is-doorgegaan-met-procederen-tegen-ons">BNNVARA, Interview Ad Bos 25 Jahre nach dem Baubetrug, 15. Mai 2023</a>; <a href="https://www.transparency.nl/nieuws/2021/11/20-jaar-na-bouwfraude-affaire/">Transparency International, 20 Jahre nach dem Baubetrug, 20. November 2021</a>; <a href="https://www.tweedekamer.nl/kamerstukken/detail?id=2022Z07589&did=2022D15359">Tweedekamer.nl, Initiatiefnota Hinweisgeberschutz 2022</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_enqu%C3%AAte_naar_bouwfraude">Wikipedia, Parlementaire enquête naar bouwfraude</a>.</em></p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner slide__inner--narrow">
+    <h3 class="slide__subheading">Was sie gemeinsam haben</h3>
+    <p>Keiner der drei nennt sich mutig. Fragt man, erhält man Variationen desselben: Ich konnte nicht anders. Das klingt nach Bescheidenheit, ist aber genau zutreffend. Wer die Erste Ordnung noch sieht, für den ist Wegschauen ein verstümmelnder Akt. Es ist keine Heldentat, sich nicht zu verstümmeln — es ist Selbsterhaltung. Was uns am meisten verblüffen muss, ist nicht, dass manche Menschen so handeln, sondern dass so wenige es tun.</p>
+    <p>Ihr gemeinsames Merkmal ist nicht Mut, nicht politische Überzeugung, nicht Ideologie. Es ist, dass sie im entscheidenden Moment in der Lage waren, ihren Blick vom Papier vor ihnen zu lösen und zu sehen, was das Verfahren verbarg. Ein Ordnungsinstinkt, den unsere Gesellschaft im zwanzigsten Jahrhundert breit besaß und im einundzwanzigsten systematisch verlernt hat.</p>
+    <p>Deshalb ist Ausgabe 5 nicht nur eine Diagnose. Sie ist auch eine Ehrerbietung. An Menschen, die in einer ordnungsverkehrten Welt dennoch die Mühe auf sich genommen haben, die Erste Ordnung zu sehen.</p>
+    <p>Es ist ihnen gleichgültig, diese Ehrerbietung. Genau deshalb bekommen sie sie.</p>
+  </div>
+</section>
+</div>
+</div>
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Startseite">
+  <a href="../../de/editie-5/index.html" class="navbar__terug">← Zurück zu Ausgabe 5</a>
+  <a href="../../de/" class="navbar__home">⌂ Startseite</a>
+  <a href="../../de/verkennen.html" class="navbar__verk">↻ Erkunden</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Ausgabe 5 — Juli 2026 · <a href="../../../de/">zur Startseite</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+<script src="../../assets/nav-mobile.js" defer></script>
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>

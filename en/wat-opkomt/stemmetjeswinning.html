@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vote-mining — Het Open Vizier</title>
+  <meta name="description" content="The Netherlands loses €130 bn over five years to wealth flight outside the EU. Every announcement of heavier taxation on capital produces a measurable outflow peak. Government wins votes; the country loses its tax base.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/en/wat-opkomt/vote-mining.html">
+  <meta property="og:title" content="Vote-mining — how Dutch governance eats its own tax base">
+  <meta property="og:description" content="The Netherlands loses €130 bn over five years to wealth flight outside the EU. Every announcement of heavier taxation on capital produces a measurable outflow peak. Government wins votes; the country loses its tax base.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_stemmetjeswinning.jpg">
+  <meta property="og:site_name" content="Het Open Vizier">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vote-mining">
+  <meta name="twitter:description" content="The Netherlands loses €130 bn over five years to wealth flight outside the EU. Every announcement of heavier taxation on capital produces a measurable outflow peak. Government wins votes; the country loses its tax base.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_stemmetjeswinning.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.1rem, 2.4vw, 1.28rem); margin: 0.5rem auto 2rem auto; max-width: 680px; line-height: 1.45; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #7a1f2b; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 780px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.92rem; color: #6b7280; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f3ee; border-left: 3px solid #7a1f2b; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.4rem); line-height: 1.55; color: #7a1f2b; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #7a1f2b; background: #f5f3ee; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #7a1f2b; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .wo-artikel__inhoud h3 { font-family: Georgia, serif; font-size: clamp(1.2rem, 2.8vw, 1.4rem); line-height: 1.3; margin: 2.2rem 0 0.7rem 0; color: #7a1f2b; }
+    .wo-artikel__inhoud ul { margin: 0 0 1.5rem 0; padding-left: 1.5rem; }
+    .wo-artikel__inhoud li { margin-bottom: 0.4rem; }
+    .wo-artikel__inhoud blockquote { margin: 1.8rem 0; padding: 0.6rem 1.4rem; border-left: 4px solid #7a1f2b; background: #faf5ea; font-style: italic; color: #2b2b2b; font-size: 1.08rem; }
+    .wo-artikel__inhoud table { width: 100%; border-collapse: collapse; margin: 1.8rem 0; font-size: 0.98rem; }
+    .wo-artikel__inhoud th, .wo-artikel__inhoud td { padding: 0.65rem 0.85rem; border-bottom: 1px solid #d4d1ca; text-align: left; }
+    .wo-artikel__inhoud th { background: #f5f3ee; font-weight: 700; color: #1a1a1a; }
+    .kader { max-width: 780px; margin: 2rem auto; padding: 1.4rem 1.6rem; background: #2a0e12; color: #f5f0e6; border-left: 5px solid #d4af37; }
+    .kader h3 { font-family: Georgia, serif; margin: 0 0 0.6rem 0; color: #f5f0e6; font-size: 1.25rem; }
+    .kader p { margin: 0 0 0.6rem 0; color: #e6d9b8; font-family: Georgia, serif; line-height: 1.6; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #7a1f2b; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+  <link rel="stylesheet" href="../../assets/deel-menu.css">
+</head>
+<body>
+
+<div class="gratis-band">Free information paper without advertising<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Independent, no opinion, no sale of data</strong><span class="gratis-band__sep"> — </span><a href="../../nl/op-de-hoogte.html" class="gratis-band__cta">Keep me informed →</a></div>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Home</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">AI-Atomic Explosive<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">The AI as boss</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">First the Reptile</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-atoombom-in-ai-formaat.html">The atomic bomb in AI format</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politics<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">France & European revolution</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/frankrijk-revolutionair-moment.html">France — revolutionary moment</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/vijf-landen-vijf-curves.html">Five countries, five curves</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-nederlandse-revolutie-2033.html">The Dutch Revolution 2033</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/moet-nederland-ook-volgen.html">Should the Netherlands also follow?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Tipping mechanics & people</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-kantelmechanica.html">The tipping mechanics</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mensen-die-mee-bouwen.html">People who help build</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/actievoerders-bouwen-continenten.html">Activists build continents</a>
+        <a class="ov-nav__subitem" href="../opbouwers-wegjagen/">Who drives out the builders</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-matrix-van-de-uittocht.html">The matrix of the exodus</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">The AI as boss</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">First the Reptile</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">The plug outside the system</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Parties & pareto</div>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-02-pareto-top12.html">Pareto top-12 — who blocks</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-08-partijen-in-kaart.html">Where does your party stand</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-09-pareto-per-actor.html">Pareto per actor</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-04-ordes-van-bezwaar.html">Orders of objection</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-05-twintig-bezwaren.html">Twenty current objections</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-4-politieke-landschap.html">Plunder 4: political landscape</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Press & media</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-pers-is-de-arena.html">The press is the arena</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/ze-weten-het-al.html">They already know</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/trump-als-spiegel.html">Trump as a mirror</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-03-media-als-rekstrook.html">Media as a stretching rack</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-anti-immuunziekte-van-brussel.html">The anti-immune disease of Brussels</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">The autoimmune disease strikes</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-dertig-cent-die-europa-omdraait.html">The thirty cents that turn Europe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Voting & choice moments</div>
+        <a class="ov-nav__subitem" href="../stemgedrag.html">Voting behaviour</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerlijkheid-maakt-regeren-mogelijk.html">Honesty makes governing possible</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Deciding without foresight</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">Leading without subsidy</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Plunder 0: first pick</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-kies-een-kant.html">Education — choose a side</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Edition 1 — Foreword</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Philosophy<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Seven Dimensions & framework</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/van-quantum-naar-7d.html">From quantum to 7D</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/van-de-grot-naar-de-zon.html">From the cave to the sun</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Framework 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">How everything connects</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Flow theory</a>
+        <a class="ov-nav__subitem" href="../editie-2/zeven-dimensies.html">Seven Dimensions</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Primal feeling & Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">The human under the ice</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">The primal feeling</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">The seven dimensions</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">The three brain layers</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Communication between primal feelings</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">What we do to children</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mama I'm hungry</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Primal feeling in professional practice</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">The AI as boss</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">First the Reptile</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">The plug outside the system</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Primal Feeling Manifesto</a>
+        <a class="ov-nav__subitem" href="../editie-2/waarom-ik-zo-ben.html">Why I am the way I am</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Films, fairytales, reading book</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">The 7-Dim Film</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">The Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="../leesboek/">The Kosaris — Reading book</a>
+        <a class="ov-nav__subitem" href="../sprookjes/">The fairytale of Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofie/">Philosophy — portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Feeling-connection system</div>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem.html">Feeling-connection system</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem-volledig.html">GCS — full plan</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/krantbriefing.html">Newspaper briefing GCS</a>
+        <a class="ov-nav__subitem" href="../../nl/onderzoeken/routekaart-vervolgvragen.html">Roadmap follow-up questions</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Climate<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Nitrogen crisis</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Nitrogen edition</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Three problems — one answer</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/naar-de-natuurschool.html">To the nature school</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Farmer and nature both forward</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Deciding without foresight</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">The nutrition line</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Nature analysis</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Autoimmune disease strikes</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Rapeseed</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Rapeseed multiplier</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Germany edition</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Farmer and nature both forward</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Climate dividend & excess mortality</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/klimaatdividend.html">The climate dividend</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/erfenisgolf-240-miljard.html">Inheritance wave 240 billion</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wereldgordel-2040-2050.html">World belt 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — green recovery path</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert vision 2036</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/brusselse-gevolgenkaart-bicrs.html">BiCRS version EU</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastic fine or carbon-credit</a>
+        <a class="ov-nav__subitem" href="../editie-0/carbon-alert-europa.html">Carbon-Alert Europe</a>
+        <a class="ov-nav__subitem" href="../editie-0/biomimetische-krachtcentrale.html">Biomimetic power plant</a>
+        <a class="ov-nav__subitem" href="../editie-0/">Edition Europe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Thermostat & physical Earth</div>
+        <a class="ov-nav__subitem" href="../editie-2/thermostaat.html">The thermostat</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-klimaatlogica.html">NEPK-Climate logic</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-zon-staat-op-de-evenaar.html">The sun is at the equator</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Tire, plastic, pollution</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Car-tire cigarette</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">The nutrition line</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Nature analysis</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Special editions</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Climate edition</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">What it doesn't see</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/zij-doden-hun-levensader.html">They kill their lifeline</a>
+        <a class="ov-nav__subitem" href="they-kill-their-lifelines-brussels.html">They kill their lifelines (Brussels)</a>
+        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Nuclear fusion</a>
+        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Technical solutions</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Governance<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Netherlands</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — NEPK collapse NL</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Silent Analysis (NL)</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Get to work (NL)</a>
+        <a class="ov-nav__subitem" href="../de-eerste-gemeente/">The first city hall</a>
+        <a class="ov-nav__subitem" href="../de-halve-gemeente/">The half city hall</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Netherlands · Future</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-nl/">Consequence map Netherlands</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europe</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europe opener</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/europa-opnieuw.html">Europe anew</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-brusselse-gevolgenkaart.html">Brussels Consequence Map</a>
+        <a class="ov-nav__subitem" href="../what-surfaces/de-metafoor-auto-immuunziekte.html">Autoimmune disease metaphor</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/het-immuunsysteem-van-organisaties.html">Immune system of organisations</a>
+        <a class="ov-nav__subitem" href="../what-surfaces/open-brief-aan-de-regeringen-van-europa.html">Open letter to the governments</a>
+        <a class="ov-nav__subitem" href="../consequence-eu/">Consequence map EU-27</a>
+        <a class="ov-nav__subitem" href="../future/overheden/europa/">Europe · Future</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Other countries</div>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-br/">Brazil</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ch/">Switzerland</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-de/">Germany</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-es/">Spain</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-il/">Israel</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-in/">India</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-jp/">Japan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-kr/">South Korea</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-se/">Sweden</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-uk/">United Kingdom</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-us/">United States</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-za/">South Africa</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="the-singapore-consequence-map.html">Singapore</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../editie-6/">Edition 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../editie-6/voorwoord-waarom-dit-moet.html">Foreword — Why this must be</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-00-brussel-als-variabele.html">Brussels as variable</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-01-zes-ordes-van-fasering.html">Six orders of phasing</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-06-zwitserse-spiegel.html">Swiss mirror</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-07-canadese-spiegel.html">Canadian mirror</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-11-kennislaag-als-bondgenoot.html">Knowledge layer as ally</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-12-beste-weg-vooruit.html">Best way forward</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/nova-democratia-manifest.html">Nova Democratia manifesto</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-actor-is-de-regel.html">The actor is the rule</a>
+        <a class="ov-nav__subitem" href="../soevereiniteit-als-cyclus/">Sovereignty as cycle</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/bbp-liegt.html">GDP lies</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Leadership & organisations</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Edition 4 — Paper industry</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Law of the paper industry</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">The CEO and the primal feeling</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">The consultant</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">The banker</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">The insurer</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">The supervisor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">The judge</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Leadership edition</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Education</div>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-manifest.html">Education — manifesto</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-prijs-van-de-bloei.html">Price of blooming</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Education (Edition 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">AI education</a>
+        <a class="ov-nav__subitem" href="../editie-kind-loopbaan/">Child & Career edition</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Upbringing · Future</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Schooling · Future</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industry, energy, future</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Future — portal</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Energy · Future</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Industry · Future</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolution<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Edition 5 — The forgotten order</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Letter to the reader</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Seven tools</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">The success formula</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">The forgotten order</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Methane deception</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">The plant that moves</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">The seven of Bern</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">The dissenters</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">The demand on the reader</a>
+        <a class="ov-nav__subitem" href="../editie-2/veerkracht-selectie.html">Resilience and selection</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Edition 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Taxation<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-grote-plundering.html">The Great Plunder</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-1-diagnose.html">Plunder 1: diagnosis</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-2-mechaniek.html">Plunder 2: mechanics</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-3-afloop.html">Plunder 3: outcome</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">Nothing left at the end</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/gat-in-de-grond.html">€450m — hole in the ground</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-gevolgenkaart.html">Consequence map — manifesto</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beleidsadvies-aantrekken.html">From Taxing to Attracting</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Research<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="../dossiers/vortex-hair.html">Vortex-Hair™ Golf ball</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Behind the Numbers</a>
+        <a class="ov-nav__subitem" href="../onderzoek/eu-multiplicator.html">EU multiplier</a>
+        <a class="ov-nav__subitem" href="../onderzoek/ontwikkelingslandstatus.html">Developing-country status?</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Research — portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Colophon<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../colofon.html">Colophon</a>
+        <a class="ov-nav__subitem" href="../about.html">About this paper</a>
+        <a class="ov-nav__subitem" href="../archief.html">Archive</a>
+        <a class="ov-nav__subitem" href="../../nl/op-de-hoogte.html">Keep informed</a>
+        <a class="ov-nav__subitem" href="../structuur.html">Structure — Admin</a>
+        <a class="ov-nav__subitem" href="../navigatie.html">Navigation</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link copied" data-msg-copy-prompt="Copy this link:" data-mail-subject="Article from Het Open Vizier: " data-mail-footer="Shared via openvizier.org" data-pdf-building="Building PDF…" data-pdf-done="PDF downloaded" data-pdf-fail="PDF failed — try Cmd+P" data-pdf-source="Source" data-pdf-note="Shared via openvizier.org — the multilingual opinion paper." data-msg-instagram-copied="Link copied — paste into Instagram bio or Story" data-msg-tik-tok-copied="Link copied — paste into TikTok bio or comment" data-x-via="openvizier" data-gate-title="Access code" data-gate-body="Enter your access code to download articles as PDF." data-gate-submit="Unlock" data-gate-cancel="Cancel" data-gate-checking="Checking…" data-gate-invalid="Enter a valid code." data-gate-wrong="Incorrect or expired code." data-gate-server-error="Could not verify code. Please try again later." data-gate-note="No code yet? Contact Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Share<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Download PDF</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Share on Facebook</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Share on X (Twitter)</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Share on LinkedIn</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Send via WhatsApp</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Share on Telegram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Link for Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Link for TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copy link</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Send by email</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Language</a>
+  </div>
+</nav>
+
+
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Language: · English">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Language</span>
+    <span class="masthead__taal__cur">· English</span>
+  </a>
+  <div class="masthead__date">What surfaces</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">Het Open Vizier</a></h1>
+  <p class="masthead__tagline">A newspaper about thinking without blinkers</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_stemmetjeswinning.jpg" alt="Bar chart of Dutch capital flight 2021–2026, rising from €7.6 bn in H2 2021 to €31 bn in 2025, with arrow toward Switzerland, US, Dubai, Singapore" loading="eager">
+  <figcaption>€130 billion of Dutch wealth leaves the EU in five years. Every policy announcement produces a new peak. Source: DNB, EU Tax Observatory, ESB, Henley & Partners.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 23 July 2026 · What surfaces · Sequel to the wealth-flight series</p>
+  <h1 class="wo-artikel__titel">Vote-mining</h1>
+  <p class="wo-artikel__subtitle">How Dutch governance eats its own tax base</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Author</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Date</strong> — 23 July 2026 · Palma, Mallorca</li>
+      <li><strong>Section</strong> — What surfaces · Wealth-flight analysis</li>
+      <li><strong>Base</strong> — DNB half-yearly figures · EU Tax Observatory · CPB · Malta squeeze-out</li>
+      <li><strong>Sources</strong> — DNB, EU Tax Observatory, ESB (Leenders 2023), Alstadsæter/Johannesen/Zucman, Henley & Partners, Tax Justice Network, MFSA, IMF Malta Article IV 2025</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead"><strong>The numbers.</strong> <em>Since 2015, the Netherlands has lost approximately €225 billion in capital to jurisdictions outside the European Union. In the last five years alone, €130 billion. That equals 65% of the Dutch budget deficit for 2025. Every parliamentary letter on box 2 or box 3 produces a measurable peak in bank deposits abroad. Government wins votes on announcements; the country loses its base.</em></p>
+
+<h2>The numbers</h2>
+<p>The hard measurement series comes from De Nederlandsche Bank: Dutch households' deposits in foreign banks have doubled in two years. From €7.3 bn in June 2022 to more than €20 bn in June 2025. The EU Tax Observatory additionally measures Dutch offshore wealth in tax havens rising from $73 bn in 2015 to $128 bn in 2024. Dutch real estate holdings via offshore companies grew from €3.8 bn (2013) to €21.9 bn (2023).</p>
+<p>Aggregated and corrected for double counting, the total Dutch wealth outflow to extra-EU jurisdictions per half-year runs as follows. Figures in billions of euros.</p>
+<table>
+<thead>
+<tr><th>Half-year</th><th>Foreign bank</th><th>Offshore</th><th>Real estate</th><th>UHNW-emigration</th><th>Box 2/3 flight</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td>H2 2021</td><td>€0.8</td><td>€3.8</td><td>€1.4</td><td>€1.6</td><td>0</td><td><strong>€7.6</strong></td></tr>
+<tr><td>H1 2022</td><td>€1.1</td><td>€4.0</td><td>€1.6</td><td>€1.9</td><td>€0.5</td><td><strong>€9.1</strong></td></tr>
+<tr><td>H2 2022</td><td>€2.2</td><td>€4.2</td><td>€1.7</td><td>€2.0</td><td>€1.0</td><td><strong>€11.1</strong></td></tr>
+<tr><td>H1 2023</td><td>€2.5</td><td>€4.5</td><td>€1.8</td><td>€2.3</td><td>€2.0</td><td><strong>€13.1</strong></td></tr>
+<tr><td>H2 2023</td><td>€1.5</td><td>€4.5</td><td>€1.8</td><td>€2.3</td><td>€3.0</td><td><strong>€13.1</strong></td></tr>
+<tr><td>H1 2024</td><td>€1.5</td><td>€4.7</td><td>€1.9</td><td>€2.7</td><td>€3.5</td><td><strong>€14.3</strong></td></tr>
+<tr><td>H2 2024</td><td>€2.5</td><td>€4.7</td><td>€1.9</td><td>€2.7</td><td>€3.5</td><td><strong>€15.3</strong></td></tr>
+<tr><td>H1 2025</td><td>€2.6</td><td>€5.0</td><td>€2.1</td><td>€3.0</td><td>€3.0</td><td><strong>€15.7</strong></td></tr>
+<tr><td>H2 2025</td><td>€2.7</td><td>€5.0</td><td>€2.1</td><td>€3.0</td><td>€2.5</td><td><strong>€15.3</strong></td></tr>
+<tr><td>H1 2026</td><td>€2.8</td><td>€5.2</td><td>€2.2</td><td>€3.2</td><td>€2.0</td><td><strong>€15.4</strong></td></tr>
+<tr><td><strong>Total</strong></td><td><strong>€20.2</strong></td><td><strong>€45.6</strong></td><td><strong>€18.5</strong></td><td><strong>€24.7</strong></td><td><strong>€21.0</strong></td><td><strong>€130.0</strong></td></tr>
+</tbody>
+</table>
+<p><em>Amounts in billions of euros. Sources: DNB, EU Tax Observatory, ESB, CBS, Henley &amp; Partners.</em></p>
+
+<h2>Every policy moment a peak</h2>
+<p>Read the table carefully: the acceleration is not coincidental. Every step accelerates measurably at the moment Dutch governance announces new pressure on wealth. The sequence is always the same: announcement, anticipation, outflow, disappointing yield, new announcement.</p>
+<table>
+<thead><tr><th>Policy moment</th><th>Additional outflow per half-year</th></tr></thead>
+<tbody>
+<tr><td>2019 — box 2 increase announced</td><td>+€0.5 to €1 bn</td></tr>
+<tr><td>2022 — capital yield tax ruling</td><td>+€2 bn</td></tr>
+<tr><td>2023 — box 2 to 33% announced</td><td>+€3 to €4 bn</td></tr>
+<tr><td>2024 — EU Pillar Two + Malta-IIP closure</td><td>+€2 bn</td></tr>
+<tr><td>2025 — box 3 reform uncertainty</td><td>+€1 to €2 bn</td></tr>
+<tr><td>2026 — general political instability</td><td>+€1 bn</td></tr>
+</tbody>
+</table>
+<p>Each of these measures is intended to broaden the tax base or raise revenue from wealth. Each has in practice achieved the opposite. The expected extra revenue from the 2023 box 2 increase was <strong>€2 to €3 bn per year</strong> according to the Netherlands Bureau for Economic Policy Analysis (CPB). Measured additional outflow of capital in the same period: <strong>€8 to €10 bn per year above trend</strong>. Net: the base shrinks faster than the rate yields.</p>
+<blockquote>&ldquo;Every time a minister announces heavier taxation on capital, more leaves than is collected. It is in the quarterly statistics of the Dutch central bank.&rdquo;</blockquote>
+
+<h2>Why Malta was squeezed before the pressure came</h2>
+<p>The crucial detail missing from Dutch debates: Brussels cut the intra-EU escape route before national taxes were raised. Until 2023, Malta was the most obvious destination for European wealth wanting to avoid the heaviest national tax burden without leaving the EU.</p>
+<p>The Maltese Individual Investor Programme, the effective 5% rate through the refund system, the holding-friendly fund structure: all three have been dismantled or forced upward under EU pressure between 2023 and 2025. What happened: Dutch wealth that could have stayed within EU jurisdiction via Malta has shot through to Switzerland, the United States, the United Arab Emirates, and Singapore. Outside European reach. Non-recoverable in crisis.</p>
+<p>The estimate: of the €225 bn of Dutch wealth that has disappeared to extra-EU since 2015, approximately <strong>€55 to €65 bn</strong> could have stayed within the EU via an un-squeezed Malta. That is a quarter to a third of the total flight. For the EU-27 as a whole: <strong>€900 bn to €1,100 bn</strong> — five to seven Marshall Plans that could have existed and now do not.</p>
+
+<h2>Vote-mining</h2>
+<p>Why does governance do this? Why a series of measures that demonstrably shrinks the base faster than it yields? Why squeeze Malta before raising your own pressure?</p>
+<p>The answer does not lie in economic ignorance. The figures are available. DNB publishes the series. CPB computes the yields. Every civil servant at Finance can see that a box 2 increase drives the base out faster than the rate collects.</p>
+<p>The answer lies in the electoral cycle. Every announcement &ldquo;we are taxing the rich more heavily&rdquo; delivers votes at the next polling moment. Every subsequent outflow of wealth becomes visible in budget figures only two to three years later — by which time the policy has already been replaced by a next announcement, made by a next official, which again delivers votes.</p>
+<p>This is <strong>vote-mining</strong>. A political practice in which the visible announcement has value for the electoral position of the announcer, and the invisible long-term costs are borne by a country that the official has by then long since left. The country loses its base. The party wins an election. That is the trade.</p>
+<p>The wealthy Dutch who leave are not worse than other Dutch citizens. They are better informed, have more options, and respond more rationally to the announced incentives. Every Dutch person with €5 mln or more who leaves has done exactly what the policy — viewed from his perspective — recommends. Staying is loss. Leaving is preservation. Governance made that choice, not the leaver.</p>
+
+<h2>What will no longer be there</h2>
+<p>The wealth that has left will not return. Swiss wealth management, American trusts, Emirati real estate structures: none of these responds to Dutch tax reform by returning. The structures are set up with time horizons of decades and with legal barriers specifically designed to prevent return upon policy change.</p>
+<p>When the Netherlands — or Europe — enters a fundamental restructuring in five to fifteen years, the capital needed for that restructuring is no longer there. The Netherlands will then need external loans, from parties that will impose political conditions costing ownership. That is what happened to Greece in 2010. That is what partly happened to Italy. That is what the Netherlands is structurally preparing for through every parliamentary letter that promises to tax the wealthy.</p>
+<p>For context: the original Marshall Plan amounted to approximately €165 bn in today's euros. The Netherlands alone has lost €225 bn in ten years of wealth that could have been deployed for its own reconstruction. That is <strong>more than the entire historical Marshall Plan</strong>, from one country alone.</p>
+
+<h2>The bill for votes</h2>
+<p>Administrative incapacity is not the same as administrative stupidity. The measures that shrink the base are taken by people who know what they are doing. They do so because the electoral reward for the announcement is greater than the electoral cost of the later-visible consequences. That is an internally consistent system, only not in the interest of the country.</p>
+<p>What you see in the half-year figures is the price the Netherlands pays for this system. €130 bn in five years. €31 bn per year structurally. More than half a euro for every two euros of budget deficit. And the curve rises, because every next announcement leads to a new peak.</p>
+<p>Governance wins votes. The country loses its capacity to bear the load. That is the bill.</p>
+
+<h2>Sources</h2>
+<ul>
+<li><a href="https://www.dnb.nl/algemeen-nieuws/statistiek/2024/buitenlandse-banktegoeden-nederlandse-huishoudens-in-twee-jaar-tijd-verdubbeld/">DNB — Dutch households' foreign bank deposits doubled in two years (2024)</a></li>
+<li><a href="https://www.dnb.nl/algemeen-nieuws/statistiek/2025/opnieuw-minder-bedrijfswinsten-via-nederland-naar-belastingparadijzen/">DNB — Structural decline in flow-through to tax havens (2025)</a></li>
+<li><a href="https://www.taxlive.nl/nl/documenten/nieuws/tweede-kamer-wil-onderzoek-naar-nederlands-vermogen-in-offshore-financial-centers/">Dutch Parliament — Investigation into Dutch wealth in offshore financial centers (2025)</a></li>
+<li><a href="https://esb.nu/wp-content/uploads/2023/04/164-167_Leenders.pdf">ESB — Leenders, Untaxed wealth (2023)</a></li>
+<li><a href="https://gabriel-zucman.eu/files/APZO2022.pdf">Alstadsæter, Johannesen &amp; Zucman — Offshore Real Estate: Evidence from Dubai (2022)</a></li>
+<li><a href="https://www.henleyglobal.com/publications/henley-private-wealth-migration-report-2025">Henley &amp; Partners — Private Wealth Migration Report 2025</a></li>
+<li><a href="https://taxjustice.net/wp-content/uploads/2025/06/The-millionaire-exodus-myth-A-critical-reconsideration-of-the-Henley-Partners-Private-Wealth-Migration-report-June2025.pdf">Tax Justice Network — The millionaire exodus myth (2025)</a></li>
+<li><a href="https://www.mfsa.mt/wp-content/uploads/2024/11/MFSA-Regulatory-Brochure-Financial-Services-in-Malta.pdf">MFSA — Regulatory Brochure Financial Services in Malta (2024)</a></li>
+<li><a href="https://www.imf.org/-/media/files/publications/cr/2026/english/1mltea2026001-source-pdf.pdf">IMF — Malta 2025 Article IV Consultation</a></li>
+</ul>
+
+
+<div class="kader">
+<h3>Vote-mining</h3>
+<p>&ldquo;Every time a minister announces heavier taxation on capital, more leaves than is collected. Government wins votes. The country loses its capacity to bear the load. That is the bill.&rdquo;</p>
+</div>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Back to What surfaces</a>
+  </div>
+</article>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>Het Open Vizier</strong> · Independent opinion since 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>

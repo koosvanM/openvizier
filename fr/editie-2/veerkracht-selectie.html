@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Résilience et Sélection — Comment l'État peut piloter un système de sélection moderne — Het Open Vizier</title>
+  <meta name="description" content="Comment l'État peut piloter un système de sélection moderne. Un programme de restructuration radical : protéger le noyau productif, réduire les services internes, tout en maintenant la sécurité de base.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    .auteursblok { max-width: 760px; margin: 4rem auto 2rem auto; padding: 1.5rem 1.5rem; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+    .auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+    .auteursblok__tekst { line-height: 1.55; }
+    .auteursblok__naam { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+    .auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+    .auteursblok__intro { font-family: var(--serif, Georgia, serif); font-size: 0.95rem; color: #4a5263; margin: 0 0 0.5rem 0; }
+    .auteursblok__link { font-size: 0.9rem; color: #1c5760; text-decoration: none; }
+    .auteursblok__link:hover { text-decoration: underline; }
+    @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
+
+    :root {
+      --accent: #7c2d4a;
+      --accent-dark: #5a1f37;
+    }
+    .article-tools__inner {
+      border-color: #5a1f37 !important;
+    }
+    .version-switch__btn {
+      background: #7c2d4a !important;
+    }
+    .version-switch__btn--active {
+      background: #5a1f37 !important;
+    }
+
+    /* ── KRITISCH FRAME: Wat wel / Wat niet ── */
+    .frame-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .frame-col {
+      border-radius: 8px;
+      padding: 1.4rem 1.6rem 1.4rem 2rem;
+    }
+    .frame-col--wel {
+      background: #f0f8f0;
+      border-left: 5px solid #27782a;
+    }
+    .frame-col--niet {
+      background: #fdf2f2;
+      border-left: 5px solid #b83232;
+    }
+    .frame-col__header {
+      font-weight: 800;
+      font-size: 1.05rem;
+      margin: 0 0 0.75rem;
+    }
+    .frame-col--wel .frame-col__header { color: #27782a; }
+    .frame-col--niet .frame-col__header { color: #b83232; }
+    .frame-col ul { margin: 0; padding-left: 1.1rem; }
+    .frame-col li { font-size: 0.88rem; color: #444; margin-bottom: 0.4rem; }
+
+    /* ── ALERT: gevoelig-frame callout ── */
+    .alert-frame {
+      background: #fdf8f0;
+      border: 2px solid #d4700a;
+      border-radius: 8px;
+      padding: 1.2rem 1.6rem 1.2rem 2rem;
+      margin: 1.5rem 0;
+    }
+    .alert-frame__title {
+      font-weight: 800;
+      color: #a0500a;
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+    }
+    .alert-frame p { margin: 0; font-size: 0.9rem; color: #555; }
+
+    /* ── Drie prioriteiten arbeidsmarkt ── */
+    .prioriteit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .prioriteit-card {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem 1.2rem 1.4rem;
+      position: relative;
+    }
+    .prioriteit-card--1 {
+      background: #f0f8f0;
+      border-top: 4px solid #27782a;
+    }
+    .prioriteit-card--2 {
+      background: #f0f6fb;
+      border-top: 4px solid var(--accent);
+    }
+    .prioriteit-card--3 {
+      background: #fdf2f2;
+      border-top: 4px solid #b83232;
+    }
+    .prioriteit-card__nr {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .prioriteit-card--1 .prioriteit-card__nr { color: #27782a; }
+    .prioriteit-card--2 .prioriteit-card__nr { color: var(--accent-dark); }
+    .prioriteit-card--3 .prioriteit-card__nr { color: #b83232; }
+    .prioriteit-card__title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin: 0 0 0.5rem;
+    }
+    .prioriteit-card--1 .prioriteit-card__title { color: #27782a; }
+    .prioriteit-card--2 .prioriteit-card__title { color: var(--accent-dark); }
+    .prioriteit-card--3 .prioriteit-card__title { color: #b83232; }
+    .prioriteit-card ul { margin: 0; padding-left: 1rem; }
+    .prioriteit-card li { font-size: 0.82rem; color: #444; margin-bottom: 0.3rem; }
+    .prioriteit-card__beleid {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: #666;
+    }
+
+    /* ── Problem/Role/Result drie kaarten ── */
+    .prr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .prr-card {
+      background: #f0f6fb;
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      border-top: 3px solid var(--accent);
+    }
+    .prr-card__label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin: 0 0 0.3rem;
+    }
+    .prr-card__title {
+      font-weight: 700;
+      color: var(--accent-dark);
+      font-size: 0.95rem;
+      margin: 0 0 0.4rem;
+    }
+    .prr-card__desc {
+      font-size: 0.85rem;
+      color: #444;
+      margin: 0;
+    }
+
+    /* ── Kerncijfers groot ── */
+    .kerncijfer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .kerncijfer-card {
+      background: #f0f6fb;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.2rem 1rem 1.6rem;
+    }
+    .kerncijfer-getal {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0 0 0.2rem;
+    }
+    .kerncijfer-label {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #333;
+      margin: 0 0 0.2rem;
+    }
+    .kerncijfer-desc {
+      font-size: 0.82rem;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ── 5-jaar transitiepad ── */
+    .transitiepad {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .tp-stap {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.4rem;
+      padding: 1rem 0;
+      border-top: 2px solid #eee;
+    }
+    .tp-stap:last-child { border-bottom: 2px solid #eee; }
+    .tp-jaar {
+      min-width: 5.5rem;
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .tp-body {}
+    .tp-titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      font-size: 1rem;
+      margin: 0 0 0.25rem;
+    }
+    .tp-desc {
+      font-size: 0.88rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Callout override accentkleur ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #f9eff3;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Pull-quote ── */
+    .pull-quote {
+      border-left: 5px solid var(--accent);
+      padding: 1.2rem 1.6rem 1.2rem 2rem;
+      margin: 2rem 0;
+      background: #f9eff3;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote__tekst {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #3a1025;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── Signaalblok rood/oranje/groen ── */
+    .signaal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .signaal-card {
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+    }
+    .signaal-card--rood { background: #fdf2f2; border-top: 3px solid #b83232; }
+    .signaal-card--oranje { background: #fdf8f0; border-top: 3px solid #d4700a; }
+    .signaal-card--groen { background: #f0f8f0; border-top: 3px solid #27782a; }
+    .signaal-card__icon { font-size: 1.3rem; margin-bottom: 0.3rem; }
+    .signaal-card__label {
+      font-weight: 800;
+      font-size: 0.85rem;
+      margin: 0 0 0.5rem;
+    }
+    .signaal-card--rood .signaal-card__label { color: #b83232; }
+    .signaal-card--oranje .signaal-card__label { color: #a0500a; }
+    .signaal-card--groen .signaal-card__label { color: #27782a; }
+    .signaal-card ul { margin: 0; padding-left: 1rem; }
+    .signaal-card li { font-size: 0.82rem; color: #444; margin-bottom: 0.3rem; }
+
+    /* ── Twee-kolom vergelijking ── */
+    .tweekolom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .tweekolom-col {
+      background: #f0f6fb;
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+    }
+    .tweekolom-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--accent-dark);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .tweekolom-col ul { margin: 0; padding-left: 1.1rem; }
+    .tweekolom-col li { font-size: 0.88rem; color: #444; margin-bottom: 0.35rem; }
+
+    /* ── Samenvatting-rij 10 sturingen ── */
+    .sturing-rij {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.2rem 0;
+    }
+    .sturing-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    .sturing-item:first-child { border-top: 1px solid #eee; }
+    .sturing-nr {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--accent);
+      min-width: 1.8rem;
+      line-height: 1;
+    }
+    .sturing-tekst {
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .sturing-tekst strong { color: var(--accent-dark); }
+
+    /* ── Data-tabel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #ead5dc;
+    }
+    .data-tabel tr:nth-child(even) td { background: #faf3f5; }
+
+    /* ── Vijf-jaar mijlpaal blokken ── */
+    .mijlpaal-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.6rem;
+      margin: 1.5rem 0;
+    }
+    .mijlpaal-card {
+      background: #f0f6fb;
+      border-radius: 6px;
+      padding: 0.8rem 0.7rem;
+      text-align: center;
+    }
+    .mijlpaal-card__jaar {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .mijlpaal-card__fase {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 0.3rem;
+    }
+    .mijlpaal-card__desc {
+      font-size: 0.72rem;
+      color: #555;
+    }
+
+    /* ── Leercyclus blok ── */
+    .cyclus-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+    .cyclus-card {
+      background: #f0f6fb;
+      border-radius: 6px;
+      padding: 0.9rem 1rem;
+      text-align: center;
+    }
+    .cyclus-card__nr {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      display: block;
+    }
+    .cyclus-card__label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .cyclus-card__desc {
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    @media (max-width: 600px) {
+      .frame-grid, .prioriteit-grid, .prr-grid, .kerncijfer-grid,
+      .signaal-grid, .tweekolom-grid, .mijlpaal-grid, .cyclus-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+<link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Taal: Nederlands">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Taal</span>
+    <span class="masthead__taal__cur">· Nederlands</span>
+  </a>
+  <div class="masthead__date">Édition 2 — jeudi 28 mai 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+
+<div class="gratis-band">Bulletin d'information gratuit, sans publicité<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Indépendant, sans opinion, aucune vente de données</strong><span class="gratis-band__sep"> — </span><a href="../../nl/op-de-hoogte.html" class="gratis-band__cta">Tenez-moi informé →</a></div>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Accueil</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">IA-Atomique Explosif<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">L'IA comme patron</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">D'abord le reptile</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-atoombom-in-ai-formaat.html">La bombe atomique au format IA</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politique<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">France & révolution européenne</div>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/frankrijk-revolutionair-moment.html">France — moment révolutionnaire</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/vijf-landen-vijf-curves.html">Cinq pays, cinq courbes</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-nederlandse-revolutie-2033.html">La Révolution Néerlandaise 2033</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/moet-nederland-ook-volgen.html">Les Pays-Bas doivent-ils suivre aussi?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Mécanique du basculement</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-kantelmechanica.html">La mécanique du basculement</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/mensen-die-mee-bouwen.html">Les gens qui construisent avec</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/actievoerders-bouwen-continenten.html">Les militants bâtissent des continents</a>
+        <a class="ov-nav__subitem" href="../../en/opbouwers-wegjagen/">Qui chasse les bâtisseurs</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-matrix-van-de-uittocht.html">La matrice de l'exode</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">L'IA comme patron</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">D'abord le reptile</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">L'interrupteur hors du système</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Partis & Pareto</div>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-02-pareto-top12.html">Pareto top-12 — qui bloque</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-08-partijen-in-kaart.html">Où se situe votre parti</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-09-pareto-per-actor.html">Pareto par acteur</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-04-ordes-van-bezwaar.html">Ordres d'objection</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-05-twintig-bezwaren.html">Vingt objections actuelles</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/plundering-4-politieke-landschap.html">Pillage 4: paysage politique</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Presse & médias</div>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-pers-is-de-arena.html">La presse est l'arène</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/ze-weten-het-al.html">Ils le savent déjà</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/trump-als-spiegel.html">Trump comme miroir</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-03-media-als-rekstrook.html">Les médias comme banc d'étirement</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-anti-immuunziekte-van-brussel.html">La maladie anti-immunitaire de Bruxelles</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">La maladie auto-immune frappe</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-dertig-cent-die-europa-omdraait.html">Les trente centimes qui retournent l'Europe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Vote & choix</div>
+        <a class="ov-nav__subitem" href="../../en/stemgedrag.html">Comportement de vote</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/eerlijkheid-maakt-regeren-mogelijk.html">L'honnêteté rend le gouvernement possible</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/beslissen-zonder-uitzicht.html">Décider sans vue</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">En tête sans subvention</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Pillage 0: d'abord cueillir</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-kies-een-kant.html">Éducation — choisissez un camp</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Édition 1 — Préface</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Philosophie<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sept Dimensions</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/van-quantum-naar-7d.html">Du quantique au 7D</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/van-de-grot-naar-de-zon.html">De la grotte au soleil</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Cadre de pensée 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Comment tout est lié</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Théorie des écoulements</a>
+        <a class="ov-nav__subitem" href="../editie-2/zeven-dimensies.html">Sept Dimensions</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sentiment originel & Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">L'homme sous la glace</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">Le sentiment originel</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">Les sept dimensions</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">Les trois couches cérébrales</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Communication entre sentiments originels</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">Ce que nous faisons aux enfants</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Maman j'ai faim</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Sentiment originel dans la pratique</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">L'IA comme patron</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">D'abord le reptile</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">L'interrupteur hors du système</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifeste Sentiment Originel</a>
+        <a class="ov-nav__subitem" href="../editie-2/waarom-ik-zo-ben.html">Pourquoi je suis ainsi</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Films, contes, livre</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">Le film 7-Dim</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Les Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="../leesboek/">Les Kosaris — Livre</a>
+        <a class="ov-nav__subitem" href="../sprookjes/">Le conte de Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofie/">Philosophie — portail</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Système de connexion sensible</div>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem.html">Système de connexion sensible</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem-volledig.html">SCS — plan complet</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/krantbriefing.html">Briefing journal SCS</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/routekaart-vervolgvragen.html">Feuille de route questions</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Climat<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Crise de l'azote</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Édition Azote</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Trois problèmes — une réponse</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/naar-de-natuurschool.html">À l'école de la nature</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Agriculteur et nature en avant</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/beslissen-zonder-uitzicht.html">Décider sans vue</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-methodologie-van-de-aanpassing.html">La ligne alimentaire</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Analyse de la nature</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Maladie auto-immune frappe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Colza</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Multiplicateur de colza</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Édition Allemagne</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Agriculteur et nature en avant</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Dividende climatique</div>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/klimaatdividend.html">Le dividende climatique</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/erfenisgolf-240-miljard.html">Vague d'héritage 240 milliards</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/wereldgordel-2040-2050.html">Ceinture mondiale 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — voie de rétablissement verte</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert vision 2036</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/brusselse-gevolgenkaart-bicrs.html">Version BiCRS UE</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/plastic-boete-carbon-credit.html">Amende plastique ou crédit carbone</a>
+        <a class="ov-nav__subitem" href="../../en/editie-0/carbon-alert-europa.html">Carbon-Alert Europe</a>
+        <a class="ov-nav__subitem" href="../../en/editie-0/biomimetische-krachtcentrale.html">Centrale biomimétique</a>
+        <a class="ov-nav__subitem" href="../editie-0/">Édition Europe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Thermostat & Terre physique</div>
+        <a class="ov-nav__subitem" href="../editie-2/thermostaat.html">Le thermostat</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-klimaatlogica.html">NEPK-Logique climatique</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-zon-staat-op-de-evenaar.html">Le soleil est à l'équateur</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Pneu, plastique, pollution</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Pneu-cigarette</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-methodologie-van-de-aanpassing.html">La ligne alimentaire</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Analyse de la nature</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Éditions spéciales</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Édition Climat</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Ce qu'on ne voit pas</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/zij-doden-hun-levensader.html">Ils tuent leur artère vitale</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/they-kill-their-lifelines-brussels.html">Ils tuent leurs artères (Bruxelles)</a>
+        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Fusion nucléaire</a>
+        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Solutions techniques</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Gouvernance<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Pays-Bas</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — chute du NEPK NL</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Analyse silencieuse (NL)</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Au boulot (NL)</a>
+        <a class="ov-nav__subitem" href="../../en/de-eerste-gemeente/">La première commune</a>
+        <a class="ov-nav__subitem" href="../../en/de-halve-gemeente/">La demi-commune</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Pays-Bas · Avenir</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-nl/">Carte des conséquences Pays-Bas</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europe</div>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europe — ouverture</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/europa-opnieuw.html">Europe à nouveau</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-brusselse-gevolgenkaart.html">Carte bruxelloise des conséquences</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/de-metafoor-auto-immuunziekte.html">Métaphore maladie auto-immune</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/het-immuunsysteem-van-organisaties.html">Système immunitaire des organisations</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/open-brief-aan-de-regeringen-van-europa.html">Lettre ouverte aux gouvernements</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-eu/">Carte conséquences UE-27</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/europa/">Europe · Avenir</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Autres pays</div>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-br/">Brésil</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-ch/">Suisse</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-cn/">Chine</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-de/">Allemagne</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-es/">Espagne</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-il/">Israël</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-in/">Inde</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-jp/">Japon</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-kr/">Corée du Sud</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-se/">Suède</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-tw/">Taïwan</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-uk/">Royaume-Uni</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-us/">États-Unis</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-za/">Afrique du Sud</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mappa-tal-konsegwenzi.html">Malte</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/the-singapore-consequence-map.html">Singapour</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../editie-6/">Édition 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../editie-6/voorwoord-waarom-dit-moet.html">Préface — Pourquoi cela doit être</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-00-brussel-als-variabele.html">Bruxelles comme variable</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-01-zes-ordes-van-fasering.html">Six ordres de phasage</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-06-zwitserse-spiegel.html">Miroir suisse</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-07-canadese-spiegel.html">Miroir canadien</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-11-kennislaag-als-bondgenoot.html">Couche de connaissance comme allié</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-12-beste-weg-vooruit.html">Meilleur chemin</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/nova-democratia-manifest.html">Manifeste Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/de-actor-is-de-regel.html">L'acteur est la règle</a>
+        <a class="ov-nav__subitem" href="../../en/soevereiniteit-als-cyclus/">Souveraineté comme cycle</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/bbp-liegt.html">Le PIB ment</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Leadership & organisations</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Édition 4 — Industrie papetière</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Loi de l'industrie papetière</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">Le PDG et le sentiment originel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">Le consultant</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">Le banquier</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">L'assureur</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">Le superviseur</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">Le juge</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Édition Leadership</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Éducation</div>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-manifest.html">Éducation — manifeste</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-prijs-van-de-bloei.html">Prix de l'épanouissement</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Éducation (Édition 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">Éducation IA</a>
+        <a class="ov-nav__subitem" href="../../en/editie-kind-loopbaan/">Édition Enfant et Carrière</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Éducation · Avenir</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Formation · Avenir</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industrie, énergie, avenir</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Avenir — portail</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Énergie · Avenir</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Industrie · Avenir</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Révolution<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Édition 5 — L'ordre oublié</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Lettre au lecteur</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sept outils</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">La formule du succès</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">L'ordre oublié</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Tromperie du méthane</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">La plante qui déménage</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">Les sept de Berne</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">Les dissidents</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">L'exigence au lecteur</a>
+        <a class="ov-nav__subitem" href="../editie-2/veerkracht-selectie.html">Résilience et sélection</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Édition 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Fiscalité<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-grote-plundering.html">Le Grand Pillage</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/plundering-1-diagnose.html">Pillage 1: diagnostic</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/plundering-2-mechaniek.html">Pillage 2: mécanique</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/plundering-3-afloop.html">Pillage 3: résultat</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">À la fin, plus rien</a>
+        <a class="ov-nav__subitem" href="../../en/wat-opkomt/gat-in-de-grond.html">€450 mln — trou dans le sol</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../../nl/wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-gevolgenkaart.html">Carte conséquences — manifeste</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beleidsadvies-aantrekken.html">De Taxer à Attirer</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Recherche<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../../en/dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="../../en/dossiers/vortex-hair.html">Balle golf Vortex-Hair™</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Derrière les Chiffres</a>
+        <a class="ov-nav__subitem" href="../onderzoek/eu-multiplicator.html">Multiplicateur UE</a>
+        <a class="ov-nav__subitem" href="../onderzoek/ontwikkelingslandstatus.html">Statut de pays en développement?</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Recherche — portail</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Mentions légales<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../mentions-legales.html">Mentions légales</a>
+        <a class="ov-nav__subitem" href="../../en/over.html">À propos</a>
+        <a class="ov-nav__subitem" href="../../en/archief.html">Archives</a>
+        <a class="ov-nav__subitem" href="../../nl/op-de-hoogte.html">Rester informé</a>
+        <a class="ov-nav__subitem" href="../../en/structuur.html">Structure — Admin</a>
+        <a class="ov-nav__subitem" href="../../en/navigatie.html">Navigation</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Lien copié" data-msg-copy-prompt="Copiez ce lien :" data-mail-subject="Article de Het Open Vizier : " data-mail-footer="Partagé via openvizier.org" data-pdf-building="Création du PDF…" data-pdf-done="PDF téléchargé" data-pdf-fail="Échec du PDF — essayez Cmd+P" data-pdf-source="Source" data-pdf-note="Partagé via openvizier.org — le journal d'opinion multilingue." data-msg-instagram-copied="Lien copié — collez-le sur Instagram" data-msg-tik-tok-copied="Lien copié — collez-le sur TikTok" data-x-via="openvizier" data-gate-title="Code d'accès" data-gate-body="Saisissez votre code d'accès pour télécharger des articles en PDF." data-gate-submit="Déverrouiller" data-gate-cancel="Annuler" data-gate-checking="Vérification…" data-gate-invalid="Saisissez un code valide." data-gate-wrong="Code incorrect ou expiré." data-gate-server-error="Impossible de vérifier le code. Réessayez plus tard." data-gate-note="Pas de code ? Contactez Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Partager<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Télécharger PDF</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Partager sur Facebook</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Partager sur X (Twitter)</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Partager sur LinkedIn</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Envoyer via WhatsApp</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Partager sur Telegram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Lien pour Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Lien pour TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copier le lien</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Envoyer par e-mail</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Langue</a>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Version complète</button>
+      <button type="button" class="version-switch__btn" data-version="kort">En bref</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Reprendre">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Écouter</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/nl/editie-2/veerkracht-selectie.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ UITGEBREID -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Avis politique</span>
+    <h1 class="slide__title">Résilience et Sélection</h1>
+    <p class="slide__lead">Comment l'État peut piloter un système de sélection moderne. Un programme de restructuration radical : protéger le noyau productif, réduire les services internes, tout en maintenant la sécurité de base.</p>
+    <p class="slide__meta">Par Jacobus van Merksteijn &nbsp;·&nbsp; 22 min de lecture &nbsp;·&nbsp; 28 mai 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/veerkracht-selectie.jpg" alt="Résilience et sélection — une approche de gouvernance moderne pour les Pays-Bas">
+  </div>
+</section>
+
+<!-- ── INLEIDING: DE EXISTENTIËLE UITDAGING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Introduction</span>
+    <h2 class="slide__heading">Le défi existentiel : une pyramide inversée qui bascule</h2>
+    <p>Les Pays-Bas font face à une crise économique fondamentale. Notre secteur productif disparaît sous le poids d'une économie de services et d'administration trop coûteuse. Les chiffres sont durs :</p>
+
+    <div class="kerncijfer-grid">
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">77%</div>
+        <div class="kerncijfer-label">Économie dans les services</div>
+        <div class="kerncijfer-desc">CBS 2024 — le noyau productif d'exportation se réduit structurellement</div>
+      </div>
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">10–15%</div>
+        <div class="kerncijfer-label">Pression fiscale plus élevée que les concurrents</div>
+        <div class="kerncijfer-desc">Comparé à Malte et aux Émirats arabes unis — industrie, savoir et emploi s'écoulent</div>
+      </div>
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">+9 000</div>
+        <div class="kerncijfer-label">ETP d'emploi public en croissance en 2024</div>
+        <div class="kerncijfer-desc">CBS 2025 — tandis que le secteur productif est sous pression</div>
+      </div>
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">8,9%</div>
+        <div class="kerncijfer-label">Croissance des coûts de santé en 2024</div>
+        <div class="kerncijfer-desc">L'État providence sape sa propre base économique</div>
+      </div>
+    </div>
+
+    <p>Parallèlement, la vulnérabilité des citoyens augmente : plus de problèmes mentaux, moins de résilience, et une sortie croissante du marché du travail. Ce document esquisse un programme de restructuration radical qui applique des principes évolutionnaires pour réaliser annuellement une <strong>réduction de coûts de 10%</strong> dans les services internes, tout en préservant et renforçant le secteur productif.</p>
+
+    <p>L'objectif : en 5 ans, un climat d'implantation compétitif pour l'industrie, avec des taux d'imposition comparables à Malte et Abu Dhabi, financé par une réduction structurelle des frais généraux non productifs.</p>
+  </div>
+</section>
+
+<!-- ── H1: KERNPRINCIPES — WAT WEL, WAT NIET ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 1</span>
+    <h2 class="slide__heading">Principes fondamentaux : la sélection sans sacrifices</h2>
+    <p>Avant d'aborder les secteurs : le point le plus essentiel de tout ce programme. <strong>La sélection signifie ici expressément quelque chose de spécifique</strong> — pas ce que le terme peut historiquement mal faire comprendre. Lisez ce bloc attentivement.</p>
+
+    <div class="alert-frame">
+      <div class="alert-frame__title">Avertissement préalable : le darwinisme social n'est pas une option</div>
+      <p>Historiquement, la « survie du plus apte » comme principe sociétal a conduit à l'eugénisme, à la stérilisation forcée, à la justification d'inégalités extrêmes et au racisme. C'est moralement inacceptable et scientifiquement dépassé. La biologie évolutive elle-même montre que la coopération et le soin des plus faibles sont des caractéristiques évoluées qui rendent les groupes plus forts — pas plus faibles.</p>
+    </div>
+
+    <div class="frame-grid">
+      <div class="frame-col frame-col--wel">
+        <div class="frame-col__header">Ce qui EST : sélection sur le comportement et les systèmes</div>
+        <ul>
+          <li><strong>Politique et systèmes</strong> : les programmes inefficaces sont arrêtés, les efficaces sont étendus</li>
+          <li><strong>Entreprises</strong> : le jeu du marché assure la sélection sur la qualité et l'innovation</li>
+          <li><strong>Comportement</strong> : des incitations qui récompensent la résilience, le travail et la responsabilité</li>
+          <li><strong>Compétences</strong> : sélection dans l'éducation selon l'aptitude et l'engagement</li>
+          <li><strong>Priorité sectorielle</strong> : l'industrie et l'exportation ont priorité sur les services internes</li>
+        </ul>
+      </div>
+      <div class="frame-col frame-col--niet">
+        <div class="frame-col__header">Ce qui N'EST PAS : sélection sur la survie</div>
+        <ul>
+          <li><strong>Durcissement délibéré de la mortalité infantile ou de la maladie</strong> : c'est de l'eugénisme, moralement et historiquement inacceptable</li>
+          <li><strong>Laisser mourir de faim les « plus faibles »</strong> : la sécurité de base reste toujours garantie</li>
+          <li><strong>Refuser les soins médicaux</strong> : l'accès aux soins de santé est un droit fondamental</li>
+          <li><strong>Sélection sur l'origine, la race ou les caractéristiques innées</strong> : entièrement exclue</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">L'équilibre : protéger là où cela compte, laisser grandir là où c'est possible</h3>
+    <p>L'objectif est une société qui protège les gens contre les grands risques irréversibles (blessure permanente, mort, pauvreté profonde), mais les expose à de petits risques et conséquences (erreurs, revers, échec) qui font apprendre et renforcent. La résilience et la performance sont récompensées ; la dépendance est découragée par des systèmes plus simples et plus réactifs — mais personne ne tombe à travers le plancher.</p>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">« Il ne s'agit pas de "la survie du plus apte" au sens social, mais de nécessité économique : sélectionner sur le comportement, les choix et les systèmes, protéger le noyau productif, réduire rigoureusement les services internes. Tout en maintenant la sécurité de base, mais sans illusions sur la gravité de la situation. »</p>
+    </div>
+
+    <p><strong>Impératif économique :</strong> Chaque euro de charge réglementaire ou de fardeau sur l'industrie doit être compensé par au moins un euro de réduction des coûts des services internes. Ce n'est pas un choix politique mais une survie économique — les Pays-Bas doivent atteindre en 5 ans des taux d'imposition compétitifs avec Malte (15–35%) et Abu Dhabi (0–9% d'impôt sur les sociétés).</p>
+  </div>
+</section>
+
+<!-- ── H2: OPVOEDING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 2</span>
+    <h2 class="slide__heading">Éducation familiale : de la surprotection à la compétence face au risque</h2>
+
+    <div class="prr-grid">
+      <div class="prr-card">
+        <div class="prr-card__label">Problème</div>
+        <div class="prr-card__title">Trop sûr, trop vulnérable</div>
+        <p class="prr-card__desc">Les enfants grandissent dans des environnements de plus en plus sûrs. La recherche montre que cela entraîne moins de confiance en soi, plus d'anxiété à un âge plus avancé, et des jeunes incapables d'évaluer les risques.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Rôle de l'État</div>
+        <div class="prr-card__title">Norme : « aussi sûr que nécessaire »</div>
+        <p class="prr-card__desc">Rendre obligatoire le jeu à risque dans la politique pédagogique : grimper, se chahuter, jouer dehors, utiliser des outils. Redéfinir la surveillance sanitaire de « aussi sûr que possible » à « aussi sûr que nécessaire ».</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Résultat</div>
+        <div class="prr-card__title">La résilience comme fondement</div>
+        <p class="prr-card__desc">Les enfants qui gèrent de petits revers et échecs sont mieux préparés à la vraie vie — sans exposition à des situations mettant leur vie en danger. Objectif : afflux vers la protection de la jeunesse −30% en 5 ans.</p>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">Mesures concrètes</h3>
+    <div class="tweekolom-grid">
+      <div class="tweekolom-col">
+        <div class="tweekolom-col__header">Politique et réglementation</div>
+        <ul>
+          <li>Le jeu à risque ancré dans la politique pédagogique (garde d'enfants, enseignement primaire)</li>
+          <li>Adapter le droit de la responsabilité : protéger les risques pédagogiquement justifiés contre des réclamations déraisonnables</li>
+          <li>Surveillance sanitaire : norme de qualité « aussi sûr que nécessaire » obligatoire</li>
+        </ul>
+      </div>
+      <div class="tweekolom-col">
+        <div class="tweekolom-col__header">Soutien aux parents &amp; professionnels</div>
+        <ul>
+          <li>Campagnes sur l'importance des limites, des tâches et des risques dans l'éducation</li>
+          <li>Accompagner les professionnels : passage du contrôle à l'accompagnement</li>
+          <li>Ramener la protection de la jeunesse à la vraie détresse — pas pour chaque problème éducatif</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── H3: ONDERWIJS ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 3</span>
+    <h2 class="slide__heading">Éducation : sélection sur le niveau et l'engagement</h2>
+
+    <div class="prr-grid">
+      <div class="prr-card">
+        <div class="prr-card__label">Problème</div>
+        <div class="prr-card__title">Trop peu de sélection, les diplômes perdent de la valeur</div>
+        <p class="prr-card__desc">Tout le monde peut commencer n'importe où. Le financement par diplôme force les écoles à faire passer tout le monde. Trop peu de valorisation du savoir-faire face à l'enseignement théorique.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Rôle de l'État</div>
+        <div class="prr-card__title">Mise en correspondance, savoir-faire &amp; incitations</div>
+        <p class="prr-card__desc">Critères d'admission et de sélection clairs, financement sur les compétences et les débouchés d'emploi, revalorisation du mbo et des formations pratiques, normaliser l'échec via la réorientation sans extension infinie.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Résultat</div>
+        <div class="prr-card__title">Les diplômes signifient de nouveau quelque chose</div>
+        <p class="prr-card__desc">Les étudiants arrivent à la bonne place, les écoles conservent leur qualité. Sélection sur l'aptitude et l'engagement, pas sur la survie. Abandon en première année : viser &lt;15% grâce à une meilleure sélection à l'entrée.</p>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">Indicateurs de réussite</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Indicateur</th>
+          <th>Situation actuelle</th>
+          <th>Objectif (5 ans)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Abandon première année (enseignement supérieur)</td><td>~20–25%</td><td>&lt;15%</td></tr>
+        <tr><td>Diplômés en emploi dans les 6 mois</td><td>Variable selon la filière</td><td>Hausse</td></tr>
+        <tr><td>Popularité du mbo niveau 3–4</td><td>En baisse</td><td>Hausse</td></tr>
+        <tr><td>Salaire de départ moyen par niveau de formation</td><td>Stagnant</td><td>Hausse via incitations liées</td></tr>
+        <tr><td>Financement des études échelonné</td><td>Uniforme</td><td>Technique &gt; Services &gt; Public</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── H4: ARBEIDSMARKT ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 4</span>
+    <h2 class="slide__heading">Marché du travail : l'industrie d'abord, les services au régime</h2>
+
+    <div class="callout">
+      <p><strong>Chiffre clé :</strong> L'industrie néerlandaise à forte intensité énergétique est sous pression structurelle en raison de coûts élevés, tandis que l'emploi public a augmenté de 9 000 ETP en 2024. C'est une pyramide inversée qui bascule — 80% de l'emploi dans les services, dont une grande partie non exportable.</p>
+    </div>
+
+    <h3 style="color: var(--accent-dark);">Trois priorités — réorganisation sectorielle radicale</h3>
+    <div class="prioriteit-grid">
+      <div class="prioriteit-card prioriteit-card--1">
+        <div class="prioriteit-card__nr">P1</div>
+        <div class="prioriteit-card__title">Secteur productif — protéger &amp; renforcer</div>
+        <ul>
+          <li>Industrie exportatrice : chimie, haute technologie, industrie manufacturière, maritime, agroalimentaire</li>
+          <li>Secteurs habilitants : énergie, logistique, infrastructure TIC</li>
+        </ul>
+        <div class="prioriteit-card__beleid">Politique : allègement fiscal maximal, charge réglementaire minimale, priorité pour les permis et l'espace</div>
+      </div>
+      <div class="prioriteit-card prioriteit-card--2">
+        <div class="prioriteit-card__nr">P2</div>
+        <div class="prioriteit-card__title">Services compétitifs — jeu du marché</div>
+        <ul>
+          <li>Services financiers, services informatiques</li>
+          <li>Services aux entreprises qui exportent</li>
+        </ul>
+        <div class="prioriteit-card__beleid">Politique : jeu de marché normal, aucune charge ou subvention supplémentaire</div>
+      </div>
+      <div class="prioriteit-card prioriteit-card--3">
+        <div class="prioriteit-card__nr">P3</div>
+        <div class="prioriteit-card__title">Services internes — réduire &amp; plus efficace</div>
+        <ul>
+          <li>Administration publique, santé, éducation, services municipaux, secteur semi-public</li>
+        </ul>
+        <div class="prioriteit-card__beleid">Politique : réduction structurelle de 10% des coûts par an, réduction de volume, hausse de productivité</div>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">Mesures concrètes pour le marché du travail</h3>
+    <div class="tweekolom-grid">
+      <div class="tweekolom-col">
+        <div class="tweekolom-col__header">Incitations au travail &amp; charge réglementaire</div>
+        <ul>
+          <li>Travailler doit toujours rapporter plus qu'une allocation (+30% net minimum)</li>
+          <li>Croissance zéro de la charge réglementaire pour l'industrie : chaque nouvelle règle exige la suppression de deux</li>
+          <li>Système tolérant à l'échec : règlement de dettes &lt;3 mois, redémarrage dans les 6 mois</li>
+        </ul>
+      </div>
+      <div class="tweekolom-col">
+        <div class="tweekolom-col__header">Canalisation des talents &amp; reconversion</div>
+        <ul>
+          <li>Reconversion ciblée : priorité au passage du public/services vers la technique/production</li>
+          <li>Financement des études et conditions de travail échelonnés : technique &gt; services &gt; public</li>
+          <li>Flux de talents vers l'industrie via des incitations économiques — pas de contrainte</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Objectif quantitatif (5–7 ans) :</strong> Emploi industrie + secteurs habilitants : +100 000 à +150 000 ETP. Emploi services internes : −150 000 à −200 000 ETP. Net : légèrement négatif (−50 000 ETP), mais productivité moyenne et valeur d'exportation par ETP plus élevées.</p>
+    </div>
+    <p><em>La sélection économique agit sur les entreprises et les idées, pas sur les personnes. Les gens reçoivent plusieurs chances via la reconversion et le passage vers les secteurs productifs.</em></p>
+  </div>
+</section>
+
+<!-- ── H5: ZORG EN UITKERINGEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 5</span>
+    <h2 class="slide__heading">Soins et allocations : un plancher dur avec un atterrissage en douceur</h2>
+
+    <div class="prr-grid">
+      <div class="prr-card">
+        <div class="prr-card__label">Problème</div>
+        <div class="prr-card__title">Trop de filets sans sortie</div>
+        <p class="prr-card__desc">Trop de mécanismes de filet sans contrepartie ni perspective de sortie. Trop peu d'incitations à l'autonomie. Rôle peu clair du jeu du marché dans la protection de la jeunesse, la Wmo et la réintégration.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Rôle de l'État</div>
+        <div class="prr-card__title">Sécurité de base avec conditions</div>
+        <p class="prr-card__desc">Personne ne tombe à travers le plancher (toit, nourriture, soins médicaux). Mais avec contrepartie, obligation de recherche d'emploi et participation. Protection de la jeunesse et Wmo : uniquement pour la vraie détresse. Contribution personnelle pour qui le peut.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Résultat</div>
+        <div class="prr-card__title">Sélection sur le choix, pas sur la détresse</div>
+        <p class="prr-card__desc">Les gens qui peuvent travailler le font. Les gens qui vraiment ne le peuvent pas sont aidés. La sélection agit sur le comportement et les choix, pas sur la survie. Coûts de santé : −20% via la délibéralisation des soins complexes.</p>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">Où le jeu du marché fonctionne vs. ne fonctionne pas dans les soins</h3>
+    <div class="frame-grid">
+      <div class="frame-col frame-col--wel">
+        <div class="frame-col__header">Le jeu du marché fonctionne</div>
+        <ul>
+          <li>Parcours de réintégration standard pour les autonomes</li>
+          <li>Protection légère de la jeunesse et soutien parental</li>
+          <li>Prestations Wmo standard (aides techniques, transport)</li>
+          <li>Innovation et projets pilotes où une sélection rapide est souhaitée</li>
+        </ul>
+      </div>
+      <div class="frame-col frame-col--niet">
+        <div class="frame-col__header">Délibéralisation nécessaire</div>
+        <ul>
+          <li>Protection complexe de la jeunesse, déficience intellectuelle légère, psychiatrie lourde</li>
+          <li>Wmo lourde : démence, soins à domicile intensifs</li>
+          <li>Aide au désendettement pour des problèmes majeurs</li>
+          <li>Réintégration avec grande distance au marché du travail</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size: 0.88rem; color: #666; margin-top: 0.5rem;">Une régie publique avec des équipes fixes ou des contrats de longue durée est plus efficace pour les soins complexes — les modèles de marché y conduisent à la fragmentation et à des coûts de transaction élevés.</p>
+  </div>
+</section>
+
+<!-- ── H6: BELEIDSEVALUATIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 6</span>
+    <h2 class="slide__heading">Évaluation des politiques : la gouvernance adaptative comme système évolutionnaire</h2>
+
+    <p>Les mesures politiques sont souvent poursuivies par habitude, sans évaluation critique. Les programmes inefficaces continuent d'exister parce qu'il n'y a pas de sélection rigoureuse. L'État applique le principe évolutionnaire à la politique elle-même :</p>
+
+    <div class="cyclus-grid">
+      <div class="cyclus-card">
+        <span class="cyclus-card__nr">V</span>
+        <span class="cyclus-card__label">Variation</span>
+        <span class="cyclus-card__desc">Espace pour les projets pilotes et les expérimentations comme norme, pas comme exception</span>
+      </div>
+      <div class="cyclus-card">
+        <span class="cyclus-card__nr">S</span>
+        <span class="cyclus-card__label">Sélection</span>
+        <span class="cyclus-card__desc">Évaluation rigoureuse de l'efficacité — arrêt de 10–20% des programmes chaque année</span>
+      </div>
+      <div class="cyclus-card">
+        <span class="cyclus-card__nr">R</span>
+        <span class="cyclus-card__label">Reproduction</span>
+        <span class="cyclus-card__desc">Ce qui fonctionne est déployé et étendu à toutes les communes</span>
+      </div>
+      <div class="cyclus-card">
+        <span class="cyclus-card__nr">L</span>
+        <span class="cyclus-card__label">Apprentissage</span>
+        <span class="cyclus-card__desc">Les erreurs comme moments d'apprentissage, les évaluations comme boucle de rétroaction — pas comme arme politique</span>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-dark);">Signaux d'alerte : quand ajuster ?</h3>
+    <div class="signaal-grid">
+      <div class="signaal-card signaal-card--rood">
+        <div class="signaal-card__icon">🔴</div>
+        <div class="signaal-card__label">Intervention immédiate</div>
+        <ul>
+          <li>Augmentation du sans-abrisme ou de la faim</li>
+          <li>Hausse des taux de suicide ou des problèmes mentaux graves</li>
+          <li>La problématique d'endettement des travailleurs augmente</li>
+          <li>Enfants en danger par manque de protection de la jeunesse</li>
+        </ul>
+      </div>
+      <div class="signaal-card signaal-card--oranje">
+        <div class="signaal-card__icon">🟡</div>
+        <div class="signaal-card__label">Évaluer et ajuster</div>
+        <ul>
+          <li>La sortie vers l'emploi stagne malgré les incitations</li>
+          <li>Les diplômes perdent de leur valeur</li>
+          <li>Augmentation de l'inégalité entre régions</li>
+          <li>La confiance publique baisse fortement</li>
+        </ul>
+      </div>
+      <div class="signaal-card signaal-card--groen">
+        <div class="signaal-card__icon">🟢</div>
+        <div class="signaal-card__label">Poursuivre le développement</div>
+        <ul>
+          <li>La résilience et la confiance en soi augmentent</li>
+          <li>Plus de gens trouvent un emploi adapté</li>
+          <li>Les coûts de santé se stabilisent</li>
+          <li>L'innovation et l'entrepreneuriat croissent</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ── H7: DECENTRAAL BESTUUR ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 7</span>
+    <h2 class="slide__heading">Gouvernance décentralisée : l'évolution entre les communes</h2>
+
+    <p>Plus de 350 communes néerlandaises constituent un terrain d'expérimentation naturel. Chacune peut essayer sa propre approche des politiques sociales — les meilleures pratiques se répandent, les moins bonnes disparaissent.</p>
+
+    <div class="stappen-lijst">
+      <div class="stap-item">
+        <span class="stap-nr">1</span>
+        <div class="stap-tekst"><strong>Autonomie locale :</strong> les communes obtiennent une marge d'action réelle pour expérimenter avec la réintégration, la protection de la jeunesse et la politique sociale</div>
+      </div>
+      <div class="stap-item">
+        <span class="stap-nr">2</span>
+        <div class="stap-tekst"><strong>Mesure comparative :</strong> l'État central mesure le rapport prix/performance de chaque commune sur des indicateurs identiques</div>
+      </div>
+      <div class="stap-item">
+        <span class="stap-nr">3</span>
+        <div class="stap-tekst"><strong>Diffusion des meilleures pratiques :</strong> les approches qui fonctionnent sont activement partagées via la VNG et déployées ailleurs</div>
+      </div>
+      <div class="stap-item">
+        <span class="stap-nr">4</span>
+        <div class="stap-tekst"><strong>Correction obligatoire :</strong> les communes les moins performantes doivent adopter les meilleures pratiques ou expliquer pourquoi leur approche est différente</div>
+      </div>
+      <div class="stap-item">
+        <span class="stap-nr">5</span>
+        <div class="stap-tekst"><strong>Réduction des ETP à La Haye :</strong> moins de contrôle central signifie moins de personnel de contrôle central — la surveillance basée sur les résultats remplace la microgestion</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── H8: OVERHEIDS-FTE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 8</span>
+    <h2 class="slide__heading">ETP publics : déclin structurel par la simplification</h2>
+
+    <div class="kerncijfer-grid">
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">157 000</div>
+        <div class="kerncijfer-label">ETP administration centrale</div>
+        <div class="kerncijfer-desc">Base de référence 2024/2025</div>
+      </div>
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">1,1 mln</div>
+        <div class="kerncijfer-label">ETP total secteur public</div>
+        <div class="kerncijfer-desc">Y compris soins, éducation, communes</div>
+      </div>
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">10%</div>
+        <div class="kerncijfer-label">Norme de réduction annuelle</div>
+        <div class="kerncijfer-desc">Pour les fonctions administratives et politiques internes</div>
+      </div>
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">59%</div>
+        <div class="kerncijfer-label">Du niveau de départ après 5 ans</div>
+        <div class="kerncijfer-desc">Via l'attrition naturelle, pas de licenciements forcés</div>
+      </div>
+    </div>
+
+    <p>Cette réduction se réalise principalement par la simplification des processus, la numérisation et la suppression des couches de contrôle redondantes — pas par des licenciements forcés. L'attrition naturelle (départs, retraites) associée à un gel d'embauche sélectif atteint la norme sans crise sociale.</p>
+
+    <div class="tweekolom-grid">
+      <div class="tweekolom-col">
+        <div class="tweekolom-col__header">Instruments de réduction</div>
+        <ul>
+          <li>Gel d'embauche sélectif sur les fonctions non essentielles</li>
+          <li>Fusion des couches de contrôle et de surveillance qui se chevauchent</li>
+          <li>Numérisation des processus administratifs</li>
+          <li>Centres de mobilité régionaux pour la reconversion vers le secteur productif</li>
+        </ul>
+      </div>
+      <div class="tweekolom-col">
+        <div class="tweekolom-col__header">Garde-fous sociaux</div>
+        <ul>
+          <li>Pas de licenciements forcés — uniquement via l'attrition naturelle</li>
+          <li>Reconversion active vers les secteurs en croissance (technique, production)</li>
+          <li>Maintien des fonctions essentielles de première ligne (soins, sécurité, éducation directe)</li>
+          <li>Rythme adapté à la capacité d'absorption du marché du travail</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── H9: LIBERALISERING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 9</span>
+    <h2 class="slide__heading">Libéralisation et délibéralisation : un réaménagement intelligent</h2>
+
+    <p>Plutôt que « plus de marché » ou « plus d'État » de manière idéologique, ce programme applique un critère fonctionnel. Un jeu de marché poussé est logique si les réponses à trois questions sont majoritairement « oui » :</p>
+
+    <div class="prr-grid">
+      <div class="prr-card">
+        <div class="prr-card__label">Critère 1</div>
+        <div class="prr-card__title">La concurrence fonctionne-t-elle ?</div>
+        <p class="prr-card__desc">Y a-t-il suffisamment de fournisseurs, la qualité est-elle transparente, et les clients peuvent-ils réellement changer de prestataire ?</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Critère 2</div>
+        <div class="prr-card__title">Les coûts de transaction sont-ils suffisamment bas ?</div>
+        <p class="prr-card__desc">Les frais généraux liés aux appels d'offres, à la surveillance et à la gestion des contrats sont-ils compensés par les avantages de la concurrence ?</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Critère 3</div>
+        <div class="prr-card__title">Le groupe cible est-il suffisamment autonome ?</div>
+        <p class="prr-card__desc">Le groupe cible peut-il réellement exercer sa liberté de choix — ou la vulnérabilité exige-t-elle une régie publique ?</p>
+      </div>
+    </div>
+
+    <p>Le jeu du marché a lui-même créé des frais généraux considérables : beaucoup d'ETP pour les appels d'offres, la gestion des contrats et la surveillance. Par la délibéralisation des soins complexes et la standardisation là où le marché reste, ces frais généraux diminuent structurellement — moins d'appels d'offres, surveillance plus simple, coûts d'échec plus faibles dans les chaînes. Cela contribue directement à la norme de réduction de coûts de 10% par an.</p>
+  </div>
+</section>
+
+<!-- ── H10: MONITORING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Chapitre 10</span>
+    <h2 class="slide__heading">Suivi : 10 mécanismes de pilotage avec impératif de réduction des coûts</h2>
+
+    <p>L'État pilote la sélection « darwinienne » via ces mécanismes — tous orientés vers une réduction de coûts annuelle de 10% dans les services internes et la protection du secteur productif :</p>
+
+    <div class="sturing-rij">
+      <div class="sturing-item">
+        <span class="sturing-nr">1</span>
+        <span class="sturing-tekst"><strong>Priorité sectorielle :</strong> l'industrie/l'exportation d'abord, les services internes au régime, règle de compensation stricte pour chaque charge sur la production</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">2</span>
+        <span class="sturing-tekst"><strong>Éducation familiale :</strong> rendre obligatoire le jeu à risque, décourager la surprotection, moins d'afflux vers la protection de la jeunesse (−30% de volume en 5 ans)</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">3</span>
+        <span class="sturing-tekst"><strong>Éducation :</strong> sélection stricte sur le niveau, revalorisation du savoir-faire, financement des études échelonné selon la priorité économique</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">4</span>
+        <span class="sturing-tekst"><strong>Marché du travail :</strong> incitations au travail claires, croissance zéro de la charge réglementaire pour l'industrie, reconversion vers la technique/production, système tolérant à l'échec</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">5</span>
+        <span class="sturing-tekst"><strong>Soins :</strong> plancher dur avec conditions, protection de la jeunesse et Wmo ramenées au cœur (−20% de coûts), délibéralisation des soins complexes</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">6</span>
+        <span class="sturing-tekst"><strong>Évaluation des politiques :</strong> gouvernance adaptative avec arrêt/poursuite strict, arrêt de 10–20% des programmes chaque année, aucun dogme sur marché vs public</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">7</span>
+        <span class="sturing-tekst"><strong>Gouvernance décentralisée :</strong> les communes varient, l'État mesure le prix/la performance, les moins performantes doivent s'ajuster via les meilleures pratiques</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">8</span>
+        <span class="sturing-tekst"><strong>Allocations :</strong> travailler doit rapporter (+30% net vs allocation), mais la sécurité de base reste, contrôle du volume via incitations</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">9</span>
+        <span class="sturing-tekst"><strong>Responsabilité individuelle :</strong> qui le peut, contribue ; qui ne le peut pas, reçoit de l'aide — pas de dépendance sans fin</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">10</span>
+        <span class="sturing-tekst"><strong>Surveiller les limites :</strong> pas de sélection sur la survie, mais bien une sélection stricte sur le comportement, les systèmes et la priorité économique</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Principe central :</strong> Chaque mesure est évaluée sur sa contribution à la réduction des coûts et au renforcement du secteur productif. La sentimentalité ne doit pas conduire à l'autodestruction économique.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── H11: 5-JAAR TRANSITIEPAD ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Parcours de transition sur 5 ans</span>
+    <h2 class="slide__heading">D'ici à là : le parcours de transition 2026–2031</h2>
+
+    <p>Le programme suit un calendrier progressif. Trois jalons, cinq ans, concrets et mesurables — avec des signaux d'alerte rouges qui donnent toujours lieu à un ajustement immédiat.</p>
+
+    <div class="transitiepad">
+      <div class="tp-stap">
+        <div class="tp-jaar">2026<br><span style="font-size:0.9rem; font-weight:600; color:#888;">Année 1</span></div>
+        <div class="tp-body">
+          <div class="tp-titel">Établir la mesure de référence et la base institutionnelle</div>
+          <p class="tp-desc">Établir la référence par domaine (participation au marché du travail, afflux vers la protection de la jeunesse, coûts par habitant, positions d'endettement). Législation pour le jeu à risque dans la politique pédagogique. Démarrage de projets pilotes de gouvernance décentralisée dans 5 communes. Première étape : 1 nouvelle règle = suppression de 2 pour l'industrie.</p>
+        </div>
+      </div>
+      <div class="tp-stap">
+        <div class="tp-jaar">2027<br><span style="font-size:0.9rem; font-weight:600; color:#888;">Année 2</span></div>
+        <div class="tp-body">
+          <div class="tp-titel">Activer les mécanismes de sélection</div>
+          <p class="tp-desc">Premier cycle d'évaluation des politiques — arrêt de 10–20% des programmes inefficaces. Ajustement des critères de sélection dans l'éducation et financement sur les compétences. Point de départ de la réduction des ETP via l'attrition naturelle. Protection de la jeunesse : volumes −10% via une attribution plus stricte. Centres de mobilité opérationnels pour les fonctionnaires.</p>
+        </div>
+      </div>
+      <div class="tp-stap">
+        <div class="tp-jaar">2028<br><span style="font-size:0.9rem; font-weight:600; color:#888;">Année 3</span></div>
+        <div class="tp-body">
+          <div class="tp-titel">Mise à l'échelle de ce qui fonctionne</div>
+          <p class="tp-desc">Déploiement national des meilleures pratiques communales. Délibéralisation des soins complexes achevée — régie publique pour les cas lourds. Réduction des coûts des services internes : 20% par rapport à la référence 2026. Pression fiscale sur l'industrie sensiblement réduite via la règle de compensation.</p>
+        </div>
+      </div>
+      <div class="tp-stap">
+        <div class="tp-jaar">2029–30<br><span style="font-size:0.9rem; font-weight:600; color:#888;">Année 4–5</span></div>
+        <div class="tp-body">
+          <div class="tp-titel">Le tournant mesurable : l'industrie croît, les services se réduisent de manière ordonnée</div>
+          <p class="tp-desc">Emploi industriel visiblement en hausse. Taux d'imposition publics se dirigeant vers le niveau de Malte pour l'industrie exportatrice. Coûts de la protection de la jeunesse stabilisés. Indicateurs de résilience des jeunes améliorés. Valeur des diplômes mesurablement restaurée. Centres de mobilité régionaux : des milliers de fonctionnaires reconvertis vers les secteurs productifs.</p>
+        </div>
+      </div>
+      <div class="tp-stap">
+        <div class="tp-jaar">2031<br><span style="font-size:0.9rem; font-weight:600; color:#888;">Évaluation</span></div>
+        <div class="tp-body">
+          <div class="tp-titel">Réajustement stratégique : l'objectif est-il atteint ?</div>
+          <p class="tp-desc">Audit externe des dix mécanismes de pilotage. Les taux d'imposition sont-ils compétitifs ? Le noyau productif a-t-il grandi ? La sécurité de base est-elle maintenue ? Sur la base des résultats : poursuivre, ajuster ou modifier structurellement. Le principe évolutionnaire s'applique au système lui-même : ce qui fonctionne, se développe — ce qui ne fonctionne pas, s'arrête.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Limite rouge stricte durant tout le parcours de transition :</strong> Dès qu'une augmentation du sans-abrisme, des taux de suicide ou des enfants en danger par manque de protection de la jeunesse est mesurée — intervention et ajustement immédiats. La sélection économique ne prime jamais sur le plancher humain.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCLUSIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Conclusion</span>
+    <h2 class="slide__heading">Une logique de pilotage intégrale : humain dans le plancher, strict sur les systèmes</h2>
+
+    <p>Ce programme réunit des principes évolutionnaires en un système cohérent. Pas une utopie, mais une trajectoire réaliste :</p>
+
+    <div class="prr-grid">
+      <div class="prr-card">
+        <div class="prr-card__label">Humain dans le plancher</div>
+        <div class="prr-card__title">La sécurité de base reste toujours garantie</div>
+        <p class="prr-card__desc">Personne ne tombe à travers le plancher. L'accès aux soins médicaux, un toit au-dessus de la tête, et une sécurité d'existence minimale sont des droits fondamentaux — pas des variables dans le système.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Strict sur les systèmes</div>
+        <div class="prr-card__title">Pas de financement sans fin de l'inefficacité</div>
+        <p class="prr-card__desc">Les programmes, institutions et organisations sont continuellement évalués. Ce qui ne fonctionne pas s'arrête. Ce qui fonctionne se développe. L'État applique les mêmes principes de sélection qu'il attend du marché.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Apprendre comme norme</div>
+        <div class="prr-card__title">Mesurer, ajuster, répéter</div>
+        <p class="prr-card__desc">La gouvernance adaptative n'est pas une conception ponctuelle mais un processus d'apprentissage permanent. Générer de la variation, identifier les succès, diffuser les connaissances, arrêter les échecs — c'est la méthode de travail normale, pas l'exception.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">« Il ne s'agit pas de "la survie du plus apte" au sens social, mais de nécessité économique : sélectionner sur le comportement, les choix et les systèmes, protéger le noyau productif, réduire rigoureusement les services internes. Tout en maintenant la sécurité de base, mais sans illusions sur la gravité de la situation. »</p>
+    </div>
+
+    <h3 style="color: var(--accent-dark); margin-top: 1.5rem;">Les trois piliers, encore une fois explicitement</h3>
+    <div class="frame-grid">
+      <div class="frame-col frame-col--wel">
+        <div class="frame-col__header">Sélection sur — ce programme</div>
+        <ul>
+          <li>Le comportement, les choix, l'engagement et la responsabilité</li>
+          <li>La politique, les systèmes et les institutions sur leur efficacité</li>
+          <li>Priorité sectorielle : l'industrie avant les services internes</li>
+          <li>La performance des communes via des indicateurs comparables</li>
+          <li>Le jeu du marché là où il fonctionne, la régie publique là où c'est nécessaire</li>
+        </ul>
+      </div>
+      <div class="frame-col frame-col--niet">
+        <div class="frame-col__header">Jamais de sélection sur — explicitement</div>
+        <ul>
+          <li>Les caractéristiques biologiques, innées ou héréditaires</li>
+          <li>La survie : la sécurité de base n'est pas négociable</li>
+          <li>L'origine, la race, le handicap ou la maladie</li>
+          <li>Le durcissement délibéré de la mortalité infantile ou de la maladie</li>
+          <li>Refuser des soins aux personnes qui en ont vraiment besoin</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top: 1.5rem; color: #555; font-size: 0.92rem;"><em>Favoriser la résilience sans durcir, sélectionner ce qui fonctionne sans sacrifier les personnes, et protéger la base économique qui rend l'État providence possible — c'est la trajectoire.</em></p>
+  </div>
+</section>
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Voorpagina">
+  <a href="../../nl/editie-2/index.html" class="navbar__terug">← Retour à l'Édition 2</a>
+  <a href="../../nl/" class="navbar__home">⌂ Une</a>
+  <a href="../../nl/verkennen.html" class="navbar__verk">↻ Explorer</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ IN HET KORT -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Avis politique</span>
+    <h2 class="slide__heading">Résilience et Sélection — l'essentiel en 5 minutes</h2>
+    <p class="slide__lead">Comment l'État peut piloter un système de sélection moderne</p>
+    <p>Les Pays-Bas font face à un défi économique existentiel : <strong>77% de l'économie dans les services</strong>, des taux d'imposition 10–15% plus élevés que des concurrents comme Malte et les Émirats arabes unis, et un emploi public qui a augmenté de 9 000 ETP en 2024 tandis que le secteur productif se réduit. Ce programme esquisse une trajectoire : réduction de coûts de 10% par an dans les services internes, l'industrie comme priorité, sécurité de base maintenue.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Le fondement : ce que la sélection EST et N'EST PAS</h2>
+    <p>C'est la partie la plus essentielle du programme et doit toujours être mise en avant :</p>
+    <div class="frame-grid">
+      <div class="frame-col frame-col--wel">
+        <div class="frame-col__header">Sélection sur le comportement &amp; les systèmes</div>
+        <ul>
+          <li>Politique : arrêter ce qui ne fonctionne pas, étendre ce qui fonctionne</li>
+          <li>Entreprises : jeu du marché sur la qualité et l'innovation</li>
+          <li>Comportement : incitations pour la résilience, le travail et la responsabilité</li>
+          <li>Secteurs : industrie et exportation avant les services internes</li>
+        </ul>
+      </div>
+      <div class="frame-col frame-col--niet">
+        <div class="frame-col__header">Jamais de sélection sur la survie</div>
+        <ul>
+          <li>Pas d'eugénisme ni de durcissement de la mortalité infantile</li>
+          <li>La sécurité de base reste toujours garantie</li>
+          <li>Les soins médicaux jamais refusés</li>
+          <li>Pas de sélection sur des caractéristiques innées</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">« Il ne s'agit pas de "la survie du plus apte" au sens social, mais de nécessité économique : sélectionner sur le comportement, les choix et les systèmes, protéger le noyau productif, réduire rigoureusement les services internes. Tout en maintenant la sécurité de base, mais sans illusions. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Les trois priorités sectorielles &amp; chiffres clés</h2>
+    <div class="prioriteit-grid">
+      <div class="prioriteit-card prioriteit-card--1">
+        <div class="prioriteit-card__nr">P1</div>
+        <div class="prioriteit-card__title">Noyau productif — protéger</div>
+        <ul>
+          <li>Industrie, chimie, haute technologie, maritime, agroalimentaire</li>
+          <li>Énergie, logistique, infrastructure TIC</li>
+        </ul>
+        <div class="prioriteit-card__beleid">Allègement fiscal max., charge réglementaire min.</div>
+      </div>
+      <div class="prioriteit-card prioriteit-card--2">
+        <div class="prioriteit-card__nr">P2</div>
+        <div class="prioriteit-card__title">Services compétitifs — neutre</div>
+        <ul>
+          <li>Services financiers, informatique, entreprises exportatrices</li>
+        </ul>
+        <div class="prioriteit-card__beleid">Jeu de marché normal</div>
+      </div>
+      <div class="prioriteit-card prioriteit-card--3">
+        <div class="prioriteit-card__nr">P3</div>
+        <div class="prioriteit-card__title">Services internes — réduire</div>
+        <ul>
+          <li>Administration publique, soins, éducation, semi-public</li>
+        </ul>
+        <div class="prioriteit-card__beleid">Réduction de coûts de 10% par an</div>
+      </div>
+    </div>
+    <div class="kerncijfer-grid" style="margin-top:1rem;">
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">10%</div>
+        <div class="kerncijfer-label">Réduction annuelle des coûts des services internes</div>
+        <div class="kerncijfer-desc">Norme pour toutes les fonctions administratives et politiques</div>
+      </div>
+      <div class="kerncijfer-card">
+        <div class="kerncijfer-getal">5 ans</div>
+        <div class="kerncijfer-label">Parcours de transition vers un taux compétitif</div>
+        <div class="kerncijfer-desc">Objectif : niveau Malte/Abu Dhabi pour l'industrie exportatrice</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Les six domaines en un coup d'œil</h2>
+    <div class="sturing-rij">
+      <div class="sturing-item">
+        <span class="sturing-nr">1</span>
+        <span class="sturing-tekst"><strong>Éducation familiale :</strong> rendre obligatoire le jeu à risque — de « aussi sûr que possible » à « aussi sûr que nécessaire ». Protection de la jeunesse −30% de volume.</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">2</span>
+        <span class="sturing-tekst"><strong>Éducation :</strong> sélection sur le niveau et l'engagement, revalorisation du savoir-faire, financement des études échelonné selon la priorité économique.</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">3</span>
+        <span class="sturing-tekst"><strong>Marché du travail :</strong> travailler rapporte toujours plus (+30% net), croissance zéro de la charge réglementaire pour l'industrie, reconversion vers la technique, système tolérant à l'échec.</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">4</span>
+        <span class="sturing-tekst"><strong>Soins :</strong> plancher dur avec conditions, délibéralisation des soins complexes, contribution personnelle pour qui le peut. Coûts de santé −20%.</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">5</span>
+        <span class="sturing-tekst"><strong>Politique :</strong> gouvernance adaptative — arrêt de 10–20% des programmes chaque année, mise à l'échelle de ce qui fonctionne, projets pilotes comme norme.</span>
+      </div>
+      <div class="sturing-item">
+        <span class="sturing-nr">6</span>
+        <span class="sturing-tekst"><strong>Gouvernance :</strong> 350+ communes expérimentent, l'État mesure le prix/la performance, diffusion des succès via la VNG. Réduction des ETP à La Haye via une surveillance basée sur les résultats.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Conclusion : humain dans le plancher, strict sur les systèmes</h2>
+    <p>Ce programme n'est pas une utopie mais une trajectoire réaliste. Trois piliers :</p>
+    <div class="prr-grid">
+      <div class="prr-card">
+        <div class="prr-card__label">Pilier 1</div>
+        <div class="prr-card__title">Humain dans le plancher</div>
+        <p class="prr-card__desc">La sécurité de base reste toujours garantie. L'accès aux soins médicaux, un toit au-dessus de la tête, une sécurité d'existence minimale sont des droits fondamentaux — pas des variables.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Pilier 2</div>
+        <div class="prr-card__title">Strict sur les systèmes</div>
+        <p class="prr-card__desc">Pas de financement sans fin de l'inefficacité. Les programmes, institutions et secteurs sont continuellement évalués. Ce qui ne fonctionne pas s'arrête.</p>
+      </div>
+      <div class="prr-card">
+        <div class="prr-card__label">Pilier 3</div>
+        <div class="prr-card__title">Protéger le noyau productif</div>
+        <p class="prr-card__desc">Chaque charge sur l'industrie est compensée par une réduction des services internes. Le liège qui porte l'État providence est nourri — pas taxé.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>L'objectif à 5 ans :</strong> un climat d'implantation compétitif pour l'industrie (niveau Malte/Abu Dhabi), une réduction de coûts annuelle de 10% dans les services internes, la sécurité de base maintenue, les signaux d'alerte rouges toujours traités immédiatement.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<aside class="auteursblok">
+  <div class="auteursblok__foto"><img decoding="async" src="../../assets/auteur/jvm_studio.jpg" alt="Jacobus van Merksteijn" loading="lazy"></div>
+  <div class="auteursblok__tekst">
+    <p class="auteur-naam">Jacobus van Merksteijn</p>
+    <p>Rédacteur en chef de Het Open Vizier. Entrepreneur, développeur d'innovations industrielles et de gouvernance (Carbon-Alert Ltd, TerraClean Ltd, GuardSkin Ltd). Écrit sur les enjeux systémiques économiques, écologiques et politiques à partir de son expérience de la machine décisionnelle bruxelloise et de La Haye.</p>
+  </div>
+</aside>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Édition 2 — jeudi 28 mai 2026</p>
+    <p><a href="../">Vers l'édition 2</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+<script src="../../assets/nav-mobile.js" defer></script>
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>

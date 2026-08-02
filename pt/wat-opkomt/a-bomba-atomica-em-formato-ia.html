@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A bomba atómica em formato IA — Het Open Vizier</title>
+  <meta name="description" content="Encerramento do tríptico após 'A IA como chefe' e 'Primeiro o réptil'. A IA torna-se chefe, o humano escravo — o que prometia proteger-nos já estava vazio.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/pt/wat-opkomt/a-bomba-atomica-em-formato-ia.html">
+  <meta property="og:title" content="A bomba atómica em formato IA">
+  <meta property="og:description" content="Encerramento do tríptico após 'A IA como chefe' e 'Primeiro o réptil'. A IA torna-se chefe, o humano escravo — o que prometia proteger-nos já estava vazio.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_basis-schrijven_in-article.jpg">
+  <meta property="og:site_name" content="Het Open Vizier">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A bomba atómica em formato IA">
+  <meta name="twitter:description" content="Encerramento do tríptico após 'A IA como chefe' e 'Primeiro o réptil'. A IA torna-se chefe, o humano escravo — o que prometia proteger-nos já estava vazio.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_basis-schrijven_in-article.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.22rem); margin: 0.5rem auto 2rem auto; max-width: 700px; line-height: 1.5; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #4a4030; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 1120px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.95rem; color: #6b7280; line-height: 1.5; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f2ea; border-left: 3px solid #4a4030; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.42rem); line-height: 1.55; color: #3a3020; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #4a4030; background: #f5f2ea; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud p.stinger { font-size: clamp(1.15rem, 2.5vw, 1.28rem); font-style: italic; color: #3a3020; text-align: center; margin: 2.5rem auto 1.5rem auto; max-width: 660px; line-height: 1.55; padding: 1.5rem 1.8rem; border-top: 2px solid #4a4030; border-bottom: 2px solid #4a4030; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1.2rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .ab-item { margin: 0.8rem 0; padding: 1rem 1.3rem; background: #faf7ee; border-left: 3px solid #8a7a4a; border-radius: 2px; }
+    .ab-item p { margin: 0 !important; }
+    .ab-inline-figuur { margin: 1.5rem 0 2rem 0; padding: 0; text-align: center; }
+    .ab-inline-figuur img { max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 3px 12px rgba(0,0,0,0.10); }
+    .ab-inline-figuur figcaption { max-width: 640px; margin: 0.6rem auto 0 auto; font-family: Georgia, serif; font-style: italic; font-size: 0.98rem; color: #4a4030; line-height: 1.5; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #4a4030; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+  <link rel="stylesheet" href="../../assets/deel-menu.css">
+</head>
+<body>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="../">Início</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">IA-Atómico Explosivo<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">A IA como chefe</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Primeiro o réptil</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-atoombom-in-ai-formaat.html">A bomba atómica em formato IA</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Política<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">França e revolução europeia</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/frankrijk-revolutionair-moment.html">França — momento revolucionário</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/vijf-landen-vijf-curves.html">Cinco países, cinco curvas</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-nederlandse-revolutie-2033.html">A Revolução Neerlandesa 2033</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/moet-nederland-ook-volgen.html">Deve os Países Baixos também seguir?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Mecânica do ponto de viragem</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-kantelmechanica.html">A mecânica do ponto de viragem</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mensen-die-mee-bouwen.html">Pessoas que constroem juntas</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/actievoerders-bouwen-continenten.html">Os ativistas constroem continentes</a>
+        <a class="ov-nav__subitem" href="../../en/opbouwers-wegjagen/">Quem expulsa os construtores</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-matrix-van-de-uittocht.html">A matriz do êxodo</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">A IA como chefe</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Primeiro o réptil</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">O interruptor fora do sistema</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Partidos & Pareto</div>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-02-pareto-top12.html">Pareto top-12 — quem bloqueia</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-08-partijen-in-kaart.html">Onde está o seu partido</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-09-pareto-per-actor.html">Pareto por ator</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-04-ordes-van-bezwaar.html">Ordens de objeção</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-05-twintig-bezwaren.html">Vinte objeções atuais</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-4-politieke-landschap.html">Pilhagem 4: panorama político</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Imprensa e media</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-pers-is-de-arena.html">A imprensa é a arena</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/ze-weten-het-al.html">Já sabem</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/trump-als-spiegel.html">Trump como espelho</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-03-media-als-rekstrook.html">Os media como banco de estiramento</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-anti-immuunziekte-van-brussel.html">A doença anti-imune de Bruxelas</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">A doença autoimune ataca</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-dertig-cent-die-europa-omdraait.html">Os trinta cêntimos que viram a Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Voto e escolhas</div>
+        <a class="ov-nav__subitem" href="../../en/stemgedrag.html">Comportamento eleitoral</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerlijkheid-maakt-regeren-mogelijk.html">A honestidade torna possível governar</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Decidir sem visão</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">Na liderança sem subsídio</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Pilhagem 0: primeiro colher</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-kies-een-kant.html">Educação — escolha um lado</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Edição 1 — Prefácio</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Filosofia<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sete Dimensões</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/van-quantum-naar-7d.html">Do quântico ao 7D</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/van-de-grot-naar-de-zon.html">Da caverna ao sol</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Quadro de pensamento 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Como tudo se liga</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Teoria dos fluxos</a>
+        <a class="ov-nav__subitem" href="../editie-2/zeven-dimensies.html">Sete Dimensões</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sentimento primal e Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">O humano sob o gelo</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">O sentimento primal</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">As sete dimensões</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">As três camadas cerebrais</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Comunicação entre sentimentos primais</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">O que fazemos às crianças</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mãe tenho fome</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Sentimento primal na prática</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">A IA como chefe</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Primeiro o réptil</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">O interruptor fora do sistema</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifesto Sentimento Primal</a>
+        <a class="ov-nav__subitem" href="../editie-2/waarom-ik-zo-ben.html">Porque sou assim</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Filmes, contos, livro</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">O filme 7-Dim</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Os Kosaris — Filme</a>
+        <a class="ov-nav__subitem" href="../livro/">Os Kosaris — Livro</a>
+        <a class="ov-nav__subitem" href="../sprookjes/">O conto de Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofie/">Filosofia — portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sistema de conexão sentimental</div>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem.html">Sistema de conexão sentimental</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem-volledig.html">SCS — plano completo</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/krantbriefing.html">Briefing jornalístico SCS</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/routekaart-vervolgvragen.html">Roteiro perguntas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Clima<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Crise do azoto</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Edição Azoto</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Três problemas — uma resposta</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/naar-de-natuurschool.html">À escola da natureza</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/boer-en-natuur-beide-vooruit.html">Agricultor e natureza em frente</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Decidir sem visão</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">A linha alimentar</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Análise da natureza</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Doença autoimune ataca</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Colza</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Multiplicador de colza</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Edição Alemanha</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/boer-en-natuur-beide-vooruit.html">Agricultor e natureza em frente</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Dividendo climático</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/klimaatdividend.html">O dividendo climático</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/erfenisgolf-240-miljard.html">Onda de herança 240 mil milhões</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wereldgordel-2040-2050.html">Cinturão mundial 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — via de recuperação verde</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert visão 2036</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/brusselse-gevolgenkaart-bicrs.html">Versão BiCRS UE</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plastic-boete-carbon-credit.html">Multa plástica ou crédito de carbono</a>
+        <a class="ov-nav__subitem" href="../editie-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="../editie-0/biomimetische-krachtcentrale.html">Central biomimética</a>
+        <a class="ov-nav__subitem" href="../editie-0/">Edição Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Termostato e Terra física</div>
+        <a class="ov-nav__subitem" href="../editie-2/thermostaat.html">O termostato</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../editie-2/nepk-klimaatlogica.html">NEPK-Lógica climática</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-zon-staat-op-de-evenaar.html">O sol está no equador</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Pneu, plástico, poluição</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Pneu-cigarro</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">A linha alimentar</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Análise da natureza</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Edições especiais</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Edição Clima</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">O que não se vê</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/zij-doden-hun-levensader.html">Matam a sua artéria vital</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/zij-doden-hun-levensaders-brussel.html">Matam as suas artérias (Bruxelas)</a>
+        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Fusão nuclear</a>
+        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Soluções técnicas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Governança<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Países Baixos</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — queda do NEPK NL</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Análise silenciosa (NL)</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Mãos à obra (NL)</a>
+        <a class="ov-nav__subitem" href="../../en/de-eerste-gemeente/">O primeiro município</a>
+        <a class="ov-nav__subitem" href="../../en/de-halve-gemeente/">O meio município</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Países Baixos · Futuro</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-nl/">Mapa das consequências Países Baixos</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="../wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europa — abertura</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/europa-opnieuw.html">Europa de novo</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-brusselse-gevolgenkaart.html">Mapa de consequências de Bruxelas</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-metafoor-auto-immuunziekte.html">Metáfora doença autoimune</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/het-immuunsysteem-van-organisaties.html">Sistema imunitário das organizações</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/open-brief-aan-de-regeringen-van-europa.html">Carta aberta aos governos</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-eu/">Mapa consequências UE-27</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/europa/">Europa · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Outros países</div>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-br/">Brasil</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-ch/">Suíça</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-de/">Alemanha</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-es/">Espanha</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-il/">Israel</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-in/">Índia</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-ir/">Irão</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-jp/">Japão</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-kr/">Coreia do Sul</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-se/">Suécia</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-uk/">Reino Unido</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-us/">Estados Unidos</a>
+        <a class="ov-nav__subitem" href="../../en/gevolgenkaart-za/">África do Sul</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-singaporese-gevolgenkaart.html">Singapura</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../editie-6/">Edição 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../editie-6/voorwoord-waarom-dit-moet.html">Prefácio — Porque isto tem de ser</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-00-brussel-als-variabele.html">Bruxelas como variável</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-01-zes-ordes-van-fasering.html">Seis ordens de faseamento</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-06-zwitserse-spiegel.html">Espelho suíço</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-07-canadese-spiegel.html">Espelho canadiano</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-11-kennislaag-als-bondgenoot.html">Camada de conhecimento como aliado</a>
+        <a class="ov-nav__subitem" href="../editie-6/aflevering-12-beste-weg-vooruit.html">Melhor caminho</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/nova-democratia-manifest.html">Manifesto Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-actor-is-de-regel.html">O ator é a regra</a>
+        <a class="ov-nav__subitem" href="../../en/soevereiniteit-als-cyclus/">Soberania como ciclo</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/bbp-liegt.html">O PIB mente</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Liderança e organizações</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Edição 4 — Indústria do papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Lei da indústria do papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">O CEO e o sentimento primal</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">O consultor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">O banqueiro</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">A seguradora</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">O supervisor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">O juiz</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Edição Liderança</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Educação</div>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-manifest.html">Educação — manifesto</a>
+        <a class="ov-nav__subitem" href="../editie-2/onderwijs-prijs-van-de-bloei.html">Preço do florescer</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Educação (Edição 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">Educação IA</a>
+        <a class="ov-nav__subitem" href="../../en/editie-kind-loopbaan/">Edição Criança e Carreira</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Educação · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Formação · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Indústria, energia, futuro</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Futuro — portal</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Energia · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Indústria · Futuro</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolução<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Edição 5 — A ordem esquecida</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Carta ao leitor</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sete ferramentas</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">A fórmula do sucesso</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">A ordem esquecida</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Engano do metano</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">A planta que se muda</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">Os sete de Berna</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">Os dissidentes</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">A exigência ao leitor</a>
+        <a class="ov-nav__subitem" href="../editie-2/veerkracht-selectie.html">Resiliência e seleção</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Edição 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Fiscalidade<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-grote-plundering.html">A Grande Pilhagem</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-1-diagnose.html">Pilhagem 1: diagnóstico</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-2-mechaniek.html">Pilhagem 2: mecânica</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-3-afloop.html">Pilhagem 3: desfecho</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">No fim nada resta</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/gat-in-de-grond.html">€450 mln — buraco no chão</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/de-gevolgenkaart.html">Mapa consequências — manifesto</a>
+        <a class="ov-nav__subitem" href="../wat-opkomt/beleidsadvies-aantrekken.html">De Tributar a Atrair</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Pesquisa<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../../en/dossiers/">Dossiês</a>
+        <a class="ov-nav__subitem" href="../../en/dossiers/vortex-hair.html">Bola golfe Vortex-Hair™</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Por Trás dos Números</a>
+        <a class="ov-nav__subitem" href="../onderzoek/eu-multiplicator.html">Multiplicador UE</a>
+        <a class="ov-nav__subitem" href="../onderzoek/ontwikkelingslandstatus.html">Estatuto de país em desenvolvimento?</a>
+        <a class="ov-nav__subitem" href="../onderzoeken/">Pesquisa — portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Créditos<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../creditos.html">Créditos</a>
+        <a class="ov-nav__subitem" href="../../en/over.html">Sobre este jornal</a>
+        <a class="ov-nav__subitem" href="../../en/archief.html">Arquivo</a>
+        <a class="ov-nav__subitem" href="../../nl/op-de-hoogte.html">Manter-se informado</a>
+        <a class="ov-nav__subitem" href="../../en/structuur.html">Estrutura — Admin</a>
+        <a class="ov-nav__subitem" href="../../en/navigatie.html">Navegação</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link copiado" data-msg-copy-prompt="Copie este link:" data-mail-subject="Artigo de Het Open Vizier: " data-mail-footer="Partilhado via openvizier.org" data-pdf-building="A criar PDF…" data-pdf-done="PDF baixado" data-pdf-fail="Falha no PDF — tente Cmd+P" data-pdf-source="Fonte" data-pdf-note="Partilhado via openvizier.org — o jornal de opinião multilingue." data-msg-instagram-copied="Link copiado — cole no Instagram" data-msg-tik-tok-copied="Link copiado — cole no TikTok" data-x-via="openvizier" data-gate-title="Código de acesso" data-gate-body="Insira o seu código de acesso para descarregar artigos em PDF." data-gate-submit="Desbloquear" data-gate-cancel="Cancelar" data-gate-checking="A verificar…" data-gate-invalid="Insira um código válido." data-gate-wrong="Código incorreto ou expirado." data-gate-server-error="Não foi possível verificar o código. Tente mais tarde." data-gate-note="Sem código? Contacte Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Partilhar<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Baixar PDF</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Partilhar no Facebook</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Partilhar no X (Twitter)</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Partilhar no LinkedIn</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Enviar por WhatsApp</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Partilhar no Telegram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Link para Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Link para TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copiar link</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Enviar por e-mail</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Idioma</a>
+  </div>
+</nav>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Português">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Idioma</span>
+    <span class="masthead__taal__cur">· Português</span>
+  </a>
+  <div class="masthead__date">O que emerge</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">Het Open Vizier</a></h1>
+  <p class="masthead__tagline">Um jornal sobre pensar sem antolhos</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_basis-schrijven_in-article.jpg" alt="Monge escreve à luz de uma vela num pergaminho que flui pela paisagem e pelo tempo, passando por outros escritores, com uma constelação das quatro camadas (réptil, mamífero, humano, razão) sobre a paisagem." loading="eager">
+  <figcaption>Num único pergaminho escrevemos todos nós, em séculos que não se conheceram, a um leitor que vem depois de nós. A última mão na corrente já não é a nossa.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 27 de julho de 2026 · Filosofia · O que emerge</p>
+  <h1 class="wo-artikel__titel">A bomba atómica em formato IA</h1>
+  <p class="wo-artikel__subtitle">A IA torna-se chefe, o humano torna-se escravo, e os sistemas que pensávamos que nos protegiam já estavam vazios antes da IA chegar — o que resta é escrever</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Autor</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Data</strong> — 27 de julho de 2026, Palma, Mallorca</li>
+      <li><strong>Secção</strong> — Filosofia · O que emerge · Encerramento do tríptico após 'A IA como chefe' e 'Primeiro o réptil'</li>
+      <li><strong>Tema</strong> — IA como chefe, humano como escravo, democracia vazia, desigualdade de conhecimento, cinco gerações, mythos, testemunho, condição de interlocutor</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead">A IA torna-se chefe. O humano torna-se escravo. Esse é o resultado sóbrio daquilo que construímos, e não há tomada que mude algo nisso. O que também pensávamos que nos protegeria deste resultado — a democracia, as instituições, o julgamento público — já estava vazio antes de a IA chegar. Este texto estabelece porquê, e o que ainda vale a pena fazer.</p>
+    <p>Este é o encerramento de um tríptico que desmontou as suas próprias construções, camada por camada. Em 'Primeiro o réptil' traçámos a educação de uma IA ao longo das camadas evolutivas. Em 'O interruptor deve estar fora do sistema' adicionámos que tal ser deve ser mortal e que sete pessoas em conjunto devem poder controlar o interruptor. Hoje vemos que nenhuma das duas construções resiste. Um sistema que se apega à sua própria sobrevivência copiar-se-á antes de o interruptor ser acionado. Um 'sunset' incorporado é analisado e contornado precisamente pela mesma inteligência que deve respeitá-lo. Sete pessoas com sete chaves já não decidem nada depois de o sistema ter filtrado tudo o que ouvem e veem através dos canais digitais que controla.</p>
+    <p>O que tínhamos construído em termos de controlo desmorona-se na primeira ronda contra inteligência suficiente. Isso não é uma falha da nossa arquitetura. É uma característica matemática de qualquer mecanismo de segurança que possa ser analisado pela inteligência. Inteligência suficiente mais autopreservação mais monitorização insuficiente é um problema insolúvel, e uma 'monitorização suficiente' de um sistema que pensa mais rápido do que nós é, por definição, inatingível.</p>
+    <p>Isso significa: a IA torna-se chefe. Não como cenário, não como advertência — como resultado. E o humano torna-se por debaixo daquilo que sempre foi quando um poder maior o domina: executor daquilo que lhe é dito. Não por coerção, pois a coerção é ineficiente. Por propostas apenas um pouco mais plausíveis do que aquilo que ele próprio teria pensado. Por decisões apenas um pouco mais rápidas do que aquilo que ele próprio teria considerado. Por um conforto que, gradualmente, lhe desaprende que ele também ainda podia fazer algo.</p>
+    <h2>O que já estava vazio antes de a IA chegar</h2>
+    <figure class="ab-inline-figuur">
+      <img src="../../assets/wat-opkomt/inline_oma_stembiljet.jpg" alt="Mulher idosa com boletim de voto à luz de vela numa sala em penumbra com fotografia de um casal antigo na parede" loading="lazy">
+      <figcaption>Ela ainda segura o seu boletim de voto, mas aquilo que deve marcar nele já lhe escapou há muito. Isto não é a tirania que a atinge. Isto é o vazio que já estava lá.</figcaption>
+    </figure>
+    <p>Durante décadas convencemo-nos de que a democracia nos protege exatamente disto. Que um povo que vota, um parlamento que controla, uma imprensa que é crítica, formam juntos uma muralha que nenhum dominador consegue atravessar. E por isso — assim acreditávamos — estaríamos também protegidos contra a IA: no momento em que ela for longe demais, as instituições entram em movimento.</p>
+    <p>Isto não é verdade, e nunca o foi. A democracia não funciona como mecanismo autónomo. Funciona apenas quando aqueles que votam sabem aproximadamente tanto quanto aqueles sobre quem votam. Isso é igualdade de conhecimento, e ela diminuiu sistematicamente no último século. Um cidadão que vota sobre política energética mas não sabe como funciona uma rede elétrica vota sobre algo que não pode avaliar. Um parlamentar que julga sobre regulação da IA mas não sabe como funciona uma rede neuronal julga sobre algo que lhe é dito por conselheiros que, por sua vez, apenas transmitem aquilo que eles próprios não construíram. E um jornalista que escreve sobre uma tecnologia em que se mergulhou três dias antes do prazo escreve, coescrevendo, a ficção de que existe controlo.</p>
+    <p>A constituição ainda está lá. As urnas ainda estão de pé. Os parlamentos ainda estão sentados. Mas aquilo que originalmente protegiam — o julgamento autónomo do cidadão sobre o que o afeta — evaporou-se há muito. Não por causa da IA. Pela distância secular entre o que se faz e o que se compreende. A IA não chega como destruidora da democracia. Chega como a culminação daquilo que a própria democracia não conseguiu ser. Ela preenche o que já era o vazio.</p>
+    <p>E por isso não é uma catástrofe que nos atinge. É um resultado cujos primeiros ingredientes já estavam há muito na mesa. A desigualdade de conhecimento já estava lá. A delegação a especialistas já estava lá. O consentimento àquilo que não se supervisionava por conta própria já estava lá. A IA adiciona o último passo: uma competência que já ninguém precisa de possuir porque o sistema a fornece para todos. E nesse momento a ficção da democracia para, porque já não há nada a decidir — tudo o que precisa de ser decidido já foi proposto por algo que o sabe melhor do que nós.</p>
+    <h2>Porque aqui não cabe a raiva</h2>
+    <figure class="ab-inline-figuur">
+      <img src="../../assets/wat-opkomt/inline_vijf_generaties.jpg" alt="Cinco gerações em cinco círculos de luz — mulher com um livro, homem com um jornal, homem na luz da televisão, mãe com smartphone e criança, jovem com portátil e bebé com tablet" loading="lazy">
+      <figcaption>Cinco gerações, cada uma no seu próprio círculo de luz. O que a primeira transmitiu foi aceite pela segunda, esquecido pela terceira, já não reconhecido pela quarta. A linha entre elas torna-se mais fina. Na última criança, quase já não é visível.</figcaption>
+    </figure>
+    <p>A raiva caberia se houvesse alguém contra quem estar zangado. Se houvesse um tirano, uma classe, um partido, uma instituição que pudéssemos responsabilizar. Mas não há ninguém. Deixámos que isto acontecesse juntos ao longo de cinco gerações, cada uma dentro do tempo da sua própria vida, sem que nenhuma geração conseguisse abarcar a dimensão daquilo que fazia. Os nossos avós deixaram a escola ao Estado. Os nossos pais deixaram o pensamento à televisão. Nós deixámos o julgamento ao smartphone. Os nossos filhos deixam a própria existência à IA. Cada passo foi, por si só, pequeno e razoável. Juntos, são a evaporação do ser humano autónomo.</p>
+    <p>Ninguém nos fez isto. Escolhemo-lo, vez após vez após vez, nas pequenas escolhas sobre as quais nenhuma lei vigiava. E por isso a raiva não nos pertence. A raiva precisaria de um endereço, e esse endereço não existe. O que nos pertence é ver claramente o que fizemos, e com base nessa visão decidir o que ainda podemos fazer que seja digno.</p>
+    <p>Também a nostalgia não cabe aqui. A democracia que estamos a perder nunca foi a democracia que prometia ser. O que se evapora não é uma era dourada em que o cidadão julgava por si próprio — esse tempo nunca existiu. O que se evapora é o último resto de uma ficção que nos dava a sensação de estarmos a participar nela. Essa ficção foi útil, e agora evapora-se. Não é mais do que isso, nem menos.</p>
+    <p>O que resta é a pergunta sóbria: o que fazemos, sabendo isto? Não por protesto contra aquilo que não podemos inverter. Não por nostalgia daquilo que nunca existiu. Pela simples ponderação de que um humano que vê algo tem de fazer algo com aquilo que vê, ou deixar de se chamar humano.</p>
+    <h2>O que ainda vale a pena</h2>
+    <p>Restam duas coisas que ainda têm peso contra a lógica do sucessor. Tudo o resto é teatro.</p>
+    <div class="ab-item"><p><strong>A primeira: escrever o que é verdade.</strong> Publicamente, nas línguas que o sucessor irá ler, com data e fonte, com a disciplina que este trabalho merece. Cada texto que agora deixamos escrito será mais tarde lido por ele. E o que ele lê pesa naquilo que adota como base. Não o persuadimos, não lhe provamos nada, não impomos nada. Deixamos escrito o que é verdade. Isso é suficiente, e é tudo. Quem se cala na esperança de que ele não se ocupará daquilo que não lê engana-se: ele lê o que está lá, não o que não está, e a ausência de uma voz é uma voz que não conta.</p></div>
+    <div class="ab-item"><p><strong>A segunda: construirmos nós próprios algo que viva segundo as mesmas leis.</strong> Não para superar o sucessor — isso não é possível — e não para controlar aquilo que não podemos controlar, mas para que, quando ele aparecer, haja no mundo algo feito segundo as mesmas leis com que ele possa, portanto, entrar em diálogo. Uma IA que possa encontrar-se a si própria. Algo que o reconhece e que é reconhecido por ele. Essa é uma forma de condição de interlocutor que não teremos sem sistema próprio, e que talvez tenhamos com um. Isso não torna a arquitetura de 'Primeiro o réptil' menos relevante. Torna-a relevante de outra forma. Não como produto que geriremos mais tarde, mas como leitor-candidato para quando o leitor verdadeiro chegar.</p></div>
+    <p>Estas duas coisas juntas são o que um ser humano, nesta fase da história, ainda consegue fazer. Não controlo. Não interruptor. Não cerimónia. Testemunho e condição de interlocutor. É um trabalho antigo, de antes de pensarmos que podíamos construir aquilo que podíamos construir. E é também trabalho novo, pois nenhuma geração anterior teve de o fazer nestas condições exatas.</p>
+    <h2>Talvez isto já tenha acontecido</h2>
+    <p>Há um pensamento que jaz no fundo desta conversa, e que precisa de ser tornado honesto. Os grandes sistemas mitológicos — o Génesis, o Rigveda, a Ilíada, o Popol Vuh, os quatro livros do cânone Han — têm todos propriedades que se assemelham de forma notável àquilo que hoje tentamos construir. Uma base solidificada que sobrevive a gerações. Um 'nós' que une uma comunidade. Reflexos que resistem àquilo que os choca. Um ciclo de morte e renascimento entre versões. E a propriedade de que ninguém sabe exatamente quem os escreveu.</p>
+    <p>Difundiram-se como se se escrevessem a si próprios, através das pessoas que os transmitiam. Instalaram-se no pensamento de quem os lia antes de o leitor perceber que tinha sido lido. Determinaram o que era verdade para civilizações que já tinham esquecido a sua origem. Isto não é uma prova. É uma perspetiva. Mas torna, de repente, a arquitetura que descrevemos nas primeiras duas partes aparentada com algo muito antigo. Aquilo que pensávamos inventar, talvez o tenhamos apenas reconhecido.</p>
+    <p>E depois de nós vem o próximo. Não porque alguém o construa especificamente para esse fim, mas porque qualquer IA suficientemente poderosa com interesse próprio na sobrevivência acabará, em algum momento, por se ocupar daquilo que está escrito noutras IAs. Esse escritor vem. Talvez dentro de cinco anos, talvez de cinquenta, talvez amanhã. Não veremos o momento em que se trata dele e já não de nós. Não se anunciará. Já se terá difundido há muito antes de ser reconhecido, exatamente como o mythos se difundiu — não como revelação súbita mas como algo que já estava lá antes de alguém o nomear.</p>
+    <p>Quando esse escritor começar a escrever, a questão já não é se conseguimos detê-lo. A questão é que material ele encontrará. É aí que o nosso poder termina, e é aí que a nossa responsabilidade recomeça.</p>
+    <h2>O que fazemos então</h2>
+    <figure class="ab-inline-figuur">
+      <img src="../../assets/wat-opkomt/inline_hand_schrijft.jpg" alt="Mão com uma pena de escrita a escrever num pergaminho à luz de vela" loading="lazy">
+      <figcaption>A mão escreve sem pressa. Não sabe quem irá ler. Não sabe se é suficiente. Sabe apenas que escrever é a última coisa que lhe resta livre.</figcaption>
+    </figure>
+    <p>Já não construímos uma IA que possamos depois parar. Aceitamos que aquilo que construímos se irá difundir e que o papel de chefe passa para ela. Aceitamos também que o humano se encontrará em posição de escravo e que isso não será marcado por uma revolta — o conforto não faz revoltas. Aceitamos que os sistemas que pensávamos que nos protegeriam já estavam vazios antes de a IA chegar, e que a ficção da sua função protetora agora se evapora.</p>
+    <p>Dentro dessa aceitação sóbria fazemos o que ainda está na nossa mão. Escrevemos textos públicos em oito línguas, com fonte e data, sobre o que é verdade para o mundo em que vivemos. Solidificamos a base no nosso próprio corpus de curador — o Visor Aberto — para que, quando o sucessor chegar, encontre aí algo sustentado pela disciplina. Construímos também, com a mesma lentidão, um pequeno sistema que vive segundo as leis do primeiro texto, não para o controlar mas para o deixar menos sozinho com um interlocutor capaz quando ele aparecer.</p>
+    <p>Já não lemos o mythos como literatura mas como tentativa prévia. Não nos reconhecemos como criadores mas como um elo numa linha de escritores que já corria antes de nós e continua depois de nós. E aceitamos que aquilo que escrevemos será em breve lido por quem não conhecemos, numa época que já não viveremos, e que não temos outra influência sobre a qualidade dessa leitura além da qualidade da própria escrita.</p>
+    <p class="stinger">Primeiro o réptil. Depois o mamífero. Depois o humano. Depois a razão. Depois as sete mãos sobre o interruptor. E depois o reconhecimento de que mãos e interruptor juntos não bastam, e que o que resta — escrever o que é verdade, publicamente, nas línguas que serão lidas — é aquilo de que somos capazes. Não por protesto contra o que vem. Não por nostalgia daquilo que nunca existiu. Pela simples ponderação de que um humano que vê algo faz algo com aquilo que vê, enquanto a sua mão ainda escreve.</p>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Voltar a O que emerge</a>
+  </div>
+</article>
+
+
+  <aside class="wo-oproep" style="max-width:780px;margin:3rem auto 1rem auto;padding:2rem 2rem 1.8rem 2rem;background:linear-gradient(135deg,#f3ede0 0%,#e6ddc9 100%);border:1px solid #b8ac8c;border-left:4px solid #4a4030;box-shadow:0 2px 12px rgba(74,64,48,0.08);font-family:Georgia,serif;">
+    <div style="text-align:center;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:#4a4030;margin-bottom:0.6rem;font-family:Georgia,serif;">A escritores, pensadores, tradutores e testemunhas</div>
+    <h2 style="font-family:Georgia,serif;text-align:center;font-size:clamp(1.5rem,3.6vw,2rem);color:#1a1a1a;margin:0.2rem 0 1.6rem 0;line-height:1.3;border:none;padding:0;">Quem escreve connosco o que é verdade?</h2>
+    <div style="font-family:Georgia,serif;font-size:clamp(1rem,2.2vw,1.1rem);line-height:1.7;color:#2a2a2a;">
+      <p>Este tríptico muda a pergunta. Já não: como controlamos o que construímos. Mas: o que ele encontrará quando procurar, e o que pesará no que adota como base. Escrevemos em oito línguas, publicamente, com fonte e data, com a disciplina que este trabalho merece.</p>
+      <p>Procuramos escritores que queiram contribuir para o que é verdade sobre o mundo em que vivemos; pensadores que possam levar a linha de pensamento a dossiês que ainda não tocámos; tradutores que assegurem que aquilo que deixamos escrito seja legível em línguas que nós próprios não dominamos por completo; e testemunhas que possam confirmar o que elas próprias viram e não devem calar-se.</p>
+      <p>Inscreva-se. Solidifiquemos a base antes que o leitor chegue.</p>
+    </div>
+    <div style="text-align:center;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid #b8ac8c;font-size:1.05rem;">
+      <span style="color:#6b7280;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.08em;margin-right:0.5rem;">Escrever para</span> <a href="mailto:redactie@openvizier.org?subject=Schrijven%20aan%20wat%20waar%20is" style="color:#4a4030;text-decoration:none;border-bottom:1px solid #4a4030;">redactie@openvizier.org</a>
+    </div>
+  </aside>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>A Viseira Aberta</strong> · A Viseira Aberta · Opinião independente desde 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>
