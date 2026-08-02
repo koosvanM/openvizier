@@ -466,140 +466,6 @@
   }
 </style>
   <link rel="stylesheet" href="../../assets/ov-nav.css">
-<style>
-  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
-  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
-  .ov-nav__item {
-    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
-    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
-    font-size:0.95rem; line-height:1.2;
-    transition: background-color 180ms ease-out, color 180ms ease-out;
-  }
-  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
-  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
-  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
-
-  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
-  .ov-nav__dropdown { position:relative; display:inline-block; }
-  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
-  .ov-nav__submenu {
-    position:absolute; top:100%; left:0; min-width:220px;
-    background:#ffffff; border:1px solid #d4d1ca;
-    box-shadow:0 8px 24px rgba(0,0,0,0.10);
-    padding:0.4rem 0; z-index:1000; border-radius:4px;
-    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
-    opacity:0; visibility:hidden;
-    transform: translateY(-4px);
-    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
-  }
-  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
-  .ov-nav__dropdown::after {
-    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
-    pointer-events:auto;
-  }
-  .ov-nav__dropdown:hover .ov-nav__submenu,
-  .ov-nav__dropdown:focus-within .ov-nav__submenu {
-    opacity:1; visibility:visible; transform: translateY(0);
-    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
-  }
-
-  .ov-nav__subitem {
-    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
-    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
-    transition: background-color 150ms ease-out, color 150ms ease-out;
-  }
-  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
-  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
-
-  @media (max-width:720px) {
-    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
-    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
-    .ov-nav__submenu {
-      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
-      min-width:0; background:transparent;
-      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
-      opacity:1; visibility:visible; transform:none; transition:none;
-      display:none;
-    }
-    .ov-nav__dropdown::after { display:none; }
-    .ov-nav__dropdown:hover .ov-nav__submenu,
-    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
-  }
-
-  /* Respecteer 'reduced motion' — zet alle overgangen uit */
-  @media (prefers-reduced-motion: reduce) {
-    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
-    .ov-nav__submenu { transform:none !important; }
-  }
-</style>
-<style>
-  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
-  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
-  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
-  .ov-nav__item {
-    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
-    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
-    font-size:0.95rem; line-height:1.2;
-    transition: background-color 180ms ease-out, color 180ms ease-out;
-  }
-  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
-  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
-  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
-
-  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
-  .ov-nav__dropdown { position:relative; display:inline-block; }
-  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
-  .ov-nav__submenu {
-    position:absolute; top:100%; left:0; min-width:220px;
-    background:#ffffff; border:1px solid #d4d1ca;
-    box-shadow:0 8px 24px rgba(0,0,0,0.10);
-    padding:0.4rem 0; z-index:1000; border-radius:4px;
-    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
-    opacity:0; visibility:hidden;
-    transform: translateY(-4px);
-    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
-  }
-  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
-  .ov-nav__dropdown::after {
-    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
-    pointer-events:auto;
-  }
-  .ov-nav__dropdown:hover .ov-nav__submenu,
-  .ov-nav__dropdown:focus-within .ov-nav__submenu {
-    opacity:1; visibility:visible; transform: translateY(0);
-    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
-  }
-
-  .ov-nav__subitem {
-    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
-    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
-    transition: background-color 150ms ease-out, color 150ms ease-out;
-  }
-  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
-  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
-
-  @media (max-width:720px) {
-    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
-    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
-    .ov-nav__submenu {
-      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
-      min-width:0; background:transparent;
-      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
-      opacity:1; visibility:visible; transform:none; transition:none;
-      display:none;
-    }
-    .ov-nav__dropdown::after { display:none; }
-    .ov-nav__dropdown:hover .ov-nav__submenu,
-    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
-  }
-
-  /* Respecteer 'reduced motion' — zet alle overgangen uit */
-  @media (prefers-reduced-motion: reduce) {
-    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
-    .ov-nav__submenu { transform:none !important; }
-  }
-</style>
 </head>
 <body>
 
@@ -614,34 +480,306 @@
   <p class="masthead__tagline">Um jornal sobre pensar sem antolhos</p>
 </header>
 
-<nav class="ov-nav" aria-label="Hoofdmenu">
+<nav class="ov-nav" aria-label="Menu">
   <div class="ov-nav__inner">
-    <a class="ov-nav__item" href="../">Capa</a>
+    <a class="ov-nav__item" href="../">Início</a>
     <div class="ov-nav__dropdown">
-      <a class="ov-nav__item ov-nav__item--fallback ov-nav__item--has-dropdown" href="../../nl/filosofie/">Filosofia <span aria-hidden="true" class="ov-nav__caret">▾</span></a>
+      <a class="ov-nav__item" href="#">IA-Atómico Explosivo<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem ov-nav__subitem--fallback" href="../../nl/filosofie/">Filosofia</a>
-        <a class="ov-nav__subitem" href="../contos/">Conto</a>
-        <a class="ov-nav__subitem" href="../livro/">Livro</a>
-        <a class="ov-nav__subitem" href="../7-dim-film/">7-Dim Film</a>
-        <a class="ov-nav__subitem" href="../kosaris-film/">Filme Kosaris</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-ai-als-baas.html">A IA como chefe</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/eerst-het-reptiel.html">Primeiro o réptil</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-atoombom-in-ai-formaat.html">A bomba atómica em formato IA</a>
       </div>
     </div>
-    <a class="ov-nav__item" href="../o-que-emerge/">Novo</a>
-    <a class="ov-nav__item" href="../verkennen.html">Vista geral</a>
-    <a class="ov-nav__item ov-nav__item--fallback" href="../../nl/editie-6/">Nova Democratia</a>
-    <a class="ov-nav__item ov-nav__item--fallback" href="../../nl/editie-2/">Impostos</a>
-    <a class="ov-nav__item ov-nav__item--fallback" href="../../nl/onderzoeken/">Pesquisa</a>
-    <a class="ov-nav__item ov-nav__item--fallback" href="../../nl/colofon.html">Créditos</a>
-    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link copiado" data-msg-copy-prompt="Copie este link:" data-mail-subject="Artigo de Het Open Vizier: " data-mail-footer="Partilhado via openvizier.org" data-pdf-building="A criar PDF…" data-pdf-done="PDF baixado" data-pdf-fail="Falha no PDF — tente Cmd+P" data-pdf-source="Fonte" data-pdf-note="Partilhado via openvizier.org — o jornal de opinião multilingue." data-gate-title="Código de acesso" data-gate-body="Insira o seu código de acesso para descarregar artigos em PDF." data-gate-submit="Desbloquear" data-gate-cancel="Cancelar" data-gate-checking="A verificar…" data-gate-invalid="Insira um código válido." data-gate-wrong="Código incorreto ou expirado." data-gate-server-error="Não foi possível verificar o código. Tente mais tarde." data-gate-note="Sem código? Contacte Het Open Vizier.">
-      <a class="ov-nav__item ov-nav__item--has-dropdown" href="#partilhar">Partilhar <span aria-hidden="true" class="ov-nav__caret">▾</span></a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Política<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Baixar PDF</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Partilhar no Facebook</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copiar link</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Enviar por e-mail</span></a>
+        <div class="ov-nav__submenu-groep">França e revolução europeia</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/frankrijk-revolutionair-moment.html">França — momento revolucionário</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/vijf-landen-vijf-curves.html">Cinco países, cinco curvas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-nederlandse-revolutie-2033.html">A Revolução Neerlandesa 2033</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/moet-nederland-ook-volgen.html">Deve os Países Baixos também seguir?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Mecânica do ponto de viragem</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-kantelmechanica.html">A mecânica do ponto de viragem</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/mensen-die-mee-bouwen.html">Pessoas que constroem juntas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/actievoerders-bouwen-continenten.html">Os ativistas constroem continentes</a>
+        <a class="ov-nav__subitem" href="../opbouwers-wegjagen/">Quem expulsa os construtores</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-matrix-van-de-uittocht.html">A matriz do êxodo</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-ai-als-baas.html">A IA como chefe</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/eerst-het-reptiel.html">Primeiro o réptil</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-stekker-buiten-het-systeem.html">O interruptor fora do sistema</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Partidos & Pareto</div>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-02-pareto-top12.html">Pareto top-12 — quem bloqueia</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-08-partijen-in-kaart.html">Onde está o seu partido</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-09-pareto-per-actor.html">Pareto por ator</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-04-ordes-van-bezwaar.html">Ordens de objeção</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-05-twintig-bezwaren.html">Vinte objeções atuais</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-4-politieke-landschap.html">Pilhagem 4: panorama político</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Imprensa e media</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-pers-is-de-arena.html">A imprensa é a arena</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/ze-weten-het-al.html">Já sabem</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/trump-als-spiegel.html">Trump como espelho</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-03-media-als-rekstrook.html">Os media como banco de estiramento</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-anti-immuunziekte-van-brussel.html">A doença anti-imune de Bruxelas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-auto-immuunziekte-slaat-toe.html">A doença autoimune ataca</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-dertig-cent-die-europa-omdraait.html">Os trinta cêntimos que viram a Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Voto e escolhas</div>
+        <a class="ov-nav__subitem" href="../stemgedrag.html">Comportamento eleitoral</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/eerlijkheid-maakt-regeren-mogelijk.html">A honestidade torna possível governar</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/beslissen-zonder-uitzicht.html">Decidir sem visão</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/aan-de-leiding-drie-blokken-zonder-subsidie.html">Na liderança sem subsídio</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-0-eerst-plukken-dan-oordelen.html">Pilhagem 0: primeiro colher</a>
+        <a class="ov-nav__subitem" href="../edicao-2/onderwijs-kies-een-kant.html">Educação — escolha um lado</a>
+        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Edição 1 — Prefácio</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
       </div>
     </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Filosofia<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sete Dimensões</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/van-quantum-naar-7d.html">Do quântico ao 7D</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/van-de-grot-naar-de-zon.html">Da caverna ao sol</a>
+        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Quadro de pensamento 7D</a>
+        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Como tudo se liga</a>
+        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Teoria dos fluxos</a>
+        <a class="ov-nav__subitem" href="../edicao-2/zeven-dimensies.html">Sete Dimensões</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sentimento primal e Kosaris</div>
+        <a class="ov-nav__subitem" href="../editie-3/index.html">O humano sob o gelo</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">O sentimento primal</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">As sete dimensões</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">As três camadas cerebrais</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Comunicação entre sentimentos primais</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">O que fazemos às crianças</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mãe tenho fome</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Sentimento primal na prática</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-ai-als-baas.html">A IA como chefe</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/eerst-het-reptiel.html">Primeiro o réptil</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-stekker-buiten-het-systeem.html">O interruptor fora do sistema</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/manifest-ruimte-voor-het-oergevoel.html">Manifesto Sentimento Primal</a>
+        <a class="ov-nav__subitem" href="../edicao-2/waarom-ik-zo-ben.html">Porque sou assim</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Filmes, contos, livro</div>
+        <a class="ov-nav__subitem" href="../7-dim-film/">O filme 7-Dim</a>
+        <a class="ov-nav__subitem" href="../kosaris-film/">Os Kosaris — Filme</a>
+        <a class="ov-nav__subitem" href="../livro/">Os Kosaris — Livro</a>
+        <a class="ov-nav__subitem" href="../contos/">O conto de Jacobus</a>
+        <a class="ov-nav__subitem" href="../filosofia/">Filosofia — portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sistema de conexão sentimental</div>
+        <a class="ov-nav__subitem" href="../pesquisa/gevoelsconnectiesysteem.html">Sistema de conexão sentimental</a>
+        <a class="ov-nav__subitem" href="../pesquisa/gevoelsconnectiesysteem-volledig.html">SCS — plano completo</a>
+        <a class="ov-nav__subitem" href="../pesquisa/krantbriefing.html">Briefing jornalístico SCS</a>
+        <a class="ov-nav__subitem" href="../pesquisa/routekaart-vervolgvragen.html">Roteiro perguntas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Clima<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Crise do azoto</div>
+        <a class="ov-nav__subitem" href="../editie-stikstof/">Edição Azoto</a>
+        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Três problemas — uma resposta</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/naar-de-natuurschool.html">À escola da natureza</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/boer-en-natuur-beide-vooruit.html">Agricultor e natureza em frente</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/beslissen-zonder-uitzicht.html">Decidir sem visão</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-methodologie-van-de-aanpassing.html">A linha alimentar</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-op-de-natuur-aangepaste-analyse.html">Análise da natureza</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-auto-immuunziekte-slaat-toe.html">Doença autoimune ataca</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Colza</div>
+        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Multiplicador de colza</a>
+        <a class="ov-nav__subitem" href="../editie-duitsland/">Edição Alemanha</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/boer-en-natuur-beide-vooruit.html">Agricultor e natureza em frente</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Dividendo climático</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/klimaatdividend.html">O dividendo climático</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/erfenisgolf-240-miljard.html">Onda de herança 240 mil milhões</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/wereldgordel-2040-2050.html">Cinturão mundial 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/the-downline.html">The Downline — via de recuperação verde</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/carbon-alert-visie-2036.html">Carbon-Alert visão 2036</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/brusselse-gevolgenkaart-bicrs.html">Versão BiCRS UE</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plastic-boete-carbon-credit.html">Multa plástica ou crédito de carbono</a>
+        <a class="ov-nav__subitem" href="../edicao-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="../edicao-0/biomimetische-krachtcentrale.html">Central biomimética</a>
+        <a class="ov-nav__subitem" href="../edicao-0/">Edição Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Termostato e Terra física</div>
+        <a class="ov-nav__subitem" href="../edicao-2/thermostaat.html">O termostato</a>
+        <a class="ov-nav__subitem" href="../edicao-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="../edicao-2/nepk-klimaatlogica.html">NEPK-Lógica climática</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-zon-staat-op-de-evenaar.html">O sol está no equador</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Pneu, plástico, poluição</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-autoband-is-het-nieuwe-sigaret.html">Pneu-cigarro</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-methodologie-van-de-aanpassing.html">A linha alimentar</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-op-de-natuur-aangepaste-analyse.html">Análise da natureza</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Edições especiais</div>
+        <a class="ov-nav__subitem" href="../editie-klimaat/">Edição Clima</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">O que não se vê</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/zij-doden-hun-levensader.html">Matam a sua artéria vital</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/zij-doden-hun-levensaders-brussel.html">Matam as suas artérias (Bruxelas)</a>
+        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Fusão nuclear</a>
+        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Soluções técnicas</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Governança<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Países Baixos</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/the-downline.html">The Downline — queda do NEPK NL</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/gevolgenkaart-iii-stille-analyse.html">Análise silenciosa (NL)</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/wij-moeten-weer-zelf-aan-de-bak.html">Mãos à obra (NL)</a>
+        <a class="ov-nav__subitem" href="../de-eerste-gemeente/">O primeiro município</a>
+        <a class="ov-nav__subitem" href="../de-halve-gemeente/">O meio município</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Países Baixos · Futuro</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-nl/">Mapa das consequências Países Baixos</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="../o-que-emerge/europa-hoeft-geen-schadekaart-te-zijn.html">Europa — abertura</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/europa-opnieuw.html">Europa de novo</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-brusselse-gevolgenkaart.html">Mapa de consequências de Bruxelas</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-metafoor-auto-immuunziekte.html">Metáfora doença autoimune</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/het-immuunsysteem-van-organisaties.html">Sistema imunitário das organizações</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/open-brief-aan-de-regeringen-van-europa.html">Carta aberta aos governos</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-eu/">Mapa consequências UE-27</a>
+        <a class="ov-nav__subitem" href="../toekomst/overheden/europa/">Europa · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Outros países</div>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-br/">Brasil</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ch/">Suíça</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-de/">Alemanha</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-es/">Espanha</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-il/">Israel</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-in/">Índia</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-ir/">Irão</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-jp/">Japão</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-kr/">Coreia do Sul</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-se/">Suécia</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-uk/">Reino Unido</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-us/">Estados Unidos</a>
+        <a class="ov-nav__subitem" href="../gevolgenkaart-za/">África do Sul</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-singaporese-gevolgenkaart.html">Singapura</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="../edicao-6/">Edição 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../edicao-6/voorwoord-waarom-dit-moet.html">Prefácio — Porque isto tem de ser</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-00-brussel-als-variabele.html">Bruxelas como variável</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-01-zes-ordes-van-fasering.html">Seis ordens de faseamento</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-06-zwitserse-spiegel.html">Espelho suíço</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-07-canadese-spiegel.html">Espelho canadiano</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-11-kennislaag-als-bondgenoot.html">Camada de conhecimento como aliado</a>
+        <a class="ov-nav__subitem" href="../edicao-6/aflevering-12-beste-weg-vooruit.html">Melhor caminho</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/nova-democratia-manifest.html">Manifesto Nova Democratia</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-actor-is-de-regel.html">O ator é a regra</a>
+        <a class="ov-nav__subitem" href="../soevereiniteit-als-cyclus/">Soberania como ciclo</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/bbp-liegt.html">O PIB mente</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Liderança e organizações</div>
+        <a class="ov-nav__subitem" href="../editie-4/">Edição 4 — Indústria do papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Lei da indústria do papel</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">O CEO e o sentimento primal</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">O consultor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">O banqueiro</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">A seguradora</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">O supervisor</a>
+        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">O juiz</a>
+        <a class="ov-nav__subitem" href="../editie-leiderschap/">Edição Liderança</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Educação</div>
+        <a class="ov-nav__subitem" href="../edicao-2/onderwijs-manifest.html">Educação — manifesto</a>
+        <a class="ov-nav__subitem" href="../edicao-2/onderwijs-prijs-van-de-bloei.html">Preço do florescer</a>
+        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Educação (Edição 1)</a>
+        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">Educação IA</a>
+        <a class="ov-nav__subitem" href="../editie-kind-loopbaan/">Edição Criança e Carreira</a>
+        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Educação · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/scholing/">Formação · Futuro</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Indústria, energia, futuro</div>
+        <a class="ov-nav__subitem" href="../toekomst/">Futuro — portal</a>
+        <a class="ov-nav__subitem" href="../toekomst/energie/">Energia · Futuro</a>
+        <a class="ov-nav__subitem" href="../toekomst/industrie/">Indústria · Futuro</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolução<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../editie-5/">Edição 5 — A ordem esquecida</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Carta ao leitor</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sete ferramentas</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">A fórmula do sucesso</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">A ordem esquecida</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Engano do metano</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">A planta que se muda</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">Os sete de Berna</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">Os dissidentes</a>
+        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">A exigência ao leitor</a>
+        <a class="ov-nav__subitem" href="../edicao-2/veerkracht-selectie.html">Resiliência e seleção</a>
+        <a class="ov-nav__subitem" href="../editie-1/">Edição 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Fiscalidade<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../o-que-emerge/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-grote-plundering.html">A Grande Pilhagem</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-1-diagnose.html">Pilhagem 1: diagnóstico</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-2-mechaniek.html">Pilhagem 2: mecânica</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/plundering-3-afloop.html">Pilhagem 3: desfecho</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/aan-het-eind-hebben-we-niets-meer.html">No fim nada resta</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/gat-in-de-grond.html">€450 mln — buraco no chão</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/de-gevolgenkaart.html">Mapa consequências — manifesto</a>
+        <a class="ov-nav__subitem" href="../o-que-emerge/beleidsadvies-aantrekken.html">De Tributar a Atrair</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Pesquisa<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../../en/dossiers/">Dossiês</a>
+        <a class="ov-nav__subitem" href="../../en/dossiers/vortex-hair.html">Bola golfe Vortex-Hair™</a>
+        <a class="ov-nav__subitem" href="../pesquisa/">Por Trás dos Números</a>
+        <a class="ov-nav__subitem" href="../pesquisa/eu-multiplicator.html">Multiplicador UE</a>
+        <a class="ov-nav__subitem" href="../pesquisa/ontwikkelingslandstatus.html">Estatuto de país em desenvolvimento?</a>
+        <a class="ov-nav__subitem" href="../pesquisa/">Pesquisa — portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Créditos<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../creditos.html">Créditos</a>
+        <a class="ov-nav__subitem" href="../over.html">Sobre este jornal</a>
+        <a class="ov-nav__subitem" href="../archief.html">Arquivo</a>
+        <a class="ov-nav__subitem" href="../../en/keep-informed.html">Manter-se informado</a>
+        <a class="ov-nav__subitem" href="../structuur.html">Estrutura — Admin</a>
+        <a class="ov-nav__subitem" href="../navigatie.html">Navegação</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Partilhar<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="../../en/share.html">Partilhar</a>
+        <a class="ov-nav__subitem" href="../verkennen.html">Explorar</a>
+        <a class="ov-nav__subitem" href="../idee.html">Dez segundos</a>
+        <a class="ov-nav__subitem" href="../editie-1/discussie.html">Discussão (Edição 1)</a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Idioma</a>
   </div>
 </nav>
 
