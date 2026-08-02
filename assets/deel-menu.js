@@ -221,28 +221,96 @@
     catch (e) { window.prompt(config.msgCopyPrompt || 'Kopieer deze link:', url); }
     ta.remove();
   }
-  function actionFacebook() {
-    // Facebook's sharer.php i.c.m. noopener/noreferrer + moderne privacy
-    // (third-party cookie blocking, storage partitioning) zorgt ervoor dat
-    // ingelogde bezoekers opnieuw moeten inloggen én dat de popup dan naar
-    // de feed navigeert i.p.v. het deel-formulier te tonen.
-    //
-    // Oplossing:
-    // 1. Popup zonder noopener/noreferrer — Facebook is een vertrouwde bron
-    //    en deelt hetzelfde eigenaarschap tussen sharer en hoofdvenster nodig.
-    // 2. Fallback naar volledige tab-navigatie (target=_blank) als de popup
-    //    door de browser wordt geblokkeerd.
-    var shareUrl = 'https://www.facebook.com/sharer/sharer.php?u='
-                 + encodeURIComponent(canonicalUrl())
-                 + '&display=popup';
-    var w = window.open(shareUrl, 'ov-fb-share',
-              'width=626,height=436,menubar=no,toolbar=no,resizable=yes,scrollbars=yes,status=no');
-    if (!w || w.closed || typeof w.closed === 'undefined') {
-      // Popup geblokkeerd — open in een nieuwe tab
-      window.open(shareUrl, '_blank');
+  // Generieke popup-opener met fallback naar nieuwe tab bij blokkade.
+  // GEEN noopener/noreferrer — die verbreken sessie-cookies op deel-diensten.
+  function openSharePopup(url, name, w, h) {
+    var win = window.open(url, name || '_blank',
+                'width=' + (w || 626) + ',height=' + (h || 520) +
+                ',menubar=no,toolbar=no,resizable=yes,scrollbars=yes,status=no');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.open(url, '_blank');
     } else {
-      w.focus();
+      win.focus();
     }
+  }
+
+  // ---- Facebook ----
+  function actionFacebook() {
+    var url = 'https://www.facebook.com/sharer/sharer.php?u='
+            + encodeURIComponent(canonicalUrl())
+            + '&display=popup';
+    openSharePopup(url, 'ov-fb-share', 626, 436);
+  }
+
+  // ---- X (Twitter) ----
+  function actionX(config) {
+    var text = articleTitle();
+    var url = 'https://twitter.com/intent/tweet'
+            + '?text=' + encodeURIComponent(text)
+            + '&url='  + encodeURIComponent(canonicalUrl())
+            + '&via='  + encodeURIComponent(config.xVia || 'openvizier');
+    openSharePopup(url, 'ov-x-share', 550, 420);
+  }
+
+  // ---- LinkedIn ----
+  function actionLinkedIn() {
+    // LinkedIn haalt titel/preview zelf op via Open Graph van de canonical URL.
+    var url = 'https://www.linkedin.com/sharing/share-offsite/?url='
+            + encodeURIComponent(canonicalUrl());
+    openSharePopup(url, 'ov-li-share', 640, 580);
+  }
+
+  // ---- WhatsApp ----
+  function actionWhatsApp() {
+    // wa.me werkt zowel op desktop (opent web.whatsapp.com) als mobiel (opent app).
+    var text = articleTitle() + ' \u2014 ' + canonicalUrl();
+    var url = 'https://wa.me/?text=' + encodeURIComponent(text);
+    // Op mobiel: gewone navigatie (opent WhatsApp app); op desktop: popup.
+    var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = url;
+    } else {
+      openSharePopup(url, 'ov-wa-share', 720, 640);
+    }
+  }
+
+  // ---- Telegram ----
+  function actionTelegram() {
+    var url = 'https://t.me/share/url'
+            + '?url='  + encodeURIComponent(canonicalUrl())
+            + '&text=' + encodeURIComponent(articleTitle());
+    openSharePopup(url, 'ov-tg-share', 640, 580);
+  }
+
+  // ---- Instagram (kopieer + open) ----
+  function actionInstagram(config) {
+    // Instagram accepteert geen externe deelbare URL's. We kopiëren de link
+    // naar het klembord en openen Instagram, zodat de gebruiker de link
+    // handmatig in bio, Story of DM kan plakken.
+    var url = canonicalUrl();
+    var doCopy = navigator.clipboard && navigator.clipboard.writeText
+      ? navigator.clipboard.writeText(url)
+      : Promise.resolve();
+    doCopy.finally(function() {
+      toast(config.msgInstagramCopied || 'Link gekopieerd — plak in Instagram');
+      var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+      var target = isMobile ? 'instagram://user?username=openvizier' : 'https://www.instagram.com/';
+      setTimeout(function() { window.open(target, '_blank'); }, 900);
+    });
+  }
+
+  // ---- TikTok (kopieer + open) ----
+  function actionTikTok(config) {
+    // TikTok heeft ook geen externe share-URL. Zelfde patroon als Instagram:
+    // link kopiëren + app/site openen zodat gebruiker het kan doorplaatsen.
+    var url = canonicalUrl();
+    var doCopy = navigator.clipboard && navigator.clipboard.writeText
+      ? navigator.clipboard.writeText(url)
+      : Promise.resolve();
+    doCopy.finally(function() {
+      toast(config.msgTikTokCopied || 'Link gekopieerd — plak in TikTok');
+      setTimeout(function() { window.open('https://www.tiktok.com/', '_blank'); }, 900);
+    });
   }
   function actionEmail(config) {
     var subject = (config.mailSubject || 'Artikel van Het Open Vizier: ') + articleTitle();
@@ -359,10 +427,16 @@
         btn.addEventListener('click', function(e) {
           e.preventDefault();
           var action = btn.dataset.ovDeelAction;
-          if      (action === 'copy')     actionCopy(config);
-          else if (action === 'facebook') actionFacebook();
-          else if (action === 'email')    actionEmail(config);
-          else if (action === 'pdf')      actionPdf(config, btn);
+          if      (action === 'copy')      actionCopy(config);
+          else if (action === 'facebook')  actionFacebook();
+          else if (action === 'x')         actionX(config);
+          else if (action === 'linkedin')  actionLinkedIn();
+          else if (action === 'whatsapp')  actionWhatsApp();
+          else if (action === 'telegram')  actionTelegram();
+          else if (action === 'instagram') actionInstagram(config);
+          else if (action === 'tiktok')    actionTikTok(config);
+          else if (action === 'email')     actionEmail(config);
+          else if (action === 'pdf')       actionPdf(config, btn);
         });
       });
     });

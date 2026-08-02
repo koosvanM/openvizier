@@ -91,6 +91,9 @@ def build_deel_dropdown_html(deel_item: dict, taal: str) -> str:
         "data-pdf-fail":        m("pdfFail"),
         "data-pdf-source":      m("pdfSource"),
         "data-pdf-note":        m("pdfNote"),
+        "data-msg-instagram-copied": m("msgInstagramCopied"),
+        "data-msg-tik-tok-copied":   m("msgTikTokCopied"),
+        "data-x-via":           m("xVia"),
         "data-gate-title":      m("gateTitle"),
         "data-gate-body":       m("gateBody"),
         "data-gate-submit":     m("gateSubmit"),
@@ -106,14 +109,28 @@ def build_deel_dropdown_html(deel_item: dict, taal: str) -> str:
         for k, v in data_attrs.items()
     )
 
+    # Volgorde in het menu: PDF eerst, dan sociale netwerken, dan link/mail
+    knoppen = [
+        ("pdf",       "🔒 " + escape_attr(actie_label("pdf"))),
+        ("facebook",  escape_attr(actie_label("facebook"))),
+        ("x",         escape_attr(actie_label("x"))),
+        ("linkedin",  escape_attr(actie_label("linkedin"))),
+        ("whatsapp",  escape_attr(actie_label("whatsapp"))),
+        ("telegram",  escape_attr(actie_label("telegram"))),
+        ("instagram", escape_attr(actie_label("instagram"))),
+        ("tiktok",    escape_attr(actie_label("tiktok"))),
+        ("copy",      escape_attr(actie_label("copy"))),
+        ("email",     escape_attr(actie_label("email"))),
+    ]
+    knop_rijen = "\n".join(
+        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="{actie}"><span class="ov-deel-label">{label}</span></a>'
+        for actie, label in knoppen
+    )
     return (
         f'<div class="ov-nav__dropdown ov-deel" {attr_str}>\n'
         f'      <a class="ov-nav__item" href="#">{escape_attr(hoofd_label)}<span class="ov-nav__caret">▾</span></a>\n'
         f'      <div class="ov-nav__submenu">\n'
-        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 {escape_attr(actie_label("pdf"))}</span></a>\n'
-        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">{escape_attr(actie_label("facebook"))}</span></a>\n'
-        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">{escape_attr(actie_label("copy"))}</span></a>\n'
-        f'        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">{escape_attr(actie_label("email"))}</span></a>\n'
+        f'{knop_rijen}\n'
         f'      </div>\n'
         f'    </div>'
     )
@@ -175,31 +192,55 @@ def is_delen_dropdown(match_label: str, submenu_html: str, taal: str) -> bool:
     return False
 
 
+# Regex om een BESTAAND ov-deel dropdown-blok te vinden (voor upgrade).
+OV_DEEL_DROPDOWN_RE = re.compile(
+    r'<div class="ov-nav__dropdown[^"]*ov-deel[^"]*"[^>]*>.*?</div>\s*</div>',
+    re.DOTALL,
+)
+
+
 def inject_page(page_path: Path, deel_item: dict, verbose: bool = False) -> tuple[bool, str]:
-    """Vervang het delen-dropdown-blok op één pagina. Return (changed, reason)."""
+    """Vervang het delen-dropdown-blok op één pagina. Return (changed, reason).
+
+    Twee scenarios:
+      A. Pagina heeft nog GEEN ov-deel → zoek oude delen-dropdown en vervang.
+      B. Pagina heeft AL ov-deel → vervang het volledige ov-deel blok
+         (upgrade naar nieuwe versie met extra knoppen).
+    """
     taal = detect_taal(page_path)
     if not taal:
         return False, "geen taalcode in pad"
 
     html = page_path.read_text(encoding="utf-8", errors="ignore")
+    nieuwe_html_snippet = build_deel_dropdown_html(deel_item, taal)
 
-    # Idempotent: al gedaan?
+    # Scenario B: bestaand ov-deel blok upgraden
     if "data-ov-deel" in html:
-        return False, "al voorzien (idempotent)"
+        new_html, n = OV_DEEL_DROPDOWN_RE.subn(nieuwe_html_snippet, html, count=1)
+        if n == 1 and new_html != html:
+            # Assets zijn er waarschijnlijk al, maar checken kan geen kwaad
+            prefix = compute_asset_prefix(page_path)
+            if 'assets/deel-menu.css' not in new_html and '</head>' in new_html:
+                new_html = new_html.replace('</head>', DEEL_CSS_TAG.format(prefix=prefix) + '\n</head>', 1)
+            if 'assets/deel-menu.js' not in new_html and '</body>' in new_html:
+                new_html = new_html.replace('</body>', DEEL_JS_TAG.format(prefix=prefix) + '\n</body>', 1)
+            page_path.write_text(new_html, encoding="utf-8")
+            return True, "upgrade van bestaand ov-deel"
+        return False, "ov-deel-marker aanwezig maar blok niet matchbaar"
 
-    # Zoek delen-dropdown
+    # Scenario A: eerste installatie — zoek oude delen-dropdown
     replaced = False
 
     def _replace(match):
         nonlocal replaced
         if replaced:
-            return match.group(0)  # slechts één keer vervangen
+            return match.group(0)
         label = match.group(1)
         submenu = match.group(2)
         if not is_delen_dropdown(label, submenu, taal):
-            return match.group(0)  # andere dropdown, laat staan
+            return match.group(0)
         replaced = True
-        return build_deel_dropdown_html(deel_item, taal)
+        return nieuwe_html_snippet
 
     new_html = DELEN_DROPDOWN_RE.sub(_replace, html)
 
