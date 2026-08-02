@@ -222,8 +222,27 @@
     ta.remove();
   }
   function actionFacebook() {
-    var url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(canonicalUrl());
-    window.open(url, 'ov-fb-share', 'width=600,height=520,noopener,noreferrer');
+    // Facebook's sharer.php i.c.m. noopener/noreferrer + moderne privacy
+    // (third-party cookie blocking, storage partitioning) zorgt ervoor dat
+    // ingelogde bezoekers opnieuw moeten inloggen én dat de popup dan naar
+    // de feed navigeert i.p.v. het deel-formulier te tonen.
+    //
+    // Oplossing:
+    // 1. Popup zonder noopener/noreferrer — Facebook is een vertrouwde bron
+    //    en deelt hetzelfde eigenaarschap tussen sharer en hoofdvenster nodig.
+    // 2. Fallback naar volledige tab-navigatie (target=_blank) als de popup
+    //    door de browser wordt geblokkeerd.
+    var shareUrl = 'https://www.facebook.com/sharer/sharer.php?u='
+                 + encodeURIComponent(canonicalUrl())
+                 + '&display=popup';
+    var w = window.open(shareUrl, 'ov-fb-share',
+              'width=626,height=436,menubar=no,toolbar=no,resizable=yes,scrollbars=yes,status=no');
+    if (!w || w.closed || typeof w.closed === 'undefined') {
+      // Popup geblokkeerd — open in een nieuwe tab
+      window.open(shareUrl, '_blank');
+    } else {
+      w.focus();
+    }
   }
   function actionEmail(config) {
     var subject = (config.mailSubject || 'Artikel van Het Open Vizier: ') + articleTitle();
