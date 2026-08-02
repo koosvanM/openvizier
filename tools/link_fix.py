@@ -147,118 +147,6 @@ def vertaal_pad(target, src_taal, clusters, bestand_set):
         if bestaat(kandidaat, bestand_set):
             return kandidaat
 
-    # 5. Onvertaalde-artikel fallback: als een wat-opkomt artikel in de
-    #    doeltaal niet bestaat, val terug op de Nederlandse versie.
-    #    Werkt zonder cluster-vermelding: gebruikt letterlijk dezelfde slug
-    #    in de NL-tak. Zo verdwijnen 'broken links' naar artikelen die
-    #    (nog) niet vertaald zijn zonder dat elke slug expliciet in
-    #    slug_clusters.json hoeft.
-    if len(parts) >= 3 and target_taal in wat_opkomt:
-        # Herken de wat-opkomt-achtige mapstructuur
-        wat_opkomt_dir_voor_taal = wat_opkomt.get(target_taal)
-        if parts[1] == wat_opkomt_dir_voor_taal:
-            # Probeer NL-versie met dezelfde slug
-            nl_kandidaat = f"/nl/{wat_opkomt['nl']}/{basename}.html"
-            if bestaat(nl_kandidaat, bestand_set):
-                return nl_kandidaat
-
-    # 6. Editie-fallback: /en/edition-1/foo.html -> /nl/editie-1/foo.html
-    #    Werkt voor edition/edicion/edicao/edizione/... naamvarianten.
-    editie_map = {
-        "nl": "editie", "en": "edition", "de": "ausgabe", "ru": "vypusk",
-        "fr": "edition", "it": "edizione", "es": "edicion", "pt": "edicao",
-    }
-    if len(parts) >= 3 and target_taal in editie_map:
-        first_seg = parts[1]
-        # Match 'editie-1', 'edition-2', etc.
-        for taal_key, dir_prefix in editie_map.items():
-            m = re.match(rf"^{re.escape(dir_prefix)}-(\d+|[a-z\-]+)$", first_seg)
-            if m:
-                suffix = m.group(1)
-                # Probeer NL-tegenhanger met dezelfde numeriek/tekst-suffix
-                nl_dir = f"editie-{suffix}"
-                nl_kandidaat = f"/nl/{nl_dir}/{basename}.html"
-                if bestaat(nl_kandidaat, bestand_set):
-                    return nl_kandidaat
-                break
-
-    # 7. Sectie-map fallback: alle sectie-mappen die per taal vertaald zijn
-    #    maar waarvan artikelen (nog) alleen in NL bestaan. Format:
-    #      "nl_map_naam": {taal: vertaalde_map, ...}
-    #    Bij een link naar /<taal>/<vertaalde_map>/foo.html of dieper: als het
-    #    bestand niet bestaat, val terug op /nl/<nl_map_naam>/<rest>.
-    sectie_maps = {
-        "toekomst": {
-            "en": "future", "de": "zukunft", "ru": "budushchee",
-            "fr": "avenir", "it": "futuro", "es": "futuro", "pt": "futuro",
-        },
-        "onderzoeken": {
-            "en": "research", "de": "forschung", "ru": "issledovanie",
-            "fr": "recherche", "it": "ricerca", "es": "investigacion", "pt": "pesquisa",
-        },
-        # Alias voor oude 'onderzoek' -> nu 'onderzoeken'
-        "onderzoek": {
-            "en": "research", "de": "forschung", "ru": "issledovanie",
-            "fr": "recherche", "it": "ricerca", "es": "investigacion", "pt": "pesquisa",
-        },
-        # Themamap-edities
-        "editie-stikstof": {
-            "en": "nitrogen-edition", "de": "ausgabe-stickstoff", "ru": "vypusk-azot",
-            "fr": "edition-azote", "it": "edizione-azoto", "es": "edicion-nitrogeno", "pt": "edicao-nitrogenio",
-        },
-        "editie-duitsland": {
-            "en": "germany-edition", "de": "ausgabe-deutschland", "ru": "vypusk-germaniya",
-            "fr": "edition-allemagne", "it": "edizione-germania", "es": "edicion-alemania", "pt": "edicao-alemanha",
-        },
-        "editie-klimaat": {
-            "en": "climate-edition", "de": "ausgabe-klima", "ru": "vypusk-klimat",
-            "fr": "edition-climat", "it": "edizione-clima", "es": "edicion-clima", "pt": "edicao-clima",
-        },
-        "editie-leiderschap": {
-            "en": "leadership-edition", "de": "ausgabe-fuehrung", "ru": "vypusk-liderstvo",
-            "fr": "edition-leadership", "it": "edizione-leadership", "es": "edicion-liderazgo", "pt": "edicao-lideranca",
-        },
-    }
-    if len(parts) >= 3 and target_taal != "nl":
-        for nl_map, taal_map in sectie_maps.items():
-            vertaald = taal_map.get(target_taal)
-            if vertaald and parts[1] == vertaald:
-                # Rest van pad kopiëren onder de NL-map
-                rest = "/".join(parts[2:])
-                nl_kandidaat = f"/nl/{nl_map}/{rest}"
-                if bestaat(nl_kandidaat, bestand_set):
-                    return nl_kandidaat
-                # Ook proberen zonder .html suffix -> als map-index
-                if not nl_kandidaat.endswith("/") and not nl_kandidaat.endswith(".html"):
-                    if bestaat(nl_kandidaat + "/index.html", bestand_set):
-                        return nl_kandidaat + "/"
-                break
-
-    # 8. Taalroot-bestand fallback: /<taal>/foo.html -> /nl/foo.html
-    #    Voor pagina's die alleen in NL bestaan (structuur, navigatie, over,
-    #    archief, stemgedrag, colofon, idee, ...). Werkt op elke .html of dir
-    #    direct in de taalroot.
-    if len(parts) == 2 and target_taal != "nl":
-        nl_kandidaat = f"/nl/{parts[1]}"
-        if bestaat(nl_kandidaat, bestand_set):
-            return nl_kandidaat
-
-    # 9. NL-slug-map fallback: /<taal>/<nl-map>/rest -> /nl/<nl-map>/rest
-    #    Werkt voor mappen die niet vertaald zijn (bv. gevolgenkaart-nl,
-    #    editie-leiderschap, de-eerste-gemeente, opbouwers-wegjagen). Als het
-    #    tweede pad-segment letterlijk als NL-map bestaat, val terug op NL.
-    if len(parts) >= 3 and target_taal != "nl":
-        nl_dir_kandidaat = f"/nl/{parts[1]}"
-        # Bestaat de NL-map (als map met index.html of als dir)?
-        # We checken door te kijken of er ergens onder /nl/<parts[1]>/ een bestand staat
-        nl_prefix = f"/nl/{parts[1]}/"
-        heeft_nl_map = any(b.startswith(nl_prefix) for b in bestand_set)
-        if heeft_nl_map:
-            rest = "/".join(parts[2:])
-            nl_kandidaat = f"/nl/{parts[1]}/{rest}"
-            if bestaat(nl_kandidaat, bestand_set):
-                return nl_kandidaat
-
     return None
 
 
@@ -266,7 +154,6 @@ def fix(dry_run=False):
     clusters = laad_clusters()
     bestand_set = alle_bestanden()
     skip_patterns = clusters.get("skip_paths", {}).get("patterns", ["/preview/", "${"])
-    unpublished_slugs = set(clusters.get("known_unpublished_slugs", {}).get("slugs", []))
 
     fixes_per_bestand = defaultdict(list)
     onopgelost = []
@@ -309,11 +196,6 @@ def fix(dry_run=False):
                     target += "/"
 
             if any(target.startswith(p) for p in skip_patterns if p.startswith("/")):
-                continue
-
-            # Skip bewust ongepubliceerde slugs (nooit als onopgelost rapporteren)
-            slug = target.rstrip("/").split("/")[-1].replace(".html", "") if target else ""
-            if slug in unpublished_slugs:
                 continue
 
             if bestaat(target, bestand_set):
