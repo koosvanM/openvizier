@@ -32,9 +32,11 @@ HREF_PAT = re.compile(r'\bhref="([^"#]+?)"', re.IGNORECASE)
 def laad_skip_patterns():
     cfg = ROOT / "tools" / "slug_clusters.json"
     if not cfg.exists():
-        return ["/preview/", "${"]
+        return ["/preview/", "${"], set()
     data = json.loads(cfg.read_text(encoding="utf-8"))
-    return data.get("skip_paths", {}).get("patterns", ["/preview/", "${"])
+    patterns = data.get("skip_paths", {}).get("patterns", ["/preview/", "${"])
+    unpublished = set(data.get("known_unpublished_slugs", {}).get("slugs", []))
+    return patterns, unpublished
 
 
 def alle_bestanden():
@@ -58,7 +60,7 @@ def bestaat(target, bestand_set):
 
 def audit():
     bestand_set = alle_bestanden()
-    skip_patterns = laad_skip_patterns()
+    skip_patterns, unpublished_slugs = laad_skip_patterns()
     issues = []
 
     html_files = [
@@ -101,6 +103,11 @@ def audit():
 
             # Skip-paths check
             if any(target.startswith(p) for p in skip_patterns if p.startswith("/")):
+                continue
+
+            # Skip bewust ongepubliceerde slugs
+            slug = target.rstrip("/").split("/")[-1].replace(".html", "") if target else ""
+            if slug in unpublished_slugs:
                 continue
 
             if not bestaat(target, bestand_set):
