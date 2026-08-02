@@ -2,7 +2,25 @@
    Verwacht: <div class="ov-nav__dropdown ov-deel" data-ov-deel> ... </div>
    Gerenderd door scripts/menu_bouwen.py.  Handmatig wijzigen niet aanbevolen. */
 
-.ov-deel .ov-nav__submenu { min-width: 240px; right: 0; left: auto; }
+/* 'Delen' is het laatste menu-item — lijn de dropdown rechts uit zodat
+   hij niet buiten het scherm valt, en zet een veilige max-breedte. */
+.ov-deel .ov-nav__submenu {
+  min-width: 240px;
+  max-width: calc(100vw - 20px);
+  right: 0 !important;
+  left: auto !important;
+}
+
+/* Op smalle schermen (mobiel): submenu vult praktisch de hele breedte,
+   uitgelijnd rechts met een kleine marge. */
+@media (max-width: 720px) {
+  .ov-deel .ov-nav__submenu {
+    right: 10px !important;
+    left: auto !important;
+    min-width: 260px;
+    max-width: calc(100vw - 20px);
+  }
+}
 .ov-deel .ov-nav__subitem { display: flex; align-items: center; gap: 0.65rem; cursor: pointer; }
 .ov-deel .ov-nav__subitem svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.75; }
 .ov-deel .ov-nav__subitem:hover svg { opacity: 1; }
