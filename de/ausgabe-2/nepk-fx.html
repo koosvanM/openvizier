@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEPK-FX — Neuronale Vorhersage von Wechselkursen — Het Open Vizier</title>
+  <meta name="description" content="Wie die NEPK-Formel strukturelle Wechselkursrichtungen vorhersagt. Mit konkreten Handelssignalen auf Basis von Sechs-Monats- und Zwölf-Monats-Neuronalnetzprojektionen.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    .auteursblok { max-width: 760px; margin: 4rem auto 2rem auto; padding: 1.5rem 1.5rem; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+    .auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+    .auteursblok__tekst { line-height: 1.55; }
+    .auteursblok__naam { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+    .auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+    .auteursblok__intro { font-family: var(--serif, Georgia, serif); font-size: 0.95rem; color: #4a5263; margin: 0 0 0.5rem 0; }
+    .auteursblok__link { font-size: 0.9rem; color: #1c5760; text-decoration: none; }
+    .auteursblok__link:hover { text-decoration: underline; }
+    @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
+
+    :root {
+      --accent: #b8860b;
+      --accent-dark: #8b6508;
+    }
+    .article-tools__inner {
+      border-color: #8b6508 !important;
+    }
+    .version-switch__btn {
+      background: #b8860b !important;
+    }
+    .version-switch__btn--active {
+      background: #8b6508 !important;
+    }
+
+    /* ── Data-tabel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #e8dfc5;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #faf7ee;
+    }
+    .data-tabel .best { color: #27782a; font-weight: 700; }
+    .data-tabel .worst { color: #b83232; font-weight: 700; }
+    .data-tabel .hl td { background: #fff3cd !important; font-weight: 700; }
+
+    /* ── Callout accentkleur ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #fdf8ea;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+    .callout p { margin: 0; }
+    .callout p + p { margin-top: 0.5rem; }
+
+    /* ── NEPK-formule slide ── */
+    .formule-slide {
+      background: #fdf8ea;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin: 1.5rem 0;
+      border: 2px solid #e8dfc5;
+    }
+    .formule-tekst {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      margin: 0 0 0.5rem;
+    }
+    .formule-sub {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 0.5rem 0 0;
+    }
+
+    /* ── Parameter-grid (4 componenten NEPK-formule) ── */
+    .param-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+    .param-card {
+      border-left: 3px solid var(--accent);
+      padding: 0.9rem 2rem;
+      background: #fdf8ea;
+      border-radius: 0 6px 6px 0;
+    }
+    .param-sym {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+    }
+    .param-richting {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #333;
+      margin: 0.2rem 0;
+    }
+    .param-desc {
+      font-size: 0.82rem;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ── Spiraal-tabel NL ── */
+    .spiraal-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.88rem;
+    }
+    .spiraal-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .spiraal-tabel td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #e8dfc5;
+    }
+    .spiraal-tabel tr:nth-child(even) td { background: #faf7ee; }
+
+    /* ── Figuur-captions ── */
+    figure {
+      margin: 2rem 0 1.2rem 0;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    figcaption {
+      font-size: 0.82rem;
+      color: #666;
+      font-style: italic;
+      margin-top: 0.6rem;
+    }
+
+    /* ── Observatie-kaarten per land ── */
+    .obs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1.2rem 0;
+    }
+    .obs-card {
+      background: #fdf8ea;
+      border-radius: 6px;
+      padding: 0.9rem 1.1rem;
+      border-top: 3px solid var(--accent);
+    }
+    .obs-card--sterk { border-top-color: #27782a; background: #f0f8f0; }
+    .obs-card--zwak  { border-top-color: #b83232; background: #fdf2f2; }
+    .obs-card__naam {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--accent-dark);
+      margin: 0 0 0.3rem;
+    }
+    .obs-card--sterk .obs-card__naam { color: #27782a; }
+    .obs-card--zwak .obs-card__naam { color: #b83232; }
+    .obs-card__val {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+      margin: 0.2rem 0 0.4rem;
+    }
+    .obs-card--sterk .obs-card__val { color: #27782a; }
+    .obs-card--zwak .obs-card__val { color: #b83232; }
+    .obs-card__desc {
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Gewichten-grid (composite score) ── */
+    .gewicht-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin: 1.2rem 0;
+    }
+    .gewicht-card {
+      background: #fdf8ea;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      border: 1px solid #e8dfc5;
+    }
+    .gewicht-pct {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      line-height: 1;
+    }
+    .gewicht-label {
+      font-size: 0.82rem;
+      color: #555;
+      margin-top: 0.3rem;
+    }
+
+    /* ── Architectuur-blok ── */
+    .arch-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.2rem 0;
+    }
+    .arch-stap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e8dfc5;
+    }
+    .arch-stap:first-child { border-top: 1px solid #e8dfc5; }
+    .arch-stap__nr {
+      font-weight: 900;
+      font-size: 0.85rem;
+      color: var(--accent-dark);
+      min-width: 2rem;
+    }
+    .arch-stap__naam {
+      font-weight: 700;
+      color: #333;
+      font-size: 0.92rem;
+      min-width: 9rem;
+    }
+    .arch-stap__desc {
+      font-size: 0.88rem;
+      color: #555;
+    }
+
+    /* ── Kans-kaarten (topkansen) ── */
+    .kans-card {
+      background: #fdf8ea;
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+      border-left: 5px solid var(--accent);
+      margin: 1.5rem 0;
+    }
+    .kans-card--5 { border-left-color: #27782a; background: #f0f8f0; }
+    .kans-card--4 { border-left-color: #b8860b; background: #fdf8ea; }
+    .kans-card--3 { border-left-color: #a87030; background: #fdf5ed; }
+    .kans-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.8rem;
+    }
+    .kans-card__nr-titel {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-dark);
+      margin: 0 0 0.2rem;
+    }
+    .kans-card__titel {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #222;
+      margin: 0;
+    }
+    .kans-card__sterkte {
+      font-size: 1.4rem;
+      color: #c8a000;
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+    .kans-card__model {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .kans-card__stat {
+      background: rgba(255,255,255,0.7);
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+    }
+    .kans-card__stat strong { color: var(--accent-dark); }
+    .kans-card__strategie-lijst {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .kans-card__strategie-lijst li {
+      padding: 0.5rem 0;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .kans-card__strategie-lijst li:first-child { border-top: none; padding-top: 0; }
+    .strat-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--accent-dark);
+      color: #fff;
+      border-radius: 3px;
+      padding: 0.1em 0.5em;
+      margin-right: 0.4rem;
+    }
+    .strat-label--alt { background: #6b7280; }
+    .strat-label--risk { background: #2563eb; }
+
+    /* ── DISCLAIMER blok ── */
+    .disclaimer-block {
+      background: #fff8e1;
+      border: 3px solid #f59e0b;
+      border-radius: 8px;
+      padding: 2rem 2rem 2rem 2rem;
+      margin: 2rem 0;
+    }
+    .disclaimer-block__header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .disclaimer-block__icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .disclaimer-block__titel {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: #92400e;
+      margin: 0;
+    }
+    .disclaimer-block p {
+      font-size: 1.0rem;
+      color: #78350f;
+      line-height: 1.7;
+      margin: 0.6rem 0 0;
+      font-weight: 600;
+    }
+
+    /* ── Portefeuille-tabel ── */
+    .porto-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.92rem;
+    }
+    .porto-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.6rem 1rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .porto-tabel td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid #e8dfc5;
+    }
+    .porto-tabel tr:nth-child(even) td { background: #faf7ee; }
+    .porto-tabel .pct {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+    }
+
+    /* ── Conclusie-punten ── */
+    .conclusie-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .conclusie-col {
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+    }
+    .conclusie-col--sterk { background: #f0f8f0; border-left: 4px solid #27782a; }
+    .conclusie-col--zwak  { background: #fdf8ea; border-left: 4px solid var(--accent); }
+    .conclusie-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.7rem;
+    }
+    .conclusie-col--sterk .conclusie-col__header { color: #27782a; }
+    .conclusie-col--zwak .conclusie-col__header { color: var(--accent-dark); }
+    .conclusie-col ul { margin: 0; padding-left: 1.1rem; }
+    .conclusie-col li { font-size: 0.88rem; color: #444; margin-bottom: 0.35rem; }
+
+    /* ── Databronnen lijst ── */
+    .bronnen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1.5rem;
+      margin: 1rem 0;
+    }
+    .bron-item {
+      font-size: 0.88rem;
+      color: #555;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #e8dfc5;
+    }
+    .bron-item strong { color: #333; }
+
+    @media (max-width: 600px) {
+      .param-grid, .obs-grid, .gewicht-grid, .conclusie-grid, .bronnen-grid {
+        grid-template-columns: 1fr;
+      }
+      .arch-stap { flex-direction: column; align-items: flex-start; }
+      .kans-card__header { flex-direction: column; }
+      .kans-card { padding: 1.2rem 1.2rem 1.2rem 1.5rem; }
+    }
+  </style>
+<link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Sprache: Deutsch">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Sprache</span>
+    <span class="masthead__taal__cur">· Deutsch</span>
+  </a>
+  <div class="masthead__date">Ausgabe 2 — Donnerstag, 28. Mai 2026</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+
+<div class="gratis-band">Kostenlose Informationszeitung ohne Werbung<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Unabhängig, keine Meinung, kein Verkauf von Daten</strong><span class="gratis-band__sep"> — </span><a href="../../nl/op-de-hoogte.html" class="gratis-band__cta">Auf dem Laufenden bleiben →</a></div>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="/de/">Startseite</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">KI-Atom Explosiv<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-ki-als-chef.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erst-das-reptil.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-atombombe-im-ki-format.html">Die Atombombe im KI-Format</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politik<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Frankreich & europäische Revolution</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/frankreich-revolutionaerer-moment.html">Frankreich — revolutionärer Moment</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/fuenf-laender-fuenf-kurven.html">Fünf Länder, fünf Kurven</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-niederlandische-revolution-2033.html">Die Niederländische Revolution 2033</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/muessen-die-niederlande-folgen.html">Muss die Niederlande auch folgen?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Kippmechanik & Menschen</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-kippmechanik.html">Die Kippmechanik</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/mensen-die-mee-bouwen.html">Menschen, die mitbauen</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/aktivisten-bauen-kontinente.html">Aktivisten bauen Kontinente</a>
+        <a class="ov-nav__subitem" href="/de/die-aufbauer-vertreiben/">Wer Aufbauer vertreibt</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-matrix-van-de-uittocht.html">Die Matrix des Exodus</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-ki-als-chef.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erst-das-reptil.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/der-stecker-ausserhalb-des-systems.html">Der Stecker außerhalb des Systems</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Parteien & Pareto</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-02-pareto-top12.html">Pareto Top 12 — wer blockiert</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-08-partijen-in-kaart.html">Wo steht Ihre Partei</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-09-pareto-per-actor.html">Pareto pro Akteur</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-04-ordes-van-bezwaar.html">Ordnungen des Einwands</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-05-twintig-bezwaren.html">Zwanzig aktuelle Einwände</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/plundering-4-politieke-landschap.html">Plünderung 4: politische Landschaft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Presse & Medien</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-presse-ist-die-arena.html">Die Presse ist die Arena</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/sie-wissen-es-schon.html">Sie wissen es schon</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/trump-als-spiegel.html">Trump als Spiegel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-03-media-als-rekstrook.html">Medien als Reckbank</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/die-anti-immunkrankheit-von-bruessel.html">Die Anti-Autoimmunkrankheit Brüssels</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-auto-immuunziekte-slaat-toe.html">Die Autoimmunkrankheit schlägt zu</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-dertig-cent-die-europa-omdraait.html">Die dreißig Cent, die Europa umdrehen</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Wahlverhalten & Entscheidungen</div>
+        <a class="ov-nav__subitem" href="/de/stemgedrag.html">Wahlverhalten</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/ehrlichkeit-macht-regierung-moeglich.html">Ehrlichkeit macht Regieren möglich</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/entscheiden-ohne-aussicht.html">Entscheiden ohne Aussicht</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/aan-de-leiding-drie-blokken-zonder-subsidie.html">An der Spitze ohne Subvention</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/pluenderung-0-erst-rupfen-dann-urteilen.html">Plünderung 0: zuerst pflücken</a>
+        <a class="ov-nav__subitem" href="/de/editie-2/onderwijs-kies-een-kant.html">Bildung — wähle eine Seite</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/voorwoord.html">Ausgabe 1 — Vorwort</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plastik-strafe-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Philosophie<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sieben Dimensionen & Denkrahmen</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/vom-quantum-zum-7d.html">Von Quantum zu 7D</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/von-der-hoehle-zur-sonne.html">Von der Höhle zur Sonne</a>
+        <a class="ov-nav__subitem" href="/de/editie-1/denkraam-7d.html">Denkrahmen 7D</a>
+        <a class="ov-nav__subitem" href="/de/editie-1/samenhang.html">Wie alles zusammenhängt</a>
+        <a class="ov-nav__subitem" href="/de/editie-1/stromingsleer.html">Strömungslehre</a>
+        <a class="ov-nav__subitem" href="/de/editie-2/zeven-dimensies.html">Sieben Dimensionen</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Urgefühl & Kosaris</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/index.html">Der Mensch unter dem Eis</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-01-oergevoel.html">Das Urgefühl</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-02-zeven-dimensies.html">Die sieben Dimensionen</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-03-drie-lagen.html">Die drei Hirnschichten</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-04-communicatie.html">Kommunikation zwischen Urgefühlen</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-05-wat-we-doen.html">Was wir Kindern antun</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-06-mama.html">Mama, ich habe Hunger</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-09-oergevoel-in-beroepspraktijk.html">Urgefühl in der Berufspraxis</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-ki-als-chef.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erst-das-reptil.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/der-stecker-ausserhalb-des-systems.html">Der Stecker außerhalb des Systems</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifest Urgefühl</a>
+        <a class="ov-nav__subitem" href="/de/editie-2/waarom-ik-zo-ben.html">Warum ich so bin</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Filme, Märchen, Lesebuch</div>
+        <a class="ov-nav__subitem" href="/de/7-dim-film/">Der 7-Dim Film</a>
+        <a class="ov-nav__subitem" href="/de/kosaris-film/">Die Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="/de/lesebuch/">Die Kosaris — Lesebuch</a>
+        <a class="ov-nav__subitem" href="/de/maerchen/">Das Märchen von Jacobus</a>
+        <a class="ov-nav__subitem" href="/de/philosophie/">Philosophie — Portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Gefühlsverbindungssystem</div>
+        <a class="ov-nav__subitem" href="/de/onderzoeken/gevoelsconnectiesysteem.html">Gefühlsverbindungssystem</a>
+        <a class="ov-nav__subitem" href="/de/onderzoeken/gevoelsconnectiesysteem-volledig.html">GVS — vollständiger Plan</a>
+        <a class="ov-nav__subitem" href="/de/onderzoeken/krantbriefing.html">Zeitungsbriefing GVS</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/routekaart-vervolgvragen.html">Roadmap Folgefragen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Klima<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Stickstoffkrise</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-stickstoff/">Ausgabe Stickstoff</a>
+        <a class="ov-nav__subitem" href="/de/editie-stikstof/drie-problemen-een-antwoord.html">Drei Probleme — eine Antwort</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/naar-de-natuurschool.html">Zur Naturschule</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/bauer-und-natur-beide-voran.html">Bauer und Natur vorwärts</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/entscheiden-ohne-aussicht.html">Entscheiden ohne Aussicht</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-methodologie-van-de-aanpassing.html">Die Ernährungslinie</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natur-Analyse</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-auto-immuunziekte-slaat-toe.html">Autoimmunkrankheit schlägt zu</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Raps</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-0/carbon-alert-europa.html">Raps-Multiplikator</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-deutschland/">Ausgabe Deutschland</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/bauer-und-natur-beide-voran.html">Bauer und Natur vorwärts</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Klimadividende & Übersterblichkeit</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/klimadividende.html">Die Klimadividende</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erbschaftswelle-240-milliarden.html">Erbwelle 240 Milliarden</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/welt-guertel-2040-2050.html">Weltgürtel 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/the-downline.html">The Downline — grüner Erholungsweg</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert Vision 2036</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/brusselse-gevolgenkaart-bicrs.html">BiCRS-Version EU</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plastik-strafe-carbon-credit.html">Plastikstrafe oder Carbon-Credit</a>
+        <a class="ov-nav__subitem" href="/de/editie-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="/de/editie-0/biomimetische-krachtcentrale.html">Biomimetisches Kraftwerk</a>
+        <a class="ov-nav__subitem" href="/de/editie-0/">Ausgabe Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Thermostat & physische Erde</div>
+        <a class="ov-nav__subitem" href="/de/editie-2/thermostaat.html">Der Thermostat</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="/de/editie-2/nepk-klimaatlogica.html">NEPK-Klimalogik</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-zon-staat-op-de-evenaar.html">Die Sonne steht am Äquator</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Reifen, Plastik, Umweltverschmutzung</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/der-autoreifen-ist-die-neue-zigarette.html">Autoreifen-Zigarette</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-methodologie-van-de-aanpassing.html">Die Ernährungslinie</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natur-Analyse</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sonderausgaben</div>
+        <a class="ov-nav__subitem" href="/de/editie-klimaat/">Ausgabe Klima</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Was nicht gesehen wird</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/zij-doden-hun-levensader.html">Sie töten ihre Lebensader</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/zij-doden-hun-levensaders-brussel.html">Sie töten ihre Lebensadern (Brüssel)</a>
+        <a class="ov-nav__subitem" href="/de/editie-1/kernfusie.html">Kernfusion</a>
+        <a class="ov-nav__subitem" href="/de/editie-1/technische-oplossingen.html">Technische Lösungen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Verwaltung<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Niederlande</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/the-downline.html">The Downline — NEPK-Fall NL</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Stille Analyse (NL)</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/wir-muessen-wieder-selbst-anpacken.html">Selbst anpacken (NL)</a>
+        <a class="ov-nav__subitem" href="/de/die-erste-gemeinde/">Die erste Gemeinde</a>
+        <a class="ov-nav__subitem" href="/de/die-halbe-gemeinde/">Die halbe Gemeinde</a>
+        <a class="ov-nav__subitem" href="/de/toekomst/overheden/nederland/">Niederlande · Zukunft</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-nl/">Folgenkarte Niederlande</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-natur-angepasste-analyse.html">Europa-Öffner</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/europa-erneut.html">Europa neu</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-bruesseler-konsequenzkarte.html">Brüsseler Folgenkarte</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-metafoor-auto-immuunziekte.html">Metapher Autoimmunkrankheit</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/het-immuunsysteem-van-organisaties.html">Immunsystem von Organisationen</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/open-brief-aan-de-regeringen-van-europa.html">Offener Brief an die Regierungen</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-eu/">Folgenkarte EU-27</a>
+        <a class="ov-nav__subitem" href="/de/toekomst/overheden/europa/">Europa · Zukunft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Andere Länder</div>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-br/">Brasilien</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-ch/">Schweiz</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-cn/">China</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-cu/">Kuba</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-de/">Deutschland</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-es/">Spanien</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-il/">Israel</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-in/">Indien</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-jp/">Japan</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-kr/">Südkorea</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-se/">Schweden</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-uk/">Vereinigtes Königreich</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-us/">Vereinigte Staaten</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-za/">Südafrika</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-singapurer-folgenkarte.html">Singapur</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/">Ausgabe 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/voorwoord-waarom-dit-moet.html">Vorwort — Warum dies notwendig ist</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-00-brussel-als-variabele.html">Brüssel als Variable</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-01-zes-ordes-van-fasering.html">Sechs Ordnungen der Phasenverschiebung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-06-zwitserse-spiegel.html">Schweizer Spiegel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-07-canadese-spiegel.html">Kanadischer Spiegel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-11-kennislaag-als-bondgenoot.html">Wissensschicht als Verbündeter</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-12-beste-weg-vooruit.html">Bester Weg nach vorne</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/nova-democratia-manifest.html">Nova Democratia Manifest</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/de-actor-is-de-regel.html">Der Akteur ist die Regel</a>
+        <a class="ov-nav__subitem" href="/de/souveraenitaet-als-zyklus/">Souveränität als Zyklus</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/bbp-liegt.html">BIP lügt</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Führung & Organisationen</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/">Ausgabe 4 — Papierindustrie</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-01-wet-papier-industrie.html">Gesetz der Papierindustrie</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-02-ceo.html">Der CEO und das Urgefühl</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-03-consultant.html">Der Berater</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-04-bankier.html">Der Bankier</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-05-verzekeraar.html">Der Versicherer</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-06-toezichthouder.html">Der Aufseher</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-07-rechter.html">Der Richter</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-fuehrung/">Ausgabe Führung</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Bildung</div>
+        <a class="ov-nav__subitem" href="/de/editie-2/onderwijs-manifest.html">Bildung — Manifest</a>
+        <a class="ov-nav__subitem" href="/de/editie-2/onderwijs-prijs-van-de-bloei.html">Preis der Blüte</a>
+        <a class="ov-nav__subitem" href="/de/editie-1/onderwijs.html">Bildung (Ausgabe 1)</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-07-ai-onderwijs.html">KI-Bildung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-kind-laufbahn/">Ausgabe Kind & Laufbahn</a>
+        <a class="ov-nav__subitem" href="/de/zukunft/erziehung/">Erziehung · Zukunft</a>
+        <a class="ov-nav__subitem" href="/de/toekomst/scholing/">Schulung · Zukunft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industrie, Energie, Zukunft</div>
+        <a class="ov-nav__subitem" href="/de/toekomst/">Zukunft — Portal</a>
+        <a class="ov-nav__subitem" href="/de/toekomst/energie/">Energie · Zukunft</a>
+        <a class="ov-nav__subitem" href="/de/toekomst/industrie/">Industrie · Zukunft</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolution<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/editie-5/">Ausgabe 5 — Die vergessene Ordnung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-00-brief-aan-lezer.html">Brief an den Leser</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sieben Werkzeuge</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-02-succesformule.html">Die Erfolgsformel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-03-vergeten-orde.html">Die vergessene Ordnung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-04-methaan-misleiding.html">Methan-Täuschung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-05-plant-die-verhuist.html">Die Pflanze, die umzieht</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-06-zeven-van-bern.html">Die sieben von Bern</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-07-afwijkers.html">Die Abweichler</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-08-eis-aan-lezer.html">Die Forderung an den Leser</a>
+        <a class="ov-nav__subitem" href="/de/editie-2/veerkracht-selectie.html">Widerstandskraft und Selektion</a>
+        <a class="ov-nav__subitem" href="/de/editie-1/">Ausgabe 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Steuern<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/stimmenernte.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/de-grote-plundering.html">Die große Plünderung</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/plundering-1-diagnose.html">Plünderung 1: Diagnose</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/plundering-2-mechaniek.html">Plünderung 2: Mechanik</a>
+        <a class="ov-nav__subitem" href="/de/wat-opkomt/plundering-3-afloop.html">Plünderung 3: Ausgang</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/am-ende-haben-wir-nichts-mehr.html">Am Ende nichts mehr</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/loch-im-boden.html">€450 Mio. — Loch in der Erde</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-tagliche-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/was-ich-hinterlasse-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-folgenkarte.html">Folgenkarte — Manifest</a>
+        <a class="ov-nav__subitem" href="/de/editie-2/beleidsadvies-aantrekken.html">Vom Besteuern zum Anziehen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Forschung<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="/de/dossiers/vortex-hair.html">Vortex-Hair™ Golfball</a>
+        <a class="ov-nav__subitem" href="/de/forschung/">Hinter den Zahlen</a>
+        <a class="ov-nav__subitem" href="/de/onderzoek/eu-multiplicator.html">EU-Multiplikator</a>
+        <a class="ov-nav__subitem" href="/de/onderzoek/ontwikkelingslandstatus.html">Entwicklungslandstatus?</a>
+        <a class="ov-nav__subitem" href="/de/forschung/">Forschung — Portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Impressum<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/colofon.html">Impressum</a>
+        <a class="ov-nav__subitem" href="/de/ueber.html">Über diese Zeitung</a>
+        <a class="ov-nav__subitem" href="/de/archief.html">Archiv</a>
+        <a class="ov-nav__subitem" href="../../nl/op-de-hoogte.html">Auf dem Laufenden bleiben</a>
+        <a class="ov-nav__subitem" href="/de/structuur.html">Struktur — Verwaltung</a>
+        <a class="ov-nav__subitem" href="/de/navigatie.html">Navigation</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link kopiert" data-msg-copy-prompt="Kopiere diesen Link:" data-mail-subject="Artikel aus Het Open Vizier: " data-mail-footer="Geteilt über openvizier.org" data-pdf-building="PDF wird erstellt…" data-pdf-done="PDF heruntergeladen" data-pdf-fail="PDF fehlgeschlagen — Cmd+P versuchen" data-pdf-source="Quelle" data-pdf-note="Geteilt über openvizier.org — die mehrsprachige Meinungszeitung." data-msg-instagram-copied="Link kopiert — in Instagram-Bio oder Story einfügen" data-msg-tik-tok-copied="Link kopiert — in TikTok einfügen" data-x-via="openvizier" data-gate-title="Zugangscode" data-gate-body="Geben Sie Ihren Zugangscode ein, um Artikel als PDF herunterzuladen." data-gate-submit="Entsperren" data-gate-cancel="Abbrechen" data-gate-checking="Prüfe…" data-gate-invalid="Geben Sie einen gültigen Code ein." data-gate-wrong="Falscher oder abgelaufener Code." data-gate-server-error="Code konnte nicht geprüft werden. Bitte später erneut versuchen." data-gate-note="Noch kein Code? Kontaktieren Sie Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Teilen<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 PDF herunterladen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Auf Facebook teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Auf X (Twitter) teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Auf LinkedIn teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Via WhatsApp senden</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Auf Telegram teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Link für Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Link für TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Link kopieren</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Per E-Mail senden</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="/de/index-talenring.html" style="margin-left:auto;">⌂ Sprache</a>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Version">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Ausführlich</button>
+      <button type="button" class="version-switch__btn" data-version="kort">Kurzfassung</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Fortsetzen">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Vorlesen</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/de/editie-2/nepk-fx.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ AUSFÜHRLICH -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── SLIDE 1: HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Anwendung &amp; Forschung</span>
+    <h1 class="slide__title">NEPK-FX — Neuronale Vorhersage von Wechselkursen</h1>
+    <p class="slide__lead">Wie die NEPK-Formel strukturelle Wechselkursrichtungen vorhersagt. Mit konkreten Handelssignalen auf Basis von Sechs-Monats- und Zwölf-Monats-Neuronalnetzprojektionen.</p>
+    <p class="slide__meta">Von Jacobus van Merksteijn · 28 Min. Lesezeit · 28. Mai 2026 · Ausgabe 2</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/nepk-fx.jpg" alt="NEPK-FX: neuronale Vorhersage von Wechselkursen auf Basis der NEPK-Formel">
+  </div>
+</section>
+
+<!-- ── SLIDE 2: ZUSAMMENFASSUNG ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Zusammenfassung</span>
+    <h2 class="slide__heading">Kernschlussfolgerungen auf einen Blick</h2>
+    <p>Dieser Bericht präsentiert eine quantitative Analyse der strukturellen Wechselkursaussichten für zwölf Länder auf Basis des <strong>NEPK-Indikators</strong> (Netto Externe Produktive Kern). Für jeweils sieben EUR-Paare wurde ein neuronales Netz trainiert, das makroökonomische Fundamentaldaten in Kursprognosen auf 1, 3, 6, 12 und 24 Monate übersetzt.</p>
+
+    <ul style="line-height: 1.9; margin: 1rem 0;">
+      <li><strong>Taiwan</strong> weist den weltweit höchsten NEPK-Wert für 2025 auf (8,9%), gefolgt von Korea (5,0%), Norwegen (4,9%) und China (4,8%).</li>
+      <li><strong>USA (1,0%) und Großbritannien (1,1%)</strong> verfügen über strukturell schwache produktive Kerne — unter dem niederländischen Wert von 4,2%.</li>
+      <li>Das Netz erzielt auf 12 Monate eine <strong>Richtungsgenauigkeit von bis zu 100% (EURKRW)</strong> und 86% (EURJPY) im Holdout-Test.</li>
+      <li>Stärkste Handelssignale: <strong>KRW- und CNY-Aufwertung</strong>, USD- und JPY-Schwäche.</li>
+      <li>Konkrete Put/Call-Strategien sind für fünf Währungspaare ausgearbeitet.</li>
+    </ul>
+
+    <h3 style="font-size: 1rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.8rem;">Topempfehlungen — Portfolio-Allokation</h3>
+    <table class="porto-tabel">
+      <thead>
+        <tr>
+          <th>Allokation</th>
+          <th>Trade</th>
+          <th>Paar</th>
+          <th>Conviction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="pct">30%</td><td>EURKRW PUT 12m</td><td>EUR/KRW</td><td>Höchste ★★★★★</td></tr>
+        <tr><td class="pct">25%</td><td>EURCNY PUT 12m</td><td>EUR/CNY</td><td>Höchste ★★★★★</td></tr>
+        <tr><td class="pct">20%</td><td>EURJPY PUT 18–24m</td><td>EUR/JPY</td><td>Hoch ★★★★</td></tr>
+        <tr><td class="pct">15%</td><td>EURUSD CALL 12m</td><td>EUR/USD</td><td>Mittel-hoch ★★★</td></tr>
+        <tr><td class="pct">10%</td><td>EURTWD PUT 12m</td><td>EUR/TWD</td><td>Spekulativ ★★★</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SLIDE 3: DIE NEPK-FORMEL ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 1</span>
+    <h2 class="slide__heading">Die NEPK-Formel: Was verdient ein Land strukturell?</h2>
+
+    <div class="formule-slide">
+      <div class="formule-tekst">NEPK = Export-VA × α × (1 − τ) × φ</div>
+      <p class="formule-sub">Netto Externe Produktive Kern — eine fundamentale Alternative zum BIP</p>
+    </div>
+
+    <p>Die Formel misst nicht, was ein Land <em>produziert</em>, sondern was es strukturell <em>verdient</em>: Wieviel netto produktiver Mehrwert wird von einem Land erwirtschaftet, nach Abzug steuerlicher Aushöhlung und ausländischen Gewinnabflusses.</p>
+
+    <div class="param-grid">
+      <div class="param-card">
+        <div class="param-sym">Export-VA</div>
+        <p class="param-richting">Export-Wertschöpfung als % des BIP</p>
+        <p class="param-desc">OECD TiVA domestic value added — nicht Bruttoexport. Filtert Transithandel heraus.</p>
+      </div>
+      <div class="param-card">
+        <div class="param-sym">α (alpha)</div>
+        <p class="param-richting">Anteil des produktiven Kerns an der Wirtschaft</p>
+        <p class="param-desc">Industrie-Wertschöpfung als % des BIP (Weltbank). Je höher, desto breiter die produktive Basis.</p>
+      </div>
+      <div class="param-card">
+        <div class="param-sym">τ (tau)</div>
+        <p class="param-richting">Effektive Belastungsquote des Kerns</p>
+        <p class="param-desc">Gesamtsteuern + Sozialabgaben als % des BIP (OECD Revenue Statistics). Hohes τ = Aushöhlung.</p>
+      </div>
+      <div class="param-card">
+        <div class="param-sym">φ (phi)</div>
+        <p class="param-richting">Anteil in nationalem Eigentum</p>
+        <p class="param-desc">1 − ausländischer Aktienbesitz pro Land. Maß für Gewinnrepatriierung.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size: 1rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.8rem;">Die niederländische NEPK-Spirale (2025–2050)</h3>
+    <p>Für die Niederlande ist der NEPK von rund 7% in den achtziger Jahren auf <strong>4,2% im Jahr 2025</strong> gesunken. Bei unveränderter Politik sinkt der NEPK bis 2050 weiter auf 2,5–3%.</p>
+    <table class="spiraal-tabel">
+      <thead>
+        <tr>
+          <th>Jahr</th>
+          <th>NEPK</th>
+          <th>Realeinkommen (Index)</th>
+          <th>Immobilien (Index)</th>
+          <th>Last/Arbeitnehmer (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>2025</td><td>4,2%</td><td>100,0</td><td>100,0</td><td>30,0%</td></tr>
+        <tr><td>2030</td><td>3,9%</td><td>99,3</td><td>99,6</td><td>34,5%</td></tr>
+        <tr><td>2035</td><td>3,6%</td><td>98,4</td><td>98,5</td><td>39,7%</td></tr>
+        <tr><td>2040</td><td>3,3%</td><td>97,4</td><td>97,3</td><td>45,8%</td></tr>
+        <tr><td>2045</td><td>3,0%</td><td>96,1</td><td>95,5</td><td>53,2%</td></tr>
+        <tr><td>2050</td><td>2,7%</td><td>94,8</td><td>93,7</td><td>62,2%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SLIDE 4: NEPK WELTWEIT 2000–2025 ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 2</span>
+    <h2 class="slide__heading">NEPK Weltweit 2000–2025</h2>
+    <p>Für zwölf Länder wurde der NEPK jährlich für den Zeitraum 2000–2025 berechnet. Quellen: Export-VA über Weltbank × OECD TiVA DVA-Anteil; α über Weltbank industry value added; τ über OECD Revenue Statistics; φ über nationalen Aktienbesitz je Börse.</p>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig1-nepk-historisch-de.png" alt="NEPK 2000-2025 für 12 Länder — Westen links, Asien rechts">
+      <figcaption>Abbildung 1 — NEPK 2000–2025. Westen (links), Asien (rechts). Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <div class="callout">
+      <p><strong>„Taiwan weist den weltweit höchsten NEPK für 2025 auf (8,9%)"</strong> — angetrieben durch die Dominanz von TSMC in der globalen Halbleiterindustrie.</p>
+    </div>
+
+    <div class="obs-grid">
+      <div class="obs-card obs-card--sterk">
+        <p class="obs-card__naam">Taiwan</p>
+        <p class="obs-card__val">8,9%</p>
+        <p class="obs-card__desc">Anstieg seit 2010 durch Halbleiter (TSMC)</p>
+      </div>
+      <div class="obs-card obs-card--sterk">
+        <p class="obs-card__naam">Korea</p>
+        <p class="obs-card__val">5,0%</p>
+        <p class="obs-card__desc">Von ~3% (2000) → 5% (2025) durch industrielle Diversifizierung</p>
+      </div>
+      <div class="obs-card obs-card--sterk">
+        <p class="obs-card__naam">Norwegen</p>
+        <p class="obs-card__val">4,9%</p>
+        <p class="obs-card__desc">Stabil bei 4–5% durch Ölexporte und Staatsbeteiligung Statoil</p>
+      </div>
+      <div class="obs-card">
+        <p class="obs-card__naam">China</p>
+        <p class="obs-card__val">4,8%</p>
+        <p class="obs-card__desc">Niederländische Spirale: Höchststand 8,8% (2006) → 4,8% (2025)</p>
+      </div>
+      <div class="obs-card">
+        <p class="obs-card__naam">Schweiz</p>
+        <p class="obs-card__val">3,5–4%</p>
+        <p class="obs-card__desc">Stabil durch Pharma und niedrige τ</p>
+      </div>
+      <div class="obs-card obs-card--zwak">
+        <p class="obs-card__naam">Japan / Großbritannien / USA</p>
+        <p class="obs-card__val">&lt; 2,5%</p>
+        <p class="obs-card__desc">Strukturell ausgehöhlter Kern — unter 2,5% seit 2000</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>„USA (1,0%) und Großbritannien (1,1%) verfügen über strukturell schwache produktive Kerne"</strong> — selbst unter dem niederländischen Wert von 4,2%. Fundamental negativ für USD und GBP auf lange Sicht.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 5: MAKRO-PUFFER PRO LAND ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 3</span>
+    <h2 class="slide__heading">Makropuffer pro Land: NIIP, Leistungsbilanz und Schulden</h2>
+    <p>Ein niedriger NEPK kann vorübergehend durch externe Puffer verschleiert werden. Ein großes internationales Vermögenssaldo (NIIP) oder ein struktureller Handelsüberschuss bietet einem Land Kursschutz — selbst wenn der produktive Kern schwach ist (vgl.: Japan, NIIP +77%).</p>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig2-macro-buffers-de.png" alt="NEPK, NIIP, Leistungsbilanz und Staatsverschuldung pro Land (2024-2025)">
+      <figcaption>Abbildung 2 — NEPK, NIIP, Leistungsbilanz und Staatsverschuldung pro Land (2024–2025). Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <h3 style="font-size: 1rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.8rem;">NIIP — Netto-Auslandsvermögensposition</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Land</th>
+          <th>NIIP % BIP</th>
+          <th>Charakter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="best">Norwegen</td><td class="best">+350%</td><td>Ölfonds — größter Gläubiger</td></tr>
+        <tr><td class="best">Taiwan</td><td class="best">+200%</td><td>Lebensversicherungen + Handelsüberschuss</td></tr>
+        <tr><td class="best">Schweiz</td><td class="best">+110%</td><td>SNB-Reserven + Privatvermögen</td></tr>
+        <tr><td>Deutschland</td><td>+82%</td><td>Jahrzehnte Handelsbilanzüberschuss</td></tr>
+        <tr><td>Japan</td><td>+77%</td><td>Verschleiert niedrigen NEPK</td></tr>
+        <tr><td>Niederlande</td><td>+55%</td><td>Pensionsfonds + multinationale Konzerne</td></tr>
+        <tr><td>Korea</td><td>+50%</td><td>Junges Gläubigerland</td></tr>
+        <tr><td>China</td><td>+14%</td><td>Offiziell niedrig (Kapitalverkehrskontrollen)</td></tr>
+        <tr><td>Italien</td><td>+12%</td><td>Knapp positiv seit 2020</td></tr>
+        <tr><td>Frankreich</td><td>−25%</td><td>Struktureller Schuldner</td></tr>
+        <tr><td>Großbritannien</td><td>−31%</td><td>Brexit + Dienstleistungswirtschaft</td></tr>
+        <tr><td class="worst">USA</td><td class="worst">−90%</td><td>Historischer Tiefstand</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SLIDE 6: ZINSEN UND INFLATION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 4</span>
+    <h2 class="slide__heading">Zinsen und Inflation: die Carry-Komponente im FX</h2>
+    <p>Die Carry-Komponente von Wechselkursen wird durch Zinsdifferenziale bestimmt. <strong>Realzinsen sind jedoch wichtiger als Nominalzinsen</strong>: Hohe Zinsen bei hoher Inflation bieten keine reale Vergütung. Das Modell bezieht beide Dimensionen in den Feature-Set ein.</p>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig3-rentes-inflatie-de.png" alt="Leitzins, 10j-Rendite, Inflation und Realzins pro Land (2025)">
+      <figcaption>Abbildung 3 — Leitzins, 10j-Rendite, Inflation und Realzins pro Land (2025). Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <div class="obs-grid">
+      <div class="obs-card obs-card--zwak">
+        <p class="obs-card__naam">Japan</p>
+        <p class="obs-card__val">−2,1%</p>
+        <p class="obs-card__desc">Reale 10j-Rendite — extrem negativ, erklärt Yen-Schwäche</p>
+      </div>
+      <div class="obs-card obs-card--zwak">
+        <p class="obs-card__naam">NL / Taiwan</p>
+        <p class="obs-card__val">leicht neg.</p>
+        <p class="obs-card__desc">Inflation über Renditen — negative Realzinsen</p>
+      </div>
+      <div class="obs-card">
+        <p class="obs-card__naam">FR / IT / USA</p>
+        <p class="obs-card__val">1,9–2,3%</p>
+        <p class="obs-card__desc">Höchste Realzinsen — kapitalanziehend, aber negativer NEPK</p>
+      </div>
+      <div class="obs-card obs-card--sterk">
+        <p class="obs-card__naam">Korea</p>
+        <p class="obs-card__val">pos.</p>
+        <p class="obs-card__desc">Moderat positiver Realzins + starker NEPK — attraktivste Kombination</p>
+      </div>
+      <div class="obs-card obs-card--sterk">
+        <p class="obs-card__naam">Norwegen</p>
+        <p class="obs-card__val">pos.</p>
+        <p class="obs-card__desc">Moderat positiver Realzins + stabiler NEPK 4,9%</p>
+      </div>
+      <div class="obs-card obs-card--sterk">
+        <p class="obs-card__naam">China</p>
+        <p class="obs-card__val">pos.</p>
+        <p class="obs-card__desc">Moderat positiver Realzins + NEPK 4,8%</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 7: FX-STÄRKE-SCORE COMPOSITE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 5</span>
+    <h2 class="slide__heading">FX-Stärke-Score: gewichtete Composite-Rangfolge</h2>
+    <p>Durch die Kombination von NEPK, NIIP, Leistungsbilanz, Schulden, Realzins und NEPK-Trend in einem gewichteten Score entsteht eine strukturelle FX-Rangfolge. Grün = strukturell stark; gelb = neutral; rot = strukturell schwach.</p>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1rem 0 0.6rem;">Gewichtung Composite-Score</h3>
+    <div class="gewicht-grid">
+      <div class="gewicht-card">
+        <div class="gewicht-pct">40%</div>
+        <div class="gewicht-label">NEPK (produktiver Kern)</div>
+      </div>
+      <div class="gewicht-card">
+        <div class="gewicht-pct">20%</div>
+        <div class="gewicht-label">NIIP (Auslandsvermögen)</div>
+      </div>
+      <div class="gewicht-card">
+        <div class="gewicht-pct">15%</div>
+        <div class="gewicht-label">CA (Leistungsbilanz)</div>
+      </div>
+      <div class="gewicht-card">
+        <div class="gewicht-pct">10%</div>
+        <div class="gewicht-label">Realzins</div>
+      </div>
+      <div class="gewicht-card">
+        <div class="gewicht-pct">10%</div>
+        <div class="gewicht-label">Staatsverschuldung</div>
+      </div>
+      <div class="gewicht-card">
+        <div class="gewicht-pct">5%</div>
+        <div class="gewicht-label">NEPK-Trend (5J)</div>
+      </div>
+    </div>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig4-fx-sterktescore-de.png" alt="FX-Stärke-Score 2025 pro Land. Grün = stark, gelb = neutral, rot = schwach">
+      <figcaption>Abbildung 4 — FX-Stärke-Score 2025. Grün = stark, gelb = neutral, rot = schwach. Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── SLIDE 8: NEPK VS NIIP — ZWEI-ACHSEN-POSITIONIERUNG ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 5 (Fortsetzung)</span>
+    <h2 class="slide__heading">Zwei-Achsen-Positionierung: NEPK versus NIIP</h2>
+    <p>Der Zwei-Achsen-Plot visualisiert die kombinierte Position jedes Landes: der NEPK (produktive Stärke, x-Achse) versus die NIIP (Akkumulation von Auslandsvermögen, y-Achse). Die Blasengröße spiegelt das Ausmaß der Leistungsbilanz wider; die Farbe den Realzins.</p>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig5-nepk-vs-niip-de.png" alt="NEPK (x-Achse) versus NIIP (y-Achse) pro Land. Blasengröße = Leistungsbilanz, Farbe = Realzins.">
+      <figcaption>Abbildung 5 — NEPK (x-Achse) versus NIIP (y-Achse). Blasengröße = Leistungsbilanz, Farbe = Realzins. Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <div class="callout">
+      <p><strong>Strategische Quadranten-Schlussfolgerung:</strong> Korea und Taiwan befinden sich rechts oben (hoher NEPK + starke NIIP) — ideale Position für Währungsaufwertung. Die USA befinden sich links unten (niedriger NEPK + negative NIIP) — strukturell schwaches Profil für den USD.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 9: NEPK-RICHTUNG LETZTE 5 JAHRE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 5 (Fortsetzung)</span>
+    <h2 class="slide__heading">NEPK-Richtung 2020→2025: Wer baut auf, wer schrumpft?</h2>
+    <p>Die Fünfjahres-NEPK-Veränderung (Δ 2020→2025) ist ein entscheidender Indikator für das Momentum: Länder, die ihren produktiven Kern ausbauen, sehen ihre Währung erstarken; Länder, die schrumpfen, untergraben ihre FX-Position.</p>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig6-nepk-trend-5jaar-de.png" alt="NEPK-Veränderung 2020 bis 2025 pro Land. Norwegen, Taiwan und Korea bauen auf; NL und Großbritannien schrumpfen leicht.">
+      <figcaption>Abbildung 6 — Δ NEPK 2020→2025. Norwegen, Taiwan und Korea bauen auf; NL und Großbritannien schrumpfen leicht. Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <div class="obs-grid">
+      <div class="obs-card obs-card--sterk">
+        <p class="obs-card__naam">Aufbauer</p>
+        <p class="obs-card__desc">Norwegen, Taiwan und Korea — positives NEPK-Momentum, zusätzlicher Rückenwind für Währungsaufwertung</p>
+      </div>
+      <div class="obs-card">
+        <p class="obs-card__naam">Stabil</p>
+        <p class="obs-card__desc">Schweiz und Deutschland — geringe Veränderung, neutraler Beitrag zum Composite-Score</p>
+      </div>
+      <div class="obs-card obs-card--zwak">
+        <p class="obs-card__naam">Schrumpfer</p>
+        <p class="obs-card__desc">NL und Großbritannien — sinkendes NEPK-Momentum, negative Trendkomponente im FX-Score</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 10: NEURONALES NETZ — METHODIK ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 6</span>
+    <h2 class="slide__heading">Neuronales Netz — Methodik</h2>
+    <p>Für jedes der sieben EUR-Paare (USD, JPY, GBP, CHF, KRW, CNY, TWD) wurde ein separates <strong>MLP-Netz (Multi-Layer Perceptron)</strong> trainiert, das Makro-Features in erwartete Log-Returns auf fünf Horizonte übersetzt: 1, 3, 6, 12 und 24 Monate. Insgesamt 35 Modelle.</p>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1.2rem 0 0.5rem;">Architektur</h3>
+    <div class="arch-flow">
+      <div class="arch-stap">
+        <span class="arch-stap__nr">IN</span>
+        <span class="arch-stap__naam">Input layer</span>
+        <span class="arch-stap__desc">19 Features — NEPK-Differentiale, Zinsen, FX-Lags, Volatilität</span>
+      </div>
+      <div class="arch-stap">
+        <span class="arch-stap__nr">H1</span>
+        <span class="arch-stap__naam">Hidden 1</span>
+        <span class="arch-stap__desc">64 Neuronen, ReLU-Aktivierung, Dropout 0,2</span>
+      </div>
+      <div class="arch-stap">
+        <span class="arch-stap__nr">H2</span>
+        <span class="arch-stap__naam">Hidden 2</span>
+        <span class="arch-stap__desc">32 Neuronen, ReLU-Aktivierung, Dropout 0,2</span>
+      </div>
+      <div class="arch-stap">
+        <span class="arch-stap__nr">H3</span>
+        <span class="arch-stap__naam">Hidden 3</span>
+        <span class="arch-stap__desc">16 Neuronen, ReLU-Aktivierung</span>
+      </div>
+      <div class="arch-stap">
+        <span class="arch-stap__nr">OUT</span>
+        <span class="arch-stap__naam">Output</span>
+        <span class="arch-stap__desc">1 Neuron — Log-Return über Horizont H. Optimierung: Adam (lr=1e-3, wd=1e-4), 400 Epochen, MSE-Loss</span>
+      </div>
+    </div>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.5rem;">Feature-Set (19 Inputs)</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Kategorie</th>
+          <th>Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>NEPK-Differentiale</td><td>nepk, expva, α, τ, φ</td></tr>
+        <tr><td>Zinsen</td><td>rate_diff + Niveaus Leit- und 10j-Zins</td></tr>
+        <tr><td>NEPK-Niveaus</td><td>Land und Eurozone</td></tr>
+        <tr><td>FX-Momentum</td><td>Log-Returns 1m / 3m / 12m</td></tr>
+        <tr><td>FX-Trends</td><td>Gleitender Durchschnitt 6m / 12m</td></tr>
+        <tr><td>FX-Volatilität</td><td>Rollende Standardabweichung 6m / 12m</td></tr>
+        <tr><td>NEPK-Trend</td><td>1-Jahres- und 3-Jahres-Trendkomponente</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 0.9rem; color: #555;"><strong>Trainingsregime:</strong> 189 Monate Daten (Aug. 2008 – Mai 2026). Chronologisch aufgeteilt: 80% Training (2008–2022), 20% Holdout-Test (2022–2026). 10 Modelle pro (Paar, Horizont) mit verschiedenen Zufalls-Seeds — der Mittelwert liefert die zentrale Prognose, die Streuung das 80%-Konfidenzintervall.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 11: TRAINING-KURVEN (fig9) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 6 (Fortsetzung)</span>
+    <h2 class="slide__heading">Trainingsverlauf: Konvergenz pro Paar und Horizont</h2>
+    <p>Die Trainingskurven zeigen den MSE-Verlust (logarithmische Skala) über 400 Epochen für alle sieben EUR-Paare und fünf Horizonte. Alle Modelle konvergieren stabil — es gibt keine Anzeichen von Übertraining. Kürzere Horizonte (1m, 3m) konvergieren in der Regel schneller als längere (12m, 24m).</p>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig9-de.png" alt="Trainingskurven pro FX-Paar und Horizont: MSE-Verlust über 400 Epochen für EURUSD, EURJPY, EURGBP, EURCHF, EURKRW, EURCNY und EURTWD">
+      <figcaption>Abbildung 9 — Trainingskurven pro FX-Paar und Horizont (MSE-Loss logarithmisch über 400 Epochen). Alle 35 Modelle konvergieren stabil; kein Übertraining sichtbar. Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── SLIDE 12: HOLDOUT-TEST / MODELLLEISTUNG ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 6 (Fortsetzung)</span>
+    <h2 class="slide__heading">Holdout-Testleistungen: Richtungsgenauigkeit</h2>
+
+    <div class="callout">
+      <p><strong>„Das Netz erzielt auf 12 Monate eine Richtungsgenauigkeit von bis zu 100% (EURKRW) und 86% (EURJPY) im Holdout"</strong> — dies sind Out-of-Sample-Leistungen auf Daten, die das Modell während des Trainings nie gesehen hat (2022–2026).</p>
+    </div>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig7-holdout-test-de.png" alt="Holdout-Test: Vorhergesagt vs. tatsächlich (6-Monats-Horizont) für KRW, CNY, JPY, CHF und GBP">
+      <figcaption>Abbildung 7 — Holdout-Test: vorhergesagte vs. tatsächliche Rendite (6m Horizont). KRW, CNY, JPY: positive Korrelation sichtbar. CHF, GBP: politisches/Interventionsrauschen dominant. Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.5rem;">Ergebnismatrix: Richtungsgenauigkeit pro Paar und Horizont</h3>
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig10-de.png" alt="Ergebnismatrix NN-Modell: Richtungsgenauigkeit Heatmap links, vorhergesagte Veränderung EUR/X Heatmap rechts">
+      <figcaption>Abbildung 10 — Ergebnismatrix NN-Modell. Links: Richtungsgenauigkeit (%) Holdout-Test pro Paar × Horizont. Rechts: Vorhergesagte Veränderung EUR/X (%). Grün = hoch, rot = niedrig/negativ. Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Paar</th>
+          <th>Dir-acc 6m</th>
+          <th>Dir-acc 12m</th>
+          <th>Dir-acc 24m</th>
+          <th>Urteil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>EURKRW</strong></td><td class="best">68%</td><td class="best">100%</td><td class="best">82%</td><td>Zuverlässigste</td></tr>
+        <tr><td><strong>EURCNY</strong></td><td class="best">68%</td><td class="best">81%</td><td class="best">82%</td><td>Starkes Signal</td></tr>
+        <tr><td><strong>EURJPY</strong></td><td>81%</td><td>86%</td><td>42%</td><td>6/12m stark; 24m schwach</td></tr>
+        <tr><td><strong>EURUSD</strong></td><td>65%</td><td>75%</td><td class="worst">33%</td><td>12m brauchbar; 24m unzuverlässig</td></tr>
+        <tr><td><strong>EURTWD</strong></td><td>54%</td><td>64%</td><td class="worst">30%</td><td>Spekulativ</td></tr>
+        <tr><td><strong>EURGBP</strong></td><td>46%</td><td>56%</td><td>52%</td><td>Politisch getrieben; meiden</td></tr>
+        <tr><td><strong>EURCHF</strong></td><td class="worst">22%</td><td>61%</td><td class="worst">15%</td><td>SNB-Interventionen; meiden</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SLIDE 13: FX-PROGNOSEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 7</span>
+    <h2 class="slide__heading">FX-Prognosen: Projektionen auf 1/3/6/12/24 Monate</h2>
+
+    <figure>
+      <img src="../../assets/articles/nepk-fx/fig8-fx-voorspellingen-de.png" alt="FX-Fächer-Projektionen: 5 Jahre Historie plus Projektionen 1/3/6/12/24 Monate mit 80%-Konfidenzintervall">
+      <figcaption>Abbildung 8 — Fächerdiagramm: 5 Jahre historische Kurse + Projektionen 1/3/6/12/24m mit 80%-Konfidenzintervall (CI). Quelle: NEPK-FX Bericht, Mai 2026</figcaption>
+    </figure>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.5rem;">12 Monate voraus (Mai 2027)</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Paar</th>
+          <th>Aktuell</th>
+          <th>12m Projektion</th>
+          <th>Δ%</th>
+          <th>Dir-acc</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td><strong>EURKRW</strong></td><td>1761</td><td>1736</td><td class="best">−1,4% (KRW stärker)</td><td class="best">100%</td></tr>
+        <tr class="hl"><td><strong>EURCNY</strong></td><td>7,90</td><td>7,27</td><td class="best">−8,0% (CNY stärker)</td><td class="best">81%</td></tr>
+        <tr><td>EURJPY</td><td>185,02</td><td>192,70</td><td>+4,1% (JPY schwächer 12m)</td><td>86%</td></tr>
+        <tr><td>EURUSD</td><td>1,164</td><td>1,199</td><td>+3,0% (USD schwächer)</td><td>75%</td></tr>
+        <tr><td>EURTWD</td><td>36,65</td><td>33,16</td><td class="best">−9,5% (TWD stärker)</td><td>64%</td></tr>
+        <tr><td>EURCHF</td><td>0,910</td><td>0,963</td><td>+5,9% (CHF schwächer?)</td><td class="worst">61%</td></tr>
+        <tr><td>EURGBP</td><td>0,863</td><td>0,879</td><td>+1,8% (GBP schwächer)</td><td class="worst">56%</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.5rem;">24 Monate voraus (Mai 2028)</h3>
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Paar</th>
+          <th>24m Projektion</th>
+          <th>Δ%</th>
+          <th>Dir-acc</th>
+          <th>Zuverlässigkeit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td><strong>EURKRW</strong></td><td>1656</td><td class="best">−6,0%</td><td class="best">82%</td><td>Stark</td></tr>
+        <tr class="hl"><td><strong>EURCNY</strong></td><td>7,88</td><td>−0,2%</td><td class="best">82%</td><td>Stark</td></tr>
+        <tr><td>EURJPY</td><td>127,44</td><td class="best">−31,1% (JPY-Snapback)</td><td>42%</td><td>Mittel</td></tr>
+        <tr><td>EURGBP</td><td>0,832</td><td>−3,6%</td><td>52%</td><td>Mittel</td></tr>
+        <tr><td>EURTWD</td><td>35,21</td><td>−3,9%</td><td class="worst">30%</td><td>Spekulativ</td></tr>
+        <tr><td>EURUSD</td><td>1,053</td><td>−9,5% (USD stärker 24m?)</td><td class="worst">33%</td><td>Unzuverlässig</td></tr>
+        <tr><td>EURCHF</td><td>0,964</td><td>+6,0%</td><td class="worst">15%</td><td>Unzuverlässig</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 0.85rem; color: #777;"><em>Hinweis: 24m-Prognosen mit niedriger Dir-acc (CHF 15%, TWD 30%, USD 33%) sind durch Regime-Brüche 2022–2026 unzuverlässig.</em></p>
+  </div>
+</section>
+
+<!-- ── SLIDE 14: TOPCHANCEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 8</span>
+    <h2 class="slide__heading">Fünf Topchancen: Optionsstrategien</h2>
+    <p>Die Strategien basieren auf Modellprognosen und NEPK-Fundamentaldaten. Empfohlener Horizont: 6–12 Monate, wo das Modell statistisch am stärksten ist. Ein <strong>CALL</strong> = Recht zum Kauf (gewinnt wenn Kurs steigt); ein <strong>PUT</strong> = Recht zum Verkauf (gewinnt wenn Kurs fällt). Ein EURUSD PUT gewinnt, wenn EURUSD fällt, also wenn der USD stärker wird.</p>
+
+    <div class="kans-card kans-card--5">
+      <div class="kans-card__header">
+        <div>
+          <p class="kans-card__nr-titel">Topchance 1</p>
+          <h3 class="kans-card__titel">Long KRW — PUT auf EURKRW</h3>
+        </div>
+        <div class="kans-card__sterkte">★★★★★</div>
+      </div>
+      <div class="kans-card__model">
+        <div class="kans-card__stat"><strong>Modell:</strong> 1761 → 1736 (−1,4% in 12m)</div>
+        <div class="kans-card__stat"><strong>Dir-acc 12m:</strong> 100% Holdout</div>
+        <div class="kans-card__stat"><strong>NEPK Korea:</strong> 5,0% vs. Deutschland 2,2%</div>
+      </div>
+      <p style="font-size:0.88rem; color:#444; margin-bottom:0.8rem;">Won strukturell unterbewertet durch historische Kapitalflucht-Angst. NEPK-Differential von fast 3 Prozentpunkten gegenüber der Eurozone ist konsistent und wachsend.</p>
+      <ul class="kans-card__strategie-lijst">
+        <li><span class="strat-label">Haupt</span>Kauf EURKRW PUT Strike 1.740, 12 Monate. Prämie ~1,5–2%. Break-even ~1.700.</li>
+        <li><span class="strat-label strat-label--alt">Alternativ</span>Long KRW / Short EUR Spot oder Forward. Keine Prämie, Richtungsrisiko.</li>
+        <li><span class="strat-label strat-label--risk">Risikodefiniert</span>Bear Put Spread: PUT 1.750 long, PUT 1.650 short. Max. Verlust = Nettoprämie.</li>
+      </ul>
+    </div>
+
+    <div class="kans-card kans-card--5">
+      <div class="kans-card__header">
+        <div>
+          <p class="kans-card__nr-titel">Topchance 2</p>
+          <h3 class="kans-card__titel">Short CNY-Schwäche — PUT auf EURCNY</h3>
+        </div>
+        <div class="kans-card__sterkte">★★★★★</div>
+      </div>
+      <div class="kans-card__model">
+        <div class="kans-card__stat"><strong>Modell:</strong> 7,90 → 7,27 (−8,0% in 12m)</div>
+        <div class="kans-card__stat"><strong>Dir-acc 12m:</strong> 81% Holdout</div>
+        <div class="kans-card__stat"><strong>NEPK China:</strong> 4,8%, niedriges τ, hohes φ</div>
+      </div>
+      <p style="font-size:0.88rem; color:#444; margin-bottom:0.8rem;">Yuan strukturell unterbewertet durch Kapitalverkehrskontrollen und stark positiven NEPK. Bei gradueller Liberalisierung des Kapitalverkehrs würde die Aufwertung beschleunigen.</p>
+      <ul class="kans-card__strategie-lijst">
+        <li><span class="strat-label">Haupt</span>Kauf EURCNY PUT Strike 7,80, 12 Monate. Bei Landung auf 7,27: Gewinn 5–6% nach Prämie.</li>
+        <li><span class="strat-label strat-label--alt">Alternativ</span>USDCNH PUT — vergleichbares Signal, etwas liquiderer Markt.</li>
+        <li><span class="strat-label strat-label--risk">Risikodefiniert</span>Bear Put Spread: PUT 7,80 long, PUT 7,20 short. Max. Verlust = Nettoprämie.</li>
+      </ul>
+    </div>
+
+    <div class="kans-card kans-card--4">
+      <div class="kans-card__header">
+        <div>
+          <p class="kans-card__nr-titel">Topchance 3</p>
+          <h3 class="kans-card__titel">Long JPY-Rebound — PUT auf EURJPY</h3>
+        </div>
+        <div class="kans-card__sterkte">★★★★</div>
+      </div>
+      <div class="kans-card__model">
+        <div class="kans-card__stat"><strong>Modell:</strong> +4,1% (12m) → −31,1% (24m)</div>
+        <div class="kans-card__stat"><strong>Dir-acc 12m:</strong> 86%</div>
+        <div class="kans-card__stat"><strong>Realzins Japan:</strong> −2,1% (nicht haltbar)</div>
+      </div>
+      <p style="font-size:0.88rem; color:#444; margin-bottom:0.8rem;">Klassischer „Yen-Snapback": BoJ-Normalisierung ist unvermeidlich. Reale 10j-Rendite von −2,1% bietet keine strukturelle Unterstützung. Lange Laufzeit entscheidend — das 12m-Modell zeigt temporäre Schwäche vor dem großen Rebound.</p>
+      <ul class="kans-card__strategie-lijst">
+        <li><span class="strat-label">Haupt</span>Kauf EURJPY PUT Strike 180, 18–24 Monate. Lange Laufzeit entscheidend für Snapback-Abdeckung.</li>
+        <li><span class="strat-label strat-label--alt">Alternativ</span>USDJPY PUT — niedrigere implizite Volatilität, günstiger.</li>
+        <li><span class="strat-label strat-label--risk">Risikodefiniert</span>Calendar Spread: Short kurzer CALL (1–3m), Long langer PUT (12–24m).</li>
+      </ul>
+    </div>
+
+    <div class="kans-card kans-card--3">
+      <div class="kans-card__header">
+        <div>
+          <p class="kans-card__nr-titel">Topchance 4</p>
+          <h3 class="kans-card__titel">Short USD — CALL auf EURUSD</h3>
+        </div>
+        <div class="kans-card__sterkte">★★★</div>
+      </div>
+      <div class="kans-card__model">
+        <div class="kans-card__stat"><strong>Modell:</strong> 1,164 → 1,199 (+3,0% in 12m)</div>
+        <div class="kans-card__stat"><strong>Dir-acc 12m:</strong> 75%</div>
+        <div class="kans-card__stat"><strong>USA Composite-Score:</strong> niedrigster — NIIP −90%, NEPK 1,0%</div>
+      </div>
+      <p style="font-size:0.88rem; color:#444; margin-bottom:0.8rem;">Die USA haben die schwächste strukturelle Position aller untersuchten Länder: niedrigster NEPK, historisch negativer NIIP, negatives Leistungsbilanzsaldo. 75% Dir-acc auf 12m ist brauchbar. Vorsicht bei 24m — Dir-acc lediglich 33%.</p>
+      <ul class="kans-card__strategie-lijst">
+        <li><span class="strat-label">Haupt</span>Kauf EURUSD CALL Strike 1,20, 12 Monate. OTM, Prämie ~0,8–1,2%. Gewinn über 1,21.</li>
+        <li><span class="strat-label strat-label--risk">Risikodefiniert</span>Bull Call Spread: CALL 1,18 long, CALL 1,25 short. Gewinn gedeckelt auf ~+6%.</li>
+      </ul>
+    </div>
+
+    <div class="kans-card kans-card--3">
+      <div class="kans-card__header">
+        <div>
+          <p class="kans-card__nr-titel">Topchance 5</p>
+          <h3 class="kans-card__titel">Long TWD — PUT auf EURTWD</h3>
+        </div>
+        <div class="kans-card__sterkte">★★★</div>
+      </div>
+      <div class="kans-card__model">
+        <div class="kans-card__stat"><strong>Modell:</strong> −9,5% in 12m</div>
+        <div class="kans-card__stat"><strong>Dir-acc 12m:</strong> 64%</div>
+        <div class="kans-card__stat"><strong>NEPK Taiwan:</strong> 8,9% (weltweit höchster)</div>
+      </div>
+      <p style="font-size:0.88rem; color:#444; margin-bottom:0.8rem;">Taiwan hat den stärksten NEPK weltweit, aber die Zentralbank unterdrückt den TWD aktiv. Fundamental starker Fall — jedoch volatil durch Interventionen. Breites CI, Optionen teuer durch hohe implizite Volatilität. Nicht empfohlen für 24m (Dir-acc lediglich 30%).</p>
+      <ul class="kans-card__strategie-lijst">
+        <li><span class="strat-label">Haupt</span>Kauf EURTWD PUT Strike 35, 12 Monate. Breites CI — nicht für risikoaverse Anleger.</li>
+        <li><span class="strat-label strat-label--alt">Alternativ</span>USDTWD PUT — liquiderer Markt, niedrigere Spreads.</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <p><strong>Meiden — CHF und GBP:</strong> EURCHF zu unberechenbar durch SNB-Interventionen (Dir-acc 15–22%). EURGBP politisch getrieben (Dir-acc 42–56%). Beide Paare werden nicht in die Portfolio-Allokation aufgenommen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 15: PORTFOLIO-ALLOKATION ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 8 (Fortsetzung)</span>
+    <h2 class="slide__heading">Portfolio-Allokation: diversifizierte Optionspositionen</h2>
+    <p>Die empfohlene Allokation spiegelt die Hierarchie der Modell-Conviction und der NEPK-Fundamentaldaten wider. Insgesamt fünf Paare; CHF und GBP werden aufgrund unzureichender Richtungsgenauigkeit nicht aufgenommen.</p>
+
+    <table class="porto-tabel">
+      <thead>
+        <tr>
+          <th>Allokation</th>
+          <th>Trade</th>
+          <th>Rationale</th>
+          <th>Conviction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pct">30%</td>
+          <td><strong>EURKRW PUT 12m</strong></td>
+          <td>100% Dir-acc + NEPK-Differential 3pp</td>
+          <td>★★★★★ Höchste</td>
+        </tr>
+        <tr>
+          <td class="pct">25%</td>
+          <td><strong>EURCNY PUT 12m</strong></td>
+          <td>81% Dir-acc + −8% erwartete Aufwertung</td>
+          <td>★★★★★ Höchste</td>
+        </tr>
+        <tr>
+          <td class="pct">20%</td>
+          <td><strong>EURJPY PUT 18–24m</strong></td>
+          <td>BoJ-Normalisierung + Realzins −2,1%</td>
+          <td>★★★★ Hoch</td>
+        </tr>
+        <tr>
+          <td class="pct">15%</td>
+          <td><strong>EURUSD CALL 12m</strong></td>
+          <td>75% Dir-acc + schwächster Composite-Score</td>
+          <td>★★★ Mittel-hoch</td>
+        </tr>
+        <tr>
+          <td class="pct">10%</td>
+          <td><strong>EURTWD PUT 12m</strong></td>
+          <td>Stärkster NEPK weltweit; Interventionsrisiko</td>
+          <td>★★★ Spekulativ</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SLIDE 16: SCHLUSSFOLGERUNGEN + MODELLEINSCHRÄNKUNGEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Kapitel 9</span>
+    <h2 class="slide__heading">Schlussfolgerungen und Modelleinschränkungen</h2>
+
+    <div class="conclusie-grid">
+      <div class="conclusie-col conclusie-col--sterk">
+        <p class="conclusie-col__header">Hauptschlussfolgerungen</p>
+        <ul>
+          <li>NEPK liefert einen kohärenten Rahmen für strukturelle FX-Richtung.</li>
+          <li>Das neuronale Netz übertrifft naives Benchmarking auf 6–12m für asiatische Paare.</li>
+          <li>Länder mit dem schwächsten NEPK (USA, Großbritannien) sind die wahrscheinlichsten FX-Verlierer.</li>
+          <li>Taiwan zeigt die größte Abweichung zwischen Fundamentaldaten und Marktpreis.</li>
+          <li>24m-Prognosen sind für CHF, USD und TWD unzuverlässig.</li>
+        </ul>
+      </div>
+      <div class="conclusie-col conclusie-col--zwak">
+        <p class="conclusie-col__header">Modelleinschränkungen</p>
+        <ul>
+          <li>Trainingsdaten: lediglich 18 Jahre (Aug. 2008 – Mai 2026).</li>
+          <li>Jahreszahlen + monatliche Interpolation erfassen abrupte Bewegungen nicht.</li>
+          <li>Keine geopolitischen Schocks im Modell (Taiwan-Straße, Ukraine, etc.).</li>
+          <li>Zentralbank-Interventionen nicht explizit modelliert.</li>
+          <li>OECD TiVA-Daten bis 2020 — danach extrapoliert.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.5rem;">Empfohlene Verbesserungen</h3>
+    <ul style="column-count: 2; column-gap: 2rem; font-size: 0.9rem; color: #444;">
+      <li style="margin-bottom:0.4rem;">LSTM-Architektur für Zeitdynamik</li>
+      <li style="margin-bottom:0.4rem;">Ensemble mit klassischen Modellen (PPP, BEER, FEER)</li>
+      <li style="margin-bottom:0.4rem;">Risikofeatures: VIX, CDS-Spreads, Terminprämien</li>
+      <li style="margin-bottom:0.4rem;">Rolling-Window-Backtest für Regime-Stabilität</li>
+      <li style="margin-bottom:0.4rem;">Tagesdaten für kürzere Horizonte (1m)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── SLIDE 17: DISCLAIMER ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Disclaimer</span>
+    <h2 class="slide__heading">Rechtlicher Disclaimer und Modellwarnung</h2>
+
+    <div class="disclaimer-block">
+      <div class="disclaimer-block__header">
+        <span class="disclaimer-block__icon">⚠️</span>
+        <p class="disclaimer-block__titel">DISCLAIMER — Bitte sorgfältig lesen</p>
+      </div>
+      <p>Diese Analyse ist ausschließlich zu Bildungszwecken bestimmt und stellt keine Anlageberatung, Empfehlung oder Einladung zum Kauf oder Verkauf von Finanzinstrumenten dar.</p>
+      <p>FX-Optionen sind komplexe Finanzinstrumente mit erheblichen Risiken, einschließlich des <strong>vollständigen Verlusts der gezahlten Prämie</strong>. Zentralbank-Interventionen, geopolitische Schocks und Regime-Brüche können Modellprognosen abrupt und vollständig ungültig machen.</p>
+      <p><strong>Vergangene Modellleistungen sind keine Garantie für die Zukunft.</strong></p>
+      <p>Konsultieren Sie stets einen qualifizierten und regulierten Finanzberater, bevor Sie auf Basis quantitativer Modelle handeln. Der Autor und Het Open Vizier übernehmen keine Haftung für Handelsentscheidungen, die auf der Grundlage dieses Berichts getroffen werden.</p>
+    </div>
+
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-dark); margin: 1.5rem 0 0.5rem;">Datenquellen (Kapitel 10)</h3>
+    <div class="bronnen-grid">
+      <div class="bron-item"><strong>Weltbank Open Data</strong> — Exporte, Industrie-Wertschöpfung, verarbeitendes Gewerbe, Steuerdaten</div>
+      <div class="bron-item"><strong>OECD Revenue Statistics</strong> — Steuerquote inkl. Sozialversicherungsbeiträge</div>
+      <div class="bron-item"><strong>OECD TiVA</strong> — domestic value added in exports (bis 2020)</div>
+      <div class="bron-item"><strong>Wikipedia / BEA / Bundesbank / Eurostat</strong> — NIIP pro Land</div>
+      <div class="bron-item"><strong>FSS / JPX / TWSE / KOSPI / Deutsche Börse</strong> — ausländischer Aktienbesitz</div>
+      <div class="bron-item"><strong>Perplexity Finance</strong> — monatliche FX-Kurse 2007–2026</div>
+      <div class="bron-item"><strong>Van Merksteijn (April 2026)</strong> — Quellbericht NEPK Niederlande 1970–2050</div>
+    </div>
+  </div>
+</section>
+
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Startseite">
+  <a href="../../de/editie-2/index.html" class="navbar__terug">← Zurück zu Ausgabe 2</a>
+  <a href="../../de/" class="navbar__home">⌂ Startseite</a>
+  <a href="../../de/verkennen.html" class="navbar__verk">↻ Erkunden</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ KURZFASSUNG -->
+<div class="version-content__kort">
+
+<!-- KURZ SLIDE 1: Zusammenfassung Kernschlussfolgerungen -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Anwendung &amp; Forschung</span>
+    <h2 class="slide__heading">NEPK-FX — Neuronale Vorhersage von Wechselkursen</h2>
+    <p class="slide__lead">Wie die NEPK-Formel strukturelle Wechselkursrichtungen für zwölf Länder vorhersagt.</p>
+    <p>Der NEPK-Indikator (Netto Externe Produktive Kern) zerlegt die produktive Verdienstkapazität eines Landes in vier Komponenten: Export-VA × α × (1 − τ) × φ. Auf dieser Basis wurden für sieben EUR-Paare neuronale Netze trainiert, die Makrofundamentaldaten in FX-Projektionen auf 1, 3, 6, 12 und 24 Monate übersetzen.</p>
+
+    <ul style="line-height:1.9; margin: 1rem 0;">
+      <li><strong>Taiwan</strong> hat den weltweit höchsten NEPK (8,9%) — USA (1,0%) und Großbritannien (1,1%) sind strukturell schwach.</li>
+      <li>Das Modell erzielt <strong>100% Richtungsgenauigkeit auf EURKRW</strong> und 86% auf EURJPY (Holdout 2022–2026).</li>
+      <li>Stärkste Signale: KRW- und CNY-Aufwertung; USD- und JPY-Schwäche strukturell begründet.</li>
+    </ul>
+
+    <div class="callout">
+      <p><strong>„Vergangene Modellleistungen sind keine Garantie für die Zukunft."</strong> — Dieser Bericht ist ausschließlich zu Bildungszwecken bestimmt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- KURZ SLIDE 2: Topchance 1 KRW -->
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Topchance 1 — Long KRW (als Demo)</h2>
+
+    <div class="kans-card kans-card--5">
+      <div class="kans-card__header">
+        <div>
+          <p class="kans-card__nr-titel">Stärkstes Signal</p>
+          <h3 class="kans-card__titel">Long KRW — PUT auf EURKRW</h3>
+        </div>
+        <div class="kans-card__sterkte">★★★★★</div>
+      </div>
+      <div class="kans-card__model">
+        <div class="kans-card__stat"><strong>Modell:</strong> 1761 → 1736 (−1,4% in 12m)</div>
+        <div class="kans-card__stat"><strong>Dir-acc 12m:</strong> 100% Holdout</div>
+        <div class="kans-card__stat"><strong>NEPK Korea 5,0%</strong> vs. Eurozone 2,2%</div>
+      </div>
+      <ul class="kans-card__strategie-lijst">
+        <li><span class="strat-label">Haupt</span>Kauf EURKRW PUT Strike 1.740, 12m. Prämie ~1,5–2%.</li>
+        <li><span class="strat-label strat-label--alt">Alternativ</span>Long KRW / Short EUR Spot. Keine Prämie, Richtungsrisiko.</li>
+        <li><span class="strat-label strat-label--risk">Risikodefiniert</span>Bear Put Spread: PUT 1.750 long, PUT 1.650 short.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- KURZ SLIDE 3: Portfolio-Allokation Tabelle -->
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Portfolio-Allokation — fünf Währungspaare</h2>
+    <table class="porto-tabel">
+      <thead>
+        <tr>
+          <th>Allokation</th>
+          <th>Trade</th>
+          <th>Conviction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="pct">30%</td><td><strong>EURKRW PUT 12m</strong></td><td>★★★★★ Höchste</td></tr>
+        <tr><td class="pct">25%</td><td><strong>EURCNY PUT 12m</strong></td><td>★★★★★ Höchste</td></tr>
+        <tr><td class="pct">20%</td><td><strong>EURJPY PUT 18–24m</strong></td><td>★★★★ Hoch</td></tr>
+        <tr><td class="pct">15%</td><td><strong>EURUSD CALL 12m</strong></td><td>★★★ Mittel-hoch</td></tr>
+        <tr><td class="pct">10%</td><td><strong>EURTWD PUT 12m</strong></td><td>★★★ Spekulativ</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem; color:#777; margin-top:0.5rem;">CHF und GBP werden aufgrund unzureichender Richtungsgenauigkeit (15–56%) nicht aufgenommen.</p>
+  </div>
+</section>
+
+<!-- KURZ SLIDE 4: Disclaimer -->
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Disclaimer</h2>
+    <div class="disclaimer-block">
+      <div class="disclaimer-block__header">
+        <span class="disclaimer-block__icon">⚠️</span>
+        <p class="disclaimer-block__titel">DISCLAIMER — Ausschließlich zu Bildungszwecken</p>
+      </div>
+      <p>Dieser Bericht ist ausschließlich zu Bildungszwecken bestimmt und stellt keine Anlageberatung dar. FX-Optionen haben erhebliche Risiken, einschließlich des vollständigen Prämienverlusts. Zentralbank-Interventionen und geopolitische Schocks können Modellprognosen abrupt ungültig machen.</p>
+      <p><strong>Vergangene Modellleistungen sind keine Garantie für die Zukunft.</strong></p>
+      <p>Konsultieren Sie einen qualifizierten Finanzberater, bevor Sie auf Basis quantitativer Modelle handeln.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<aside class="auteursblok">
+  <div class="auteursblok__foto"><img decoding="async" src="../../assets/auteur/jvm_studio.jpg" alt="Jacobus van Merksteijn" loading="lazy"></div>
+  <div class="auteursblok__tekst">
+    <p class="auteur-naam">Jacobus van Merksteijn</p>
+    <p>Chefredakteur von Het Open Vizier. Unternehmer, Entwickler industrieller und governance-bezogener Innovationen (Carbon-Alert Ltd, TerraClean Ltd, GuardSkin Ltd). Schreibt über wirtschaftliche, ökologische und politische Systemfragen — aus eigener Erfahrung mit der Brüsseler und Haager Entscheidungsmaschinerie.</p>
+  </div>
+</aside>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Ausgabe 2 — Donnerstag, 28. Mai 2026</p>
+    <p><a href="../">Zur Ausgabe 2</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+<script src="../../assets/nav-mobile.js" defer></script>
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>
