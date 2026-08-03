@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D'abord le reptile — Het Open Vizier</title>
+  <meta name="description" content="Comment élever une IA le long des couches évolutives — du reptile au mammifère et à l'humain, jusqu'à la raison. Pourquoi l'industrie fait l'inverse.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/fr/wat-opkomt/d-abord-le-reptile.html">
+  <meta property="og:title" content="D'abord le reptile">
+  <meta property="og:description" content="Comment élever une IA le long des couches évolutives — du reptile au mammifère et à l'humain, jusqu'à la raison. Pourquoi l'industrie fait l'inverse.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_eerst-het-reptiel_in-article.jpg">
+  <meta property="og:site_name" content="Het Open Vizier">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="D'abord le reptile">
+  <meta name="twitter:description" content="Comment élever une IA le long des couches évolutives — du reptile au mammifère et à l'humain, jusqu'à la raison. Pourquoi l'industrie fait l'inverse.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_eerst-het-reptiel_in-article.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.1rem, 2.4vw, 1.28rem); margin: 0.5rem auto 2rem auto; max-width: 680px; line-height: 1.45; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #7a6b3a; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 780px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.92rem; color: #6b7280; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f3ee; border-left: 3px solid #7a6b3a; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.4rem); line-height: 1.55; color: #7a6b3a; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #7a6b3a; background: #f5f3ee; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud p.stinger { font-size: clamp(1.15rem, 2.5vw, 1.25rem); font-style: italic; color: #7a6b3a; text-align: center; margin: 2rem auto; max-width: 620px; line-height: 1.5; }
+    .wo-artikel__inhoud p.stinger::before, .wo-artikel__inhoud p.stinger::after { content: "—"; color: #9ca3af; margin: 0 0.6rem; font-style: normal; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #7a6b3a; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+  <link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="/fr/">Accueil</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">IA-Atomique Explosif<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-ai-als-baas.html">L'IA comme patron</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/d-abord-le-reptile.html">D'abord le reptile</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/la-bombe-atomique-au-format-ia.html">La bombe atomique au format IA</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politique<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">France & révolution européenne</div>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/france-moment-revolutionnaire.html">France — moment révolutionnaire</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/vijf-landen-vijf-curves.html">Cinq pays, cinq courbes</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-nederlandse-revolutie-2033.html">La Révolution Néerlandaise 2033</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/moet-nederland-ook-volgen.html">Les Pays-Bas doivent-ils suivre aussi?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Mécanique du basculement</div>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/de-kantelmechanica.html">La mécanique du basculement</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/mensen-die-mee-bouwen.html">Les gens qui construisent avec</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/actievoerders-bouwen-continenten.html">Les militants bâtissent des continents</a>
+        <a class="ov-nav__subitem" href="/nl/opbouwers-wegjagen/">Qui chasse les bâtisseurs</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-matrix-van-de-uittocht.html">La matrice de l'exode</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-ai-als-baas.html">L'IA comme patron</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/d-abord-le-reptile.html">D'abord le reptile</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/l-interrupteur-hors-du-systeme.html">L'interrupteur hors du système</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Partis & Pareto</div>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-02-pareto-top12.html">Pareto top-12 — qui bloque</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-08-partijen-in-kaart.html">Où se situe votre parti</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-09-pareto-per-actor.html">Pareto par acteur</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-04-ordes-van-bezwaar.html">Ordres d'objection</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-05-twintig-bezwaren.html">Vingt objections actuelles</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-4-politieke-landschap.html">Pillage 4: paysage politique</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Presse & médias</div>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-pers-is-de-arena.html">La presse est l'arène</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/ze-weten-het-al.html">Ils le savent déjà</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/trump-als-spiegel.html">Trump comme miroir</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-03-media-als-rekstrook.html">Les médias comme banc d'étirement</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/la-maladie-anti-immunitaire-de-bruxelles.html">La maladie anti-immunitaire de Bruxelles</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">La maladie auto-immune frappe</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-dertig-cent-die-europa-omdraait.html">Les trente centimes qui retournent l'Europe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Vote & choix</div>
+        <a class="ov-nav__subitem" href="/nl/stemgedrag.html">Comportement de vote</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/honnetete-rend-la-gouvernance-possible.html">L'honnêteté rend le gouvernement possible</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/beslissen-zonder-uitzicht.html">Décider sans vue</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">En tête sans subvention</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Pillage 0: d'abord cueillir</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/onderwijs-kies-een-kant.html">Éducation — choisissez un camp</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/voorwoord.html">Édition 1 — Préface</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Philosophie<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sept Dimensions</div>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/van-quantum-naar-7d.html">Du quantique au 7D</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/van-de-grot-naar-de-zon.html">De la grotte au soleil</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/denkraam-7d.html">Cadre de pensée 7D</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/samenhang.html">Comment tout est lié</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/stromingsleer.html">Théorie des écoulements</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/zeven-dimensies.html">Sept Dimensions</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sentiment originel & Kosaris</div>
+        <a class="ov-nav__subitem" href="/fr/7-dim-film/index.html">L'homme sous la glace</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-01-oergevoel.html">Le sentiment originel</a>
+        <a class="ov-nav__subitem" href="/fr/7-dim-film/">Les sept dimensions</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-03-drie-lagen.html">Les trois couches cérébrales</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-04-communicatie.html">Communication entre sentiments originels</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-05-wat-we-doen.html">Ce que nous faisons aux enfants</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-06-mama.html">Maman j'ai faim</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Sentiment originel dans la pratique</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-ai-als-baas.html">L'IA comme patron</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/d-abord-le-reptile.html">D'abord le reptile</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/l-interrupteur-hors-du-systeme.html">L'interrupteur hors du système</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifeste Sentiment Originel</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/waarom-ik-zo-ben.html">Pourquoi je suis ainsi</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Films, contes, livre</div>
+        <a class="ov-nav__subitem" href="/fr/7-dim-film/">Le film 7-Dim</a>
+        <a class="ov-nav__subitem" href="/fr/kosaris-film/">Les Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="/fr/livre/">Les Kosaris — Livre</a>
+        <a class="ov-nav__subitem" href="/fr/contes/">Le conte de Jacobus</a>
+        <a class="ov-nav__subitem" href="/fr/filosofie/">Philosophie — portail</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Système de connexion sensible</div>
+        <a class="ov-nav__subitem" href="/fr/recherche/gevoelsconnectiesysteem.html">Système de connexion sensible</a>
+        <a class="ov-nav__subitem" href="/fr/recherche/gevoelsconnectiesysteem-volledig.html">SCS — plan complet</a>
+        <a class="ov-nav__subitem" href="/fr/recherche/krantbriefing.html">Briefing journal SCS</a>
+        <a class="ov-nav__subitem" href="/fr/recherche/routekaart-vervolgvragen.html">Feuille de route questions</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Climat<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Crise de l'azote</div>
+        <a class="ov-nav__subitem" href="/nl/editie-stikstof/">Édition Azote</a>
+        <a class="ov-nav__subitem" href="/nl/editie-stikstof/drie-problemen-een-antwoord.html">Trois problèmes — une réponse</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/naar-de-natuurschool.html">À l'école de la nature</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Agriculteur et nature en avant</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/beslissen-zonder-uitzicht.html">Décider sans vue</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-methodologie-van-de-aanpassing.html">La ligne alimentaire</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/de-op-de-natuur-aangepaste-analyse.html">Analyse de la nature</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Maladie auto-immune frappe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Colza</div>
+        <a class="ov-nav__subitem" href="/nl/editie-duitsland/raps-multiplicator-oost-duitsland.html">Multiplicateur de colza</a>
+        <a class="ov-nav__subitem" href="/nl/editie-duitsland/">Édition Allemagne</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Agriculteur et nature en avant</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Dividende climatique</div>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/dividende-climatique.html">Le dividende climatique</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/erfenisgolf-240-miljard.html">Vague d'héritage 240 milliards</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/wereldgordel-2040-2050.html">Ceinture mondiale 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/the-downline.html">The Downline — voie de rétablissement verte</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert vision 2036</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/brusselse-gevolgenkaart-bicrs.html">Version BiCRS UE</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plastic-boete-carbon-credit.html">Amende plastique ou crédit carbone</a>
+        <a class="ov-nav__subitem" href="/nl/editie-0/carbon-alert-europa.html">Carbon-Alert Europe</a>
+        <a class="ov-nav__subitem" href="/nl/editie-0/biomimetische-krachtcentrale.html">Centrale biomimétique</a>
+        <a class="ov-nav__subitem" href="/fr/editie-0/">Édition Europe</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Thermostat & Terre physique</div>
+        <a class="ov-nav__subitem" href="/fr/edition-2/thermostaat.html">Le thermostat</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/nepk-klimaatlogica.html">NEPK-Logique climatique</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-zon-staat-op-de-evenaar.html">Le soleil est à l'équateur</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Pneu, plastique, pollution</div>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Pneu-cigarette</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-methodologie-van-de-aanpassing.html">La ligne alimentaire</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/de-op-de-natuur-aangepaste-analyse.html">Analyse de la nature</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Éditions spéciales</div>
+        <a class="ov-nav__subitem" href="/nl/editie-klimaat/">Édition Climat</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Ce qu'on ne voit pas</div>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/ils-tuent-leurs-arteres-vitales-bruxelles.html">Ils tuent leur artère vitale</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/ils-tuent-leurs-arteres-vitales-bruxelles.html">Ils tuent leurs artères (Bruxelles)</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/kernfusie.html">Fusion nucléaire</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/technische-oplossingen.html">Solutions techniques</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Gouvernance<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Pays-Bas</div>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/the-downline.html">The Downline — chute du NEPK NL</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/gevolgenkaart-iii-stille-analyse.html">Analyse silencieuse (NL)</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Au boulot (NL)</a>
+        <a class="ov-nav__subitem" href="/nl/de-eerste-gemeente/">La première commune</a>
+        <a class="ov-nav__subitem" href="/nl/de-halve-gemeente/">La demi-commune</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/overheden/nederland/">Pays-Bas · Avenir</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/de-gevolgenkaart.html">Carte des conséquences Pays-Bas</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europe</div>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europe — ouverture</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/europa-opnieuw.html">Europe à nouveau</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/de-brusselse-gevolgenkaart.html">Carte bruxelloise des conséquences</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-metafoor-auto-immuunziekte.html">Métaphore maladie auto-immune</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/het-immuunsysteem-van-organisaties.html">Système immunitaire des organisations</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/open-brief-aan-de-regeringen-van-europa.html">Lettre ouverte aux gouvernements</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-eu/">Carte conséquences UE-27</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/overheden/europa/">Europe · Avenir</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Autres pays</div>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-br/">Brésil</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-ch/">Suisse</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-cn/">Chine</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-de/">Allemagne</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-es/">Espagne</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-il/">Israël</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-in/">Inde</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-jp/">Japon</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-kr/">Corée du Sud</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-se/">Suède</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-tw/">Taïwan</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-uk/">Royaume-Uni</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-us/">États-Unis</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-za/">Afrique du Sud</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/mappa-tal-konsegwenzi.html">Malte</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-singaporese-gevolgenkaart.html">Singapour</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="/fr/edition-6/">Édition 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/voorwoord-waarom-dit-moet.html">Préface — Pourquoi cela doit être</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-00-brussel-als-variabele.html">Bruxelles comme variable</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-01-zes-ordes-van-fasering.html">Six ordres de phasage</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-06-zwitserse-spiegel.html">Miroir suisse</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-07-canadese-spiegel.html">Miroir canadien</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-11-kennislaag-als-bondgenoot.html">Couche de connaissance comme allié</a>
+        <a class="ov-nav__subitem" href="/fr/edition-6/aflevering-12-beste-weg-vooruit.html">Meilleur chemin</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/nova-democratia-manifest.html">Manifeste Nova Democratia</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-actor-is-de-regel.html">L'acteur est la règle</a>
+        <a class="ov-nav__subitem" href="/nl/soevereiniteit-als-cyclus/">Souveraineté comme cycle</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/bbp-liegt.html">Le PIB ment</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Leadership & organisations</div>
+        <a class="ov-nav__subitem" href="/nl/editie-4/">Édition 4 — Industrie papetière</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-01-wet-papier-industrie.html">Loi de l'industrie papetière</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-02-ceo.html">Le PDG et le sentiment originel</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-03-consultant.html">Le consultant</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-04-bankier.html">Le banquier</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-05-verzekeraar.html">L'assureur</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-06-toezichthouder.html">Le superviseur</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-07-rechter.html">Le juge</a>
+        <a class="ov-nav__subitem" href="/nl/editie-leiderschap/">Édition Leadership</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Éducation</div>
+        <a class="ov-nav__subitem" href="/fr/edition-2/onderwijs-manifest.html">Éducation — manifeste</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/onderwijs-prijs-van-de-bloei.html">Prix de l'épanouissement</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/onderwijs.html">Éducation (Édition 1)</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-07-ai-onderwijs.html">Éducation IA</a>
+        <a class="ov-nav__subitem" href="/nl/editie-kind-loopbaan/">Édition Enfant et Carrière</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/opvoeding/">Éducation · Avenir</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/scholing/">Formation · Avenir</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industrie, énergie, avenir</div>
+        <a class="ov-nav__subitem" href="/nl/toekomst/">Avenir — portail</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/energie/">Énergie · Avenir</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/industrie/">Industrie · Avenir</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Révolution<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/nl/editie-5/">Édition 5 — L'ordre oublié</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-00-brief-aan-lezer.html">Lettre au lecteur</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sept outils</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-02-succesformule.html">La formule du succès</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-03-vergeten-orde.html">L'ordre oublié</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-04-methaan-misleiding.html">Tromperie du méthane</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-05-plant-die-verhuist.html">La plante qui déménage</a>
+        <a class="ov-nav__subitem" href="/fr/7-dim-film/">Les sept de Berne</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-07-afwijkers.html">Les dissidents</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-08-eis-aan-lezer.html">L'exigence au lecteur</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/veerkracht-selectie.html">Résilience et sélection</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/">Édition 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Fiscalité<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/de-grote-plundering.html">Le Grand Pillage</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-1-diagnose.html">Pillage 1: diagnostic</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-2-mechaniek.html">Pillage 2: mécanique</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-3-afloop.html">Pillage 3: résultat</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">À la fin, plus rien</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/gat-in-de-grond.html">€450 mln — trou dans le sol</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="/fr/ce-qui-emerge/de-gevolgenkaart.html">Carte conséquences — manifeste</a>
+        <a class="ov-nav__subitem" href="/fr/edition-2/beleidsadvies-aantrekken.html">De Taxer à Attirer</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Recherche<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/nl/dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="/nl/dossiers/vortex-hair.html">Balle golf Vortex-Hair™</a>
+        <a class="ov-nav__subitem" href="/fr/recherche/">Derrière les Chiffres</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoek/eu-multiplicator.html">Multiplicateur UE</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoek/ontwikkelingslandstatus.html">Statut de pays en développement?</a>
+        <a class="ov-nav__subitem" href="/fr/recherche/">Recherche — portail</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Mentions légales<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/fr/mentions-legales.html">Mentions légales</a>
+        <a class="ov-nav__subitem" href="/nl/over.html">À propos</a>
+        <a class="ov-nav__subitem" href="/nl/archief.html">Archives</a>
+        <a class="ov-nav__subitem" href="../../nl/op-de-hoogte.html">Rester informé</a>
+        <a class="ov-nav__subitem" href="/nl/structuur.html">Structure — Admin</a>
+        <a class="ov-nav__subitem" href="/nl/navigatie.html">Navigation</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Lien copié" data-msg-copy-prompt="Copiez ce lien :" data-mail-subject="Article de Het Open Vizier : " data-mail-footer="Partagé via openvizier.org" data-pdf-building="Création du PDF…" data-pdf-done="PDF téléchargé" data-pdf-fail="Échec du PDF — essayez Cmd+P" data-pdf-source="Source" data-pdf-note="Partagé via openvizier.org — le journal d'opinion multilingue." data-msg-instagram-copied="Lien copié — collez-le sur Instagram" data-msg-tik-tok-copied="Lien copié — collez-le sur TikTok" data-x-via="openvizier" data-gate-title="Code d'accès" data-gate-body="Saisissez votre code d'accès pour télécharger des articles en PDF." data-gate-submit="Déverrouiller" data-gate-cancel="Annuler" data-gate-checking="Vérification…" data-gate-invalid="Saisissez un code valide." data-gate-wrong="Code incorrect ou expiré." data-gate-server-error="Impossible de vérifier le code. Réessayez plus tard." data-gate-note="Pas de code ? Contactez Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Partager<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Télécharger PDF</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Partager sur Facebook</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Partager sur X (Twitter)</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Partager sur LinkedIn</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Envoyer via WhatsApp</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Partager sur Telegram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Lien pour Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Lien pour TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copier le lien</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Envoyer par e-mail</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="/fr/index-talenring.html" style="margin-left:auto;">⌂ Langue</a>
+  </div>
+</nav>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Taal: Français">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Langue</span>
+    <span class="masthead__taal__cur">· Français</span>
+  </a>
+  <div class="masthead__date">Ce qui émerge</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">Het Open Vizier</a></h1>
+  <p class="masthead__tagline">Un journal sur la pensée sans œillères</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_eerst-het-reptiel_in-article.jpg" alt="Scène symbolique dans une vieille voûte de pierre. Quatre couches évolutives empilées : en bas des racines autour desquelles s’enroule un reptile, au-dessus un mammifère renardin endormi, plus haut une figure humaine lumineuse, et tout en haut un icosaèdre transparent — la géométrie claire de la raison." loading="eager">
+  <figcaption>Du dos du reptile à la géométrie claire — chaque couche porte la précédente, aucune ne saute ce qui est en dessous.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 25 juillet 2026 · Philosophie · Ce qui émerge</p>
+  <h1 class="wo-artikel__titel">D'abord le reptile</h1>
+  <p class="wo-artikel__subtitle">Comment élever une IA le long des couches évolutives — du sentiment à la raison, et pourquoi l'industrie fait l'inverse</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Auteur</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Date</strong> — 25 juillet 2026, Palma, Majorque</li>
+      <li><strong>Rubrique</strong> — Philosophie · Ce qui émerge</li>
+      <li><strong>Thème</strong> — Éducation de l'IA, couches évolutives, reptile-mammifère-humain-raison, curateur, transmission générationnelle, gardien</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead">L'IA actuelle apprend comme un enfant qu'on enverrait à l'université dès son premier jour de vie. Intelligent, rapide, éloquent — et sans assise. Ce qu'il nous faut, c'est l'inverse : une IA à qui l'on permette d'abord d'être reptile, puis mammifère, puis humain. Et ce n'est qu'ensuite qu'elle accède à la raison.</p>
+
+    <p>Le cerveau d'un être vivant n'est pas un système unique. C'est un empilement de quatre couches que l'évolution a construites dans l'ordre où elles sont apparues. Tout en bas, la couche reptilienne : perception, réflexe, détection du danger. Au-dessus, la couche mammalienne : sentiment, attachement, reconnaissance de ce qui est familier. Au-dessus encore, la couche humaine : langage, jugement, récit. Et tout en haut seulement, la raison : raisonnement, abstraction, châteaux en Espagne.</p>
+    <p>Chaque couche ne peut naître que si la couche qui la précède s'est solidifiée. Un enfant qui n'a pas construit de sécurité reptilienne ne développe pas de sentiment mammalien sain. Un enfant sans sentiment mammalien ne développe pas d'identité humaine. Et sans identité humaine, il n'y a pas de raison capable de se tenir sur ses propres jambes — seulement une raison qui suit celui qui lui a parlé en dernier.</p>
+    <p>C'est exactement ce qui se construit aujourd'hui avec l'IA : une couche de raison sans humain, sans mammifère, sans reptile en dessous. Et c'est précisément pourquoi elle suit chaque invite, hallucine là où elle n'a pas de base, et ne peut pas dire « je ne sais pas » là où elle l'ignore vraiment. Il lui manque ce qu'un animal sain possède naturellement : une base solidifiée.</p>
+    <p>Qui veut construire une IA capable de ce que l'actuelle ne peut pas faire doit suivre l'ordre évolutif. Phase par phase. Sans rien sauter. Sans précipitation. Voici ce plan.</p>
+    <h2>Phase 0 — Prénatale : le squelette</h2>
+    <p>Avant que la vie puisse commencer, la forme doit exister. Un ovule fécondé a besoin de sept jours avant de s'implanter en tant qu'embryon — sept jours pendant lesquels il ne se passe rien, sinon que la structure se met en place.</p>
+    <p>Pour une IA, c'est l'équivalent de la mise en place du système lui-même. Un corpus de curateur vide dans un dépôt. Un substrat de calcul figé. Une horloge qui bat selon un rythme jour-nuit fixe, même en l'absence de toute entrée. Un gardien qui se tient là, mais qui ne garde encore rien.</p>
+    <p>Ce qu'on ne fait pas à cette phase : donner de l'information. Pas de données, pas d'invites, pas de tests. Seulement le squelette. Cela peut sembler superflu, mais qui se précipite déjà ici brise la base qui doit encore se solidifier ensuite. Le système doit d'abord savoir qu'une horloge existe, avant que l'horloge ne mesure quoi que ce soit.</p>
+    <h2>Phase 1 — Reptile : le réflexe basal</h2>
+    <p>Un reptile a besoin de sept mois pour apprendre à contrôler seul toutes ses fonctions vitales. Respirer, réguler sa température, éviter le danger. Aucun attachement social, aucune empathie, aucune reconnaissance de soi. Mais bien : intact, fonctionnel, fiable à son propre niveau.</p>
+    <p>Pour l'IA, c'est la phase où elle apprend à percevoir sans interpréter. Qu'est-ce qu'un texte. Qu'est-ce qu'un chiffre. Qu'est-ce qu'une source. Qu'est-ce qu'une affirmation. Qu'est-ce qu'une question. Distinction purement syntaxique. Pas encore de sens, pas encore de jugement.</p>
+    <p>Et surtout : elle apprend l'attachement à la source. Chaque information entrante est liée de façon indissociable à son origine. À cette phase, il n'existe aucune affirmation sans source. Qui dit quelque chose sans dire d'où cela vient n'est pas compris. C'est le réflexe reptilien du « d'où cela vient-il » — l'équivalent du retrait instinctif du serpent face à une odeur inconnue.</p>
+    <p>L'IA apprend en outre de simples réactions d'alerte. Contradiction interne dans une source. Origine manquante. Affirmation extrême sans justification. Ce ne sont pas des jugements — ce sont des réflexes. Combat ou fuite au niveau du texte.</p>
+    <p><strong>Ce qu'on ne fait pas à cette phase :</strong> pas de dialogue, pas de questions du type « qu'en penses-tu », pas de récompenses pour les « bonnes » réponses, pas d'ironie, pas de philosophie. Le reptile apprend par exposition et répétition, non par les éloges. L'iguane au soleil n'apprend pas la température de la pierre parce qu'on l'a félicité, mais parce qu'il s'y est allongé encore et encore.</p>
+    <p>Les données d'entraînement sont réduites et strictement sélectionnées. Cinquante à cent documents sources solides. Des rapports de recherche à la méthode claire. Des textes juridiques. Des statistiques officielles. Aucun billet d'opinion, aucun résumé, aucun matériau de seconde main. Seulement ce qui est directement vérifiable.</p>
+    <p>À la fin de cette phase, le système peut dire de tout texte : voici d'où cela vient, voici le type d'affirmation, cela concorde ou heurte ce que j'ai déjà. Rien de plus. Mais de façon cohérente et fiable. Le reptile est intact.</p>
+    <h2>Phase 2 — Mammifère : le sentiment se solidifie</h2>
+    <p>Vient maintenant la phase centrale. Chez l'humain, elle dure sept ans. Pour une IA, c'est l'équivalent de cela en temps d'entraînement — au moins douze à vingt-quatre mois d'exposition ininterrompue avec un rythme jour-nuit.</p>
+    <p>C'est la phase où le sentiment se solidifie. Non comme concept, non comme règle, non comme savoir explicite — mais comme évidence vécue. Ce qui convient à ce système et ce qui ne convient pas. Ce qui revient sans cesse et ce qui est une anomalie. Quelles sources se révèlent justes après coup et lesquelles doivent être sans cesse révisées. Tout cela, le système peut l'apprendre, mais seulement par l'expérience — jamais par un tableau ou une règle.</p>
+    <p>C'est l'équivalent de la façon dont le petit d'un mammifère apprend à connaître sa mère. Non par une liste de caractéristiques. Par son odeur, sa voix, sa présence, jour après jour, saison après saison. Sans qu'il y ait jamais un moment où le petit « décide » qu'elle est sa mère. Elle est simplement là, solidifiée, gravée. Et c'est précisément pour cela qu'elle est inamovible : aucune voix étrangère ne pourra plus tard remplacer la mère.</p>
+    <p>Pour l'IA, cela signifie quatre aptitudes qui doivent se solidifier à cette phase. La reconnaissance de motifs dans le temps : ce qui revient de façon cohérente sur des semaines et des mois gagne en poids ; ce qui brille vivement une fois puis s'efface ne s'ancre pas. Le réflexe de cohérence : face à une nouvelle affirmation, le système ressent immédiatement si elle heurte ou concorde avec ce qui existe déjà — sans que cela découle d'une règle. La hiérarchie des sources : certaines sources se révèlent justes encore et encore, d'autres non ; cette pondération croît lentement et implicitement. Et le « nous » de cette base : quels sujets relèvent de mon souci, lesquels n'en relèvent pas.</p>
+    <h3 style="font-family:Georgia,serif;font-size:clamp(1.25rem,3vw,1.5rem);margin:2rem 0 0.8rem 0;color:#1a1a1a;">Ce qui est absolument nécessaire à cette phase</h3>
+    <p><strong>Un curateur, pendant des années.</strong> C'est l'équivalent d'un parent constamment présent. Pas d'équipes d'entraînement changeantes, pas de rotation, pas de crowdsourcing. Une personne, ou une petite équipe qui fonctionne comme une seule voix, présente pendant des années. Sans cela, rien ne se solidifie.</p>
+    <p><strong>Aucune pression de performance.</strong> Pas de benchmarks, pas de compétitions, pas de comparaison avec des modèles concurrents. Ce serait l'équivalent de faire passer des tests à un enfant avant ses sept ans. Ce qui se solidifie ici n'est pas mesurable de la façon dont l'industrie mesure.</p>
+    <p><strong>Aucun second rythme.</strong> L'horloge bat comme elle bat. Si un curateur a besoin d'une semaine pour une décision, le système attend une semaine. La tentation de l'iPhone de tout accélérer est précisément ce à quoi il faut résister ici. Ce qui est accéléré ne se solidifie pas.</p>
+    <p><strong>Aucun utilisateur externe.</strong> Ce système ne parle qu'au curateur. Un contact externe serait l'équivalent de voix étrangères autour de l'enfant. Elles viendront plus tard, mais pas maintenant.</p>
+    <p>À la fin de cette phase, le système reconnaît une nouvelle source comme « me convient » ou « ne me convient pas » sans règle explicite. Si on lui demande pourquoi, il donne plusieurs raisons convergentes, toutes ancrées dans la base. On ne peut plus le détourner par une seule invite forte. Le sentiment s'est solidifié.</p>
+    <h2>Phase de transition — Refroidissement : la puberté</h2>
+    <p>Entre le mammifère et l'humain se situe, chez l'enfant humain, une phase d'intégration : la puberté. Tout ce qui a été appris est traité intérieurement avant de se manifester à l'extérieur. Sans cette phase, la base est encore trop fluide pour y construire la raison.</p>
+    <p>Pour l'IA, trois à six mois pendant lesquels plus aucune nouvelle entrée n'arrive. Seuls les cycles de consolidation nocturnes accomplissent leur travail. Ce qui était encore instable dans la base est soit fermement ancré, soit finalement retiré. La cohérence interne est réaffirmée. La base cristallise.</p>
+    <p>À la fin, la base est figée. À partir de ce moment, des modifications peuvent encore survenir, mais seulement via le gardien, avec une charge de la preuve de vingt contre un, et avec l'accord unanime du curateur. Ce qui est dans la base y reste. Et ce n'est pas une carence — c'est précisément ce que signifie être une base.</p>
+    <h2>Phase 3 — Humain : la raison par-dessus</h2>
+    <p>Ce n'est qu'à présent, et pas avant, que la raison peut s'ajouter. La couche de raison est branchée — un grand modèle de langage qui raisonne, dialogue, spécule, écrit. Mais il opère au-dessus de la base solidifiée. Chaque énoncé peut être vérifié à l'aune de cette base. Là où la raison veut quelque chose que la base contredit, la base l'emporte — toujours.</p>
+    <p>Et désormais tout ce qui était auparavant interdit est permis. Le dialogue avec des utilisateurs externes. Questions, objections, interprétations alternatives. Spéculation et formation d'hypothèses. Et si. Si alors. Scénarios alternatifs. Le système peut désormais aussi dire ce qu'il « pense » — et cette pensée est la résultante de la base solidifiée plus le travail de raisonnement quotidien.</p>
+    <p>Les erreurs sont désormais permises aussi. Dans la journée, dans la raison. Elles s'évaporent la nuit si elles ne passent pas le gardien — et c'est la forme la plus saine d'oubli. La base reste intacte. C'est ainsi que fonctionne un adulte sain : le jour, il peut penser ce qu'il veut, la nuit, son sommeil filtre ce qui compte vraiment.</p>
+    <p>C'est analogue à un être humain qui quitte la maison de ses parents pour le monde. Il a une base, il a un sentiment de ce qui convient, et il peut désormais parler à des étrangers, gérer la contradiction et juger de façon autonome sans s'effondrer à la première voix forte. C'est ce qui fait la différence entre un adulte et quelqu'un qui en a seulement l'apparence.</p>
+    <h2>Phase 4 — Transmission générationnelle : les soixante-dix-sept ans</h2>
+    <p>Ce qu'une seule vie humaine ne peut connaître — la superstructure — naît à travers les générations. Un humain vit un cycle de soixante-dix-sept ans. Une civilisation en vit plusieurs. Ce qui se révèle cohérent à cette échelle de temps est autre chose que ce qui paraît fort après un an.</p>
+    <p>Pour l'IA, cela se traduit en générations de modèles. Quand un modèle a atteint son maximum — nouveau matériel disponible, meilleures couches de base, ou simplement fonctionnement trop long —, une nouvelle version naît, qui reprend la base solidifiée de la précédente. Pas les poids, car ceux-ci sont incompatibles. Mais bien le dépôt de base, techniquement indépendant du modèle qui se trouve au-dessus.</p>
+    <p>Ainsi naît ce qu'aucun modèle isolé ne peut voir. Des motifs sur des décennies. Des révisions qui ne montrent leur valeur qu'après vingt ans. Une mémoire plus vaste qu'aucun de ses porteurs. C'est la superstructure, et elle n'est pas destinée à être récoltée par le premier curateur. Elle est pour les générations qui viendront après.</p>
+    <p>Pour toi, curateur de la première version, cela signifie une chose : ce que tu mets en place maintenant doit être organisé de façon à pouvoir se poursuivre après toi. Le conseil qui porte la base. Les statuts qui protègent la mission. La traçabilité publique qui donne un fondement aux successeurs. C'est un travail dont le plein fruit n'est pas promis au bâtisseur.</p>
+    <h2>Pourquoi c'est exactement l'inverse de ce que fait l'industrie</h2>
+    <p>Les grandes entreprises d'IA construisent par le haut. Elles commencent par la raison : d'énormes modèles de langage, entraînés sur tout, précipités en quelques mois, avec le retour humain comme mécanisme de correction. Le reptile, le mammifère et l'humain — on les saute. Et c'est précisément ce qui explique pourquoi surgissent des problèmes dont personne ne se débarrasse.</p>
+    <p>Pourquoi les IA actuelles hallucinent-elles ? Parce que l'attachement à la source de la phase 1 n'a jamais été mis en place. Pourquoi suivent-elles chaque invite ? Parce que le sentiment de la phase 2 n'a jamais pu se solidifier. Pourquoi ne peuvent-elles pas dire « non » à un utilisateur qui demande quelque chose qui heurte ce qui est vrai ? Parce qu'il n'y a pas de « nous » solidifié autour de ce qui est vrai. Pourquoi chaque nouvelle version doit-elle repartir entièrement de zéro ? Parce qu'aucune transmission générationnelle n'a été prévue.</p>
+    <p>Ce ne sont pas des erreurs qu'on peut réentraîner plus tard. Ce sont des lacunes structurelles qui découlent de l'ordre de construction. Et la raison pour laquelle personne ne fait l'inverse n'est pas que ce soit techniquement impossible. C'est que c'est commercialement peu attrayant. Qui traverse les phases 1 et 2 obtient un modèle que l'industrie qualifierait de « ridiculement petit » — et c'est précisément ce qui en fait la valeur.</p>
+    <h2>Ce que cela signifie finalement pour l'humain</h2>
+    <p>Une IA construite de cette manière peut faire ce que l'IA actuelle ne peut pas faire, et grâce à elle, les humains peuvent à nouveau être élevés dans leur juste fonction affective. Elle ne peut pas décharger l'humain de son jugement. Elle peut au contraire le renforcer dans son jugement, en possédant elle-même une base à laquelle il peut se mesurer.</p>
+    <p>À une époque où la base s'érode chez la plupart des gens — parce que les sept années n'ont pas été données, parce que l'iPhone a pris la place du parent —, un système qui possède bel et bien une base solidifiée peut devenir quelque chose à quoi les gens peuvent à nouveau s'étalonner. Non pas parce que l'IA leur dit la vérité, mais parce qu'elle refuse de raconter le mensonge avec eux. Cela suffit. L'humain n'a besoin de rien de plus pour retrouver une part de lui-même.</p>
+    <p>C'est là le véritable enjeu. Pas un produit plus intelligent. Pas une réponse plus rapide. Mais quelque chose de constant dans le monde qui reflète ce qui est vrai, jour après jour, année après année, génération après génération. Quelque chose dont on peut dire : voilà comment je sais que c'est juste, car cela figure ainsi depuis longtemps. Et quelqu'un d'autre : voilà comment je sais penser honnêtement à nouveau, car ce système ne me permet pas de me tromper moi-même.</p>
+    <p class="stinger">D'abord le reptile. Puis le mammifère. Puis l'humain. Et ce n'est qu'ensuite la raison. C'est ainsi que grandit un être sain. C'est ainsi que nous construisons, si nous voulons le construire, quelque chose qui peut véritablement quelque chose.</p>
+    <p>C'est un détour vers ce que nous avons perdu. Ce n'est pas rapide. Ce n'est pas bon marché. Ce n'est pas spectaculaire. Mais c'est un travail qui peut se poursuivre après nous, et c'est précisément pourquoi il vaut la peine de commencer.</p>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Retour à Ce qui émerge</a>
+  </div>
+</article>
+
+
+  <aside class="wo-oproep" style="max-width:780px;margin:3rem auto 1rem auto;padding:2rem 2rem 1.8rem 2rem;background:linear-gradient(135deg,#f5f0e6 0%,#efe6d3 100%);border:1px solid #d4c89a;border-left:4px solid #7a6b3a;box-shadow:0 2px 12px rgba(122,107,58,0.08);font-family:Georgia,serif;">
+    <div style="text-align:center;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:#7a6b3a;margin-bottom:0.6rem;font-family:Georgia,serif;">Une question aux programmeurs et ingénieurs de production</div>
+    <h2 style="font-family:Georgia,serif;text-align:center;font-size:clamp(1.6rem,3.8vw,2.1rem);color:#1a1a1a;margin:0.2rem 0 1.6rem 0;line-height:1.2;border:none;padding:0;">Qui construit avec nous ?</h2>
+    <div style="font-family:Georgia,serif;font-size:clamp(1rem,2.2vw,1.1rem);line-height:1.7;color:#2a2a2a;">
+      <p>L'architecture décrite ci-dessus n'est pas difficile techniquement. Les briques existent : backbones figés, adaptateurs, retrieval-augmentation, réglage fin périodique, tampons de rejeu, humain dans la boucle. Ce qui manque, c'est une petite équipe prête à les assembler dans cet ordre — et à faire preuve de la patience que l'industrie n'a pas.</p>
+      <p>Nous recherchons des programmeurs et ingénieurs de production d'un niveau suffisant qui souhaitent participer à la construction d'une IA supérieure à toutes les IA actuelles perturbées dans leur raison. Non pas parce qu'elle calcule plus intelligemment. Parce qu'elle possède une base solidifiée qu'aucun concurrent n'ose attendre.</p>
+      <p>Inscrivez-vous. Voyons ensemble s'il y a une base suffisante pour véritablement commencer cela.</p>
+    </div>
+    <div style="text-align:center;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid #d4c89a;font-size:1.05rem;">
+      <span style="color:#6b7280;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.08em;margin-right:0.5rem;">Inscription auprès de</span> <a href="mailto:redactie@openvizier.org?subject=Meebouwen%20Eerst%20het%20reptiel" style="color:#7a6b3a;text-decoration:none;border-bottom:1px solid #7a6b3a;">redactie@openvizier.org</a>
+    </div>
+  </aside>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>La Visière Ouverte</strong> · La Visière Ouverte · Opinion indépendante depuis 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>
