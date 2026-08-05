@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teilen — Das Offene Visier</title>
+  <meta name="description" content="Wie Das Offene Visier am besten weitergetragen werden kann — zu Leserinnen und Lesern in Parlamenten, Universitäten, Redaktionen und im eigenen Netzwerk.">
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    .auteursblok { max-width: 760px; margin: 4rem auto 2rem auto; padding: 1.5rem 1.5rem; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+    .auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+    .auteursblok__tekst { line-height: 1.55; }
+    .auteursblok__naam { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+    .auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+    .auteursblok__intro { font-family: var(--serif, Georgia, serif); font-size: 0.95rem; color: #4a5263; margin: 0 0 0.5rem 0; }
+    .auteursblok__link { font-size: 0.9rem; color: #1c5760; text-decoration: none; }
+    .auteursblok__link:hover { text-decoration: underline; }
+    @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
+
+    .deel-sectie { max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    .deel-sectie h2 { margin-top: 2.5rem; }
+    .deel-doelgroep { background: #f5f3ee; padding: 1.2rem 1.5rem; border-left: 4px solid #1c5760; margin: 1.5rem 0; }
+    .deel-voorbeeld { background: #fdfbf6; padding: 1rem 1.2rem; border-left: 3px solid #e9b340; margin: 1rem 0; font-style: italic; }
+    .deel-cta { background: #1c5760; color: #faf6ef; padding: 1.5rem 2rem; margin: 2rem 0; border-radius: 4px; }
+    .deel-cta a { color: #e9b340; }
+  </style>
+<link rel="stylesheet" href="../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+  <link rel="stylesheet" href="../assets/ov-nav.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Sprache: Deutsch">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Sprache</span>
+    <span class="masthead__taal__cur">· Deutsch</span>
+  </a>
+  <div class="masthead__date">Das Offene Visier</div>
+  <h1 class="masthead__title">Das Offene Visier</h1>
+  <p class="masthead__tagline">Eine Zeitung über Denken ohne Scheuklappen</p>
+</header>
+
+
+<div class="gratis-band">Kostenlose Informationszeitung ohne Werbung<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Unabhängig, keine Meinung, kein Verkauf von Daten</strong><span class="gratis-band__sep"> — </span><a href="../nl/op-de-hoogte.html" class="gratis-band__cta">Auf dem Laufenden bleiben →</a></div>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="/de/">Startseite</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">KI-Atom Explosiv<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-ki-als-chef.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erst-das-reptil.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-atombombe-im-ki-format.html">Die Atombombe im KI-Format</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politik<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Frankreich & europäische Revolution</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/frankreich-revolutionaerer-moment.html">Frankreich — revolutionärer Moment</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/fuenf-laender-fuenf-kurven.html">Fünf Länder, fünf Kurven</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-niederlandische-revolution-2033.html">Die Niederländische Revolution 2033</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/muessen-die-niederlande-folgen.html">Muss die Niederlande auch folgen?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Kippmechanik & Menschen</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-kippmechanik.html">Die Kippmechanik</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/mensen-die-mee-bouwen.html">Menschen, die mitbauen</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/aktivisten-bauen-kontinente.html">Aktivisten bauen Kontinente</a>
+        <a class="ov-nav__subitem" href="/de/die-aufbauer-vertreiben/">Wer Aufbauer vertreibt</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-matrix-van-de-uittocht.html">Die Matrix des Exodus</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-ki-als-chef.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erst-das-reptil.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/der-stecker-ausserhalb-des-systems.html">Der Stecker außerhalb des Systems</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Parteien & Pareto</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-02-pareto-top12.html">Pareto Top 12 — wer blockiert</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-08-partijen-in-kaart.html">Wo steht Ihre Partei</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-09-pareto-per-actor.html">Pareto pro Akteur</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-04-ordes-van-bezwaar.html">Ordnungen des Einwands</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-05-twintig-bezwaren.html">Zwanzig aktuelle Einwände</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plundering-4-politieke-landschap.html">Plünderung 4: politische Landschaft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Presse & Medien</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-presse-ist-die-arena.html">Die Presse ist die Arena</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/sie-wissen-es-schon.html">Sie wissen es schon</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/trump-als-spiegel.html">Trump als Spiegel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-03-media-als-rekstrook.html">Medien als Reckbank</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-anti-immunkrankheit-von-bruessel.html">Die Anti-Autoimmunkrankheit Brüssels</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-auto-immuunziekte-slaat-toe.html">Die Autoimmunkrankheit schlägt zu</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-dertig-cent-die-europa-omdraait.html">Die dreißig Cent, die Europa umdrehen</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Wahlverhalten & Entscheidungen</div>
+        <a class="ov-nav__subitem" href="/de/stemgedrag.html">Wahlverhalten</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/ehrlichkeit-macht-regierung-moeglich.html">Ehrlichkeit macht Regieren möglich</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/entscheiden-ohne-aussicht.html">Entscheiden ohne Aussicht</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/aan-de-leiding-drie-blokken-zonder-subsidie.html">An der Spitze ohne Subvention</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/pluenderung-0-erst-rupfen-dann-urteilen.html">Plünderung 0: zuerst pflücken</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/bildung-wahle-eine-seite.html">Bildung — wähle eine Seite</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/voorwoord.html">Ausgabe 1 — Vorwort</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plastik-strafe-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Philosophie<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Sieben Dimensionen & Denkrahmen</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/vom-quantum-zum-7d.html">Von Quantum zu 7D</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/von-der-hoehle-zur-sonne.html">Von der Höhle zur Sonne</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-1/denkrahmen.html">Denkrahmen 7D</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-1/zusammenhang.html">Wie alles zusammenhängt</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-1/stroemungslehre.html">Strömungslehre</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/sieben-dimensionen.html">Sieben Dimensionen</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Urgefühl & Kosaris</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/index.html">Der Mensch unter dem Eis</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-01-oergevoel.html">Das Urgefühl</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-02-zeven-dimensies.html">Die sieben Dimensionen</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-03-drie-lagen.html">Die drei Hirnschichten</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-04-communicatie.html">Kommunikation zwischen Urgefühlen</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-05-wat-we-doen.html">Was wir Kindern antun</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-06-mama.html">Mama, ich habe Hunger</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-09-oergevoel-in-beroepspraktijk.html">Urgefühl in der Berufspraxis</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-ki-als-chef.html">Die KI als Chef</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erst-das-reptil.html">Erst das Reptil</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/der-stecker-ausserhalb-des-systems.html">Der Stecker außerhalb des Systems</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/manifest-raum-fuer-das-urgefuehl.html">Manifest Urgefühl</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/warum-ich-so-bin.html">Warum ich so bin</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Filme, Märchen, Lesebuch</div>
+        <a class="ov-nav__subitem" href="/de/7-dim-film/">Der 7-Dim Film</a>
+        <a class="ov-nav__subitem" href="/de/kosaris-film/">Die Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="/de/lesebuch/">Die Kosaris — Lesebuch</a>
+        <a class="ov-nav__subitem" href="/de/maerchen/">Das Märchen von Jacobus</a>
+        <a class="ov-nav__subitem" href="/de/philosophie/">Philosophie — Portal</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Gefühlsverbindungssystem</div>
+        <a class="ov-nav__subitem" href="/de/forschung/gevoelsconnectiesysteem.html">Gefühlsverbindungssystem</a>
+        <a class="ov-nav__subitem" href="/de/forschung/gevoelsconnectiesysteem-volledig.html">GVS — vollständiger Plan</a>
+        <a class="ov-nav__subitem" href="/de/forschung/krantbriefing.html">Zeitungsbriefing GVS</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/routekaart-vervolgvragen.html">Roadmap Folgefragen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Klima<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Stickstoffkrise</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-stickstoff/">Ausgabe Stickstoff</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-stickstoff/drie-problemen-een-antwoord.html">Drei Probleme — eine Antwort</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/naar-de-natuurschool.html">Zur Naturschule</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/bauer-und-natur-beide-voran.html">Bauer und Natur vorwärts</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/entscheiden-ohne-aussicht.html">Entscheiden ohne Aussicht</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-methodologie-van-de-aanpassing.html">Die Ernährungslinie</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-op-de-natuur-aangepaste-analyse.html">Natur-Analyse</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-auto-immuunziekte-slaat-toe.html">Autoimmunkrankheit schlägt zu</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Raps</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-0/carbon-alert-europa.html">Raps-Multiplikator</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-deutschland/">Ausgabe Deutschland</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/bauer-und-natur-beide-voran.html">Bauer und Natur vorwärts</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Klimadividende & Übersterblichkeit</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/klimadividende.html">Die Klimadividende</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/erbschaftswelle-240-milliarden.html">Erbwelle 240 Milliarden</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/welt-guertel-2040-2050.html">Weltgürtel 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/the-downline.html">The Downline — grüner Erholungsweg</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/carbon-alert-visie-2036.html">Carbon-Alert Vision 2036</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/brusselse-gevolgenkaart-bicrs.html">BiCRS-Version EU</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plastik-strafe-carbon-credit.html">Plastikstrafe oder Carbon-Credit</a>
+        <a class="ov-nav__subitem" href="/de/editie-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-0/biomimetisches-kraftwerk.html">Biomimetisches Kraftwerk</a>
+        <a class="ov-nav__subitem" href="/de/editie-0/">Ausgabe Europa</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Thermostat & physische Erde</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/thermostat.html">Der Thermostat</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/nepk-klimalogik.html">NEPK-Klimalogik</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-zon-staat-op-de-evenaar.html">Die Sonne steht am Äquator</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Reifen, Plastik, Umweltverschmutzung</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/der-autoreifen-ist-die-neue-zigarette.html">Autoreifen-Zigarette</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-methodologie-van-de-aanpassing.html">Die Ernährungslinie</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-op-de-natuur-aangepaste-analyse.html">Natur-Analyse</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Sonderausgaben</div>
+        <a class="ov-nav__subitem" href="/de/editie-klimaat/">Ausgabe Klima</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Was nicht gesehen wird</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/zij-doden-hun-levensader.html">Sie töten ihre Lebensader</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/zij-doden-hun-levensaders-brussel.html">Sie töten ihre Lebensadern (Brüssel)</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-1/kernfusion.html">Kernfusion</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-1/technische-loesungen.html">Technische Lösungen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Verwaltung<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Niederlande</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/the-downline.html">The Downline — NEPK-Fall NL</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/gevolgenkaart-iii-stille-analyse.html">Stille Analyse (NL)</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/wir-muessen-wieder-selbst-anpacken.html">Selbst anpacken (NL)</a>
+        <a class="ov-nav__subitem" href="/de/die-erste-gemeinde/">Die erste Gemeinde</a>
+        <a class="ov-nav__subitem" href="/de/die-halbe-gemeinde/">Die halbe Gemeinde</a>
+        <a class="ov-nav__subitem" href="/de/zukunft/overheden/nederland/">Niederlande · Zukunft</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-nl/">Folgenkarte Niederlande</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Europa</div>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-natur-angepasste-analyse.html">Europa-Öffner</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/europa-erneut.html">Europa neu</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-bruesseler-konsequenzkarte.html">Brüsseler Folgenkarte</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-metafoor-auto-immuunziekte.html">Metapher Autoimmunkrankheit</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/het-immuunsysteem-van-organisaties.html">Immunsystem von Organisationen</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/open-brief-aan-de-regeringen-van-europa.html">Offener Brief an die Regierungen</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-eu/">Folgenkarte EU-27</a>
+        <a class="ov-nav__subitem" href="/de/zukunft/overheden/europa/">Europa · Zukunft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Andere Länder</div>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-br/">Brasilien</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-ch/">Schweiz</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-cn/">China</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-cu/">Kuba</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-de/">Deutschland</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-es/">Spanien</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-il/">Israel</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-in/">Indien</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-jp/">Japan</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-kr/">Südkorea</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-se/">Schweden</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-uk/">Vereinigtes Königreich</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-us/">Vereinigte Staaten</a>
+        <a class="ov-nav__subitem" href="/de/folgenkarte-za/">Südafrika</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-singapurer-folgenkarte.html">Singapur</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/">Ausgabe 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/voorwoord-waarom-dit-moet.html">Vorwort — Warum dies notwendig ist</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-00-brussel-als-variabele.html">Brüssel als Variable</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-01-zes-ordes-van-fasering.html">Sechs Ordnungen der Phasenverschiebung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-06-zwitserse-spiegel.html">Schweizer Spiegel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-07-canadese-spiegel.html">Kanadischer Spiegel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-11-kennislaag-als-bondgenoot.html">Wissensschicht als Verbündeter</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-6/aflevering-12-beste-weg-vooruit.html">Bester Weg nach vorne</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/nova-democratia-manifest.html">Nova Democratia Manifest</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-actor-is-de-regel.html">Der Akteur ist die Regel</a>
+        <a class="ov-nav__subitem" href="/de/souveraenitaet-als-zyklus/">Souveränität als Zyklus</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/bbp-liegt.html">BIP lügt</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Führung & Organisationen</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/">Ausgabe 4 — Papierindustrie</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-01-wet-papier-industrie.html">Gesetz der Papierindustrie</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-02-ceo.html">Der CEO und das Urgefühl</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-03-consultant.html">Der Berater</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-04-bankier.html">Der Bankier</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-05-verzekeraar.html">Der Versicherer</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-06-toezichthouder.html">Der Aufseher</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-4/artikel-07-rechter.html">Der Richter</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-fuehrung/">Ausgabe Führung</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Bildung</div>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/bildung-zur-werkbank.html">Bildung — Manifest</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/bildung-preis-der-bluete.html">Preis der Blüte</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-1/bildung.html">Bildung (Ausgabe 1)</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-3/artikel-07-ai-onderwijs.html">KI-Bildung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-kind-laufbahn/">Ausgabe Kind & Laufbahn</a>
+        <a class="ov-nav__subitem" href="/de/zukunft/erziehung/">Erziehung · Zukunft</a>
+        <a class="ov-nav__subitem" href="/de/zukunft/scholing/">Schulung · Zukunft</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Industrie, Energie, Zukunft</div>
+        <a class="ov-nav__subitem" href="../en/toekomst/">Zukunft — Portal</a>
+        <a class="ov-nav__subitem" href="/de/zukunft/energie/">Energie · Zukunft</a>
+        <a class="ov-nav__subitem" href="/de/zukunft/industrie/">Industrie · Zukunft</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Revolution<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/">Ausgabe 5 — Die vergessene Ordnung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-00-brief-aan-lezer.html">Brief an den Leser</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Sieben Werkzeuge</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-02-succesformule.html">Die Erfolgsformel</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-03-vergeten-orde.html">Die vergessene Ordnung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-04-methaan-misleiding.html">Methan-Täuschung</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-05-plant-die-verhuist.html">Die Pflanze, die umzieht</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-06-zeven-van-bern.html">Die sieben von Bern</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-07-afwijkers.html">Die Abweichler</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-5/artikel-08-eis-aan-lezer.html">Die Forderung an den Leser</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/widerstandskraft-selektion.html">Widerstandskraft und Selektion</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-1/">Ausgabe 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Steuern<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/stimmenernte.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/de-grote-plundering.html">Die große Plünderung</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plundering-1-diagnose.html">Plünderung 1: Diagnose</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plundering-2-mechaniek.html">Plünderung 2: Mechanik</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/plundering-3-afloop.html">Plünderung 3: Ausgang</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/am-ende-haben-wir-nichts-mehr.html">Am Ende nichts mehr</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/loch-im-boden.html">€450 Mio. — Loch in der Erde</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-tagliche-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/was-ich-hinterlasse-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="/de/was-aufkommt/die-folgenkarte.html">Folgenkarte — Manifest</a>
+        <a class="ov-nav__subitem" href="/de/ausgabe-2/politikempfehlung-anziehen.html">Vom Besteuern zum Anziehen</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Forschung<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="/de/dossiers/vortex-hair.html">Vortex-Hair™ Golfball</a>
+        <a class="ov-nav__subitem" href="/de/forschung/">Hinter den Zahlen</a>
+        <a class="ov-nav__subitem" href="/de/onderzoek/eu-multiplicator.html">EU-Multiplikator</a>
+        <a class="ov-nav__subitem" href="/de/onderzoek/ontwikkelingslandstatus.html">Entwicklungslandstatus?</a>
+        <a class="ov-nav__subitem" href="/de/forschung/">Forschung — Portal</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Impressum<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/de/colofon.html">Impressum</a>
+        <a class="ov-nav__subitem" href="/de/ueber.html">Über diese Zeitung</a>
+        <a class="ov-nav__subitem" href="/de/archiv.html">Archiv</a>
+        <a class="ov-nav__subitem" href="/de/op-de-hoogte.html">Auf dem Laufenden bleiben</a>
+        <a class="ov-nav__subitem" href="/de/structuur.html">Struktur — Verwaltung</a>
+        <a class="ov-nav__subitem" href="/de/navigatie.html">Navigation</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link kopiert" data-msg-copy-prompt="Kopiere diesen Link:" data-mail-subject="Artikel aus Het Open Vizier: " data-mail-footer="Geteilt über openvizier.org" data-pdf-building="PDF wird erstellt…" data-pdf-done="PDF heruntergeladen" data-pdf-fail="PDF fehlgeschlagen — Cmd+P versuchen" data-pdf-source="Quelle" data-pdf-note="Geteilt über openvizier.org — die mehrsprachige Meinungszeitung." data-msg-instagram-copied="Link kopiert — in Instagram-Bio oder Story einfügen" data-msg-tik-tok-copied="Link kopiert — in TikTok einfügen" data-x-via="openvizier" data-gate-title="Zugangscode" data-gate-body="Geben Sie Ihren Zugangscode ein, um Artikel als PDF herunterzuladen." data-gate-submit="Entsperren" data-gate-cancel="Abbrechen" data-gate-checking="Prüfe…" data-gate-invalid="Geben Sie einen gültigen Code ein." data-gate-wrong="Falscher oder abgelaufener Code." data-gate-server-error="Code konnte nicht geprüft werden. Bitte später erneut versuchen." data-gate-note="Noch kein Code? Kontaktieren Sie Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Teilen<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 PDF herunterladen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Auf Facebook teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Auf X (Twitter) teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Auf LinkedIn teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Via WhatsApp senden</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Auf Telegram teilen</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Link für Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Link für TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Link kopieren</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Per E-Mail senden</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="/de/index-talenring.html" style="margin-left:auto;">⌂ Sprache</a>
+  </div>
+</nav>
+
+<main class="deel-sectie">
+
+<h1>Das Offene Visier weitertragen</h1>
+
+<p class="lede">Das Offene Visier wächst nicht durch Werbung, sondern durch Vertrauen. Jede Leserin und jeder Leser ist gekommen, weil jemand sie persönlich empfohlen hat. Wenn Sie meinen, eine Ausgabe gehöre irgendwohin wirklich hin, hilft Ihnen diese Seite, sie dort zu hinterlegen.</p>
+
+<h2>Vier Kreise, in denen Sie natürlich teilen können</h2>
+
+<div class="deel-doelgroep">
+<strong>Erster Kreis — Ihr eigenes Netzwerk</strong>
+<p>Eine persönliche E-Mail an drei bis fünf Menschen wirkt stärker als jede Teilen-Schaltfläche. Nicht „lies das", sondern etwa: <em>„Dieses Kapitel hat mich an Sie denken lassen — der Abschnitt über den Architekten, der wieder mit den Händen zu zeichnen beginnt."</em> Menschen öffnen, was ein Bekannter ihnen empfiehlt; fast nie, was eine unbekannte Plattform empfiehlt.</p>
+</div>
+
+<div class="deel-doelgroep">
+<strong>Zweiter Kreis — Fachkolleginnen und -kollegen</strong>
+<p>In jeder Ausgabe gibt es ein oder zwei Beiträge, die für einen bestimmten Beruf geschrieben scheinen. Ausgabe 3 über das Urgefühl betrifft Architekten, Bäcker, Lehrkräfte, Physiotherapeuten, Landwirte. Ausgabe 6 über Nova Democratia betrifft Verwaltungswissenschaftler, Politiker, Journalisten. Ausgabe 7 über BiCRS (ein Produkt von Carbon-Alert Ltd) und Giant Juncao betrifft Agronomen, Verfahrenschemikerinnen, Klimaberater, Beamte. Senden Sie pro Ausgabe eine gezielte Mail an drei bis fünf Personen aus einem solchen Fach, mit der Bitte um ihr Urteil.</p>
+</div>
+
+<div class="deel-doelgroep">
+<strong>Dritter Kreis — Parlamentarische und administrative Sphäre</strong>
+<p>Für den Inhalt von Nova Democratia und den beiden Hebeln ist parlamentarische Aufmerksamkeit das schwerste Gewicht. Wer jemanden kennt, der als Bundestagsabgeordneter, Fraktionsmitarbeiter, Beamter, Ratsmitglied, Europaabgeordneter, Kabinettsmitarbeiter oder Politikberater arbeitet — dieser Mensch kann mit einer gezielten E-Mail mehr bewirken als hundert anonyme Klicks. Bitten Sie nicht um Zustimmung, bitten Sie um Reaktion. Wer reagiert, liest weiter. Wer weiterliest, gibt es weiter.</p>
+</div>
+
+<div class="deel-doelgroep">
+<strong>Vierter Kreis — offene intellektuelle Orte</strong>
+<p>Substack-Notes, FAZ.NET-Feuilleton, Zeit-Online, SZ-Magazin, Republik (Schweiz), Carnegie Europe, Bertelsmann Stiftung-Foren, Heinrich-Böll-Stiftung, Konrad-Adenauer-Stiftung, Friedrich-Ebert-Stiftung; Fachblogs von RWTH Aachen, TU München, ETH Zürich, Fraunhofer-Gesellschaft, Max-Planck-Institut, IfW Kiel — überall, wo Langform-Arbeit willkommen ist. Ein gut geschriebener Brief an die Chefredaktion, mit einem Artikel als konkretem Beispiel, kann eine Verweisung oder einen Gastbeitrag ergeben.</p>
+</div>
+
+<h2>Was pro Ausgabe am schwersten wiegt — eine Wegekarte</h2>
+
+<p>Manche Ausgaben sind an einen bestimmten Leserkreis gerichtet. Im Folgenden für jede Ausgabe die Zielgruppen, bei denen sie am stärksten landet:</p>
+
+<h3>Ausgabe 3 — Der Mensch unter dem Eis</h3>
+<p><strong>Leserkreis</strong>: Schulleitungen, Kinderärztinnen, Physiotherapeuten, Architekten, Berufsschullehrer, Eltern schulpflichtiger Kinder, Mitarbeitende in Altenpflege, psychotherapeutische Praxen.<br>
+<strong>Parlamentarischer Zugang</strong>: Mitglieder der ständigen Ausschüsse für Bildung, Gesundheit und Soziales im Bundestag, Tweede Kamer, Assemblée nationale, belgische Kamer, Congreso (Spanien) und Kamra tad-Deputati (Malta).<br>
+<strong>Konkreter Kernsatz zum Teilen</strong>: <em>„Eine Diagnose dessen, was dem Nervensystem des westlichen Menschen widerfahren ist — und was wir unseren Kindern nicht mehr beibringen."</em></p>
+
+<h3>Ausgabe 6 — Nova Democratia</h3>
+<p><strong>Leserkreis</strong>: Verwaltungswissenschaftler, Referentinnen in Ministerien, Fraktionsvorsitzende, europäische institutionelle Leser, Mitglieder von Beiräten, Mitarbeitende von Stiftungen, Hochschullehrer für Staatsrecht, politische Journalistinnen.<br>
+<strong>Parlamentarischer Zugang</strong>: Ausschüsse für Inneres, Auswärtiges, Europäische Angelegenheiten in allen fünf Parlamenten. Spezifisch wertvoll für Fraktionen, die über institutionelle Reform nachdenken: Bündnis 90/Die Grünen, FDP, Volt, CDU in Deutschland; D66, GroenLinks-PvdA, NSC in den Niederlanden; CD&amp;V, Vooruit, Open VLD in Belgien; Renew, EVP, S&amp;D im Europäischen Parlament.<br>
+<strong>Konkreter Kernsatz zum Teilen</strong>: <em>„Ein Entwurf für den europäischen Verwaltungsumbau — nicht als Manifest, sondern als gemessene Durchrechnung von sechs Ordnungen, drei Scharnieren und einem messbaren Ergebnis über fünf Jahre."</em></p>
+
+<h3>Ausgabe 7 — Die Antwort</h3>
+<p><strong>Leserkreis</strong>: Agronominnen, Verfahrenschemiker, Klimaberater, Energiepolitik-Mitarbeitende, EIB-Vorstände, Lehrstühle für Prozesschemie und Pflanzenzüchtung, Beamte in BMWK, BMUV, BMEL.<br>
+<strong>Parlamentarischer Zugang</strong>: Ausschüsse für Klima &amp; Energie, Wirtschaft, Auswärtiges, Entwicklungszusammenarbeit im Bundestag. Spezifisch für das Europäische Parlament: Ausschüsse ITRE (Industrie), ENVI (Umwelt), AGRI (Landwirtschaft). Für die Kommission selbst: GD ENER, GD CLIMA, GD GROW, GD INTPA.<br>
+<strong>Konkreter Kernsatz zum Teilen</strong>: <em>„Zwei physische Hebel, die Europa innerhalb von zehn Jahren netto kohlenstoffnegativ machen können — Giant Juncao und BiCRS auf einem Kontinent, Kunststoff aus Hausmüll als geologische Speicherung auf dem anderen. Drei Kontinente zusammen, ein messbares Ergebnis."</em></p>
+
+<h3>Ausgabe 8 — Der Supertanker (in Vorbereitung)</h3>
+<p><strong>Leserkreis</strong>: alle, die sich fragen, warum Europa seine eigenen Probleme nicht rechtzeitig erkennen kann.<br>
+<strong>Konkreter Kernsatz</strong>: <em>„Europa als Supertanker mit dem Kapitän achtern und dem knirschenden Bug außerhalb seines Sichtfelds. Ein zweites Steuerhaus, nicht als Ersatz, sondern als Hilfe."</em></p>
+
+<h2>Regionale Vorschläge</h2>
+
+<div class="deel-doelgroep">
+<strong>Deutschland</strong> — Bundestagsfraktionen mit Schwerpunkt Klima, Energie und Europäische Angelegenheiten; BMWK, BMUV, BMBF, BMZ; Stiftungen (Bertelsmann, Konrad Adenauer, Heinrich Böll, Friedrich Ebert); Fraunhofer-Gesellschaft, Max-Planck-Institute, IfW Kiel; Süddeutsche Zeitung, FAZ, Die Zeit (Meinungsredaktionen); RWTH Aachen, TU München (Prozesschemie); Wissenschaftlicher Beirat der Bundesregierung Globale Umweltveränderungen (WBGU).
+</div>
+
+<div class="deel-doelgroep">
+<strong>Belgien &amp; Brüssel</strong> — Belgische Kamer und Senat, flämisches und wallonisches Parlament, Europäische Kommission (GD CLIMA, ENER, GROW, INTPA, RTD), Fraktionen im Europäischen Parlament, Carnegie Europe, Bruegel, CEPS, European Policy Centre, Vrije Universiteit Brussel (Institute for European Studies), KU Leuven (Sustainability).
+</div>
+
+<div class="deel-doelgroep">
+<strong>Niederlande</strong> — Tweede Kamer-Fraktionen, Ministerien (EZK, OCW, BZK, IenW, BZ), Planbureaus (CPB, PBL, SCP), Sociaal-Economische Raad, Raad van State, WRR, Adviesraad Internationale Vraagstukken; Wageningen UR, TU Delft, Universiteit Utrecht (Sustainability), KNAW.
+</div>
+
+<div class="deel-doelgroep">
+<strong>Frankreich</strong> — Assemblée nationale, Sénat, Conseil d'État; Ministerien (Transition écologique, Économie, Affaires étrangères); INRAE, CNRS, CIRAD; Le Monde, Le Figaro (Meinung), Alternatives Économiques; Sciences Po Paris, Université PSL.
+</div>
+
+<div class="deel-doelgroep">
+<strong>Mallorca &amp; Spanien</strong> — Parlament de les Illes Balears, Congreso de los Diputados, Senado; Ministerios (Transición Ecológica, Agricultura, Educación); CSIC, IMEDEA (Mallorca); Universitat de les Illes Balears; El País, La Vanguardia, Diario de Mallorca.
+</div>
+
+<div class="deel-doelgroep">
+<strong>Malta</strong> — Kamra tad-Deputati, Cabinet of Malta; Ministry for the Environment, Energy, and Public Cleansing; Università ta' Malta; Times of Malta, MaltaToday; Maltas Stimme im EU-Rat (besonders im ENVI-Ausschuss).
+</div>
+
+<h2>Zwei technische Hilfsmittel</h2>
+
+<h3>Für Teilen über WhatsApp oder LinkedIn</h3>
+<p>Bei jeder Ausgabe steht ein Open-Graph-Bild bereit — wenn Sie die URL in ein Chat- oder Nachrichtenprogramm einfügen, erscheint automatisch die gravierte Hero-Illustration mit dem Titel. Sie müssen kein separates Bild beifügen.</p>
+
+<h3>Für die Erstellung einer E-Mail</h3>
+<p>Im Folgenden ein Muster, das Sie kopieren und anpassen können — geschrieben für ein Mitglied des Bundestages oder eine Referentin im Ministerium:</p>
+
+<div class="deel-voorbeeld">
+<p>Sehr geehrte Frau X,</p>
+<p>vergangene Woche bin ich auf eine unabhängige monatliche Publikation gestoßen, die mir für die Diskussion, in der wir uns zuletzt befanden, relevant erscheint — Das Offene Visier, geschrieben von Jacobus van Merksteijn (einem niederländischen Unternehmer und Publizisten mit Wohnsitz auf Malta). Die Ausgabe zu Nova Democratia entwirft eine institutionelle Ergänzung der gegenwärtigen Entscheidungsfindung durch ein zweites Organ — einen „Bondsraad" — das gemessene Entscheidungen treffen kann, die mitunter gegen die Stimmung gehen dürfen.</p>
+<p>Was mir auffiel: die Durchrechnung ist ernsthaft — sie zeigt eine Pareto-Analyse über fünf Jahre mit einem prognostizierten Rückgang des Gesamt-Bremsgewichts um zweiundvierzig Prozent. Keine Utopie, kein Manifest — ein arbeitsfähiger Entwurf, der irgendwo institutionell andocken könnte.</p>
+<p>Sie können es lesen unter <strong>openvizier.org/de/editie-6/</strong>. Sollten Sie nach der Lektüre reagieren wollen — ich würde Ihr Urteil gerne hören.</p>
+<p>Mit freundlichen Grüßen,<br>
+[Ihr Name]</p>
+</div>
+
+<div class="deel-cta">
+<h2 style="margin-top: 0; color: #faf6ef;">Eine Bitte an Sie</h2>
+<p>Wenn Sie eine Person kennen, für die diese Ausgabe geschrieben zu sein scheint, lassen Sie ihr die Adresse <a href="https://openvizier.org/de/" style="color:#e9b340;">openvizier.org</a> zukommen. Eine Person — das genügt. Wenn 41 Leserinnen und Leser dies tun, sind wir 82. Wenn jene dasselbe tun, sind wir 164. Kein Marsch, keine Kampagne, keine Social-Media-Tricks. Nur eine gezielte Einladung pro Monat.</p>
+</div>
+
+<p style="margin-top: 3rem; font-style: italic; color: #4a5263; text-align: center;">Das Offene Visier · Unabhängig · Keine Werbung · Kein Sponsoring · Keine Abonnementsgebühren</p>
+
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Startseite">
+  <a href="../de/" class="navbar__home">⌂ Startseite</a>
+  <a href="../de/verkennen.html" class="navbar__verk">↻ Erkunden</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+
+<aside class="auteursblok">
+  <div class="auteursblok__foto"><img decoding="async" src="../assets/auteur/jvm_studio.jpg" alt="Jacobus van Merksteijn" loading="lazy"></div>
+  <div class="auteursblok__tekst">
+    <p class="auteur-naam">Jacobus van Merksteijn</p>
+    <p>Chefredakteur von Het Open Vizier. Unternehmer, Entwickler industrieller und governance-bezogener Innovationen (Carbon-Alert Ltd, TerraClean Ltd, GuardSkin Ltd). Schreibt über wirtschaftliche, ökologische und politische Systemfragen — aus eigener Erfahrung mit der Brüsseler und Haager Entscheidungsmaschinerie.</p>
+  </div>
+</aside>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Das Offene Visier · Von Jacobus van Merksteijn · Malta</p>
+  </div>
+</footer>
+
+<p style="text-align:center;font-size:0.78rem;color:#6b7280;margin:2rem auto 1.5rem auto;max-width:760px;padding:0 1.25rem;font-style:italic;">BiCRS ist ein Produkt von Carbon-Alert Ltd.</p>
+<script src="../assets/nav-mobile.js" defer></script>
+  <script defer src="../assets/deel-menu.js"></script>
+</body>
+</html>

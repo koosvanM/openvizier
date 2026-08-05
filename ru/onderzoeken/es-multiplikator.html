@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЕС: ВВП, реальные зарплаты и государственный мультипликатор — Het Open Vizier</title>
+  <meta name="description" content="Показатель ВВП—зарплата за вычетом роста совокупных государственных расходов — какое макроэкономическое пространство остаётся?">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    .auteursblok { max-width: 760px; margin: 4rem auto 2rem auto; padding: 1.5rem 1.5rem; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+    .auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+    .auteursblok__tekst { line-height: 1.55; }
+    .auteursblok__naam { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+    .auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+    .auteursblok__intro { font-family: var(--serif, Georgia, serif); font-size: 0.95rem; color: #4a5263; margin: 0 0 0.5rem 0; }
+    .auteursblok__link { font-size: 0.9rem; color: #1c5760; text-decoration: none; }
+    .auteursblok__link:hover { text-decoration: underline; }
+    @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
+
+    :root {
+      --accent: #3a5572;
+      --accent-dark: #26384d;
+    }
+    .article-tools__inner {
+      border-color: #26384d !important;
+    }
+    .version-switch__btn {
+      background: #3a5572 !important;
+    }
+    .version-switch__btn--active {
+      background: #26384d !important;
+    }
+
+    /* ── Methode-stappen ── */
+    .methode-stappen {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+    .methode-stap {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 0;
+      border-top: 2px solid #dde8f0;
+    }
+    .methode-stap:last-child {
+      border-bottom: 2px solid #dde8f0;
+    }
+    .methode-stap__nr {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 2.8rem;
+    }
+    .methode-stap__body {}
+    .methode-stap__titel {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.25rem;
+    }
+    .methode-stap__formule {
+      font-family: monospace;
+      font-size: 0.95rem;
+      background: #eef4f9;
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      color: #26384d;
+      font-weight: 600;
+      margin: 0 0 0.3rem;
+    }
+    .methode-stap__uitleg {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── EU27 resultaat-kaarten ── */
+    .eu-resultaat {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .eu-kaart {
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+      position: relative;
+    }
+    .eu-kaart--positief {
+      background: #eef5fb;
+      border-top: 4px solid #3a5572;
+    }
+    .eu-kaart--neutraal {
+      background: #fff8ec;
+      border-top: 4px solid #c08020;
+    }
+    .eu-kaart--negatief {
+      background: #fdf2f2;
+      border-top: 4px solid #b83232;
+    }
+    .eu-kaart__stap {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #777;
+      margin: 0 0 0.4rem;
+    }
+    .eu-kaart__waarde {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+      margin: 0 0 0.3rem;
+    }
+    .eu-kaart--positief .eu-kaart__waarde { color: #3a5572; }
+    .eu-kaart--neutraal .eu-kaart__waarde { color: #b87820; }
+    .eu-kaart--negatief .eu-kaart__waarde { color: #b83232; }
+    .eu-kaart__label {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Landen-datatafel ── */
+    .data-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+    .data-tabel th {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    .data-tabel th:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel td {
+      padding: 0.55rem 0.9rem;
+      border-bottom: 1px solid #dde8f0;
+      vertical-align: middle;
+    }
+    .data-tabel td:not(:first-child) {
+      text-align: right;
+    }
+    .data-tabel tr:nth-child(even) td {
+      background: #f4f8fc;
+    }
+    .data-tabel .cel-positief { color: #27782a; font-weight: 700; }
+    .data-tabel .cel-negatief { color: #b83232; font-weight: 700; }
+    .data-tabel .cel-sterk-negatief { color: #8b1a1a; font-weight: 700; }
+    .data-tabel .rij-eu27 td { background: #e8f0f7 !important; font-weight: 700; }
+
+    /* ── EU-heatmap vervang-grid ── */
+    .heatmap-sectie {
+      margin: 1.5rem 0;
+    }
+    .heatmap-groep {
+      margin-bottom: 1.4rem;
+    }
+    .heatmap-groep__titel {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.7rem;
+    }
+    .heatmap-groep--hoog .heatmap-groep__titel {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-groep--midden .heatmap-groep__titel {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-groep--laag .heatmap-groep__titel {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+    .heatmap-landen {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .heatmap-chip {
+      border-radius: 5px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 5.5rem;
+    }
+    .heatmap-chip__naam {
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .heatmap-chip__score {
+      font-size: 0.85rem;
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+    .heatmap-chip--hoog {
+      background: #d4edda;
+      color: #155724;
+    }
+    .heatmap-chip--midden {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .heatmap-chip--laag {
+      background: #fde8e8;
+      color: #7d1a1a;
+    }
+
+    /* ── Rangschikking: hoog/laag grid ── */
+    .rang-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .rang-col {
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .rang-col--hoog {
+      background: #f0f8f0;
+      border-left: 4px solid #27782a;
+    }
+    .rang-col--laag {
+      background: #fdf2f2;
+      border-left: 4px solid #b83232;
+    }
+    .rang-col__header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0 0 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .rang-col--hoog .rang-col__header { color: #27782a; }
+    .rang-col--laag .rang-col__header { color: #b83232; }
+    .rang-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.55rem;
+      font-size: 0.9rem;
+    }
+    .rang-item__land {
+      font-weight: 700;
+      color: #222;
+    }
+    .rang-item__score {
+      font-weight: 900;
+      font-size: 1rem;
+    }
+    .rang-col--hoog .rang-item__score { color: #27782a; }
+    .rang-col--laag .rang-item__score { color: #b83232; }
+
+    /* ── Interpretatie kaarten ── */
+    .interp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .interp-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      border-left: 3px solid var(--accent);
+    }
+    .interp-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .interp-card__tekst {
+      font-size: 0.88rem;
+      color: #444;
+      margin: 0;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eef5fb;
+      padding: 0.9rem 2rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.2rem 0;
+    }
+
+    /* ── Pull-quote ── */
+    .pull-quote {
+      border-left: 5px solid var(--accent);
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      background: #f4f8fc;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote__tekst {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+      line-height: 1.5;
+    }
+    .pull-quote__attr {
+      font-size: 0.82rem;
+      color: #777;
+      margin: 0;
+    }
+
+    /* ── NEPK-conclusie kaarten ── */
+    .nepk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .nepk-card {
+      background: #eef4f9;
+      border-radius: 6px;
+      padding: 1.2rem;
+      border-top: 4px solid var(--accent);
+    }
+    .nepk-card__nr {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .nepk-card__titel {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+    }
+    .nepk-card__tekst {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+
+    /* ── Bronnen ── */
+    .bronnen-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+    }
+    .bronnen-list li {
+      font-size: 0.85rem;
+      color: #555;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #e0ecf5;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .bronnen-list li:last-child { border-bottom: none; }
+    .bronnen-list a { color: var(--accent); text-decoration: none; }
+    .bronnen-list a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .eu-resultaat,
+      .rang-grid,
+      .interp-grid,
+      .nepk-grid {
+        grid-template-columns: 1fr;
+      }
+      .heatmap-chip { min-width: 4rem; }
+    }
+  </style>
+<link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  . { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Язык: Русский">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Язык</span>
+    <span class="masthead__taal__cur">· Русский</span>
+  </a>
+  <div class="masthead__date">Выпуск 2 — Четверг, 28 мая 2026 г.</div>
+  <h1 class="masthead__title" style="font-size: var(--text-3xl);"><a href="../">Het Open Vizier</a></h1>
+</header>
+
+
+<div class="gratis-band">Бесплатная информационная газета без рекламы<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Независимая, никаких мнений, никакой продажи данных</strong><span class="gratis-band__sep"> — </span><a href="../v-kurse.html" class="gratis-band__cta">Держите меня в курсе →</a></div>
+
+<nav class="ov-nav" aria-label="Menu">
+  <div class="ov-nav__inner">
+    <a class="ov-nav__item" href="/ru/">Главная</a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">ИИ-Атомное Взрывное<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/ii-kak-nachalnik.html">ИИ как начальник</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/snachala-reptiliya.html">Сначала рептилия</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/atomnaya-bomba-v-formate-ii.html">Атомная бомба в формате ИИ</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Политика<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Франция и европейская революция</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/frantsiya-revolyutsionnyy-moment.html">Франция — революционный момент</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/vijf-landen-vijf-curves.html">Пять стран, пять кривых</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-nederlandse-revolutie-2033.html">Нидерландская революция 2033</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/moet-nederland-ook-volgen.html">Должны ли Нидерланды тоже последовать?</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Механика перелома и люди</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-kantelmechanica.html">Механика перелома</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/mensen-die-mee-bouwen.html">Люди, которые строят вместе</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/actievoerders-bouwen-continenten.html">Активисты строят континенты</a>
+        <a class="ov-nav__subitem" href="/nl/opbouwers-wegjagen/">Кто изгоняет строителей</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-matrix-van-de-uittocht.html">Матрица исхода</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/ii-kak-nachalnik.html">ИИ как начальник</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/snachala-reptiliya.html">Сначала рептилия</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-stekker-buiten-het-systeem.html">Выключатель вне системы</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Партии и Парето</div>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-02-pareto-top12.html">Парето топ-12 — кто блокирует</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-08-partijen-in-kaart.html">Где ваша партия</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-09-pareto-per-actor.html">Парето по актору</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-04-ordes-van-bezwaar.html">Порядки возражения</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-05-twintig-bezwaren.html">Двадцать актуальных возражений</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-4-politieke-landschap.html">Разграбление 4: политический ландшафт</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Пресса и СМИ</div>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-pers-is-de-arena.html">Пресса — это арена</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/ze-weten-het-al.html">Они уже знают</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/trump-als-spiegel.html">Трамп как зеркало</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-03-media-als-rekstrook.html">СМИ как растягиватель</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-anti-immuunziekte-van-brussel.html">Антииммунная болезнь Брюсселя</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Аутоиммунная болезнь ударяет</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-dertig-cent-die-europa-omdraait.html">Тридцать центов, меняющие Европу</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Голосование и выборы</div>
+        <a class="ov-nav__subitem" href="/nl/stemgedrag.html">Поведение на выборах</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/chestnost-delaet-upravlenie-vozmozhnym.html">Честность делает управление возможным</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/reshat-bez-obzora.html">Решать без обзора</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/aan-de-leiding-drie-blokken-zonder-subsidie.html">В лидерах без субсидий</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Разграбление 0: сначала общипать</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/onderwijs-kies-een-kant.html">Образование — выберите сторону</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/voorwoord.html">Выпуск 1 — Предисловие</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Философия<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Семь измерений</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/van-quantum-naar-7d.html">От кванта к 7D</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/van-de-grot-naar-de-zon.html">Из пещеры к солнцу</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/denkraam-7d.html">Рамка мышления 7D</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/samenhang.html">Как всё связано</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/stromingsleer.html">Теория потоков</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-02-zeven-dimensies.html">Семь измерений</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Первочувство и Kosaris</div>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/index.html">Человек подо льдом</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-01-oergevoel.html">Первочувство</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-02-zeven-dimensies.html">Семь измерений</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-03-drie-lagen.html">Три слоя мозга</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-04-communicatie.html">Коммуникация между первочувствами</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-05-wat-we-doen.html">Что мы делаем с детьми</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-06-mama.html">Мама, я голоден</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-09-oergevoel-in-beroepspraktijk.html">Первочувство в практике</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/ii-kak-nachalnik.html">ИИ как начальник</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/snachala-reptiliya.html">Сначала рептилия</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-stekker-buiten-het-systeem.html">Выключатель вне системы</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/manifest-ruimte-voor-het-oergevoel.html">Манифест Первочувства</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/waarom-ik-zo-ben.html">Почему я такой</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Фильмы, сказки, книга</div>
+        <a class="ov-nav__subitem" href="/ru/7-dim-film/">Фильм 7-Dim</a>
+        <a class="ov-nav__subitem" href="/ru/kosaris-film/">Косарис — Фильм</a>
+        <a class="ov-nav__subitem" href="/ru/kniga/">Косарис — Книга</a>
+        <a class="ov-nav__subitem" href="/ru/skazki/">Сказка Якобуса</a>
+        <a class="ov-nav__subitem" href="/ru/filosofiya/">Философия — портал</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Система связи чувств</div>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/gevoelsconnectiesysteem.html">Система связи чувств</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/gevoelsconnectiesysteem-volledig.html">ГКС — полный план</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/krantbriefing.html">Газетный брифинг ГКС</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/routekaart-vervolgvragen.html">Дорожная карта вопросов</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Климат<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Азотный кризис</div>
+        <a class="ov-nav__subitem" href="/nl/editie-stikstof/">Выпуск Азот</a>
+        <a class="ov-nav__subitem" href="/nl/editie-stikstof/drie-problemen-een-antwoord.html">Три проблемы — один ответ</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/naar-de-natuurschool.html">В школу природы</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/boer-en-natuur-beide-vooruit.html">Фермер и природа — вместе вперёд</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/reshat-bez-obzora.html">Решать без обзора</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-methodologie-van-de-aanpassing.html">Линия питания</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-op-de-natuur-aangepaste-analyse.html">Анализ природы</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Аутоиммунная болезнь ударяет</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Рапс</div>
+        <a class="ov-nav__subitem" href="/nl/editie-duitsland/raps-multiplicator-oost-duitsland.html">Рапсовый мультипликатор</a>
+        <a class="ov-nav__subitem" href="/nl/editie-duitsland/">Выпуск Германия</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/boer-en-natuur-beide-vooruit.html">Фермер и природа — вместе вперёд</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Климатический дивиденд</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/klimaatdividend.html">Климатический дивиденд</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/erfenisgolf-240-miljard.html">Волна наследства 240 млрд</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/wereldgordel-2040-2050.html">Мировой пояс 2040-2050</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">BiCRS и Carbon-Alert</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/the-downline.html">The Downline — зелёный путь восстановления</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/carbon-alert-visie-2036.html">Carbon-Alert — видение 2036</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/brusselse-gevolgenkaart-bicrs.html">BiCRS-версия ЕС</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/plastic-boete-carbon-credit.html">Пластиковый штраф или углеродный кредит</a>
+        <a class="ov-nav__subitem" href="/nl/editie-0/carbon-alert-europa.html">Carbon-Alert Европа</a>
+        <a class="ov-nav__subitem" href="/nl/editie-0/biomimetische-krachtcentrale.html">Биомиметическая электростанция</a>
+        <a class="ov-nav__subitem" href="/ru/editie-0/">Выпуск Европа</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Термостат и физическая Земля</div>
+        <a class="ov-nav__subitem" href="/nl/editie-2/thermostaat.html">Термостат</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/nepk-klimaatlogica.html">NEPK-Климатическая логика</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-zon-staat-op-de-evenaar.html">Солнце на экваторе</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Шины, пластик, загрязнение</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-autoband-is-het-nieuwe-sigaret.html">Автошина-сигарета</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-methodologie-van-de-aanpassing.html">Линия питания</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-op-de-natuur-aangepaste-analyse.html">Анализ природы</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Специальные выпуски</div>
+        <a class="ov-nav__subitem" href="/nl/editie-klimaat/">Выпуск Климат</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">То, что не видно</div>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/zij-doden-hun-levensader.html">Они убивают свою артерию</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/oni-ubivayut-svoi-zhiznennye-arterii-bryussel.html">Они убивают свои артерии (Брюссель)</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/kernfusie.html">Ядерный синтез</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/technische-oplossingen.html">Технические решения</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Управление<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <div class="ov-nav__submenu-groep">Нидерланды</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/the-downline.html">The Downline — падение NEPK в Нидерландах</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/gevolgenkaart-iii-stille-analyse.html">Тихий анализ (NL)</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/wij-moeten-weer-zelf-aan-de-bak.html">Сами за работу (NL)</a>
+        <a class="ov-nav__subitem" href="/nl/de-eerste-gemeente/">Первый муниципалитет</a>
+        <a class="ov-nav__subitem" href="/nl/de-halve-gemeente/">Половина муниципалитета</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/overheden/nederland/">Нидерланды · Будущее</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-nl/">Карта последствий Нидерланды</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Европа</div>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/europa-hoeft-geen-schadekaart-te-zijn.html">Европа — открытие</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/europa-opnieuw.html">Европа заново</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-brusselse-gevolgenkaart.html">Брюссельская карта последствий</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/metafora-autoimmunnoy-bolezni.html">Метафора аутоиммунной болезни</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/het-immuunsysteem-van-organisaties.html">Иммунная система организаций</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/open-brief-aan-de-regeringen-van-europa.html">Открытое письмо правительствам</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-eu/">Карта последствий ЕС-27</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/overheden/europa/">Европа · Будущее</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Другие страны</div>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-br/">Бразилия</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-ch/">Швейцария</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-cn/">Китай</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-cu/">Куба</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-de/">Германия</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-es/">Испания</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-il/">Израиль</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-in/">Индия</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-ir/">Иран</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-jp/">Япония</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-kr/">Южная Корея</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-se/">Швеция</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-sr/">Суринам</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-tw/">Тайвань</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-uk/">Великобритания</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-us/">США</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-za/">Южная Африка</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/mappa-tal-konsegwenzi.html">Мальта</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-singaporese-gevolgenkaart.html">Сингапур</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Nova Democratia</div>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/">Выпуск 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/voorwoord-waarom-dit-moet.html">Предисловие — Почему это необходимо</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-00-brussel-als-variabele.html">Брюссель как переменная</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-01-zes-ordes-van-fasering.html">Шесть порядков фазирования</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-06-zwitserse-spiegel.html">Швейцарское зеркало</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-07-canadese-spiegel.html">Канадское зеркало</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-11-kennislaag-als-bondgenoot.html">Слой знаний как союзник</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-6/aflevering-12-beste-weg-vooruit.html">Лучший путь вперёд</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/nova-democratia-manifest.html">Манифест Nova Democratia</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-actor-is-de-regel.html">Актор — это правило</a>
+        <a class="ov-nav__subitem" href="/nl/soevereiniteit-als-cyclus/">Суверенитет как цикл</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/bbp-liegt.html">ВВП лжёт</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Лидерство и организации</div>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/">Выпуск 4 — Бумажная промышленность</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/artikel-01-wet-papier-industrie.html">Закон бумажной промышленности</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/artikel-02-ceo.html">Генеральный директор и первочувство</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/artikel-03-consultant.html">Консультант</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/artikel-04-bankier.html">Банкир</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/artikel-05-verzekeraar.html">Страховщик</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/artikel-06-toezichthouder.html">Надзорный орган</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-4/artikel-07-rechter.html">Судья</a>
+        <a class="ov-nav__subitem" href="/nl/editie-leiderschap/">Выпуск Лидерство</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Образование</div>
+        <a class="ov-nav__subitem" href="/nl/editie-2/onderwijs-manifest.html">Образование — манифест</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/onderwijs-prijs-van-de-bloei.html">Цена расцвета</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-07-ai-onderwijs.html">Образование (Выпуск 1)</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-3/artikel-07-ai-onderwijs.html">ИИ-образование</a>
+        <a class="ov-nav__subitem" href="/nl/editie-kind-loopbaan/">Выпуск Ребёнок и Карьера</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/opvoeding/">Воспитание · Будущее</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/scholing/">Обучение · Будущее</a>
+        <hr>
+        <div class="ov-nav__submenu-groep">Промышленность, энергия, будущее</div>
+        <a class="ov-nav__subitem" href="/nl/toekomst/">Будущее — портал</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/energie/">Энергия · Будущее</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/industrie/">Промышленность · Будущее</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Революция<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/">Выпуск 5 — Забытый порядок</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-00-brief-aan-lezer.html">Письмо читателю</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Семь инструментов</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-02-succesformule.html">Формула успеха</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-03-vergeten-orde.html">Забытый порядок</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-04-methaan-misleiding.html">Обман метана</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-05-plant-die-verhuist.html">Растение, которое переезжает</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-06-zeven-van-bern.html">Семеро из Берна</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-07-afwijkers.html">Отступники</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-5/artikel-08-eis-aan-lezer.html">Требование к читателю</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/veerkracht-selectie.html">Устойчивость и отбор</a>
+        <a class="ov-nav__subitem" href="/ru/vypusk-1/">Выпуск 1</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Налоги<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/velikoe-razgrablenie.html">Великое разграбление</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-1-diagnose.html">Разграбление 1: диагноз</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-2-mechaniek.html">Разграбление 2: механика</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-3-afloop.html">Разграбление 3: исход</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/v-konce-nichego-ne-ostanetsya.html">В конце ничего не останется</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/gat-in-de-grond.html">€450 млн — яма в земле</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="/ru/chto-vsplyvaet/de-gevolgenkaart.html">Карта последствий — манифест</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/beleidsadvies-aantrekken.html">От налогов к привлечению</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Исследование<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/ru/dossiers/">Досье</a>
+        <a class="ov-nav__subitem" href="/ru/dossiers/vortex-hair.html">Гольф-мяч Vortex-Hair™</a>
+        <a class="ov-nav__subitem" href="/ru/onderzoeken/">За цифрами</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoek/eu-multiplicator.html">Мультипликатор ЕС</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoek/ontwikkelingslandstatus.html">Статус развивающейся страны?</a>
+        <a class="ov-nav__subitem" href="/ru/onderzoeken/">Исследование — портал</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Выходные данные<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="/ru/vykhodnye-dannye.html">Выходные данные</a>
+        <a class="ov-nav__subitem" href="/ru/o-gazete.html">Об этой газете</a>
+        <a class="ov-nav__subitem" href="/ru/arkhiv.html">Архив</a>
+        <a class="ov-nav__subitem" href="/ru/v-kurse.html">Быть в курсе</a>
+        <a class="ov-nav__subitem" href="/nl/structuur.html">Структура — Админ</a>
+        <a class="ov-nav__subitem" href="/nl/navigatie.html">Навигация</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Ссылка скопирована" data-msg-copy-prompt="Скопируйте эту ссылку:" data-mail-subject="Статья из Het Open Vizier: " data-mail-footer="Отправлено через openvizier.org" data-pdf-building="Создание PDF…" data-pdf-done="PDF скачан" data-pdf-fail="Ошибка PDF — попробуйте Cmd+P" data-pdf-source="Источник" data-pdf-note="Отправлено через openvizier.org — многоязычная газета мнений." data-msg-instagram-copied="Ссылка скопирована — вставьте в Instagram" data-msg-tik-tok-copied="Ссылка скопирована — вставьте в TikTok" data-x-via="openvizier" data-gate-title="Код доступа" data-gate-body="Введите код доступа, чтобы скачать статьи в PDF." data-gate-submit="Разблокировать" data-gate-cancel="Отмена" data-gate-checking="Проверка…" data-gate-invalid="Введите действительный код." data-gate-wrong="Неверный или истекший код." data-gate-server-error="Не удалось проверить код. Попробуйте позже." data-gate-note="Нет кода? Свяжитесь с Het Open Vizier.">
+      <a class="ov-nav__item" href="#">Поделиться<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Скачать PDF</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Поделиться в Facebook</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Поделиться в X (Twitter)</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Поделиться в LinkedIn</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Отправить через WhatsApp</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Поделиться в Telegram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Ссылка для Instagram</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Ссылка для TikTok</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Скопировать ссылку</span></a>
+        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Отправить по эл. почте</span></a>
+      </div>
+    </div>
+    <a class="ov-nav__item ov-nav__lang" href="/ru/index-talenring.html" style="margin-left:auto;">⌂ Язык</a>
+  </div>
+</nav>
+
+<!-- ARTICLE TOOLS: versie-switch + audio-speler -->
+<section class="article-tools">
+  <div class="article-tools__inner">
+    <div class="version-switch" role="group" aria-label="Версия">
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Полная версия</button>
+      <button type="button" class="version-switch__btn" data-version="kort">Кратко</button>
+    </div>
+    <div class="audio-player">
+      <span class="audio-player__label">🎧</span>
+      <button type="button" class="audio-player__btn" data-pause-label="Пауза" data-resume-label="Продолжить">
+        <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+          <path class="icon-play" d="M8 5v14l11-7z"/>
+          <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
+        </svg>
+        <span class="audio-player__label-text">Прослушать</span>
+      </button>
+      <audio class="audio-player__el" src="../../assets/audio/ru/onderzoeken/es-multiplikator.mp3" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ UITGEBREID -->
+<div class="version-content" data-version="lang">
+<div class="version-content__lang">
+<main class="article">
+
+<!-- ── SLIDE 1: HERO ── -->
+<section class="slide slide--split">
+  <div class="slide__text">
+    <span class="slide__tag">Анализ данных · данные AMECO</span>
+    <h1 class="slide__title">ЕС: ВВП, реальные зарплаты и государственный мультипликатор</h1>
+    <p class="slide__lead">Показатель ВВП—зарплата за вычетом роста совокупных государственных расходов — какое макроэкономическое пространство остаётся?</p>
+    <p class="slide__meta">Автор: Якобус ван Мерксштейн · За цифрами · 14 мин. чтения · 28 мая 2026</p>
+  </div>
+  <div class="slide__visual">
+    <img src="../../assets/articles/eu-multiplicator.jpg" alt="Государственный мультипликатор ЕС: ВВП, реальные зарплаты и государственные расходы">
+  </div>
+</section>
+
+<!-- ── SLIDE 2: DE METHODE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Метод</span>
+    <h2 class="slide__heading">Трёхшаговый метод: от ВВП к макроэкономическому пространству</h2>
+    <p>В настоящем анализе используется та же база AMECO для реального ВВП и реальной компенсации на одного работника, что и в предыдущем анализе, дополненная показателем AMECO <code>OUTG</code> для <em>real total expenditure of general government</em> (дефлятор ВВП, индекс 2020=100). <code>OUTG</code> измеряет реальные совокупные государственные расходы в соответствии с ESA 2010 (<a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics AMECO OUTG</a>). AMECO — это макроэкономическая база данных Европейской комиссии с ежегодными наборами данных (<a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">European Commission AMECO</a>).</p>
+
+    <div class="methode-stappen">
+      <div class="methode-stap">
+        <div class="methode-stap__nr">1</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">Показатель ВВП—зарплата</p>
+          <p class="methode-stap__formule">Рост реального ВВП − рост реальной компенсации на одного работника</p>
+          <p class="methode-stap__uitleg">Базовый показатель: растёт ли экономика быстрее, чем затраты на оплату труда? Положительное значение означает, что макроэкономический задел превышает темпы роста заработных плат.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">2</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">За вычетом государства</p>
+          <p class="methode-stap__formule">Показатель ВВП—зарплата − реальный рост совокупных государственных расходов</p>
+          <p class="methode-stap__uitleg">Как только рост реальных совокупных государственных расходов учитывается как самостоятельный фактор давления, показатель существенно меняется. Государство претендует на часть макроэкономического пространства.</p>
+        </div>
+      </div>
+      <div class="methode-stap">
+        <div class="methode-stap__nr">3</div>
+        <div class="methode-stap__body">
+          <p class="methode-stap__titel">С мультипликатором</p>
+          <p class="methode-stap__formule">Показатель ВВП—зарплата − реальный рост государственных расходов × индекс государственных расходов (2000=1)</p>
+          <p class="methode-stap__uitleg">Это стресс-показатель: рост государственных расходов в более поздние годы взвешивается сильнее, чем в 2001 году, поскольку сама реальная совокупная стоимость государственного сектора за это время возросла. Не официальный индикатор системы национальных счетов, но аналитический инструмент, позволяющий сделать видимым мультипликативный фактор.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Ключевой вопрос анализа:</strong> Остаётся ли макроэкономическое пространство после учёта реального роста заработных плат и совокупного объёма государственных расходов?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 3: EU27-RESULTAAT ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Результат по ЕС-27</span>
+    <h2 class="slide__heading">ЕС-27: от +0,9 пп до −0,9 пп — маржа испаряется</h2>
+    <p>Данные по ЕС-27 в целом рисуют однозначную картину. Средний показатель за анализируемый период резко меняется, как только в расчёт принимаются два дополнительных фактора давления:</p>
+
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">Шаг 1 — Показатель ВВП—зарплата</p>
+        <p class="eu-kaart__waarde">+0,9</p>
+        <p class="eu-kaart__label">пп в среднем за год<br><em>Выпуск растёт быстрее зарплат</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">Шаг 2 — За вычетом государства</p>
+        <p class="eu-kaart__waarde">−0,6</p>
+        <p class="eu-kaart__label">пп в среднем за год<br><em>Маржа меняет знак после вычета госрасходов</em></p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">Шаг 3 — С мультипликатором</p>
+        <p class="eu-kaart__waarde">−0,9</p>
+        <p class="eu-kaart__label">пп в среднем за год<br><em>Накопленное давление государственных расходов</em></p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">«Как только совокупные реальные государственные расходы учитываются как самостоятельный фактор давления, положительная маржа между ростом ВВП и реальным ростом заработных плат поглощается в значительной мере.»</p>
+      <p class="pull-quote__attr">— Среднее по ЕС-27, данные AMECO</p>
+    </div>
+
+    <p>Вывод при этом кардинально меняется: то, что в первичном показателе выглядело как положительная маржа ВВП—зарплата в среднем 0,9 процентного пункта в год, после корректировки на реальные государственные расходы превращается в отрицательное значение −0,6 пп, а с взвешиванием мультипликатора — даже в −0,9 пп. Макроэкономическое пространство оказывается меньше, чем предполагают стандартные индикаторы.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 4: GENOEMDE LANDEN ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Сравнение стран</span>
+    <h2 class="slide__heading">Шесть стран: насколько силён государственный мультипликатор?</h2>
+    <p>Мультипликатор показывает, какие страны сохраняют положительную маржу ВВП—зарплата после того, как реальный рост совокупных государственных расходов учитывается с дополнительным весом. Испания в среднем остаётся относительно более позитивной, чем Германия и Италия, тогда как Нидерланды удерживают более выраженный положительный результат по сравнению с ориентиром ЕС-27 — однако со значительными колебаниями в 2009 году и в период пандемии.</p>
+
+    <table class="data-tabel">
+      <thead>
+        <tr>
+          <th>Страна</th>
+          <th>ВВП—зарплата (ср.)</th>
+          <th>За вычетом государства</th>
+          <th>С мультипликатором</th>
+          <th>Мультипликатор 2024</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="rij-eu27">
+          <td><strong>ЕС-27</strong></td>
+          <td class="cel-positief">+0,9 пп</td>
+          <td class="cel-negatief">−0,6 пп</td>
+          <td class="cel-negatief">−0,9 пп</td>
+          <td class="cel-sterk-negatief">−3,2 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Нидерланды</strong></td>
+          <td class="cel-positief">+1,2 пп</td>
+          <td class="cel-negatief">−0,5 пп</td>
+          <td class="cel-negatief">−0,9 пп</td>
+          <td class="cel-sterk-negatief">−2,7 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Бельгия</strong></td>
+          <td class="cel-positief">+1,0 пп</td>
+          <td class="cel-negatief">−1,0 пп</td>
+          <td class="cel-negatief">−1,6 пп</td>
+          <td class="cel-sterk-negatief">−5,9 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Германия</strong></td>
+          <td class="cel-positief">+0,6 пп</td>
+          <td class="cel-negatief">−0,5 пп</td>
+          <td class="cel-negatief">−0,7 пп</td>
+          <td class="cel-sterk-negatief">−5,3 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Италия</strong></td>
+          <td class="cel-positief">+0,7 пп</td>
+          <td class="cel-negatief">−0,1 пп</td>
+          <td class="cel-negatief">−0,2 пп</td>
+          <td class="cel-positief">+5,6 пп</td>
+        </tr>
+        <tr>
+          <td><strong>Испания</strong></td>
+          <td class="cel-positief">+1,4 пп</td>
+          <td class="cel-negatief">−0,9 пп</td>
+          <td class="cel-negatief">−1,7 пп</td>
+          <td class="cel-sterk-negatief">−4,3 пп</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:0.82rem;color:#777;margin-top:-0.5rem;">Источник: база данных AMECO (Европейская комиссия) · DBnomics AMECO OUTG · Eurostat. Средние значения рассчитаны за весь анализируемый период.</p>
+
+    <div class="callout">
+      <p><strong>Примечательно:</strong> Италия — единственная страна с положительным значением мультипликатора в 2024 году (+5,6 пп), что указывает на относительное снижение реального роста государственных расходов в том году. Бельгия занимает противоположный полюс: −5,9 пп в 2024 году.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 5: EU-HEATMAP (HTML-versie) ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Все страны ЕС</span>
+    <h2 class="slide__heading">Страны ЕС по группам: среднегодовой балл мультипликатора</h2>
+    <p>Красный цвет означает, что реальный рост совокупных государственных расходов структурно опускает показатель ВВП—зарплата ниже нуля; зелёный — что показатель остаётся положительным несмотря на фактор государственных расходов. Группировка выполнена по среднему значению балла мультипликатора за анализируемый период.</p>
+
+    <div class="heatmap-sectie">
+      <!-- Hoogste scores -->
+      <div class="heatmap-groep heatmap-groep--hoog">
+        <div class="heatmap-groep__titel">Наивысшие баллы (наименее отрицательные / ближайшие к нулю)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Греция</span>
+            <span class="heatmap-chip__score">−0,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Италия</span>
+            <span class="heatmap-chip__score">−0,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Дания</span>
+            <span class="heatmap-chip__score">−0,5 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Португалия</span>
+            <span class="heatmap-chip__score">−0,7 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--hoog">
+            <span class="heatmap-chip__naam">Германия</span>
+            <span class="heatmap-chip__score">−0,7 пп</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middenmoot -->
+      <div class="heatmap-groep heatmap-groep--midden">
+        <div class="heatmap-groep__titel">Середина</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Нидерланды</span>
+            <span class="heatmap-chip__score">−0,9 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">ЕС-27</span>
+            <span class="heatmap-chip__score">−0,9 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Австрия</span>
+            <span class="heatmap-chip__score">ок. −1,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Чехия</span>
+            <span class="heatmap-chip__score">ок. −1,3 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Швеция</span>
+            <span class="heatmap-chip__score">ок. −1,3 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Финляндия</span>
+            <span class="heatmap-chip__score">ок. −1,4 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Бельгия</span>
+            <span class="heatmap-chip__score">−1,6 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Испания</span>
+            <span class="heatmap-chip__score">−1,7 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Франция</span>
+            <span class="heatmap-chip__score">ок. −1,8 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Ирландия</span>
+            <span class="heatmap-chip__score">ок. −2,0 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Словения</span>
+            <span class="heatmap-chip__score">ок. −2,1 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Хорватия</span>
+            <span class="heatmap-chip__score">ок. −2,4 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Словакия</span>
+            <span class="heatmap-chip__score">ок. −2,6 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Венгрия</span>
+            <span class="heatmap-chip__score">ок. −2,9 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Кипр</span>
+            <span class="heatmap-chip__score">ок. −3,0 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Мальта</span>
+            <span class="heatmap-chip__score">ок. −3,1 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Люксембург</span>
+            <span class="heatmap-chip__score">ок. −3,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--midden">
+            <span class="heatmap-chip__naam">Болгария</span>
+            <span class="heatmap-chip__score">ок. −3,5 пп</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laagste scores -->
+      <div class="heatmap-groep heatmap-groep--laag">
+        <div class="heatmap-groep__titel">Наименьшие баллы (наиболее отрицательные)</div>
+        <div class="heatmap-landen">
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Эстония</span>
+            <span class="heatmap-chip__score">−6,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Польша</span>
+            <span class="heatmap-chip__score">−6,3 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Румыния</span>
+            <span class="heatmap-chip__score">−7,2 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Литва</span>
+            <span class="heatmap-chip__score">−7,4 пп</span>
+          </div>
+          <div class="heatmap-chip heatmap-chip--laag">
+            <span class="heatmap-chip__naam">Латвия</span>
+            <span class="heatmap-chip__score">−7,6 пп</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:0.82rem;color:#777;">Примечание: баллы для стран средней группы получены путём интерполяции на основе опубликованного рейтинга и точных опорных значений для шести упомянутых стран. Исходные данные: AMECO / DBnomics / Eurostat.</p>
+  </div>
+</section>
+
+<!-- ── SLIDE 6: RANGSCHIKKING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Рейтинг</span>
+    <h2 class="slide__heading">Наивысшие и наименьшие баллы мультипликатора в ЕС</h2>
+    <p>Средний рейтинг строже, чем предыдущий рейтинг по показателю ВВП—зарплата. Страны с высоким ростом ВВП, но и быстро растущими государственными расходами опускаются вниз, тогда как страны с умеренным реальным ростом государственного сектора получают относительно лучший результат. Примечательно: Греция и Италия — страны с исторически высоким государственным долгом — показывают относительно благоприятные результаты благодаря сдержанному реальному росту государственных расходов в анализируемом периоде.</p>
+
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Наивысшие средние баллы</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Греция</span>
+          <span class="rang-item__score">−0,2 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Италия</span>
+          <span class="rang-item__score">−0,2 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Дания</span>
+          <span class="rang-item__score">−0,5 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Португалия</span>
+          <span class="rang-item__score">−0,7 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Германия</span>
+          <span class="rang-item__score">−0,7 пп</span>
+        </div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Наименьшие средние баллы</div>
+        <div class="rang-item">
+          <span class="rang-item__land">1. Латвия</span>
+          <span class="rang-item__score">−7,6 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">2. Литва</span>
+          <span class="rang-item__score">−7,4 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">3. Румыния</span>
+          <span class="rang-item__score">−7,2 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">4. Польша</span>
+          <span class="rang-item__score">−6,3 пп</span>
+        </div>
+        <div class="rang-item">
+          <span class="rang-item__land">5. Эстония</span>
+          <span class="rang-item__score">−6,2 пп</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Закономерность:</strong> Наименьшие баллы концентрируются в бывших восточноевропейских государствах-членах. Это отражает быстрый рост государственных расходов по сравнению с ростом ВВП — структурную черту их пути к конвергенции. Наивысшие баллы демонстрируют средиземноморские и северные страны, которые удерживали реальный рост государственного сектора в более умеренных рамках.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 7: INTERPRETATIE ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Интерпретация</span>
+    <h2 class="slide__heading">Что означают эти баллы? Концептуально более строгий показатель</h2>
+    <p>Данная версия концептуально строже, чем предыдущий анализ ВВП—зарплата. Предыдущий график ставил вопрос: растёт ли выпуск быстрее реальной компенсации на одного работника? Настоящий анализ ставит принципиально более жёсткий вопрос:</p>
+
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">«Остаётся ли макроэкономическое пространство после учёта реального роста заработных плат и совокупного объёма государственных расходов?»</p>
+    </div>
+
+    <div class="interp-grid">
+      <div class="interp-card">
+        <p class="interp-card__titel">Что отрицательный балл <em>не</em> означает</p>
+        <p class="interp-card__tekst">Государственные расходы по своей природе не являются проблемой. Они могут финансировать производительную инфраструктуру, образование, оборону, здравоохранение или экономическую стабилизацию — инвестиции, которые в долгосрочной перспективе повышают производительность.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Что отрицательный балл <em>действительно</em> означает</p>
+        <p class="interp-card__tekst">Когда совокупный реальный объём государственных расходов растёт быстрее экономики в целом, свободное макроэкономическое пространство сужается. Маржа между выпуском и факторами давления (зарплаты + государство) исчезает.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Мультипликатор как стресс-показатель</p>
+        <p class="interp-card__tekst">Третий шаг — не официальный индикатор системы национальных счетов, а аналитический способ сделать видимым накопленный рост государственных расходов. Более высокий вес в последние годы периода отражает тот факт, что абсолютная совокупная стоимость государственного сектора к тому времени возросла.</p>
+      </div>
+      <div class="interp-card">
+        <p class="interp-card__titel">Последствия для политики</p>
+        <p class="interp-card__tekst">Стандартные показатели роста ВВП скрывают, какая часть этого роста уже «поглощена» динамикой государственных расходов. Реальное свободное макроэкономическое пространство меньше, чем принято измерять в политических кругах.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SLIDE 8: CONCLUSIE + NEPK-VERBINDING ── -->
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Заключение</span>
+    <h2 class="slide__heading">Заключение: макроэкономическое пространство сужается быстрее, чем мы измеряем</h2>
+    <p>Данные по ЕС эмпирически подтверждают то, что рамочная концепция NEPK (Нетто-внешнее производительное ядро) теоретически утверждает о соотношении роста ВВП, затрат на оплату труда и накладных расходов. Связь прямая и доказательная:</p>
+
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>Данные ЕС подтверждают теорию NEPK:</strong> Положительная маржа ВВП—зарплата по ЕС-27 (+0,9 пп) полностью испаряется, как только реальные совокупные государственные расходы учитываются в качестве фактора давления (−0,9 пп с мультипликатором). Это именно тот механизм, который рамочная концепция NEPK описывает применительно к Нидерландам: макроэкономическое пространство поглощается затратами, которые стандартные показатели не учитывают в полной мере.</p>
+    </div>
+
+    <div class="nepk-grid">
+      <div class="nepk-card">
+        <div class="nepk-card__nr">01</div>
+        <p class="nepk-card__titel">Теория NEPK → свидетельства по ЕС</p>
+        <p class="nepk-card__tekst">Концепция NEPK утверждает, что реальное производительное ядро меньше, чем предполагают показатели ВВП, поскольку накладные расходы (государство, комплаенс, перераспределительный сектор) поглощают всё большую часть роста. Данные мультипликатора по ЕС-27 демонстрируют эту закономерность одновременно по всем 27 государствам-членам.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">02</div>
+        <p class="nepk-card__titel">Ловушка конвергенции</p>
+        <p class="nepk-card__tekst">Страны с наименьшими баллами мультипликатора — Латвия, Литва и Румыния — показывают, что быстрая экономическая конвергенция сопровождается ещё более стремительным ростом государственных расходов. Это динамика NEPK в европейском масштабе: рост в сочетании со сжимающейся свободной маржой.</p>
+      </div>
+      <div class="nepk-card">
+        <div class="nepk-card__nr">03</div>
+        <p class="nepk-card__titel">Нидерланды в европейском контексте</p>
+        <p class="nepk-card__tekst">Нидерланды с баллом мультипликатора −0,9 пп находятся на уровне среднего по ЕС-27. При показателе −2,7 пп в 2024 году страна остаётся в отрицательной зоне, хотя и менее экстремальной, чем Бельгия (−5,9 пп) или Германия (−5,3 пп). Эрозия NEPK — не сугубо нидерландское явление: это общеевропейская закономерность, эмпирически подтверждающая теорию NEPK.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="background:#fdf6e8;border-left-color:#b87820;">
+      <p style="font-size:1.05rem;font-weight:700;color:#7a4c00;">«Макроэкономическое пространство сужается быстрее, чем мы измеряем, — именно поэтому и была создана концепция NEPK.»</p>
+      <p style="margin-top:0.5rem;color:#555;">Данные мультипликатора по ЕС не являются самостоятельным индикатором кризиса. Однако они подтверждают суть аргумента NEPK: стандартные показатели роста ВВП и заработных плат недооценивают реальные затраты, давящие на производительное ядро. Концепция NEPK делает это скрытое давление явно измеримым — сначала для Нидерландов, теперь подтверждённым общеевропейскими данными.</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem; color: var(--accent-dark);">Источники</h3>
+    <ul class="bronnen-list">
+      <li>
+        <strong>База данных AMECO</strong> — Европейская комиссия, ежегодные макроэкономические данные по всем государствам-членам ЕС
+        <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">(economy-finance.ec.europa.eu)</a>
+      </li>
+      <li>
+        <strong>DBnomics AMECO OUTG</strong> — Реальные совокупные государственные расходы, ESA 2010, индекс 2020=100
+        <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">(db.nomics.world/AMECO/OUTG)</a>
+      </li>
+      <li>
+        <strong>Eurostat</strong> — Дополнительные данные национальных счетов и верификация
+        <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">(ec.europa.eu/eurostat)</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Главная">
+  <a href="../../ru/onderzoeken/index.html" class="navbar__terug">← Назад в Исследование</a>
+  <a href="../../ru/" class="navbar__home">⌂ Главная</a>
+  <a href="../../ru/verkennen.html" class="navbar__verk">↻ Обзор</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════════════ IN HET KORT -->
+<div class="version-content__kort">
+
+<section class="slide">
+  <div class="slide__inner">
+    <span class="slide__tag">Анализ данных · данные AMECO</span>
+    <h2 class="slide__heading">ЕС: ВВП, реальные зарплаты и государственный мультипликатор</h2>
+    <p class="slide__lead">Показатель ВВП—зарплата за вычетом роста совокупных государственных расходов — какое макроэкономическое пространство остаётся?</p>
+    <p>Настоящий анализ расширяет стандартный показатель ВВП—зарплата за счёт AMECO <code>OUTG</code> (реальные совокупные государственные расходы) и рассчитывает три последовательных балла для всех государств-членов ЕС. Результат: положительная маржа ВВП—зарплата испаряется, как только государственные расходы учитываются в качестве фактора давления.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">ЕС-27: от +0,9 пп до −0,9 пп</h2>
+    <div class="eu-resultaat">
+      <div class="eu-kaart eu-kaart--positief">
+        <p class="eu-kaart__stap">Показатель ВВП—зарплата</p>
+        <p class="eu-kaart__waarde">+0,9</p>
+        <p class="eu-kaart__label">пп ср./год</p>
+      </div>
+      <div class="eu-kaart eu-kaart--neutraal">
+        <p class="eu-kaart__stap">За вычетом государства</p>
+        <p class="eu-kaart__waarde">−0,6</p>
+        <p class="eu-kaart__label">пп ср./год</p>
+      </div>
+      <div class="eu-kaart eu-kaart--negatief">
+        <p class="eu-kaart__stap">С мультипликатором</p>
+        <p class="eu-kaart__waarde">−0,9</p>
+        <p class="eu-kaart__label">пп ср./год</p>
+      </div>
+    </div>
+    <div class="pull-quote">
+      <p class="pull-quote__tekst">«Как только совокупные реальные государственные расходы учитываются как самостоятельный фактор давления, положительная маржа поглощается в значительной мере.»</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Рейтинг: лучшие и худшие страны ЕС</h2>
+    <div class="rang-grid">
+      <div class="rang-col rang-col--hoog">
+        <div class="rang-col__header">Лучшие баллы</div>
+        <div class="rang-item"><span class="rang-item__land">Греция</span><span class="rang-item__score">−0,2 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Италия</span><span class="rang-item__score">−0,2 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Дания</span><span class="rang-item__score">−0,5 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Португалия</span><span class="rang-item__score">−0,7 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Германия</span><span class="rang-item__score">−0,7 пп</span></div>
+      </div>
+      <div class="rang-col rang-col--laag">
+        <div class="rang-col__header">Наименьшие баллы</div>
+        <div class="rang-item"><span class="rang-item__land">Латвия</span><span class="rang-item__score">−7,6 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Литва</span><span class="rang-item__score">−7,4 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Румыния</span><span class="rang-item__score">−7,2 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Польша</span><span class="rang-item__score">−6,3 пп</span></div>
+        <div class="rang-item"><span class="rang-item__land">Эстония</span><span class="rang-item__score">−6,2 пп</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide__inner">
+    <h2 class="slide__heading">Заключение и связь с NEPK</h2>
+    <div class="callout" style="background:#e8f0f7;border-left-color:#26384d;">
+      <p><strong>Данные ЕС подтверждают теорию NEPK:</strong> Анализ мультипликатора эмпирически подтверждает утверждение концепции NEPK — макроэкономическое пространство поглощается затратами, которые стандартные индикаторы не измеряют в полной мере.</p>
+    </div>
+    <p style="font-size:1rem;font-weight:700;color:#26384d;margin-top:1rem;">«Макроэкономическое пространство сужается быстрее, чем мы измеряем, — именно поэтому и была создана концепция NEPK.»</p>
+    <p>Нидерланды показывают −0,9 пп в среднем (наравне с ЕС-27), однако −2,7 пп в 2024 году. Эрозия NEPK — не исключительно нидерландское явление: это общеевропейская закономерность, эмпирически подкрепляющая теорию NEPK.</p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<aside class="auteursblok">
+  <div class="auteursblok__foto"><img decoding="async" src="../../assets/auteur/jvm_studio.jpg" alt="Якобус ван Мерстеин" loading="lazy"></div>
+  <div class="auteursblok__tekst">
+    <p class="auteur-naam">Якобус ван Мерстеин</p>
+    <p>Главный редактор Het Open Vizier. Предприниматель, разработчик промышленных и управленческих инноваций (Carbon-Alert Ltd, TerraClean Ltd, GuardSkin Ltd). Пишет об экономических, экологических и политических системных вопросах, опираясь на опыт работы с брюссельским и гаагским аппаратами принятия решений.</p>
+  </div>
+</aside>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>Het Open Vizier · Технический вестник · Выпуск 2 — Четверг, 28 мая 2026 г.</p>
+    <p><a href="../vypusk-2/">К выпуску 2</a> · Источники: <a href="https://economy-finance.ec.europa.eu/economic-research-and-databases/economic-databases/ameco-database/download-annual-data-set-macro-economic-database-ameco_en" target="_blank" rel="noopener">AMECO</a> · <a href="https://db.nomics.world/AMECO/OUTG" target="_blank" rel="noopener">DBnomics OUTG</a> · <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">Eurostat</a></p>
+  </div>
+</footer>
+
+<script src="../../assets/article-tools.js"></script>
+<script src="../../assets/nav-mobile.js" defer></script>
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>

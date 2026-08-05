@@ -1,117 +1,569 @@
-# =============================================================================
-# CANONIEKE MENUCONFIGURATOR — HET OPEN VIZIER
-# =============================================================================
-#
-# Enige bron van waarheid voor de hoofdnavigatie op alle paginas.
-# Regenereer met:
-#
-#     python3 scripts/menu_bouwen.py
-#
-# Structuur v4 — platte lijst, geen dropdowns meer.
-# Elk item is een directe link. Op verkennen.html vind je de volledige
-# artikelen-lijst per rubriek.
-# =============================================================================
-
-talen: [nl, en, de, ru, es, fr, it, pt]
-
+talen:
+- nl
+- en
+- de
+- ru
+- es
+- fr
+- it
+- pt
 items:
-
-  - key: voorpagina
-    labels: {nl: Voorpagina, en: Front page, de: Titelseite, ru: Главная, es: Portada, fr: Une, it: Copertina, pt: Capa}
-    urls:   {nl: "./",       en: "./",        de: "./",       ru: "./",   es: "./",     fr: "./", it: "./",       pt: "./"}
-
-  - key: filosofie
-    labels: {nl: Filosofie, en: Philosophy, de: Philosophie, ru: Философия, es: Filosofía, fr: Philosophie, it: Filosofia, pt: Filosofia}
-    urls:   {nl: "filosofie/", en: "philosophy/", de: "philosophie/", ru: "", es: "", fr: "", it: "", pt: ""}
-    sub_items:
-      - key: filosofie_hoofd
-        labels: {nl: Filosofie, en: Philosophy, de: Philosophie, ru: Философия, es: Filosofía, fr: Philosophie, it: Filosofia, pt: Filosofia}
-        urls:   {nl: "filosofie/", en: "philosophy/", de: "philosophie/", ru: "", es: "", fr: "", it: "", pt: ""}
-      - key: sprookje_sub
-        labels: {nl: Sprookje, en: Fairytale, de: Märchen, ru: Сказка, es: Cuento, fr: Conte, it: Racconto, pt: Conto}
-        urls:   {nl: "sprookjes/", en: "fairytales/", de: "maerchen/", ru: "skazki/", es: "cuentos/", fr: "contes/", it: "racconti/", pt: "contos/"}
-      - key: leesboek_sub
-        labels: {nl: Leesboek, en: Reading Book, de: Lesebuch, ru: Книга, es: Libro, fr: Livre, it: Libro, pt: Livro}
-        urls:   {nl: "leesboek/", en: "reading-book/", de: "lesebuch/", ru: "kniga/", es: "libro/", fr: "livre/", it: "libro/", pt: "livro/"}
-      - key: film_7dim_sub
-        labels: {nl: 7-Dim Film, en: 7-Dim Film, de: 7-Dim Film, ru: 7-Dim Film, es: 7-Dim Film, fr: 7-Dim Film, it: 7-Dim Film, pt: 7-Dim Film}
-        urls:   {nl: "7-dim-film/", en: "7-dim-film/", de: "7-dim-film/", ru: "7-dim-film/", es: "7-dim-film/", fr: "7-dim-film/", it: "7-dim-film/", pt: "7-dim-film/"}
-      - key: kosaris_film_sub
-        labels: {nl: Kosaris Film, en: Kosaris Film, de: Kosaris Film, ru: Фильм Косарис, es: Película Kosaris, fr: Film Kosaris, it: Film Kosaris, pt: Filme Kosaris}
-        urls:   {nl: "kosaris-film/", en: "kosaris-film/", de: "kosaris-film/", ru: "kosaris-film/", es: "kosaris-film/", fr: "kosaris-film/", it: "kosaris-film/", pt: "kosaris-film/"}
-
-  - key: nieuw
-    labels: {nl: Nieuw, en: New, de: Neu, ru: Новое, es: Nuevo, fr: Nouveau, it: Nuovo, pt: Novo}
-    urls:   {nl: "wat-opkomt/", en: "what-surfaces/", de: "was-aufkommt/", ru: "chto-vsplyvaet/", es: "lo-que-emerge/", fr: "ce-qui-emerge/", it: "cio-che-emerge/", pt: "o-que-emerge/"}
-
-  - key: verkennen
-    labels: {nl: Overzicht, en: Overview, de: Übersicht, ru: Обзор, es: Vista general, fr: Vue générale, it: Panoramica, pt: Vista geral}
-    urls:   {nl: "verkennen.html", en: "verkennen.html", de: "verkennen.html", ru: "verkennen.html", es: "verkennen.html", fr: "verkennen.html", it: "verkennen.html", pt: "verkennen.html"}
-
-  - key: nova
-    labels: {nl: Nova Democratia, en: Nova Democratia, de: Nova Democratia, ru: Nova Democratia, es: Nova Democratia, fr: Nova Democratia, it: Nova Democratia, pt: Nova Democratia}
-    urls:   {nl: "editie-6/", en: "edition-6/", de: "ausgabe-6/", ru: "vypusk-6/", es: "", fr: "", it: "", pt: ""}
-
-  - key: belasting
-    labels: {nl: Belasting, en: Tax, de: Steuer, ru: Налоги, es: Impuestos, fr: Fiscalité, it: Tasse, pt: Impostos}
-    urls:   {nl: "editie-2/", en: "edition-2/", de: "ausgabe-2/", ru: "vypusk-2/", es: "", fr: "", it: "", pt: ""}
-
-  - key: onderzoek
-    labels: {nl: Onderzoek, en: Research, de: Forschung, ru: Исследования, es: Investigación, fr: Recherche, it: Ricerca, pt: Pesquisa}
-    urls:   {nl: "onderzoeken/", en: "research/", de: "forschung/", ru: "issledovanie/", es: "", fr: "", it: "", pt: ""}
-
-  - key: colofon
-    labels: {nl: Colofon, en: Colophon, de: Impressum, ru: Выходные данные, es: Créditos, fr: Mentions légales, it: Colofone, pt: Créditos}
-    urls:   {nl: "colofon.html", en: "colophon.html", de: "impressum.html", ru: "vykhodnye-dannye.html", es: "", fr: "", it: "", pt: ""}
-
-  - key: delen
-    # Speciaal item: gerenderd als interactief dropdown-menu (assets/deel-menu.js).
-    # PDF-download is afgeschermd via Buttondown-abonneecheck via een
-    # Netlify Function (netlify/functions/deel-toegang.js).
-    is_deel_menu: true
-    labels: {nl: Delen, en: Share, de: Teilen, ru: Поделиться, es: Compartir, fr: Partager, it: Condividi, pt: Partilhar}
-    urls:   {nl: "#delen", en: "#share", de: "#teilen", ru: "#podelitsya", es: "#compartir", fr: "#partager", it: "#condividi", pt: "#partilhar"}
-    deel_acties:
-      pdf:
-        labels: {nl: "PDF downloaden", en: "Download PDF", de: "PDF herunterladen", ru: "Скачать PDF", es: "Descargar PDF", fr: "Télécharger PDF", it: "Scarica PDF", pt: "Baixar PDF"}
-      facebook:
-        labels: {nl: "Op Facebook delen", en: "Share on Facebook", de: "Auf Facebook teilen", ru: "Поделиться в Facebook", es: "Compartir en Facebook", fr: "Partager sur Facebook", it: "Condividi su Facebook", pt: "Partilhar no Facebook"}
-      x:
-        labels: {nl: "Op X (Twitter) delen", en: "Share on X (Twitter)", de: "Auf X (Twitter) teilen", ru: "Поделиться в X (Twitter)", es: "Compartir en X (Twitter)", fr: "Partager sur X (Twitter)", it: "Condividi su X (Twitter)", pt: "Partilhar no X (Twitter)"}
-      linkedin:
-        labels: {nl: "Op LinkedIn delen", en: "Share on LinkedIn", de: "Auf LinkedIn teilen", ru: "Поделиться в LinkedIn", es: "Compartir en LinkedIn", fr: "Partager sur LinkedIn", it: "Condividi su LinkedIn", pt: "Partilhar no LinkedIn"}
-      whatsapp:
-        labels: {nl: "Via WhatsApp sturen", en: "Send via WhatsApp", de: "Via WhatsApp senden", ru: "Отправить через WhatsApp", es: "Enviar por WhatsApp", fr: "Envoyer via WhatsApp", it: "Invia via WhatsApp", pt: "Enviar por WhatsApp"}
-      telegram:
-        labels: {nl: "Op Telegram delen", en: "Share on Telegram", de: "Auf Telegram teilen", ru: "Поделиться в Telegram", es: "Compartir en Telegram", fr: "Partager sur Telegram", it: "Condividi su Telegram", pt: "Partilhar no Telegram"}
-      instagram:
-        labels: {nl: "Link voor Instagram", en: "Link for Instagram", de: "Link für Instagram", ru: "Ссылка для Instagram", es: "Enlace para Instagram", fr: "Lien pour Instagram", it: "Link per Instagram", pt: "Link para Instagram"}
-      tiktok:
-        labels: {nl: "Link voor TikTok", en: "Link for TikTok", de: "Link für TikTok", ru: "Ссылка для TikTok", es: "Enlace para TikTok", fr: "Lien pour TikTok", it: "Link per TikTok", pt: "Link para TikTok"}
-      copy:
-        labels: {nl: "Link kopiëren", en: "Copy link", de: "Link kopieren", ru: "Скопировать ссылку", es: "Copiar enlace", fr: "Copier le lien", it: "Copia link", pt: "Copiar link"}
-      email:
-        labels: {nl: "Per e-mail versturen", en: "Send by email", de: "Per E-Mail senden", ru: "Отправить по эл. почте", es: "Enviar por correo", fr: "Envoyer par e-mail", it: "Invia via e-mail", pt: "Enviar por e-mail"}
-    deel_msgs:
-      copied:            {nl: "Link gekopieerd", en: "Link copied", de: "Link kopiert", ru: "Ссылка скопирована", es: "Enlace copiado", fr: "Lien copié", it: "Link copiato", pt: "Link copiado"}
-      copyPrompt:        {nl: "Kopieer deze link:", en: "Copy this link:", de: "Kopiere diesen Link:", ru: "Скопируйте эту ссылку:", es: "Copia este enlace:", fr: "Copiez ce lien :", it: "Copia questo link:", pt: "Copie este link:"}
-      mailSubject:       {nl: "Artikel van Het Open Vizier: ", en: "Article from Het Open Vizier: ", de: "Artikel aus Het Open Vizier: ", ru: "Статья из Het Open Vizier: ", es: "Artículo de Het Open Vizier: ", fr: "Article de Het Open Vizier : ", it: "Articolo da Het Open Vizier: ", pt: "Artigo de Het Open Vizier: "}
-      mailFooter:        {nl: "Gedeeld via openvizier.org", en: "Shared via openvizier.org", de: "Geteilt über openvizier.org", ru: "Отправлено через openvizier.org", es: "Compartido vía openvizier.org", fr: "Partagé via openvizier.org", it: "Condiviso tramite openvizier.org", pt: "Partilhado via openvizier.org"}
-      pdfBuilding:       {nl: "PDF wordt gemaakt…", en: "Building PDF…", de: "PDF wird erstellt…", ru: "Создание PDF…", es: "Creando PDF…", fr: "Création du PDF…", it: "Creazione PDF…", pt: "A criar PDF…"}
-      pdfDone:           {nl: "PDF gedownload", en: "PDF downloaded", de: "PDF heruntergeladen", ru: "PDF скачан", es: "PDF descargado", fr: "PDF téléchargé", it: "PDF scaricato", pt: "PDF baixado"}
-      pdfFail:           {nl: "PDF maken mislukte — probeer Cmd+P", en: "PDF failed — try Cmd+P", de: "PDF fehlgeschlagen — Cmd+P versuchen", ru: "Ошибка PDF — попробуйте Cmd+P", es: "Falló el PDF — prueba Cmd+P", fr: "Échec du PDF — essayez Cmd+P", it: "PDF fallito — prova Cmd+P", pt: "Falha no PDF — tente Cmd+P"}
-      pdfSource:         {nl: "Bron", en: "Source", de: "Quelle", ru: "Источник", es: "Fuente", fr: "Source", it: "Fonte", pt: "Fonte"}
-      pdfNote:           {nl: "Gedeeld via openvizier.org — de meertalige opiniekrant.", en: "Shared via openvizier.org — the multilingual opinion paper.", de: "Geteilt über openvizier.org — die mehrsprachige Meinungszeitung.", ru: "Отправлено через openvizier.org — многоязычная газета мнений.", es: "Compartido vía openvizier.org — el periódico de opinión multilingüe.", fr: "Partagé via openvizier.org — le journal d'opinion multilingue.", it: "Condiviso tramite openvizier.org — il quotidiano di opinione multilingue.", pt: "Partilhado via openvizier.org — o jornal de opinião multilingue."}
-      msgInstagramCopied: {nl: "Link gekopieerd — plak in Instagram bio of Story", en: "Link copied — paste into Instagram bio or Story", de: "Link kopiert — in Instagram-Bio oder Story einfügen", ru: "Ссылка скопирована — вставьте в Instagram", es: "Enlace copiado — pégalo en Instagram", fr: "Lien copié — collez-le sur Instagram", it: "Link copiato — incolla su Instagram", pt: "Link copiado — cole no Instagram"}
-      msgTikTokCopied:    {nl: "Link gekopieerd — plak in TikTok bio of reactie", en: "Link copied — paste into TikTok bio or comment", de: "Link kopiert — in TikTok einfügen", ru: "Ссылка скопирована — вставьте в TikTok", es: "Enlace copiado — pégalo en TikTok", fr: "Lien copié — collez-le sur TikTok", it: "Link copiato — incolla su TikTok", pt: "Link copiado — cole no TikTok"}
-      xVia:              {nl: "openvizier", en: "openvizier", de: "openvizier", ru: "openvizier", es: "openvizier", fr: "openvizier", it: "openvizier", pt: "openvizier"}
-      # ---- Toegangscode-gate ----
-      gateTitle:         {nl: "Toegangscode", en: "Access code", de: "Zugangscode", ru: "Код доступа", es: "Código de acceso", fr: "Code d'accès", it: "Codice di accesso", pt: "Código de acesso"}
-      gateBody:          {nl: "Voer uw toegangscode in om artikelen als PDF te downloaden.", en: "Enter your access code to download articles as PDF.", de: "Geben Sie Ihren Zugangscode ein, um Artikel als PDF herunterzuladen.", ru: "Введите код доступа, чтобы скачать статьи в PDF.", es: "Introduzca su código de acceso para descargar artículos en PDF.", fr: "Saisissez votre code d'accès pour télécharger des articles en PDF.", it: "Inserisci il tuo codice di accesso per scaricare gli articoli in PDF.", pt: "Insira o seu código de acesso para descarregar artigos em PDF."}
-      gateSubmit:        {nl: "Ontgrendelen", en: "Unlock", de: "Entsperren", ru: "Разблокировать", es: "Desbloquear", fr: "Déverrouiller", it: "Sblocca", pt: "Desbloquear"}
-      gateCancel:        {nl: "Annuleren", en: "Cancel", de: "Abbrechen", ru: "Отмена", es: "Cancelar", fr: "Annuler", it: "Annulla", pt: "Cancelar"}
-      gateChecking:      {nl: "Bezig…", en: "Checking…", de: "Prüfe…", ru: "Проверка…", es: "Comprobando…", fr: "Vérification…", it: "Verifica in corso…", pt: "A verificar…"}
-      gateInvalid:       {nl: "Voer een geldige code in.", en: "Enter a valid code.", de: "Geben Sie einen gültigen Code ein.", ru: "Введите действительный код.", es: "Introduzca un código válido.", fr: "Saisissez un code valide.", it: "Inserisci un codice valido.", pt: "Insira um código válido."}
-      gateWrong:         {nl: "Onjuiste of verlopen code.", en: "Incorrect or expired code.", de: "Falscher oder abgelaufener Code.", ru: "Неверный или истекший код.", es: "Código incorrecto o caducado.", fr: "Code incorrect ou expiré.", it: "Codice errato o scaduto.", pt: "Código incorreto ou expirado."}
-      gateServerError:   {nl: "Kon codes niet raadplegen. Probeer het later opnieuw.", en: "Could not verify code. Please try again later.", de: "Code konnte nicht geprüft werden. Bitte später erneut versuchen.", ru: "Не удалось проверить код. Попробуйте позже.", es: "No se pudo verificar el código. Inténtelo más tarde.", fr: "Impossible de vérifier le code. Réessayez plus tard.", it: "Impossibile verificare il codice. Riprova più tardi.", pt: "Não foi possível verificar o código. Tente mais tarde."}
-      gateNote:          {nl: "Nog geen code? Neem contact op met Het Open Vizier.", en: "No code yet? Contact Het Open Vizier.", de: "Noch kein Code? Kontaktieren Sie Het Open Vizier.", ru: "Нет кода? Свяжитесь с Het Open Vizier.", es: "¿Sin código? Contáctenos.", fr: "Pas de code ? Contactez Het Open Vizier.", it: "Nessun codice? Contatta Het Open Vizier.", pt: "Sem código? Contacte Het Open Vizier."}
+- key: voorpagina
+  labels:
+    nl: Voorpagina
+    en: Front page
+    de: Titelseite
+    ru: Главная
+    es: Portada
+    fr: Une
+    it: Copertina
+    pt: Capa
+  urls:
+    nl: ./
+    en: ./
+    de: ./
+    ru: ./
+    es: ./
+    fr: ./
+    it: ./
+    pt: ./
+- key: filosofie
+  labels:
+    nl: Filosofie
+    en: Philosophy
+    de: Philosophie
+    ru: Философия
+    es: Filosofía
+    fr: Philosophie
+    it: Filosofia
+    pt: Filosofia
+  urls:
+    nl: filosofie/
+    en: filosofie/
+    de: filosofie/
+    ru: ''
+    es: ''
+    fr: ''
+    it: ''
+    pt: ''
+  sub_items:
+  - key: filosofie_hoofd
+    labels:
+      nl: Filosofie
+      en: Philosophy
+      de: Philosophie
+      ru: Философия
+      es: Filosofía
+      fr: Philosophie
+      it: Filosofia
+      pt: Filosofia
+    urls:
+      nl: filosofie/
+      en: filosofie/
+      de: filosofie/
+      ru: ''
+      es: ''
+      fr: ''
+      it: ''
+      pt: ''
+  - key: sprookje_sub
+    labels:
+      nl: Sprookje
+      en: Fairytale
+      de: Märchen
+      ru: Сказка
+      es: Cuento
+      fr: Conte
+      it: Racconto
+      pt: Conto
+    urls:
+      nl: sprookjes/
+      en: sprookjes/
+      de: sprookjes/
+      ru: sprookjes/
+      es: sprookjes/
+      fr: sprookjes/
+      it: sprookjes/
+      pt: sprookjes/
+  - key: leesboek_sub
+    labels:
+      nl: Leesboek
+      en: Reading Book
+      de: Lesebuch
+      ru: Книга
+      es: Libro
+      fr: Livre
+      it: Libro
+      pt: Livro
+    urls:
+      nl: leesboek/
+      en: leesboek/
+      de: leesboek/
+      ru: leesboek/
+      es: leesboek/
+      fr: leesboek/
+      it: leesboek/
+      pt: leesboek/
+  - key: film_7dim_sub
+    labels:
+      nl: 7-Dim Film
+      en: 7-Dim Film
+      de: 7-Dim Film
+      ru: 7-Dim Film
+      es: 7-Dim Film
+      fr: 7-Dim Film
+      it: 7-Dim Film
+      pt: 7-Dim Film
+    urls:
+      nl: 7-dim-film/
+      en: 7-dim-film/
+      de: 7-dim-film/
+      ru: 7-dim-film/
+      es: 7-dim-film/
+      fr: 7-dim-film/
+      it: 7-dim-film/
+      pt: 7-dim-film/
+  - key: kosaris_film_sub
+    labels:
+      nl: Kosaris Film
+      en: Kosaris Film
+      de: Kosaris Film
+      ru: Фильм Косарис
+      es: Película Kosaris
+      fr: Film Kosaris
+      it: Film Kosaris
+      pt: Filme Kosaris
+    urls:
+      nl: kosaris-film/
+      en: kosaris-film/
+      de: kosaris-film/
+      ru: kosaris-film/
+      es: kosaris-film/
+      fr: kosaris-film/
+      it: kosaris-film/
+      pt: kosaris-film/
+- key: nieuw
+  labels:
+    nl: Nieuw
+    en: New
+    de: Neu
+    ru: Новое
+    es: Nuevo
+    fr: Nouveau
+    it: Nuovo
+    pt: Novo
+  urls:
+    nl: wat-opkomt/
+    en: wat-opkomt/
+    de: wat-opkomt/
+    ru: wat-opkomt/
+    es: wat-opkomt/
+    fr: wat-opkomt/
+    it: wat-opkomt/
+    pt: wat-opkomt/
+- key: verkennen
+  labels:
+    nl: Overzicht
+    en: Overview
+    de: Übersicht
+    ru: Обзор
+    es: Vista general
+    fr: Vue générale
+    it: Panoramica
+    pt: Vista geral
+  urls:
+    nl: verkennen.html
+    en: verkennen.html
+    de: verkennen.html
+    ru: verkennen.html
+    es: verkennen.html
+    fr: verkennen.html
+    it: verkennen.html
+    pt: verkennen.html
+- key: nova
+  labels:
+    nl: Nova Democratia
+    en: Nova Democratia
+    de: Nova Democratia
+    ru: Nova Democratia
+    es: Nova Democratia
+    fr: Nova Democratia
+    it: Nova Democratia
+    pt: Nova Democratia
+  urls:
+    nl: editie-6/
+    en: editie-6/
+    de: editie-6/
+    ru: editie-6/
+    es: ''
+    fr: ''
+    it: ''
+    pt: ''
+- key: belasting
+  labels:
+    nl: Belasting
+    en: Tax
+    de: Steuer
+    ru: Налоги
+    es: Impuestos
+    fr: Fiscalité
+    it: Tasse
+    pt: Impostos
+  urls:
+    nl: editie-2/
+    en: editie-2/
+    de: editie-2/
+    ru: editie-2/
+    es: ''
+    fr: ''
+    it: ''
+    pt: ''
+- key: onderzoek
+  labels:
+    nl: Onderzoek
+    en: Research
+    de: Forschung
+    ru: Исследования
+    es: Investigación
+    fr: Recherche
+    it: Ricerca
+    pt: Pesquisa
+  urls:
+    nl: onderzoeken/
+    en: onderzoeken/
+    de: onderzoeken/
+    ru: onderzoeken/
+    es: ''
+    fr: ''
+    it: ''
+    pt: ''
+- key: colofon
+  labels:
+    nl: Colofon
+    en: Colophon
+    de: Impressum
+    ru: Выходные данные
+    es: Créditos
+    fr: Mentions légales
+    it: Colofone
+    pt: Créditos
+  urls:
+    nl: colofon.html
+    en: colofon.html
+    de: colofon.html
+    ru: colofon.html
+    es: ''
+    fr: ''
+    it: ''
+    pt: ''
+- key: delen
+  is_deel_menu: true
+  labels:
+    nl: Delen
+    en: Share
+    de: Teilen
+    ru: Поделиться
+    es: Compartir
+    fr: Partager
+    it: Condividi
+    pt: Partilhar
+  urls:
+    nl: '#delen'
+    en: '#share'
+    de: '#teilen'
+    ru: '#podelitsya'
+    es: '#compartir'
+    fr: '#partager'
+    it: '#condividi'
+    pt: '#partilhar'
+  deel_acties:
+    pdf:
+      labels:
+        nl: PDF downloaden
+        en: Download PDF
+        de: PDF herunterladen
+        ru: Скачать PDF
+        es: Descargar PDF
+        fr: Télécharger PDF
+        it: Scarica PDF
+        pt: Baixar PDF
+    facebook:
+      labels:
+        nl: Op Facebook delen
+        en: Share on Facebook
+        de: Auf Facebook teilen
+        ru: Поделиться в Facebook
+        es: Compartir en Facebook
+        fr: Partager sur Facebook
+        it: Condividi su Facebook
+        pt: Partilhar no Facebook
+    x:
+      labels:
+        nl: Op X (Twitter) delen
+        en: Share on X (Twitter)
+        de: Auf X (Twitter) teilen
+        ru: Поделиться в X (Twitter)
+        es: Compartir en X (Twitter)
+        fr: Partager sur X (Twitter)
+        it: Condividi su X (Twitter)
+        pt: Partilhar no X (Twitter)
+    linkedin:
+      labels:
+        nl: Op LinkedIn delen
+        en: Share on LinkedIn
+        de: Auf LinkedIn teilen
+        ru: Поделиться в LinkedIn
+        es: Compartir en LinkedIn
+        fr: Partager sur LinkedIn
+        it: Condividi su LinkedIn
+        pt: Partilhar no LinkedIn
+    whatsapp:
+      labels:
+        nl: Via WhatsApp sturen
+        en: Send via WhatsApp
+        de: Via WhatsApp senden
+        ru: Отправить через WhatsApp
+        es: Enviar por WhatsApp
+        fr: Envoyer via WhatsApp
+        it: Invia via WhatsApp
+        pt: Enviar por WhatsApp
+    telegram:
+      labels:
+        nl: Op Telegram delen
+        en: Share on Telegram
+        de: Auf Telegram teilen
+        ru: Поделиться в Telegram
+        es: Compartir en Telegram
+        fr: Partager sur Telegram
+        it: Condividi su Telegram
+        pt: Partilhar no Telegram
+    instagram:
+      labels:
+        nl: Link voor Instagram
+        en: Link for Instagram
+        de: Link für Instagram
+        ru: Ссылка для Instagram
+        es: Enlace para Instagram
+        fr: Lien pour Instagram
+        it: Link per Instagram
+        pt: Link para Instagram
+    tiktok:
+      labels:
+        nl: Link voor TikTok
+        en: Link for TikTok
+        de: Link für TikTok
+        ru: Ссылка для TikTok
+        es: Enlace para TikTok
+        fr: Lien pour TikTok
+        it: Link per TikTok
+        pt: Link para TikTok
+    copy:
+      labels:
+        nl: Link kopiëren
+        en: Copy link
+        de: Link kopieren
+        ru: Скопировать ссылку
+        es: Copiar enlace
+        fr: Copier le lien
+        it: Copia link
+        pt: Copiar link
+    email:
+      labels:
+        nl: Per e-mail versturen
+        en: Send by email
+        de: Per E-Mail senden
+        ru: Отправить по эл. почте
+        es: Enviar por correo
+        fr: Envoyer par e-mail
+        it: Invia via e-mail
+        pt: Enviar por e-mail
+  deel_msgs:
+    copied:
+      nl: Link gekopieerd
+      en: Link copied
+      de: Link kopiert
+      ru: Ссылка скопирована
+      es: Enlace copiado
+      fr: Lien copié
+      it: Link copiato
+      pt: Link copiado
+    copyPrompt:
+      nl: 'Kopieer deze link:'
+      en: 'Copy this link:'
+      de: 'Kopiere diesen Link:'
+      ru: 'Скопируйте эту ссылку:'
+      es: 'Copia este enlace:'
+      fr: 'Copiez ce lien :'
+      it: 'Copia questo link:'
+      pt: 'Copie este link:'
+    mailSubject:
+      nl: 'Artikel van Het Open Vizier: '
+      en: 'Article from Het Open Vizier: '
+      de: 'Artikel aus Het Open Vizier: '
+      ru: 'Статья из Het Open Vizier: '
+      es: 'Artículo de Het Open Vizier: '
+      fr: 'Article de Het Open Vizier : '
+      it: 'Articolo da Het Open Vizier: '
+      pt: 'Artigo de Het Open Vizier: '
+    mailFooter:
+      nl: Gedeeld via openvizier.org
+      en: Shared via openvizier.org
+      de: Geteilt über openvizier.org
+      ru: Отправлено через openvizier.org
+      es: Compartido vía openvizier.org
+      fr: Partagé via openvizier.org
+      it: Condiviso tramite openvizier.org
+      pt: Partilhado via openvizier.org
+    pdfBuilding:
+      nl: PDF wordt gemaakt…
+      en: Building PDF…
+      de: PDF wird erstellt…
+      ru: Создание PDF…
+      es: Creando PDF…
+      fr: Création du PDF…
+      it: Creazione PDF…
+      pt: A criar PDF…
+    pdfDone:
+      nl: PDF gedownload
+      en: PDF downloaded
+      de: PDF heruntergeladen
+      ru: PDF скачан
+      es: PDF descargado
+      fr: PDF téléchargé
+      it: PDF scaricato
+      pt: PDF baixado
+    pdfFail:
+      nl: PDF maken mislukte — probeer Cmd+P
+      en: PDF failed — try Cmd+P
+      de: PDF fehlgeschlagen — Cmd+P versuchen
+      ru: Ошибка PDF — попробуйте Cmd+P
+      es: Falló el PDF — prueba Cmd+P
+      fr: Échec du PDF — essayez Cmd+P
+      it: PDF fallito — prova Cmd+P
+      pt: Falha no PDF — tente Cmd+P
+    pdfSource:
+      nl: Bron
+      en: Source
+      de: Quelle
+      ru: Источник
+      es: Fuente
+      fr: Source
+      it: Fonte
+      pt: Fonte
+    pdfNote:
+      nl: Gedeeld via openvizier.org — de meertalige opiniekrant.
+      en: Shared via openvizier.org — the multilingual opinion paper.
+      de: Geteilt über openvizier.org — die mehrsprachige Meinungszeitung.
+      ru: Отправлено через openvizier.org — многоязычная газета мнений.
+      es: Compartido vía openvizier.org — el periódico de opinión multilingüe.
+      fr: Partagé via openvizier.org — le journal d'opinion multilingue.
+      it: Condiviso tramite openvizier.org — il quotidiano di opinione multilingue.
+      pt: Partilhado via openvizier.org — o jornal de opinião multilingue.
+    msgInstagramCopied:
+      nl: Link gekopieerd — plak in Instagram bio of Story
+      en: Link copied — paste into Instagram bio or Story
+      de: Link kopiert — in Instagram-Bio oder Story einfügen
+      ru: Ссылка скопирована — вставьте в Instagram
+      es: Enlace copiado — pégalo en Instagram
+      fr: Lien copié — collez-le sur Instagram
+      it: Link copiato — incolla su Instagram
+      pt: Link copiado — cole no Instagram
+    msgTikTokCopied:
+      nl: Link gekopieerd — plak in TikTok bio of reactie
+      en: Link copied — paste into TikTok bio or comment
+      de: Link kopiert — in TikTok einfügen
+      ru: Ссылка скопирована — вставьте в TikTok
+      es: Enlace copiado — pégalo en TikTok
+      fr: Lien copié — collez-le sur TikTok
+      it: Link copiato — incolla su TikTok
+      pt: Link copiado — cole no TikTok
+    xVia:
+      nl: openvizier
+      en: openvizier
+      de: openvizier
+      ru: openvizier
+      es: openvizier
+      fr: openvizier
+      it: openvizier
+      pt: openvizier
+    gateTitle:
+      nl: Toegangscode
+      en: Access code
+      de: Zugangscode
+      ru: Код доступа
+      es: Código de acceso
+      fr: Code d'accès
+      it: Codice di accesso
+      pt: Código de acesso
+    gateBody:
+      nl: Voer uw toegangscode in om artikelen als PDF te downloaden.
+      en: Enter your access code to download articles as PDF.
+      de: Geben Sie Ihren Zugangscode ein, um Artikel als PDF herunterzuladen.
+      ru: Введите код доступа, чтобы скачать статьи в PDF.
+      es: Introduzca su código de acceso para descargar artículos en PDF.
+      fr: Saisissez votre code d'accès pour télécharger des articles en PDF.
+      it: Inserisci il tuo codice di accesso per scaricare gli articoli in PDF.
+      pt: Insira o seu código de acesso para descarregar artigos em PDF.
+    gateSubmit:
+      nl: Ontgrendelen
+      en: Unlock
+      de: Entsperren
+      ru: Разблокировать
+      es: Desbloquear
+      fr: Déverrouiller
+      it: Sblocca
+      pt: Desbloquear
+    gateCancel:
+      nl: Annuleren
+      en: Cancel
+      de: Abbrechen
+      ru: Отмена
+      es: Cancelar
+      fr: Annuler
+      it: Annulla
+      pt: Cancelar
+    gateChecking:
+      nl: Bezig…
+      en: Checking…
+      de: Prüfe…
+      ru: Проверка…
+      es: Comprobando…
+      fr: Vérification…
+      it: Verifica in corso…
+      pt: A verificar…
+    gateInvalid:
+      nl: Voer een geldige code in.
+      en: Enter a valid code.
+      de: Geben Sie einen gültigen Code ein.
+      ru: Введите действительный код.
+      es: Introduzca un código válido.
+      fr: Saisissez un code valide.
+      it: Inserisci un codice valido.
+      pt: Insira um código válido.
+    gateWrong:
+      nl: Onjuiste of verlopen code.
+      en: Incorrect or expired code.
+      de: Falscher oder abgelaufener Code.
+      ru: Неверный или истекший код.
+      es: Código incorrecto o caducado.
+      fr: Code incorrect ou expiré.
+      it: Codice errato o scaduto.
+      pt: Código incorreto ou expirado.
+    gateServerError:
+      nl: Kon codes niet raadplegen. Probeer het later opnieuw.
+      en: Could not verify code. Please try again later.
+      de: Code konnte nicht geprüft werden. Bitte später erneut versuchen.
+      ru: Не удалось проверить код. Попробуйте позже.
+      es: No se pudo verificar el código. Inténtelo más tarde.
+      fr: Impossible de vérifier le code. Réessayez plus tard.
+      it: Impossibile verificare il codice. Riprova più tardi.
+      pt: Não foi possível verificar o código. Tente mais tarde.
+    gateNote:
+      nl: Nog geen code? Neem contact op met Het Open Vizier.
+      en: No code yet? Contact Het Open Vizier.
+      de: Noch kein Code? Kontaktieren Sie Het Open Vizier.
+      ru: Нет кода? Свяжитесь с Het Open Vizier.
+      es: ¿Sin código? Contáctenos.
+      fr: Pas de code ? Contactez Het Open Vizier.
+      it: Nessun codice? Contatta Het Open Vizier.
+      pt: Sem código? Contacte Het Open Vizier.

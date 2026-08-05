@@ -18,7 +18,7 @@
   <meta name="twitter:description" content="Een manifest tegen de stemhulp die de gevolgen verbergt — en voor een bijsluiter die ze toont">
   <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_gevolgenkaart.jpg">
   <style>
-    .wo-artikel { max-width: 1280px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
     .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
     .wo-artikel__titel { font-family: var(--font-serif, Georgia, serif); font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.2; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
     .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.05rem, 2.3vw, 1.2rem); margin: 0.5rem auto 2rem auto; max-width: 600px; }
@@ -476,6 +476,475 @@
   }
 </style>
   <link rel="stylesheet" href="../../assets/ov-nav.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
 </head>
 <body>
 
@@ -495,292 +964,292 @@
 
 <nav class="ov-nav" aria-label="Hoofdmenu">
   <div class="ov-nav__inner">
-    <a class="ov-nav__item" href="../">Voorpagina</a>
+    <a class="ov-nav__item" href="/nl/">Voorpagina</a>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">AI-Atoom Explosief<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Eerst het reptiel</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-atoombom-in-ai-formaat.html">De atoombom in AI-formaat</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/eerst-het-reptiel.html">Eerst het reptiel</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-atoombom-in-ai-formaat.html">De atoombom in AI-formaat</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Politiek<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
         <div class="ov-nav__submenu-groep">Frankrijk & Europese revolutie</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/frankrijk-revolutionair-moment.html">Frankrijk — revolutionair moment</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/vijf-landen-vijf-curves.html">Vijf landen, vijf curves</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-nederlandse-revolutie-2033.html">De Nederlandse Revolutie 2033</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/moet-nederland-ook-volgen.html">Moet Nederland ook volgen?</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/frankrijk-revolutionair-moment.html">Frankrijk — revolutionair moment</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/vijf-landen-vijf-curves.html">Vijf landen, vijf curves</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-nederlandse-revolutie-2033.html">De Nederlandse Revolutie 2033</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/moet-nederland-ook-volgen.html">Moet Nederland ook volgen?</a>
         <hr>
         <div class="ov-nav__submenu-groep">Kantelmechanica & mensen</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-kantelmechanica.html">De kantelmechanica</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/mensen-die-mee-bouwen.html">Mensen die mee bouwen</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/actievoerders-bouwen-continenten.html">Actievoerders bouwen continenten</a>
-        <a class="ov-nav__subitem" href="../opbouwers-wegjagen/">Wie opbouwers wegjaagt</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-matrix-van-de-uittocht.html">De matrix van de uittocht</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Eerst het reptiel</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">De stekker buiten het systeem</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-kantelmechanica.html">De kantelmechanica</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/mensen-die-mee-bouwen.html">Mensen die mee bouwen</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/actievoerders-bouwen-continenten.html">Actievoerders bouwen continenten</a>
+        <a class="ov-nav__subitem" href="/nl/opbouwers-wegjagen/">Wie opbouwers wegjaagt</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-matrix-van-de-uittocht.html">De matrix van de uittocht</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/eerst-het-reptiel.html">Eerst het reptiel</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-stekker-buiten-het-systeem.html">De stekker buiten het systeem</a>
         <hr>
         <div class="ov-nav__submenu-groep">Partijen & pareto</div>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-02-pareto-top12.html">Pareto top-12 — wie blokkeert</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-08-partijen-in-kaart.html">Waar staat uw partij</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-09-pareto-per-actor.html">Pareto per actor</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-04-ordes-van-bezwaar.html">Ordes van bezwaar</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-05-twintig-bezwaren.html">Twintig actuele bezwaren</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-4-politieke-landschap.html">Plundering 4: politiek landschap</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-02-pareto-top12.html">Pareto top-12 — wie blokkeert</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-08-partijen-in-kaart.html">Waar staat uw partij</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-09-pareto-per-actor.html">Pareto per actor</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-04-ordes-van-bezwaar.html">Ordes van bezwaar</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-05-twintig-bezwaren.html">Twintig actuele bezwaren</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-4-politieke-landschap.html">Plundering 4: politiek landschap</a>
         <hr>
         <div class="ov-nav__submenu-groep">Pers & media</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-pers-is-de-arena.html">De pers is de arena</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/ze-weten-het-al.html">Ze weten het al</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/trump-als-spiegel.html">Trump als spiegel</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-03-media-als-rekstrook.html">Media als rekstrook</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-anti-immuunziekte-van-brussel.html">De anti-immuunziekte van Brussel</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">De auto-immuunziekte slaat toe</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-dertig-cent-die-europa-omdraait.html">De dertig cent die Europa omdraait</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-pers-is-de-arena.html">De pers is de arena</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/ze-weten-het-al.html">Ze weten het al</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/trump-als-spiegel.html">Trump als spiegel</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-03-media-als-rekstrook.html">Media als rekstrook</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-anti-immuunziekte-van-brussel.html">De anti-immuunziekte van Brussel</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">De auto-immuunziekte slaat toe</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-dertig-cent-die-europa-omdraait.html">De dertig cent die Europa omdraait</a>
         <hr>
         <div class="ov-nav__submenu-groep">Stemgedrag & keuzemomenten</div>
-        <a class="ov-nav__subitem" href="../stemgedrag.html">Stemgedrag</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/eerlijkheid-maakt-regeren-mogelijk.html">Eerlijkheid maakt regeren mogelijk</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Beslissen zonder uitzicht</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">Aan de leiding zonder subsidie</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Plundering 0: eerst plukken</a>
-        <a class="ov-nav__subitem" href="../editie-2/onderwijs-kies-een-kant.html">Onderwijs — kies een kant</a>
-        <a class="ov-nav__subitem" href="../editie-1/voorwoord.html">Editie 1 — Voorwoord</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+        <a class="ov-nav__subitem" href="/nl/stemgedrag.html">Stemgedrag</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/eerlijkheid-maakt-regeren-mogelijk.html">Eerlijkheid maakt regeren mogelijk</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/beslissen-zonder-uitzicht.html">Beslissen zonder uitzicht</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/aan-de-leiding-drie-blokken-zonder-subsidie.html">Aan de leiding zonder subsidie</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-0-eerst-plukken-dan-oordelen.html">Plundering 0: eerst plukken</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/onderwijs-kies-een-kant.html">Onderwijs — kies een kant</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/voorwoord.html">Editie 1 — Voorwoord</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit?</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Filosofie<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
         <div class="ov-nav__submenu-groep">Zeven Dimensies & denkraam</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/van-quantum-naar-7d.html">Van quantum naar 7D</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/van-de-grot-naar-de-zon.html">Van de grot naar de zon</a>
-        <a class="ov-nav__subitem" href="../editie-1/denkraam-7d.html">Denkraam 7D</a>
-        <a class="ov-nav__subitem" href="../editie-1/samenhang.html">Hoe alles samenhangt</a>
-        <a class="ov-nav__subitem" href="../editie-1/stromingsleer.html">Stromingsleer</a>
-        <a class="ov-nav__subitem" href="../editie-2/zeven-dimensies.html">Zeven Dimensies</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/van-quantum-naar-7d.html">Van quantum naar 7D</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/van-de-grot-naar-de-zon.html">Van de grot naar de zon</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/denkraam-7d.html">Denkraam 7D</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/samenhang.html">Hoe alles samenhangt</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/stromingsleer.html">Stromingsleer</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/zeven-dimensies.html">Zeven Dimensies</a>
         <hr>
         <div class="ov-nav__submenu-groep">Oergevoel & Kosaris</div>
-        <a class="ov-nav__subitem" href="../editie-3/index.html">De mens onder het ijs</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-01-oergevoel.html">Het oergevoel</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-02-zeven-dimensies.html">De zeven dimensies</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-03-drie-lagen.html">De drie hersenlagen</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-04-communicatie.html">Communicatie tussen oergevoelens</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-05-wat-we-doen.html">Wat we kinderen aandoen</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-06-mama.html">Mama ik heb honger</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Oergevoel in beroepspraktijk</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/eerst-het-reptiel.html">Eerst het reptiel</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-stekker-buiten-het-systeem.html">De stekker buiten het systeem</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifest Oergevoel</a>
-        <a class="ov-nav__subitem" href="../editie-2/waarom-ik-zo-ben.html">Waarom ik zo ben</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/index.html">De mens onder het ijs</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-01-oergevoel.html">Het oergevoel</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-02-zeven-dimensies.html">De zeven dimensies</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-03-drie-lagen.html">De drie hersenlagen</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-04-communicatie.html">Communicatie tussen oergevoelens</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-05-wat-we-doen.html">Wat we kinderen aandoen</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-06-mama.html">Mama ik heb honger</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-09-oergevoel-in-beroepspraktijk.html">Oergevoel in beroepspraktijk</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-ai-als-baas.html">De AI als baas</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/eerst-het-reptiel.html">Eerst het reptiel</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-stekker-buiten-het-systeem.html">De stekker buiten het systeem</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/manifest-ruimte-voor-het-oergevoel.html">Manifest Oergevoel</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/waarom-ik-zo-ben.html">Waarom ik zo ben</a>
         <hr>
         <div class="ov-nav__submenu-groep">Films, sprookjes, leesboek</div>
-        <a class="ov-nav__subitem" href="../7-dim-film/">De 7-Dim Film</a>
-        <a class="ov-nav__subitem" href="../kosaris-film/">De Kosaris — Film</a>
-        <a class="ov-nav__subitem" href="../leesboek/">De Kosaris — Leesboek</a>
-        <a class="ov-nav__subitem" href="../sprookjes/">Het sprookje van Jacobus</a>
-        <a class="ov-nav__subitem" href="../filosofie/">Filosofie — portaal</a>
+        <a class="ov-nav__subitem" href="/nl/7-dim-film/">De 7-Dim Film</a>
+        <a class="ov-nav__subitem" href="/nl/kosaris-film/">De Kosaris — Film</a>
+        <a class="ov-nav__subitem" href="/nl/leesboek/">De Kosaris — Leesboek</a>
+        <a class="ov-nav__subitem" href="/nl/sprookjes/">Het sprookje van Jacobus</a>
+        <a class="ov-nav__subitem" href="/nl/filosofie/">Filosofie — portaal</a>
         <hr>
         <div class="ov-nav__submenu-groep">Gevoelsconnectiesysteem</div>
-        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem.html">Gevoelsconnectiesysteem</a>
-        <a class="ov-nav__subitem" href="../onderzoeken/gevoelsconnectiesysteem-volledig.html">GCS — volledig plan</a>
-        <a class="ov-nav__subitem" href="../onderzoeken/krantbriefing.html">Krantbriefing GCS</a>
-        <a class="ov-nav__subitem" href="../onderzoeken/routekaart-vervolgvragen.html">Routekaart vervolgvragen</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/gevoelsconnectiesysteem.html">Gevoelsconnectiesysteem</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/gevoelsconnectiesysteem-volledig.html">GCS — volledig plan</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/krantbriefing.html">Krantbriefing GCS</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/routekaart-vervolgvragen.html">Routekaart vervolgvragen</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Klimaat<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
         <div class="ov-nav__submenu-groep">Stikstofcrisis</div>
-        <a class="ov-nav__subitem" href="../editie-stikstof/">Editie Stikstof</a>
-        <a class="ov-nav__subitem" href="../editie-stikstof/drie-problemen-een-antwoord.html">Drie problemen — één antwoord</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/naar-de-natuurschool.html">Naar de natuurschool</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/boer-en-natuur-beide-vooruit.html">Boer én natuur vooruit</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/beslissen-zonder-uitzicht.html">Beslissen zonder uitzicht</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">De voedingslijn</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natuur-analyse</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Auto-immuunziekte slaat toe</a>
+        <a class="ov-nav__subitem" href="/nl/editie-stikstof/">Editie Stikstof</a>
+        <a class="ov-nav__subitem" href="/nl/editie-stikstof/drie-problemen-een-antwoord.html">Drie problemen — één antwoord</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/naar-de-natuurschool.html">Naar de natuurschool</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Boer én natuur vooruit</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/beslissen-zonder-uitzicht.html">Beslissen zonder uitzicht</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-methodologie-van-de-aanpassing.html">De voedingslijn</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natuur-analyse</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-auto-immuunziekte-slaat-toe.html">Auto-immuunziekte slaat toe</a>
         <hr>
         <div class="ov-nav__submenu-groep">Koolzaad</div>
-        <a class="ov-nav__subitem" href="../editie-duitsland/raps-multiplicator-oost-duitsland.html">Koolzaad-multiplicator</a>
-        <a class="ov-nav__subitem" href="../editie-duitsland/">Editie Duitsland</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/boer-en-natuur-beide-vooruit.html">Boer én natuur vooruit</a>
+        <a class="ov-nav__subitem" href="/nl/editie-duitsland/raps-multiplicator-oost-duitsland.html">Koolzaad-multiplicator</a>
+        <a class="ov-nav__subitem" href="/nl/editie-duitsland/">Editie Duitsland</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/boer-en-natuur-beide-vooruit.html">Boer én natuur vooruit</a>
         <hr>
         <div class="ov-nav__submenu-groep">Klimaatdividend & oversterfte</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/klimaatdividend.html">Het klimaatdividend</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/erfenisgolf-240-miljard.html">Erfenisgolf 240 miljard</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/wereldgordel-2040-2050.html">Wereldgordel 2040-2050</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/klimaatdividend.html">Het klimaatdividend</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/erfenisgolf-240-miljard.html">Erfenisgolf 240 miljard</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/wereldgordel-2040-2050.html">Wereldgordel 2040-2050</a>
         <hr>
         <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — groene herstelroute</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert visie 2036</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/brusselse-gevolgenkaart-bicrs.html">BiCRS-versie EU</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit</a>
-        <a class="ov-nav__subitem" href="../editie-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
-        <a class="ov-nav__subitem" href="../editie-0/biomimetische-krachtcentrale.html">Biomimetische krachtcentrale</a>
-        <a class="ov-nav__subitem" href="../editie-0/">Editie Europa</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/the-downline.html">The Downline — groene herstelroute</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/carbon-alert-visie-2036.html">Carbon-Alert visie 2036</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/brusselse-gevolgenkaart-bicrs.html">BiCRS-versie EU</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plastic-boete-carbon-credit.html">Plastic-boete of carbon-credit</a>
+        <a class="ov-nav__subitem" href="/nl/editie-0/carbon-alert-europa.html">Carbon-Alert Europa</a>
+        <a class="ov-nav__subitem" href="/nl/editie-0/biomimetische-krachtcentrale.html">Biomimetische krachtcentrale</a>
+        <a class="ov-nav__subitem" href="/nl/editie-0/">Editie Europa</a>
         <hr>
         <div class="ov-nav__submenu-groep">Thermostaat & fysieke aarde</div>
-        <a class="ov-nav__subitem" href="../editie-2/thermostaat.html">De thermostaat</a>
-        <a class="ov-nav__subitem" href="../editie-2/nepk-fx.html">NEPK-FX</a>
-        <a class="ov-nav__subitem" href="../editie-2/nepk-klimaatlogica.html">NEPK-Klimaatlogica</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-zon-staat-op-de-evenaar.html">De zon staat op de evenaar</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/thermostaat.html">De thermostaat</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/nepk-fx.html">NEPK-FX</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/nepk-klimaatlogica.html">NEPK-Klimaatlogica</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-zon-staat-op-de-evenaar.html">De zon staat op de evenaar</a>
         <hr>
         <div class="ov-nav__submenu-groep">Autoband, plastic, vervuiling</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Autoband-sigaret</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-methodologie-van-de-aanpassing.html">De voedingslijn</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natuur-analyse</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html">Autoband-sigaret</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-methodologie-van-de-aanpassing.html">De voedingslijn</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-op-de-natuur-aangepaste-analyse.html">Natuur-analyse</a>
         <hr>
         <div class="ov-nav__submenu-groep">Speciale edities</div>
-        <a class="ov-nav__subitem" href="../editie-klimaat/">Editie Klimaat</a>
+        <a class="ov-nav__subitem" href="/nl/editie-klimaat/">Editie Klimaat</a>
         <hr>
         <div class="ov-nav__submenu-groep">Wat het niet ziet</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/zij-doden-hun-levensader.html">Zij doden hun levensader</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/zij-doden-hun-levensaders-brussel.html">Zij doden hun levensaders (Brussel)</a>
-        <a class="ov-nav__subitem" href="../editie-1/kernfusie.html">Kernfusie</a>
-        <a class="ov-nav__subitem" href="../editie-1/technische-oplossingen.html">Technische oplossingen</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/zij-doden-hun-levensader.html">Zij doden hun levensader</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/zij-doden-hun-levensaders-brussel.html">Zij doden hun levensaders (Brussel)</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/kernfusie.html">Kernfusie</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/technische-oplossingen.html">Technische oplossingen</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Bestuur<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
         <div class="ov-nav__submenu-groep">Nederland</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/the-downline.html">The Downline — NEPK-val NL</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Stille Analyse (NL)</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Zelf aan de bak (NL)</a>
-        <a class="ov-nav__subitem" href="../de-eerste-gemeente/">De eerste gemeente</a>
-        <a class="ov-nav__subitem" href="../de-halve-gemeente/">De halve gemeente</a>
-        <a class="ov-nav__subitem" href="../toekomst/overheden/nederland/">Nederland · Toekomst</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-nl/">Gevolgenkaart Nederland</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/the-downline.html">The Downline — NEPK-val NL</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/gevolgenkaart-iii-stille-analyse.html">Stille Analyse (NL)</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/wij-moeten-weer-zelf-aan-de-bak.html">Zelf aan de bak (NL)</a>
+        <a class="ov-nav__subitem" href="/nl/de-eerste-gemeente/">De eerste gemeente</a>
+        <a class="ov-nav__subitem" href="/nl/de-halve-gemeente/">De halve gemeente</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/overheden/nederland/">Nederland · Toekomst</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-nl/">Gevolgenkaart Nederland</a>
         <hr>
         <div class="ov-nav__submenu-groep">Europa</div>
-        <a class="ov-nav__subitem" href="../wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europa-opener</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/europa-opnieuw.html">Europa opnieuw</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-brusselse-gevolgenkaart.html">Brusselse Gevolgenkaart</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-metafoor-auto-immuunziekte.html">Metafoor auto-immuunziekte</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/het-immuunsysteem-van-organisaties.html">Immuunsysteem van organisaties</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/open-brief-aan-de-regeringen-van-europa.html">Open brief aan de regeringen</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-eu/">Gevolgenkaart EU-27</a>
-        <a class="ov-nav__subitem" href="../toekomst/overheden/europa/">Europa · Toekomst</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html">Europa-opener</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/europa-opnieuw.html">Europa opnieuw</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-brusselse-gevolgenkaart.html">Brusselse Gevolgenkaart</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-metafoor-auto-immuunziekte.html">Metafoor auto-immuunziekte</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/het-immuunsysteem-van-organisaties.html">Immuunsysteem van organisaties</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/open-brief-aan-de-regeringen-van-europa.html">Open brief aan de regeringen</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-eu/">Gevolgenkaart EU-27</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/overheden/europa/">Europa · Toekomst</a>
         <hr>
         <div class="ov-nav__submenu-groep">Andere landen</div>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-br/">Brazilië</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-ch/">Zwitserland</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-cn/">China</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-cu/">Cuba</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-de/">Duitsland</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-es/">Spanje</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-il/">Israël</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-in/">India</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-ir/">Iran</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-jp/">Japan</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-kr/">Zuid-Korea</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-se/">Zweden</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-sr/">Suriname</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-tw/">Taiwan</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-uk/">Verenigd Koninkrijk</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-us/">Verenigde Staten</a>
-        <a class="ov-nav__subitem" href="../gevolgenkaart-za/">Zuid-Afrika</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/mappa-tal-konsegwenzi.html">Malta</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-singaporese-gevolgenkaart.html">Singapore</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-br/">Brazilië</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-ch/">Zwitserland</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-cn/">China</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-cu/">Cuba</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-de/">Duitsland</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-es/">Spanje</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-il/">Israël</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-in/">India</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-ir/">Iran</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-jp/">Japan</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-kr/">Zuid-Korea</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-se/">Zweden</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-sr/">Suriname</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-tw/">Taiwan</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-uk/">Verenigd Koninkrijk</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-us/">Verenigde Staten</a>
+        <a class="ov-nav__subitem" href="/nl/gevolgenkaart-za/">Zuid-Afrika</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/mappa-tal-konsegwenzi.html">Malta</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-singaporese-gevolgenkaart.html">Singapore</a>
         <hr>
         <div class="ov-nav__submenu-groep">Nova Democratia</div>
-        <a class="ov-nav__subitem" href="../editie-6/">Editie 6 — Nova Democratia</a>
-        <a class="ov-nav__subitem" href="../editie-6/voorwoord-waarom-dit-moet.html">Voorwoord — Waarom dit moet</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-00-brussel-als-variabele.html">Brussel als variabele</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-01-zes-ordes-van-fasering.html">Zes ordes van fasering</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-06-zwitserse-spiegel.html">Zwitserse spiegel</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-07-canadese-spiegel.html">Canadese spiegel</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-10-uei.html">UEI</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-11-kennislaag-als-bondgenoot.html">Kennislaag als bondgenoot</a>
-        <a class="ov-nav__subitem" href="../editie-6/aflevering-12-beste-weg-vooruit.html">Beste weg vooruit</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/nova-democratia-manifest.html">Nova Democratia manifest</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-actor-is-de-regel.html">De actor is de regel</a>
-        <a class="ov-nav__subitem" href="../soevereiniteit-als-cyclus/">Soevereiniteit als cyclus</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/bbp-liegt.html">BBP liegt</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/">Editie 6 — Nova Democratia</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/voorwoord-waarom-dit-moet.html">Voorwoord — Waarom dit moet</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-00-brussel-als-variabele.html">Brussel als variabele</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-01-zes-ordes-van-fasering.html">Zes ordes van fasering</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-06-zwitserse-spiegel.html">Zwitserse spiegel</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-07-canadese-spiegel.html">Canadese spiegel</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-10-uei.html">UEI</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-11-kennislaag-als-bondgenoot.html">Kennislaag als bondgenoot</a>
+        <a class="ov-nav__subitem" href="/nl/editie-6/aflevering-12-beste-weg-vooruit.html">Beste weg vooruit</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/nova-democratia-manifest.html">Nova Democratia manifest</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-actor-is-de-regel.html">De actor is de regel</a>
+        <a class="ov-nav__subitem" href="/nl/soevereiniteit-als-cyclus/">Soevereiniteit als cyclus</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/bbp-liegt.html">BBP liegt</a>
         <hr>
         <div class="ov-nav__submenu-groep">Leiderschap & organisaties</div>
-        <a class="ov-nav__subitem" href="../editie-4/">Editie 4 — Papier-industrie</a>
-        <a class="ov-nav__subitem" href="../editie-4/artikel-01-wet-papier-industrie.html">Wet van de papier-industrie</a>
-        <a class="ov-nav__subitem" href="../editie-4/artikel-02-ceo.html">De CEO en het oergevoel</a>
-        <a class="ov-nav__subitem" href="../editie-4/artikel-03-consultant.html">De consultant</a>
-        <a class="ov-nav__subitem" href="../editie-4/artikel-04-bankier.html">De bankier</a>
-        <a class="ov-nav__subitem" href="../editie-4/artikel-05-verzekeraar.html">De verzekeraar</a>
-        <a class="ov-nav__subitem" href="../editie-4/artikel-06-toezichthouder.html">De toezichthouder</a>
-        <a class="ov-nav__subitem" href="../editie-4/artikel-07-rechter.html">De rechter</a>
-        <a class="ov-nav__subitem" href="../editie-leiderschap/">Editie Leiderschap</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/">Editie 4 — Papier-industrie</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-01-wet-papier-industrie.html">Wet van de papier-industrie</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-02-ceo.html">De CEO en het oergevoel</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-03-consultant.html">De consultant</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-04-bankier.html">De bankier</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-05-verzekeraar.html">De verzekeraar</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-06-toezichthouder.html">De toezichthouder</a>
+        <a class="ov-nav__subitem" href="/nl/editie-4/artikel-07-rechter.html">De rechter</a>
+        <a class="ov-nav__subitem" href="/nl/editie-leiderschap/">Editie Leiderschap</a>
         <hr>
         <div class="ov-nav__submenu-groep">Onderwijs</div>
-        <a class="ov-nav__subitem" href="../editie-2/onderwijs-manifest.html">Onderwijs — manifest</a>
-        <a class="ov-nav__subitem" href="../editie-2/onderwijs-prijs-van-de-bloei.html">Prijs van de bloei</a>
-        <a class="ov-nav__subitem" href="../editie-1/onderwijs.html">Onderwijs (Editie 1)</a>
-        <a class="ov-nav__subitem" href="../editie-3/artikel-07-ai-onderwijs.html">AI-onderwijs</a>
-        <a class="ov-nav__subitem" href="../editie-kind-loopbaan/">Editie Kind & Loopbaan</a>
-        <a class="ov-nav__subitem" href="../toekomst/opvoeding/">Opvoeding · Toekomst</a>
-        <a class="ov-nav__subitem" href="../toekomst/scholing/">Scholing · Toekomst</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/onderwijs-manifest.html">Onderwijs — manifest</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/onderwijs-prijs-van-de-bloei.html">Prijs van de bloei</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/onderwijs.html">Onderwijs (Editie 1)</a>
+        <a class="ov-nav__subitem" href="/nl/editie-3/artikel-07-ai-onderwijs.html">AI-onderwijs</a>
+        <a class="ov-nav__subitem" href="/nl/editie-kind-loopbaan/">Editie Kind & Loopbaan</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/opvoeding/">Opvoeding · Toekomst</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/scholing/">Scholing · Toekomst</a>
         <hr>
         <div class="ov-nav__submenu-groep">Industrie, energie, toekomst</div>
-        <a class="ov-nav__subitem" href="../toekomst/">Toekomst — portaal</a>
-        <a class="ov-nav__subitem" href="../toekomst/energie/">Energie · Toekomst</a>
-        <a class="ov-nav__subitem" href="../toekomst/industrie/">Industrie · Toekomst</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/">Toekomst — portaal</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/energie/">Energie · Toekomst</a>
+        <a class="ov-nav__subitem" href="/nl/toekomst/industrie/">Industrie · Toekomst</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Revolutie<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="../editie-5/">Editie 5 — De vergeten orde</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-00-brief-aan-lezer.html">Brief aan de lezer</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Zeven gereedschappen</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-02-succesformule.html">De succesformule</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-03-vergeten-orde.html">De vergeten orde</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-04-methaan-misleiding.html">Methaan-misleiding</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-05-plant-die-verhuist.html">De plant die verhuist</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-06-zeven-van-bern.html">De zeven van Bern</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-07-afwijkers.html">De afwijkers</a>
-        <a class="ov-nav__subitem" href="../editie-5/artikel-08-eis-aan-lezer.html">De eis aan de lezer</a>
-        <a class="ov-nav__subitem" href="../editie-2/veerkracht-selectie.html">Veerkracht en selectie</a>
-        <a class="ov-nav__subitem" href="../editie-1/">Editie 1</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/">Editie 5 — De vergeten orde</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-00-brief-aan-lezer.html">Brief aan de lezer</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Zeven gereedschappen</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-02-succesformule.html">De succesformule</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-03-vergeten-orde.html">De vergeten orde</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-04-methaan-misleiding.html">Methaan-misleiding</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-05-plant-die-verhuist.html">De plant die verhuist</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-06-zeven-van-bern.html">De zeven van Bern</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-07-afwijkers.html">De afwijkers</a>
+        <a class="ov-nav__subitem" href="/nl/editie-5/artikel-08-eis-aan-lezer.html">De eis aan de lezer</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/veerkracht-selectie.html">Veerkracht en selectie</a>
+        <a class="ov-nav__subitem" href="/nl/editie-1/">Editie 1</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Belasting<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="../wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-grote-plundering.html">De Grote Plundering</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-1-diagnose.html">Plundering 1: diagnose</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-2-mechaniek.html">Plundering 2: mechaniek</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/plundering-3-afloop.html">Plundering 3: afloop</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">Aan het eind niets meer</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/gat-in-de-grond.html">€450 mln — gat in de grond</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/de-gevolgenkaart.html">Gevolgenkaart — manifest</a>
-        <a class="ov-nav__subitem" href="../wat-opkomt/beleidsadvies-aantrekken.html">Van Belasten naar Aantrekken</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/stemmetjeswinning.html">Stemmetjeswinning</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-grote-plundering.html">De Grote Plundering</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-1-diagnose.html">Plundering 1: diagnose</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-2-mechaniek.html">Plundering 2: mechaniek</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/plundering-3-afloop.html">Plundering 3: afloop</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/aan-het-eind-hebben-we-niets-meer.html">Aan het eind niets meer</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/gat-in-de-grond.html">€450 mln — gat in de grond</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/het-dagelijks-idee-ferrari-juncao.html">Ferrari Juncao</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/wat-ik-achterlaat-vmb-esg.html">VMB ESG</a>
+        <a class="ov-nav__subitem" href="/nl/wat-opkomt/de-gevolgenkaart.html">Gevolgenkaart — manifest</a>
+        <a class="ov-nav__subitem" href="/nl/editie-2/beleidsadvies-aantrekken.html">Van Belasten naar Aantrekken</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Onderzoek<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="../dossiers/">Dossiers</a>
-        <a class="ov-nav__subitem" href="../dossiers/vortex-hair.html">Vortex-Hair™ Golfbal</a>
-        <a class="ov-nav__subitem" href="../onderzoek/">Achter de Cijfers</a>
-        <a class="ov-nav__subitem" href="../onderzoek/eu-multiplicator.html">EU-multiplicator</a>
-        <a class="ov-nav__subitem" href="../onderzoek/ontwikkelingslandstatus.html">Ontwikkelingslandstatus?</a>
-        <a class="ov-nav__subitem" href="../onderzoeken/">Onderzoek — portaal</a>
+        <a class="ov-nav__subitem" href="/nl/dossiers/">Dossiers</a>
+        <a class="ov-nav__subitem" href="/nl/dossiers/vortex-hair.html">Vortex-Hair™ Golfbal</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoek/">Achter de Cijfers</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoek/eu-multiplicator.html">EU-multiplicator</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoek/ontwikkelingslandstatus.html">Ontwikkelingslandstatus?</a>
+        <a class="ov-nav__subitem" href="/nl/onderzoeken/">Onderzoek — portaal</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Cyclofoon<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="../colofon.html">Colofon</a>
-        <a class="ov-nav__subitem" href="../over.html">Over deze krant</a>
-        <a class="ov-nav__subitem" href="../archief.html">Archief</a>
-        <a class="ov-nav__subitem" href="../op-de-hoogte.html">Op de hoogte blijven</a>
-        <a class="ov-nav__subitem" href="../structuur.html">Structuur — Beheer</a>
-        <a class="ov-nav__subitem" href="../navigatie.html">Navigatie</a>
+        <a class="ov-nav__subitem" href="/nl/colofon.html">Colofon</a>
+        <a class="ov-nav__subitem" href="/nl/over.html">Over deze krant</a>
+        <a class="ov-nav__subitem" href="/nl/archief.html">Archief</a>
+        <a class="ov-nav__subitem" href="/nl/op-de-hoogte.html">Op de hoogte blijven</a>
+        <a class="ov-nav__subitem" href="/nl/structuur.html">Structuur — Beheer</a>
+        <a class="ov-nav__subitem" href="/nl/navigatie.html">Navigatie</a>
       </div>
     </div>
     <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link gekopieerd" data-msg-copy-prompt="Kopieer deze link:" data-mail-subject="Artikel van Het Open Vizier: " data-mail-footer="Gedeeld via openvizier.org" data-pdf-building="PDF wordt gemaakt…" data-pdf-done="PDF gedownload" data-pdf-fail="PDF maken mislukte — probeer Cmd+P" data-pdf-source="Bron" data-pdf-note="Gedeeld via openvizier.org — de meertalige opiniekrant." data-msg-instagram-copied="Link gekopieerd — plak in Instagram bio of Story" data-msg-tik-tok-copied="Link gekopieerd — plak in TikTok bio of reactie" data-x-via="openvizier" data-gate-title="Toegangscode" data-gate-body="Voer uw toegangscode in om artikelen als PDF te downloaden." data-gate-submit="Ontgrendelen" data-gate-cancel="Annuleren" data-gate-checking="Bezig…" data-gate-invalid="Voer een geldige code in." data-gate-wrong="Onjuiste of verlopen code." data-gate-server-error="Kon codes niet raadplegen. Probeer het later opnieuw." data-gate-note="Nog geen code? Neem contact op met Het Open Vizier.">
@@ -798,7 +1267,7 @@
         <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Per e-mail versturen</span></a>
       </div>
     </div>
-    <a class="ov-nav__item ov-nav__lang" href="../index-talenring.html" style="margin-left:auto;">⌂ Taal</a>
+    <a class="ov-nav__item ov-nav__lang" href="/nl/index-talenring.html" style="margin-left:auto;">⌂ Taal</a>
   </div>
 </nav>
 <div class="verkennen-crumb" data-code="1.2.1.1.1" style="max-width:1280px;margin:1rem auto 0;padding:0 1.25rem;
@@ -832,7 +1301,7 @@
 
 <p><strong>Vier miljoen Nederlanders vullen elke verkiezing een digitale stemhulp in. Zij denken dat het instrument hen helpt te kiezen. Het doet iets anders. Het verbergt waarvoor zij kiezen.</strong></p>
 
-<p>Wanneer u op StemWijzer dertig stellingen heeft beantwoord, krijgt u te zien welke partij \"het beste bij u past\". Wat u niet krijgt te zien is wat die partij de afgelopen jaren heeft gedaan met uw vermogen, uw pensioen, uw energierekening of uw veiligheid. Geen woord over de exit-belasting die uw aanmerkelijk belang tot in het graf achtervolgt. Geen woord over de werkelijk-rendement-belasting die uw spaargeld jaarlijks plukt. Geen woord over de pensioenkortingen die op u afkomen wanneer de productieve basis is verdampt.</p>
+<p>Wanneer u op StemWijzer dertig stellingen heeft beantwoord, krijgt u te zien welke partij "het beste bij u past". Wat u niet krijgt te zien is wat die partij de afgelopen jaren heeft gedaan met uw vermogen, uw pensioen, uw energierekening of uw veiligheid. Geen woord over de exit-belasting die uw aanmerkelijk belang tot in het graf achtervolgt. Geen woord over de werkelijk-rendement-belasting die uw spaargeld jaarlijks plukt. Geen woord over de pensioenkortingen die op u afkomen wanneer de productieve basis is verdampt.</p>
 
 <p>U krijgt een aanbeveling. Geen bijsluiter.</p>
 
@@ -840,7 +1309,7 @@
 
 <h2>Wat de StemWijzer feitelijk doet</h2>
 
-<p>Begin met wat StemWijzer is, zonder polemiek. Het instrument wordt sinds 1998 beheerd door ProDemos, een stichting die zichzelf presenteert als onafhankelijk en neutraal. Elke verkiezing kiest een redactieraad dertig stellingen uit honderden mogelijke. De politieke partijen wordt gevraagd bij elke stelling \"eens\", \"oneens\" of \"geen mening\" in te vullen, met een korte motivatie. De gebruiker beantwoordt dezelfde dertig stellingen. Een algoritme matcht zijn antwoorden met die van de partijen en presenteert een aanbeveling.</p>
+<p>Begin met wat StemWijzer is, zonder polemiek. Het instrument wordt sinds 1998 beheerd door ProDemos, een stichting die zichzelf presenteert als onafhankelijk en neutraal. Elke verkiezing kiest een redactieraad dertig stellingen uit honderden mogelijke. De politieke partijen wordt gevraagd bij elke stelling "eens", "oneens" of "geen mening" in te vullen, met een korte motivatie. De gebruiker beantwoordt dezelfde dertig stellingen. Een algoritme matcht zijn antwoorden met die van de partijen en presenteert een aanbeveling.</p>
 
 <p>Klinkt redelijk. Vier miljoen Nederlanders denken dat. Vier miljoen Nederlanders vergissen zich, en de vergissing zit op vier plekken.</p>
 
@@ -854,27 +1323,27 @@
 
 <h2>Tweede fout — de stellingen zijn moreel geframed</h2>
 
-<p>Een typische StemWijzer-stelling: \"De rijkste vijf procent moet meer belasting betalen om de zorg betaalbaar te houden.\"</p>
+<p>Een typische StemWijzer-stelling: "De rijkste vijf procent moet meer belasting betalen om de zorg betaalbaar te houden."</p>
 
-<p>Dat klinkt neutraal. Het is het niet. De stelling veronderstelt vier dingen, alle vier discutabel: dat de zorg in haar huidige vorm betaalbaar moet blijven, dat extra belasting daarvoor de oplossing is, dat de rijkste vijf procent een te laag deel betaalt, en dat \"de rijken\" een vaststaande, identificeerbare groep is. Een stelling die deze vier aannames verbergt, dwingt elke partij positie te kiezen binnen het frame — niet erbuiten.</p>
+<p>Dat klinkt neutraal. Het is het niet. De stelling veronderstelt vier dingen, alle vier discutabel: dat de zorg in haar huidige vorm betaalbaar moet blijven, dat extra belasting daarvoor de oplossing is, dat de rijkste vijf procent een te laag deel betaalt, en dat "de rijken" een vaststaande, identificeerbare groep is. Een stelling die deze vier aannames verbergt, dwingt elke partij positie te kiezen binnen het frame — niet erbuiten.</p>
 
-<p>Probeer eens een stelling als: \"De welvaartsstaat zoals wij hem kennen is structureel onbetaalbaar; wij moeten kiezen tussen meer produceren of minder verdelen.\" Die stelling staat nooit in StemWijzer. Zij wordt \"te ideologisch\" gevonden. Maar de eerdere — over de rijkste vijf procent — is dat blijkbaar niet. Het frame zelf is onzichtbaar geworden, en wat onzichtbaar is, wordt nooit ter discussie gesteld.</p>
+<p>Probeer eens een stelling als: "De welvaartsstaat zoals wij hem kennen is structureel onbetaalbaar; wij moeten kiezen tussen meer produceren of minder verdelen." Die stelling staat nooit in StemWijzer. Zij wordt "te ideologisch" gevonden. Maar de eerdere — over de rijkste vijf procent — is dat blijkbaar niet. Het frame zelf is onzichtbaar geworden, en wat onzichtbaar is, wordt nooit ter discussie gesteld.</p>
 
 <h2>Derde fout — de partijen positioneren zichzelf</h2>
 
-<p>ProDemos vraagt elke partij bij elke stelling \"eens\" of \"oneens\" in te vullen, met een korte motivatie. De partijen weten dat StemWijzer dertien miljoen gebruikers heeft. Dus formuleren zij hun antwoord zo dat het hun bredere kiezerspubliek aanspreekt — niet om eerlijk hun positie te beschrijven.</p>
+<p>ProDemos vraagt elke partij bij elke stelling "eens" of "oneens" in te vullen, met een korte motivatie. De partijen weten dat StemWijzer dertien miljoen gebruikers heeft. Dus formuleren zij hun antwoord zo dat het hun bredere kiezerspubliek aanspreekt — niet om eerlijk hun positie te beschrijven.</p>
 
-<p>Een partij die in werkelijkheid een verhoging van box 3 zal doorvoeren, kan in StemWijzer simpelweg \"oneens\" antwoorden op een stelling over vermogensbelasting, omdat de stelling smal genoeg is om die uitvlucht toe te laten. Politieke marketing in plaats van politieke werkelijkheid. De gebruiker leest \"oneens\" en denkt dat zijn vermogen veilig is. Drie jaar later betaalt hij €5.400 extra per jaar.</p>
+<p>Een partij die in werkelijkheid een verhoging van box 3 zal doorvoeren, kan in StemWijzer simpelweg "oneens" antwoorden op een stelling over vermogensbelasting, omdat de stelling smal genoeg is om die uitvlucht toe te laten. Politieke marketing in plaats van politieke werkelijkheid. De gebruiker leest "oneens" en denkt dat zijn vermogen veilig is. Drie jaar later betaalt hij €5.400 extra per jaar.</p>
 
 <h2>Vierde fout — de uitkomst geeft een illusie van rationaliteit</h2>
 
-<p>Wanneer StemWijzer aan het eind zegt \"u past het beste bij partij X\", denkt de gebruiker dat dit het objectieve resultaat is van een neutraal algoritme. Het is het niet. Het is het resultaat van dertig vooraf geselecteerde stellingen, dertig vooraf geformuleerde framings, en dertig vooraf gegeven partijantwoorden — alle drie gemanipuleerd door belanghebbende partijen.</p>
+<p>Wanneer StemWijzer aan het eind zegt "u past het beste bij partij X", denkt de gebruiker dat dit het objectieve resultaat is van een neutraal algoritme. Het is het niet. Het is het resultaat van dertig vooraf geselecteerde stellingen, dertig vooraf geformuleerde framings, en dertig vooraf gegeven partijantwoorden — alle drie gemanipuleerd door belanghebbende partijen.</p>
 
 <p>De gebruiker voelt zich verlicht. Hij denkt: nu weet ik waar ik op moet stemmen. In werkelijkheid heeft hij zijn stem laten bepalen door drie partijen die belang hebben bij de uitkomst: de redactie van ProDemos (die het frame koos), de politieke partijen (die hun positie zo gunstig mogelijk formuleerden), en — meest fundamenteel — het hele Europese welvaartsstaat-establishment dat in geen enkele StemWijzer wordt uitgedaagd.</p>
 
 <h2>Hoe de StemWijzer de plundering versterkt</h2>
 
-<p>Hier komt het diepere punt, dat in geen enkele media-analyse staat. StemWijzer is niet alleen onvolmaakt. Hij <strong>versterkt</strong> de plundering die ik in de zes delen van \"De Grote Plundering\" heb beschreven, op drie manieren.</p>
+<p>Hier komt het diepere punt, dat in geen enkele media-analyse staat. StemWijzer is niet alleen onvolmaakt. Hij <strong>versterkt</strong> de plundering die ik in de zes delen van "De Grote Plundering" heb beschreven, op drie manieren.</p>
 
 <h2>Eén — hij normaliseert het bestaande frame</h2>
 
@@ -884,13 +1353,13 @@
 
 <h2>Twee — hij dwingt morele framing</h2>
 
-<p>Bijna elke StemWijzer-stelling is moreel geformuleerd, niet feitelijk. \"Moeten de rijken meer betalen?\" Moreel. \"Moet het minimumloon omhoog?\" Moreel. \"Moet de zorg toegankelijker worden?\" Moreel. Elk frame veronderstelt een goed antwoord en een fout antwoord. Een partij die \"tegen\" stemt, plaatst zichzelf moreel slecht.</p>
+<p>Bijna elke StemWijzer-stelling is moreel geformuleerd, niet feitelijk. "Moeten de rijken meer betalen?" Moreel. "Moet het minimumloon omhoog?" Moreel. "Moet de zorg toegankelijker worden?" Moreel. Elk frame veronderstelt een goed antwoord en een fout antwoord. Een partij die "tegen" stemt, plaatst zichzelf moreel slecht.</p>
 
-<p>Daardoor verschuiven alle partijen geleidelijk naar het morele \"goed\" — wat in de praktijk neerkomt op meer plunderen. De CDA-kiezer van 2017 stemt in 2027 voor een veel meer naar links gedraaide CDA. Niet omdat de CDA bewust is veranderd, maar omdat zij elk jaar bij StemWijzer en in talkshows wordt gevraagd morele posities in te nemen die zij niet kan weigeren zonder als asociaal te boek te staan. Het frame trekt elke partij naar links.</p>
+<p>Daardoor verschuiven alle partijen geleidelijk naar het morele "goed" — wat in de praktijk neerkomt op meer plunderen. De CDA-kiezer van 2017 stemt in 2027 voor een veel meer naar links gedraaide CDA. Niet omdat de CDA bewust is veranderd, maar omdat zij elk jaar bij StemWijzer en in talkshows wordt gevraagd morele posities in te nemen die zij niet kan weigeren zonder als asociaal te boek te staan. Het frame trekt elke partij naar links.</p>
 
 <h2>Drie — hij verbergt de gevolgen</h2>
 
-<p>StemWijzer toont nooit wat zijn aanbeveling betekent. Wanneer het instrument tegen vier miljoen Nederlanders zegt \"stem GroenLinks-PvdA\" of \"stem D66\", wordt nooit getoond wat die stem na vier jaar betekent voor de exit-belasting, de pensioenleeftijd, de stroomprijs, de productieve uittocht. De relatie tussen stem en gevolg wordt verbroken. De gebruiker krijgt een aanbeveling zonder consequentie.</p>
+<p>StemWijzer toont nooit wat zijn aanbeveling betekent. Wanneer het instrument tegen vier miljoen Nederlanders zegt "stem GroenLinks-PvdA" of "stem D66", wordt nooit getoond wat die stem na vier jaar betekent voor de exit-belasting, de pensioenleeftijd, de stroomprijs, de productieve uittocht. De relatie tussen stem en gevolg wordt verbroken. De gebruiker krijgt een aanbeveling zonder consequentie.</p>
 
 <p>In dat opzicht doet StemWijzer wat reclame doet: hij verkoopt het product zonder de bijsluiter te tonen. Een geneesmiddelreclame die niets vertelt over de bijwerkingen, mag in Nederland niet. Een politieke aanbeveling die niets vertelt over de gevolgen voor de stemmer, mag wel. Sterker — wordt aanbevolen door de overheid, gefinancierd door het ministerie van Binnenlandse Zaken, en in elk klaslokaal als democratisch hulpmiddel onderwezen.</p>
 
@@ -914,13 +1383,13 @@
 
 <p>De Gevolgenkaart vraagt niet wie u bent. Hij vraagt wat u krijgt. Voor elke partij waarop u overweegt te stemmen, toont hij drie soorten gevolgen — voor uw vermogen, voor uw pensioen, voor uw veiligheid, voor uw belastingrekening, voor uw kinderen.</p>
 
-<p>Niet abstract. Concreet. \"Een stem op X in 2027 betekent voor u, met uw inkomen en uw situatie, deze drie veranderingen in de komende vier jaar.\" Geen ideologie. Een rekening.</p>
+<p>Niet abstract. Concreet. "Een stem op X in 2027 betekent voor u, met uw inkomen en uw situatie, deze drie veranderingen in de komende vier jaar." Geen ideologie. Een rekening.</p>
 
 <h2>Principe drie — transparantie boven algoritme-magie</h2>
 
-<p>De Gevolgenkaart heeft geen verborgen algoritme. Hij doet geen \"matching\". Hij toont wat partijen hebben gestemd, met de stemverklaring erbij. Hij toont wat partijen beloven, met de paginaverwijzing erbij. Hij toont wat de gevolgen zijn, met de berekening erbij.</p>
+<p>De Gevolgenkaart heeft geen verborgen algoritme. Hij doet geen "matching". Hij toont wat partijen hebben gestemd, met de stemverklaring erbij. Hij toont wat partijen beloven, met de paginaverwijzing erbij. Hij toont wat de gevolgen zijn, met de berekening erbij.</p>
 
-<p>Elke gebruiker kan elke conclusie zelf controleren. Elke bron staat erbij. Elke berekening kan worden overgedaan. Wanneer de Gevolgenkaart zegt \"dit kost u €5.400 per jaar\", staat eronder hoe dat bedrag is opgebouwd, welke wet de basis is, en welke aanname voor uw situatie is gebruikt. Geen vertrouwen op de auteur. Vertrouwen op de feiten.</p>
+<p>Elke gebruiker kan elke conclusie zelf controleren. Elke bron staat erbij. Elke berekening kan worden overgedaan. Wanneer de Gevolgenkaart zegt "dit kost u €5.400 per jaar", staat eronder hoe dat bedrag is opgebouwd, welke wet de basis is, en welke aanname voor uw situatie is gebruikt. Geen vertrouwen op de auteur. Vertrouwen op de feiten.</p>
 
 <h2>Hoe het er werkelijk uitziet</h2>
 
@@ -933,7 +1402,7 @@
 <p>WAT GROENLINKS-PVDA HEEFT GEDAAN (2023–2026)</p>
 <ul>
 <li>Op 12 februari 2026 stemde GroenLinks-PvdA in de Tweede Kamer voor de Wet werkelijk rendement box 3, die in 2028 ingaat. Bron: Handelingen Tweede Kamer 2026-Z02134.</li>
-<li>Op 4 juni 2026 hield fractievoorzitter Jesse Klaver een pleidooi voor \"een eerlijke belasting op hoge winsten en grote vermogens\". Bron: NOS, Tweede Kamer-debat 4 juni 2026.</li>
+<li>Op 4 juni 2026 hield fractievoorzitter Jesse Klaver een pleidooi voor "een eerlijke belasting op hoge winsten en grote vermogens". Bron: NOS, Tweede Kamer-debat 4 juni 2026.</li>
 <li>In het verkiezingsprogramma 2023, hoofdstuk 7, paragraaf 3, staat: vermogensbelasting van 2% per jaar op vermogens boven €1 miljoen netto, eigen woning bovenwaarde inbegrepen.</li>
 </ul>
 <p>WAT GROENLINKS-PVDA BELOOFT VOOR 2027–2031</p>
@@ -985,7 +1454,7 @@
 
 <p>Het Open Vizier publiceert sinds 2024 in vier talen. Een onafhankelijke krant, gedragen door één auteur, met een groeiend lezerspubliek dat het tegen-verhaal zoekt dat in de gevestigde media ontbreekt.</p>
 
-<p>De Gevolgenkaart is de volgende stap. Niet een vervolg op het zesluik \"De Grote Plundering\", maar de praktische uitvoering ervan. Want wat in de zes delen werd beschreven — een Europa dat zijn productieve klasse uitjaagt, met instemming van de meerderheid van de kiezers — kan alleen veranderen als de kiezers gaan zien wat hun stem werkelijk produceert.</p>
+<p>De Gevolgenkaart is de volgende stap. Niet een vervolg op het zesluik "De Grote Plundering", maar de praktische uitvoering ervan. Want wat in de zes delen werd beschreven — een Europa dat zijn productieve klasse uitjaagt, met instemming van de meerderheid van de kiezers — kan alleen veranderen als de kiezers gaan zien wat hun stem werkelijk produceert.</p>
 
 <p>Aan u, ondernemer, uitvinder, vermogensbezitter, die deze tekst leest en de diagnose deelt: dit is een werk dat ik niet alleen kan dragen. Het vereist drie tot vijfhonderdduizend euro per jaar voor een professioneel team van vijf mensen — drie redacteuren, een fiscalist, een ontwikkelaar — gedurende de drie jaar die nodig zijn om de Gevolgenkaart tot een instrument te maken dat in 2029 of 2030 zijn werk kan doen tijdens de Tweede Kamer-verkiezingen.</p>
 
@@ -1020,7 +1489,7 @@
 
 <p>Wat ik in dit manifest beschreven heb is geen aanval op ProDemos. Het is een aanval op de illusie dat één enkel instrument, gemaakt door één enkele club, met dertig vooraf bepaalde stellingen, de complete behoefte van vier miljoen Nederlandse kiezers kan dekken. Dat kan het niet. Het heeft het nooit gekund.</p>
 
-<p>Wat er moet komen is iets eerlijker. Niet een aanbeveling, maar een bijsluiter. Niet een matching-algoritme, maar een gevolgenkaart. Niet \"u past bij X\", maar \"als u X stemt, krijgt u dit\".</p>
+<p>Wat er moet komen is iets eerlijker. Niet een aanbeveling, maar een bijsluiter. Niet een matching-algoritme, maar een gevolgenkaart. Niet "u past bij X", maar "als u X stemt, krijgt u dit".</p>
 
 <p>Vier miljoen Nederlanders verdienen dit. Niet als luxe. Als hun democratisch recht.</p>
 
