@@ -1,35 +1,57 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Исследования — Открытый взгляд</title>
-  <meta name="description" content="Onderzoekslijnen die nog open staan. Plannen, hypothesen en metingen die op tafel liggen — niet als afgesloten verhaal, maar als uitnodiging om mee te denken.">
-  <link rel="stylesheet" href="../../assets/style.css">
-  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
-  <style>/* hero-editie-css */
-    .ek-intro { display:flex; align-items:center; gap:2rem; max-width:1080px; margin:2.5rem auto 2rem auto; padding:0 1.25rem; text-align:left; }
-    .ek-intro__beeld { flex:0 0 200px; }
-    .ek-intro__beeld img { display:block; width:100%; height:auto; }
-    .ek-intro__tekst { flex:1; }
-    .ek-intro__kop { font-size:0.78rem; letter-spacing:0.2em; text-transform:uppercase; color:#1c5760; font-weight:700; margin:0 0 0.5rem 0; }
-    .ek-intro h2 { font-family:var(--font-serif, Georgia, serif); font-size:clamp(1.8rem, 4vw, 2.6rem); margin:0 0 0.8rem 0; color:#1a1a1a; font-style:italic; line-height:1.15; }
-    .ek-intro p { font-family:var(--font-serif, Georgia, serif); font-size:1.05rem; line-height:1.55; color:#4a5263; margin:0; max-width:none; }
-    @media (max-width:720px) {
-      .ek-intro { flex-direction:column; gap:1rem; text-align:center; }
-      .ek-intro__beeld { flex:0 0 auto; width:160px; }
-      .ek-intro h2 { font-size:1.6rem; }
-    }
-    .onderzoek-lijst { max-width: 1080px; margin: 2rem auto 4rem auto; padding: 0 1.25rem; display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
-    @media (min-width: 720px) { .onderzoek-lijst { grid-template-columns: 1fr 1fr; } }
-    .onderzoek-kaart { background: #fbf6e9; border-left: 4px solid #d4af37; padding: 1.5rem 1.75rem; text-decoration: none; color: #1a1a1a; display: block; transition: transform .15s ease; }
-    .onderzoek-kaart:hover { transform: translateY(-2px); }
-    .onderzoek-kaart__tag { font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: #1c5760; font-weight: 700; margin: 0 0 0.5rem 0; }
-    .onderzoek-kaart h3 { font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: 1.35rem; line-height: 1.25; margin: 0 0 0.6rem 0; }
-    .onderzoek-kaart p { font-family: var(--font-serif, Georgia, serif); font-size: 1rem; line-height: 1.5; color: #4a5263; margin: 0; }
-    .onderzoek-kaart__meer { display: inline-block; margin-top: 0.8rem; font-size: 0.85rem; color: #a52d3a; font-weight: 600; }
-  </style>
-<link rel="stylesheet" href="../../assets/deel-menu.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Навигация · Открытый взгляд</title>
+<meta name="description" content="Visuele navigatie door Het Open Vizier — vier hoofdthemes, alle artikelen in beeld.">
+<style>
+  :root { --font-serif: Georgia, 'Times New Roman', serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-serif); background: #faf5eb; color: #1a1a1a; line-height: 1.5; overflow-x: hidden; }
+  
+  header.masthead { padding: 1.5rem 1.5rem 0.5rem; text-align: center; border-bottom: 2px solid #1a1a1a; }
+  .masthead__titel { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; }
+  .masthead__tagline { font-size: 0.9rem; color: #5a5a5a; font-style: italic; margin-top: 0.2rem; }
+  
+  nav.topnav { display: flex; justify-content: center; flex-wrap: wrap; padding: 0.5rem 1rem; background: #f5ece6; border-bottom: 1px solid #d8c8b8; font-size: 0.85rem; }
+  nav.topnav a { color: #1a1a1a; text-decoration: none; padding: 0.4rem 0.9rem; border-right: 1px solid #d8c8b8; }
+  nav.topnav a:last-child { border-right: none; }
+  nav.topnav a:hover, nav.topnav a.active { background: #1a1a1a; color: #faf5eb; }
+  
+  .nav-container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem; }
+  .nav-intro { text-align: center; max-width: 700px; margin: 0 auto 1.5rem; }
+  .nav-intro h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 0.5rem; }
+  .nav-intro p { color: #4a4a4a; font-size: 1rem; }
+  
+  .breadcrumb { text-align: center; padding: 0.5rem; font-size: 0.9rem; color: #5a5a5a; min-height: 1.6rem; }
+  .breadcrumb a { color: #0e3d2e; text-decoration: none; border-bottom: 1px solid #0e3d2e; cursor: pointer; }
+  .breadcrumb a:hover { background: #f1f5ee; }
+  
+  #sunburst { width: 100%; max-width: 800px; aspect-ratio: 1/1; margin: 0 auto; display: block; cursor: pointer; }
+  
+  .info-panel { max-width: 700px; margin: 1.5rem auto 0; padding: 1rem 1.5rem; background: #ffffff; border: 1px solid #d4d1ca; border-radius: 6px; min-height: 80px; display: none; }
+  .info-panel.show { display: block; }
+  .info-panel h2 { font-size: 1.3rem; color: #1a1a1a; margin-bottom: 0.4rem; }
+  .info-panel p { color: #4a4a4a; margin-bottom: 0.6rem; }
+  .info-panel a.read-btn { display: inline-block; padding: 0.4rem 1rem; background: #0e3d2e; color: #faf5eb; text-decoration: none; border-radius: 4px; font-size: 0.9rem; }
+  .info-panel a.read-btn:hover { background: #082a1f; }
+  
+  .latest-list { display: grid; gap: 0.6rem; margin-top: 0.8rem; }
+  .latest-item { display: block; padding: 0.7rem 1rem; background: #f1f5ee; border-left: 3px solid #0e3d2e; border-radius: 0 4px 4px 0; text-decoration: none; color: #1a1a1a; transition: background 0.15s; }
+  .latest-item:hover { background: #e1ebd9; }
+  .latest-item__date { font-size: 0.75rem; color: #5a5a5a; text-transform: uppercase; letter-spacing: 0.05em; }
+  .latest-item__title { font-weight: 700; font-size: 1rem; margin: 0.2rem 0; }
+  .latest-item__desc { font-size: 0.85rem; color: #4a4a4a; }
+  
+  .legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; padding: 1rem; font-size: 0.85rem; color: #5a5a5a; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 3px; }
+  
+  footer.site-footer { background: #1a1a1a; color: #faf5eb; padding: 1.5rem 1rem; text-align: center; font-size: 0.85rem; margin-top: 2rem; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<link rel="stylesheet" href="../assets/deel-menu.css">
 <style>
   /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
   .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
@@ -432,7 +454,7 @@
     .ov-nav__submenu { transform:none !important; }
   }
 </style>
-  <link rel="stylesheet" href="../../assets/ov-nav.css">
+  <link rel="stylesheet" href="../assets/ov-nav.css">
 <style>
   /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
   .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
@@ -911,12 +933,12 @@
     <span class="masthead__taal__label">Taal</span>
     <span class="masthead__taal__cur">· Nederlands</span>
   </a>
-  <p class="masthead__editie">Het Open Vizier · Editie Onderzoek</p>
-  <h1 class="masthead__title"><a href="../" style="text-decoration:none;color:inherit;">Het Open Vizier</a></h1>
-  <p class="masthead__sub">Een krant over denken zonder oogkleppen</p>
+  <div class="masthead__titel">Het Open Vizier</div>
+  <div class="masthead__tagline">Visuele navigatie · vind wat je zoekt</div>
 </header>
 
-<div class="gratis-band">Gratis informatieblad zonder reclame<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Onafhankelijk, geen mening, geen verkoop van gegevens</strong><span class="gratis-band__sep"> — </span><a href="../op-de-hoogte.html" class="gratis-band__cta">Houd mij op de hoogte →</a></div>
+
+<div class="gratis-band">Gratis informatieblad zonder reclame<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Onafhankelijk, geen mening, geen verkoop van gegevens</strong><span class="gratis-band__sep"> — </span><a href="op-de-hoogte.html" class="gratis-band__cta">Houd mij op de hoogte →</a></div>
 
 <nav class="ov-nav" aria-label="Hoofdmenu">
   <div class="ov-nav__inner">
@@ -1224,55 +1246,337 @@
   </div>
 </nav>
 
-<section class="ek-intro">
-  <figure class="ek-intro__beeld">
-    <img src="../../assets/heros-edities/icon-onderzoeken.svg" alt="" loading="eager" decoding="async">
-  </figure>
-  <div class="ek-intro__tekst">
-    <p class="ek-intro__kop">★ ONDERZOEK</p>
-    <h2>Wat we niet weten — maar willen weten</h2>
-    <p>Niet elke gedachte hoort thuis in een editie. Sommige vragen zijn nog open: hypothesen, plannen, metingen. Hier liggen ze op tafel — niet als afgesloten verhaal, maar als uitnodiging om mee te denken, te corrigeren, of zelf mee te bouwen.</p>
+<div class="nav-container">
+  <div class="nav-intro">
+    <h1>Alles in één beeld</h1>
+    <p>Klik op een sector om in te zoomen. Klik op het midden om terug te gaan. Klik op een artikel om het te lezen.</p>
   </div>
-</section>
+  
+  <div class="breadcrumb" id="breadcrumb">Laatste artikelen</div>
+  
+  <svg id="sunburst" viewBox="0 0 800 800"></svg>
+  
+  <div class="legend">
+    <div class="legend-item"><div class="legend-swatch" style="background:#c8102e;"></div>Gevolgenkaarten</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#0e3d2e;"></div>BiCRS / Energie</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#3b5998;"></div>Politiek / Hervorming</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#7a3aa0;"></div>Nederland & Wereld</div>
+  </div>
+  
+  <div class="info-panel" id="info-panel">
+    <h2 id="info-title"></h2>
+    <p id="info-desc"></p>
+    <a id="info-link" class="read-btn" href="">Lees het stuk →</a>
+  </div>
+  
+  <div class="info-panel" id="latest-panel">
+    <h2 style="color:#0e3d2e;">Laatste artikelen</h2>
+    <p style="font-size:0.85rem;color:#5a5a5a;font-style:italic;margin-bottom:0.5rem;">Chronologische lijst van recent verschenen stukken — nieuwste bovenaan.</p>
+    <div id="latest-list" class="latest-list"></div>
+    <p style="font-size:0.85rem;margin-top:1rem;text-align:center;">
+      <a href="wat-opkomt/" style="color:#0e3d2e;text-decoration:none;border-bottom:1px solid #0e3d2e;">→ Alle artikelen op Wat opkomt</a>
+    </p>
+  </div>
+</div>
 
-<section class="onderzoek-lijst">
-  <a href="gevoelsconnectiesysteem-volledig.html" class="onderzoek-kaart">
-    <p class="onderzoek-kaart__tag">★ I · NEURO-FYSIOLOGIE · VOLLEDIG</p>
-    <h3>Het gevoelsconnectiesysteem &mdash; volledig plan</h3>
-    <p>Het volledige onderzoeksplan met begrippenkader, literatuur-validatie, vijf onderzoeksvragen, procesmodel in vier fasen, foutdetectie-analyse, fysische hypothese (menselijke gravitatiegolven), drie detectorconcepten en vijf vervolgfasen.</p>
-    <span class="onderzoek-kaart__meer">Lees het volledige plan →</span>
-  </a>
-  <a href="gevoelsconnectiesysteem.html" class="onderzoek-kaart">
-    <p class="onderzoek-kaart__tag">★ I · NEURO-FYSIOLOGIE · KORT</p>
-    <h3>Het gevoelsconnectiesysteem &mdash; korte leeswijzer</h3>
-    <p>De hoofdlijn van het onderzoeksplan in beknopte vorm: stelling, procesmodel, foutdetectie en de fysische hypothese in één leesgang.</p>
-    <span class="onderzoek-kaart__meer">Lees de korte versie →</span>
-  </a>
-  <a href="routekaart-vervolgvragen.html" class="onderzoek-kaart">
-    <p class="onderzoek-kaart__tag">★ II · ROUTEKAART</p>
-    <h3>Vierentwintig vragen, in volgorde</h3>
-    <p>De werkroute voor vervolgonderzoek: 24 follow-ups verdeeld over 8 fasen — van begrippen via brein-architectuur naar de eerste meting.</p>
-    <span class="onderzoek-kaart__meer">Bekijk de routekaart →</span>
-  </a>
-  <a href="krantbriefing.html" class="onderzoek-kaart">
-    <p class="onderzoek-kaart__tag">★ III · KRANTBRIEFING</p>
-    <h3>Voor wie het in krantstijl wil uitwerken</h3>
-    <p>Journalistieke briefing met drie-lagen-positionering (ondersteund · modelvorming · speculatief), invalshoeken, kopkeuzes en openingsalinea. Voor een collega die het onderwerp wil oppakken.</p>
-    <span class="onderzoek-kaart__meer">Lees de briefing →</span>
-  </a>
-  <a href="../editie-0/biomimetische-krachtcentrale.html" class="onderzoek-kaart">
-    <p class="onderzoek-kaart__tag">★ IV · WHITEPAPER R&amp;D</p>
-    <h3>De biomimetische krachtcentrale</h3>
-    <p>Drie horizonten van energieverwerking uit biomassa — 2050, 2075, 2125. Membranen, katalysatoren, moleculaire machines en kunstmatige fotosynthese tot het thermodynamische plafond. Gepubliceerd in Editie Europa.</p>
-    <span class="onderzoek-kaart__meer">Lees het whitepaper →</span>
-  </a>
-</section>
-
-<footer class="footer">
-  <p><a href="../">⌂ Voorpagina</a> · <a href="../verkennen.html">Verkennen</a> · <a href="../delen.html">Delen</a></p>
-  <p class="footer__kleur">Het Open Vizier — een krant over denken zonder oogkleppen.</p>
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Voorpagina">
+  <a href="../nl/" class="navbar__home">⌂ Voorpagina</a>
+  <a href="../nl/verkennen.html" class="navbar__verk">↻ Verkennen</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+<footer class="site-footer">
+  <p>Het Open Vizier · Onafhankelijke journalistiek vanuit Malta</p>
+  <p style="font-size:0.78rem;color:#c0c0c0;margin-top:0.4rem;">Proof-of-concept navigatie · klik door en geef feedback</p>
 </footer>
 
-  <script defer src="../../assets/deel-menu.js"></script>
+<script>
+// === DATA STRUCTUUR ===
+// Nieuwste artikelen (centrum: Wat opkomt)
+const latestArticles = [
+  { name: "De Singaporese Gevolgenkaart", url: "wat-opkomt/de-singaporese-gevolgenkaart.html", desc: "15 SG scenario's × MOF/MAS/MOM + BiCRS-uitweg", date: "18 juni 2026" },
+  { name: "De Zwitserse Gevolgenkaart", url: "wat-opkomt/de-zwitserse-gevolgenkaart.html", desc: "15 CH scenario's × Bondsraad + BiCRS-uitweg", date: "18 juni 2026" },
+  { name: "Europa hoeft geen schadekaart", url: "wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html", desc: "De BiCRS-opening voor Editie Europa", date: "17 juni 2026" },
+  { name: "Brusselse Gevolgenkaart BiCRS", url: "wat-opkomt/brusselse-gevolgenkaart-bicrs.html", desc: "EU-vervanging Green Deal door BiCRS", date: "15 juni 2026" },
+  { name: "Stille Analyse (NL)", url: "wat-opkomt/gevolgenkaart-iii-stille-analyse.html", desc: "NL Gevolgenkaart met BiCRS-uitweg", date: "10 juni 2026" },
+  { name: "De op de natuur aangepaste analyse", url: "wat-opkomt/de-op-de-natuur-aangepaste-analyse.html", desc: "NL cascade onder twee biomassa-sporen", date: "5 juni 2026" },
+];
+
+const data = {
+  name: "Laatste artikelen",
+  children: [
+    {
+      name: "Gevolgenkaarten",
+      color: "#c8102e",
+      children: [
+        { name: "Manifest", color: "#c8102e", url: "wat-opkomt/die-folgenkarte.html", desc: "Waarom de StemWijzer u nooit zal vertellen wat u eigenlijk stemt." },
+        { name: "Stille Analyse (NL)", color: "#c8102e", url: "wat-opkomt/gevolgenkaart-iii-stille-analyse.html", desc: "20 NL-posities × 11 mechanismen, met BiCRS-uitweg." },
+        { name: "Brusselse (EU)", color: "#c8102e", url: "wat-opkomt/de-brusselse-gevolgenkaart.html", desc: "20 EU-scenario's × 11 mechanismen." },
+        { name: "BiCRS-versie EU", color: "#c8102e", url: "wat-opkomt/brusselse-gevolgenkaart-bicrs.html", desc: "Volledige doorrekening Brussel met BiCRS-vervanging." },
+        { name: "Zwitserse", color: "#c8102e", url: "wat-opkomt/de-zwitserse-gevolgenkaart.html", desc: "15 Zwitserse scenario's × Bondsraad-beleid + BiCRS." },
+        { name: "Singaporese", color: "#c8102e", url: "wat-opkomt/de-singaporese-gevolgenkaart.html", desc: "15 SG scenario's × MOF/MAS/MOM + BiCRS-uitweg." },
+        { name: "Konsequenzkarte (DE)", color: "#c8102e", url: "wat-opkomt/die-konsequenzkarte.html", desc: "Duitse spiegel, Bundestag februari 2025." },
+        { name: "Mappa Malta", color: "#c8102e", url: "wat-opkomt/mappa-tal-konsegwenzi.html", desc: "Maltese politiek en EU-druk samen." },
+        { name: "Trump als spiegel", color: "#c8102e", url: "wat-opkomt/trump-as-mirror.html", desc: "Wat Trump-II met Europa doet." },
+      ]
+    },
+    {
+      name: "BiCRS / Energie",
+      color: "#0e3d2e",
+      children: [
+        { name: "Europa-opener", color: "#0e3d2e", url: "wat-opkomt/europa-hoeft-geen-schadekaart-te-zijn.html", desc: "Hoe BiCRS Green Deal en CBAM kan vervangen." },
+        { name: "Natuur-analyse", color: "#0e3d2e", url: "wat-opkomt/de-op-de-natuur-aangepaste-analyse.html", desc: "Nederlandse cascade onder twee biomassa-sporen." },
+        { name: "Autoband-sigaret", color: "#0e3d2e", url: "wat-opkomt/de-autoband-is-het-nieuwe-sigaret.html", desc: "Bandenslijtage als verborgen vervuilingsdrager." },
+        { name: "Vergeten orde (E5)", color: "#0e3d2e", url: "editie-5/artikel-03-vergeten-orde.html", desc: "Hoe kerncyclus uit ons collectief geheugen gleed." },
+        { name: "Methaan-misleiding", color: "#0e3d2e", url: "editie-5/artikel-04-methaan-misleiding.html", desc: "De methaan-cyclus opnieuw begrepen." },
+        { name: "Plant die verhuist", color: "#0e3d2e", url: "editie-5/artikel-05-plant-die-verhuist.html", desc: "Equatoriale biomassa-routes." },
+        { name: "Kernfusie (E1)", color: "#0e3d2e", url: "editie-1/kernfusie.html", desc: "Wat kernfusie wel en niet kan oplossen." },
+        { name: "Klimaatlogica (E2)", color: "#0e3d2e", url: "editie-2/nepk-klimaatlogica.html", desc: "Nieuwe Klimaatlogica uitgewerkt." },
+      ]
+    },
+    {
+      name: "Politiek / Hervorming",
+      color: "#3b5998",
+      children: [
+        { name: "Nova Democratia Manifest", color: "#3b5998", url: "wat-opkomt/nova-democratia-manifesto.html", desc: "De Nova Democratia / VMP politieke vorm." },
+        { name: "Nova Democratia (E1)", color: "#3b5998", url: "editie-1/nova-democratia.html", desc: "Eerste uitwerking van het politiek model." },
+        { name: "Nova Democratia (E2)", color: "#3b5998", url: "editie-2/nova-democratia.html", desc: "Tweede iteratie met fiscale doorrekening." },
+        { name: "Kantelmechanica", color: "#3b5998", url: "wat-opkomt/de-kantelmechanica.html", desc: "Hoe een gedachtegoed kantelt naar invloed." },
+        { name: "De Grote Plundering", color: "#3b5998", url: "wat-opkomt/de-grote-plundering.html", desc: "Vijfluik over hoe Europa zijn productieven uitkleedt." },
+        { name: "Plundering 1: diagnose", color: "#3b5998", url: "wat-opkomt/plundering-1-diagnose.html", desc: "" },
+        { name: "Plundering 2: mechaniek", color: "#3b5998", url: "wat-opkomt/plundering-2-mechaniek.html", desc: "" },
+        { name: "Plundering 3: afloop", color: "#3b5998", url: "wat-opkomt/plundering-3-afloop.html", desc: "" },
+        { name: "Plundering 4: politiek", color: "#3b5998", url: "wat-opkomt/plundering-4-politieke-landschap.html", desc: "" },
+        { name: "Ferrari Junção", color: "#3b5998", url: "wat-opkomt/die-tagliche-idee-ferrari-juncao.html", desc: "Dagelijks idee: Ferrari Junção." },
+      ]
+    },
+    {
+      name: "Nederland & Wereld",
+      color: "#7a3aa0",
+      children: [
+        { name: "Zelf aan de bak (NL)", color: "#7a3aa0", url: "wat-opkomt/wir-muessen-wieder-selbst-anpacken.html", desc: "Nederland moet zijn eigen kracht terugvinden." },
+        { name: "VMB ESG", color: "#7a3aa0", url: "wat-opkomt/was-ich-hinterlasse-vmb-esg.html", desc: "Wat ik achterlaat — VMB ESG essay." },
+        { name: "Manifest Oergevoel", color: "#7a3aa0", url: "wat-opkomt/manifest-ruimte-voor-het-oergevoel.html", desc: "Ruimte voor het oergevoel." },
+        { name: "Editie 6: Brussel-variabele", color: "#7a3aa0", url: "editie-6/aflevering-00-brussel-als-variabele.html", desc: "Hoe Brussel een variabele wordt." },
+        { name: "Editie 5: brief aan lezer", color: "#7a3aa0", url: "editie-5/artikel-00-brief-aan-lezer.html", desc: "Opening editie 5." },
+        { name: "Editie 4: wet en industrie", color: "#7a3aa0", url: "editie-4/artikel-01-wet-papier-industrie.html", desc: "Wet, papier en industrie." },
+        { name: "Editie 3: oergevoel", color: "#7a3aa0", url: "editie-3/artikel-01-oergevoel.html", desc: "Het oergevoel uitgewerkt." },
+        { name: "Editie 2: thermostaat", color: "#7a3aa0", url: "editie-2/thermostaat.html", desc: "De thermostaat-metafoor." },
+        { name: "Editie 1: voorwoord", color: "#7a3aa0", url: "editie-1/voorwoord.html", desc: "Begin van de reeks." },
+      ]
+    },
+  ]
+};
+
+// === D3 SUNBURST ===
+const width = 800;
+const radius = width / 6;
+
+const root = d3.hierarchy(data)
+  .sum(d => d.children ? 0 : 1)
+  .sort((a, b) => b.value - a.value);
+
+d3.partition().size([2 * Math.PI, root.height + 1])(root);
+root.each(d => d.current = d);
+
+const arc = d3.arc()
+  .startAngle(d => d.x0)
+  .endAngle(d => d.x1)
+  .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+  .padRadius(radius * 1.5)
+  .innerRadius(d => d.y0 * radius)
+  .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1));
+
+const svg = d3.select("#sunburst")
+  .attr("width", width)
+  .attr("height", width)
+  .style("font", "12px Georgia, serif");
+
+const g = svg.append("g")
+  .attr("transform", `translate(${width / 2},${width / 2})`);
+
+function colorFor(d) {
+  // Find top-level ancestor color
+  let n = d;
+  while (n.depth > 1) n = n.parent;
+  return n.data.color || "#888";
+}
+
+const path = g.append("g")
+  .selectAll("path")
+  .data(root.descendants().slice(1))
+  .join("path")
+    .attr("fill", d => {
+      const base = colorFor(d);
+      return d.depth === 1 ? base : d3.color(base).brighter(0.5 * (d.depth - 1));
+    })
+    .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.85 : 0.6) : 0)
+    .attr("pointer-events", d => arcVisible(d.current) ? "auto" : "none")
+    .attr("d", d => arc(d.current))
+    .style("cursor", d => d.children ? "pointer" : "pointer");
+
+path.filter(d => d.children).on("click", clicked);
+path.filter(d => !d.children).on("click", clickedLeaf);
+
+path.append("title")
+  .text(d => `${d.ancestors().map(d => d.data.name).reverse().join(" → ")}`);
+
+const label = g.append("g")
+  .attr("pointer-events", "none")
+  .attr("text-anchor", "middle")
+  .style("user-select", "none")
+  .selectAll("text")
+  .data(root.descendants().slice(1))
+  .join("text")
+    .attr("dy", "0.35em")
+    .attr("fill-opacity", d => +labelVisible(d.current))
+    .attr("transform", d => labelTransform(d.current))
+    .style("font-weight", d => d.depth === 1 ? "bold" : "normal")
+    .style("font-size", d => d.depth === 1 ? "13px" : "11px")
+    .style("fill", "#1a1a1a")
+    .text(d => d.data.name);
+
+const parent = g.append("circle")
+    .datum(root)
+    .attr("r", radius)
+    .attr("fill", "#f1f5ee")
+    .attr("stroke", "#0e3d2e")
+    .attr("stroke-width", 2.5)
+    .attr("pointer-events", "all")
+    .style("cursor", "pointer")
+    .on("click", function(event, d) {
+      // If on root (depth 0), show 'latest articles' panel
+      if (parent.datum().depth === 0) {
+        showLatestArticles();
+      } else {
+        clicked(event, d);
+      }
+    });
+
+const centerLabel = g.append("text")
+    .attr("text-anchor", "middle")
+    .attr("dy", "-0.2em")
+    .style("font-weight", "bold")
+    .style("font-size", "18px")
+    .style("fill", "#0e3d2e")
+    .style("pointer-events", "none")
+    .text("Laatste");
+
+// Sub-label onder 'Laatste'
+const centerSubLabel = g.append("text")
+    .attr("text-anchor", "middle")
+    .attr("dy", "1.1em")
+    .style("font-size", "12px")
+    .style("font-style", "italic")
+    .style("fill", "#0e3d2e")
+    .style("pointer-events", "none")
+    .text("artikelen →");
+
+function clicked(event, p) {
+  parent.datum(p.parent || root);
+  
+  root.each(d => d.target = {
+    x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+    x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+    y0: Math.max(0, d.y0 - p.depth),
+    y1: Math.max(0, d.y1 - p.depth)
+  });
+  
+  centerLabel.text(p.depth === 0 ? "Laatste" : (p.data.name.length > 18 ? p.data.name.slice(0,16) + "…" : p.data.name));
+  centerSubLabel.text(p.depth === 0 ? "artikelen →" : "");
+  
+  updateBreadcrumb(p);
+  hideInfoPanel();
+  
+  const t = g.transition().duration(750);
+  
+  path.transition(t)
+    .tween("data", d => {
+      const i = d3.interpolate(d.current, d.target);
+      return tt => d.current = i(tt);
+    })
+    .filter(function(d) {
+      return +this.getAttribute("fill-opacity") || arcVisible(d.target);
+    })
+    .attr("fill-opacity", d => arcVisible(d.target) ? (d.children ? 0.85 : 0.6) : 0)
+    .attr("pointer-events", d => arcVisible(d.target) ? "auto" : "none")
+    .attrTween("d", d => () => arc(d.current));
+  
+  label.filter(function(d) {
+    return +this.getAttribute("fill-opacity") || labelVisible(d.target);
+  }).transition(t)
+    .attr("fill-opacity", d => +labelVisible(d.target))
+    .attrTween("transform", d => () => labelTransform(d.current));
+}
+
+function clickedLeaf(event, p) {
+  // Show info panel
+  showInfoPanel(p);
+}
+
+function arcVisible(d) {
+  return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
+}
+
+function labelVisible(d) {
+  return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+}
+
+function labelTransform(d) {
+  const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
+  const y = (d.y0 + d.y1) / 2 * radius;
+  return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+}
+
+function updateBreadcrumb(p) {
+  const ancestors = p.ancestors().reverse();
+  const breadcrumbEl = document.getElementById('breadcrumb');
+  breadcrumbEl.innerHTML = ancestors.map(a => `<a data-depth="${a.depth}">${a.data.name}</a>`).join(' → ');
+  
+  // Make breadcrumb links clickable to go back
+  breadcrumbEl.querySelectorAll('a').forEach((el, i) => {
+    el.addEventListener('click', () => {
+      const target = ancestors[i];
+      clicked(null, target);
+    });
+  });
+}
+
+function showInfoPanel(d) {
+  const panel = document.getElementById('info-panel');
+  document.getElementById('info-title').textContent = d.data.name;
+  document.getElementById('info-desc').textContent = d.data.desc || '';
+  const link = document.getElementById('info-link');
+  link.href = d.data.url;
+  link.style.background = d.data.color;
+  panel.classList.add('show');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function hideInfoPanel() {
+  document.getElementById('info-panel').classList.remove('show');
+  document.getElementById('latest-panel').classList.remove('show');
+}
+
+function showLatestArticles() {
+  const panel = document.getElementById('latest-panel');
+  const list = document.getElementById('latest-list');
+  list.innerHTML = latestArticles.map(a => `
+    <a href="${a.url}" class="latest-item">
+      <div class="latest-item__date">${a.date}</div>
+      <div class="latest-item__title">${a.name}</div>
+      <div class="latest-item__desc">${a.desc}</div>
+    </a>
+  `).join('');
+  panel.classList.add('show');
+  document.getElementById('info-panel').classList.remove('show');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+updateBreadcrumb(root);
+</script>
+
+<script src="../assets/nav-mobile.js" defer></script>
+  <script defer src="../assets/deel-menu.js"></script>
 </body>
 </html>
