@@ -66,6 +66,7 @@
   .ov-nav__inner > .ov-nav__item:last-child { border-bottom:0; }
   .ov-nav__inner > .ov-nav__item,
   .ov-nav__dropdown > .ov-nav__item { display:block; width:100%; text-align:left; padding:0.85rem 1rem; font-size:0.95rem; }
+  /* Op mobiel: submenu is standaard verborgen als <details>, altijd open als niet-details */
   .ov-nav__submenu {
     position:static; box-shadow:none; border:0; padding:0 0 0.5rem 1.2rem;
     min-width:0; background:#f5f3ee;
@@ -73,11 +74,20 @@
     display:none;
   }
   .ov-nav__dropdown::after { display:none; }
+  /* Open bij :hover, :focus-within, :active, of expliciete .is-open class */
   .ov-nav__dropdown:hover .ov-nav__submenu,
-  .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  .ov-nav__dropdown:focus-within .ov-nav__submenu,
+  .ov-nav__dropdown:active .ov-nav__submenu,
+  .ov-nav__dropdown.is-open .ov-nav__submenu { display:block; }
   .ov-nav__submenu a.ov-nav__subitem { padding:0.55rem 1rem; }
   .ov-nav__caret { float:right; opacity:0.8; }
+  /* Maak dropdown-trigger een button zodat tap werkt */
+  .ov-nav__dropdown > .ov-nav__item[href="#"] {
+    -webkit-tap-highlight-color: rgba(122,31,43,0.1);
+  }
 }
+
+/* Tap-toggle script placeholder — voeg JS toe aan alle pagina's */
 
 @media (prefers-reduced-motion: reduce) {
   .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
