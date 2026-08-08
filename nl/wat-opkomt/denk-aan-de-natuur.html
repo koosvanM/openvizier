@@ -19,25 +19,142 @@
   <meta name="twitter:title" content="Denk eens aan de natuur, met de natuur als basis">
   <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/denk-natuur/hero_kringloop.jpg">
   <style>
+    /* ----- Basis pagina ----- */
     .dn { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; font-family: Georgia, serif; color: #2a2a2a; }
-    .dn__titel { font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
-    .dn__subtitle { text-align: center; color: #4a5263; font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.28rem); margin: 0.5rem auto 1.5rem auto; max-width: 680px; line-height: 1.45; }
-    .dn__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 2rem 0; }
-    .dn__streep { width: 60px; height: 4px; background: #2d5a3d; margin: 2rem auto; }
+
+    /* ----- Titel & auteursblok ----- */
+    .dn__titel {
+      font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1.1; text-align: center;
+      margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; letter-spacing: -0.01em;
+    }
+    .dn__titel::first-letter { color: #2d5a3d; }
+    .dn__subtitle {
+      text-align: center; color: #4a5263; font-style: italic;
+      font-size: clamp(1.1rem, 2.4vw, 1.32rem); margin: 0.5rem auto 1.5rem auto;
+      max-width: 680px; line-height: 1.45;
+    }
+    .dn__auteur {
+      text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 2rem 0;
+      letter-spacing: 0.02em;
+    }
+    .dn__streep {
+      width: 60px; height: 4px;
+      background: linear-gradient(90deg, #2d5a3d 0%, #d4af37 100%);
+      margin: 2rem auto; border-radius: 2px;
+    }
+
+    /* ----- Hero ----- */
     .dn__hero { max-width: 1400px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
-    .dn__hero img { display: block; width: 100%; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
-    .dn__lead { font-family: Georgia, serif; font-size: clamp(1.15rem, 2.5vw, 1.28rem); line-height: 1.65; color: #2a2a2a; margin: 0 0 2rem 0; padding: 0 0 1.5rem 0; border-bottom: 1px solid #d4d1ca; }
-    .dn p { font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; margin: 0 0 1.4rem 0; }
-    .dn h2 { font-size: clamp(1.55rem, 3.6vw, 1.95rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; font-family: Georgia, serif; }
-    .dn h3 { font-size: clamp(1.15rem, 2.4vw, 1.3rem); color: #2d5a3d; margin: 2rem 0 0.6rem 0; font-family: Georgia, serif; }
-    .dn ul { margin: 0 0 1.5rem 0; padding-left: 1.5rem; }
-    .dn li { margin-bottom: 0.5rem; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; }
-    .dn table { width: 100%; border-collapse: collapse; margin: 1.8rem 0; font-size: 0.98rem; }
-    .dn th, .dn td { padding: 0.65rem 0.85rem; border-bottom: 1px solid #d4d1ca; text-align: left; vertical-align: top; }
-    .dn th { background: #f0eee6; font-weight: 700; color: #1a1a1a; font-family: Georgia, serif; }
+    .dn__hero img {
+      display: block; width: 100%; height: auto; margin: 0 auto;
+      border: 1px solid #d4d1ca; box-shadow: 0 6px 22px rgba(0,0,0,0.14);
+      border-radius: 2px;
+    }
+
+    /* ----- Lead ----- */
+    .dn__lead {
+      font-family: Georgia, serif;
+      font-size: clamp(1.18rem, 2.6vw, 1.32rem);
+      line-height: 1.6; color: #1f2937;
+      margin: 0 0 2.5rem 0; padding: 1.4rem 1.6rem 1.4rem 1.8rem;
+      background: linear-gradient(90deg, #f5f3ea 0%, #faf8f0 100%);
+      border-left: 5px solid #2d5a3d;
+      position: relative;
+    }
+    .dn__lead::before {
+      content: ""; position: absolute; left: -5px; top: 0; bottom: 0; width: 5px;
+      background: linear-gradient(180deg, #2d5a3d 0%, #d4af37 100%);
+    }
+
+    /* ----- Alinea's ----- */
+    .dn p {
+      font-size: clamp(1.05rem, 2.3vw, 1.15rem);
+      line-height: 1.78; margin: 0 0 1.4rem 0; color: #2a2a2a;
+    }
+
+    /* Drop-cap op eerste alinea na elke h2 */
+    .dn h2 + p::first-letter {
+      float: left; font-size: 3.4rem; line-height: 0.9; padding: 0.35rem 0.65rem 0.15rem 0;
+      color: #2d5a3d; font-weight: 700; font-family: Georgia, serif;
+    }
+
+    /* ----- Hoofdstukken h2 met genummerd accent ----- */
+    .dn h2 {
+      font-size: clamp(1.65rem, 3.8vw, 2.1rem); line-height: 1.25;
+      margin: 3.5rem 0 1.2rem 0; color: #1a1a1a;
+      padding: 0 0 0.5rem 0;
+      border-bottom: 2px solid #2d5a3d;
+      font-family: Georgia, serif; font-weight: 700;
+      position: relative;
+    }
+    /* Kleine kleurindicator */
+    .dn h2::after {
+      content: ""; display: block; width: 40px; height: 3px;
+      background: #d4af37; margin-top: 0.5rem; border-radius: 2px;
+    }
+
+    /* ----- Sub-koppen h3 (Stap 1, De fiscale kant, ...) ----- */
+    .dn h3 {
+      font-size: clamp(1.2rem, 2.6vw, 1.4rem);
+      color: #7a4e1b; margin: 2.2rem 0 0.7rem 0;
+      font-family: Georgia, serif; font-weight: 700;
+      padding: 0.4rem 0.9rem;
+      background: linear-gradient(90deg, #f5efd7 0%, transparent 90%);
+      border-left: 4px solid #d4af37;
+    }
+
+    /* ----- Lijsten ----- */
+    .dn ul {
+      margin: 0 0 1.6rem 0; padding-left: 1.5rem;
+      background: #faf8f0; padding: 1rem 1.4rem 1rem 2.4rem;
+      border-left: 3px solid #c9a24a; border-radius: 2px;
+    }
+    .dn li {
+      margin-bottom: 0.65rem;
+      font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75;
+    }
+    .dn li::marker { color: #2d5a3d; font-weight: 700; }
+
+    /* ----- Tabellen ----- */
+    .dn table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      margin: 2rem 0; font-size: 0.97rem;
+      background: #fff; border: 1px solid #d4d1ca;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+      overflow: hidden; border-radius: 3px;
+    }
+    .dn th, .dn td {
+      padding: 0.75rem 0.95rem; text-align: left; vertical-align: top;
+      border-bottom: 1px solid #e4e0d5;
+    }
+    .dn thead th {
+      background: linear-gradient(180deg, #2d5a3d 0%, #234a30 100%);
+      color: #f5f3ea; font-weight: 700; font-family: Georgia, serif;
+      letter-spacing: 0.02em; text-transform: uppercase; font-size: 0.85rem;
+      border-bottom: none;
+    }
+    .dn tbody tr:nth-child(odd) td { background: #faf8f0; }
+    .dn tbody tr:nth-child(even) td { background: #ffffff; }
+    .dn tbody tr:hover td { background: #f5efd7; }
+    .dn tbody td:first-child { font-weight: 600; color: #1a1a1a; }
+    .dn tbody td:nth-child(2) { color: #7a4e1b; font-weight: 600; }
+    .dn tbody tr:last-child td { border-bottom: none; }
+
+    /* ----- Terug-link ----- */
     .dn__terug { text-align: center; margin: 3rem 0 1rem 0; }
-    .dn__terug a { color: #2d5a3d; text-decoration: none; font-size: 0.95rem; }
-    @media (max-width: 720px) { .dn { padding: 0 1rem; } .dn table { font-size: 0.9rem; } }
+    .dn__terug a {
+      color: #2d5a3d; text-decoration: none; font-size: 0.95rem;
+      padding: 0.5rem 1rem; border: 1px solid #2d5a3d; border-radius: 2px;
+      transition: all 0.15s;
+    }
+    .dn__terug a:hover { background: #2d5a3d; color: #f5f3ea; }
+
+    @media (max-width: 720px) {
+      .dn { padding: 0 1rem; }
+      .dn table { font-size: 0.88rem; }
+      .dn th, .dn td { padding: 0.55rem 0.65rem; }
+      .dn h2 + p::first-letter { font-size: 2.8rem; padding: 0.3rem 0.55rem 0.15rem 0; }
+    }
   </style>
 </head>
 <body>
