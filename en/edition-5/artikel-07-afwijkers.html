@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The dissenters — Het Open Vizier · Edition 5 — July 2026</title>
-  <meta name="description" content="Sandra Palmen-Schlangen, Eva González Pérez, Ad Bos — three verified compass-bearers.">
+  <title>The Dissidents — The Open Vizier · Edition 5 — July 2026</title>
+  <meta name="description" content="Sandra Palmen-Schlangen, Eva González Pérez, Ad Bos — drie geverifieerde kompasdragers.">
   <link rel="stylesheet" href="../../assets/style.css">
   <link rel="stylesheet" href="../../assets/style-editie5.css">
   <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
@@ -412,6 +412,74 @@
   }
 </style>
   <link rel="stylesheet" href="../../assets/ov-nav.css">
+<script src="../../assets/ov-nav.js" defer></script>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
 <style>
   /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
   .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
@@ -818,342 +886,367 @@
 <body>
 
 <header class="masthead" style="position:relative;">
-  <a href="/" class="masthead__taal" title="Language: English">
+  <a href="/" class="masthead__taal" title="Taal: Nederlands">
     <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
-    <span class="masthead__taal__label">Language</span>
-    <span class="masthead__taal__cur">· English</span>
+    <span class="masthead__taal__label">Taal</span>
+    <span class="masthead__taal__cur">· Nederlands</span>
   </a>
-  <div class="masthead__date">Edition 5 — July 2026</div>
-  <h1 class="masthead__title"><a href="../../../en/">Het Open Vizier</a></h1>
+  <div class="masthead__date">Editie 5 — Juli 2026</div>
+  <h1 class="masthead__title"><a href="../../../nl/">Het Open Vizier</a></h1>
 </header>
 
-<div class="gratis-band">Free information paper without advertising<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Independent, no opinion, no sale of data</strong><span class="gratis-band__sep"> — </span><a href="../../nl/op-de-hoogte.html" class="gratis-band__cta">Keep me informed →</a></div>
+<div class="gratis-band">Gratis informatieblad zonder reclame<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Onafhankelijk, geen mening, geen verkoop van gegevens</strong><span class="gratis-band__sep"> — </span><a href="../op-de-hoogte.html" class="gratis-band__cta">Houd mij op de hoogte →</a></div>
 
-<nav class="ov-nav" aria-label="Menu">
+<nav class="ov-nav" aria-label="Hoofdmenu">
   <div class="ov-nav__inner">
-    <a class="ov-nav__item" href="/en/">Home</a>
+    <a class="ov-nav__item" href="/en/" aria-current="page">Home</a>
     <div class="ov-nav__dropdown">
-      <a class="ov-nav__item" href="#">AI-Atomic Explosive<span class="ov-nav__caret">▾</span></a>
+      <a class="ov-nav__item" href="#">AI-Thought<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-ai-as-boss.html">The AI as boss</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/first-the-reptile.html">First the Reptile</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-atomic-bomb-in-ai-format.html">The atomic bomb in AI format</a>
-      </div>
-    </div>
-    <div class="ov-nav__dropdown">
-      <a class="ov-nav__item" href="#">Politics<span class="ov-nav__caret">▾</span></a>
-      <div class="ov-nav__submenu">
-        <div class="ov-nav__submenu-groep">France & European revolution</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/france-revolutionary-moment.html">France — revolutionary moment</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/five-countries-five-curves.html">Five countries, five curves</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-dutch-revolution-2033.html">The Dutch Revolution 2033</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/moet-nederland-ook-volgen.html">Should the Netherlands also follow?</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Tipping mechanics & people</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-tipping-mechanics.html">The tipping mechanics</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/mensen-die-mee-bouwen.html">People who help build</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/actievoerders-bouwen-continenten.html">Activists build continents</a>
-        <a class="ov-nav__subitem" href="/en/driving-out-the-builders/">Who drives out the builders</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-matrix-van-de-uittocht.html">The matrix of the exodus</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-ai-as-boss.html">The AI as boss</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/first-the-reptile.html">First the Reptile</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-plug-outside-the-system.html">The plug outside the system</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Parties & pareto</div>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-02-pareto-top12.html">Pareto top-12 — who blocks</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-08-partijen-in-kaart.html">Where does your party stand</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-09-pareto-per-actor.html">Pareto per actor</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-04-ordes-van-bezwaar.html">Orders of objection</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-05-twintig-bezwaren.html">Twenty current objections</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/plundering-4-politieke-landschap.html">Plunder 4: political landscape</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Press & media</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-press-is-the-arena.html">The press is the arena</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/they-already-know.html">They already know</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/trump-als-spiegel.html">Trump as a mirror</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-03-media-als-rekstrook.html">Media as a stretching rack</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-anti-immune-disease-of-brussels.html">The anti-immune disease of Brussels</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-auto-immuunziekte-slaat-toe.html">The autoimmune disease strikes</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-dertig-cent-die-europa-omdraait.html">The thirty cents that turn Europe</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Voting & choice moments</div>
-        <a class="ov-nav__subitem" href="/en/stemgedrag.html">Voting behaviour</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/honesty-makes-government-possible.html">Honesty makes governing possible</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/deciding-without-view.html">Deciding without foresight</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/people-who-help-build.html">Leading without subsidy</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/plundering-0-eerst-plukken-dan-oordelen.html">Plunder 0: first pick</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/education-choose-a-side.html">Education — choose a side</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/foreword.html">Edition 1 — Foreword</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/plastic-fine-carbon-credit.html">Plastic-boete of carbon-credit?</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-07-ai-onderwijs.html'>Education in the AI age</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/first-the-reptile.html'>First the Reptile</a>
+        <a class='ov-nav__subitem' href='/en/research/gevoelsconnectiesysteem-volledig.html'>GCS — full plan</a>
+        <a class='ov-nav__subitem' href='/en/research/krantbriefing.html'>GCS — press briefing</a>
+        <a class='ov-nav__subitem' href='/en/research/index.html'>Research</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-ai-as-boss.html'>The AI as boss</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-atomic-bomb-in-ai-format.html'>The atomic bomb in AI format</a>
+        <a class='ov-nav__subitem' href='/en/research/gevoelsconnectiesysteem.html'>The feeling-connection system</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-plug-outside-the-system.html'>The plug must be outside the system</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Philosophy<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <div class="ov-nav__submenu-groep">Seven Dimensions & framework</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/from-quantum-to-7d.html">From quantum to 7D</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/from-the-cave-to-the-sun.html">From the cave to the sun</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/dimensions.html">Framework 7D</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/synthesis.html">How everything connects</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/fluid-dynamics.html">Flow theory</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/seven-dimensions.html">Seven Dimensions</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Primal feeling & Kosaris</div>
-        <a class="ov-nav__subitem" href="/en/edition-3/index.html">The human under the ice</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-01-oergevoel.html">The primal feeling</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-02-zeven-dimensies.html">The seven dimensions</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-03-drie-lagen.html">The three brain layers</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-04-communicatie.html">Communication between primal feelings</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-05-wat-we-doen.html">What we do to children</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-06-mama.html">Mama I'm hungry</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-09-oergevoel-in-beroepspraktijk.html">Primal feeling in professional practice</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-ai-as-boss.html">The AI as boss</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/first-the-reptile.html">First the Reptile</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-plug-outside-the-system.html">The plug outside the system</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/manifesto-space-for-the-primal-feeling.html">Primal Feeling Manifesto</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/why-i-am-as-i-am.html">Why I am the way I am</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Films, fairytales, reading book</div>
-        <a class="ov-nav__subitem" href="/en/7-dim-film/">The 7-Dim Film</a>
-        <a class="ov-nav__subitem" href="/en/kosaris-film/">The Kosaris — Film</a>
-        <a class="ov-nav__subitem" href="/en/reading-book/">The Kosaris — Reading book</a>
-        <a class="ov-nav__subitem" href="/en/fairytales/">The fairytale of Jacobus</a>
-        <a class="ov-nav__subitem" href="/en/philosophy/">Philosophy — portal</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Feeling-connection system</div>
-        <a class="ov-nav__subitem" href="/en/research/gevoelsconnectiesysteem.html">Feeling-connection system</a>
-        <a class="ov-nav__subitem" href="/en/research/gevoelsconnectiesysteem-volledig.html">GCS — full plan</a>
-        <a class="ov-nav__subitem" href="/en/research/krantbriefing.html">Newspaper briefing GCS</a>
-        <a class="ov-nav__subitem" href="/nl/onderzoeken/routekaart-vervolgvragen.html">Roadmap follow-up questions</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/fluid-dynamics.html'>Everything flows</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/from-quantum-to-7d.html'>From Quantum Theory to 7-dim</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/from-the-cave-to-the-sun.html'>From the Cave to the Sun</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/synthesis.html'>How everything connects — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/philosophy/index.html'>Philosophy</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/seven-dimensions.html'>Seven Dimensions</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-ai-as-boss.html'>The AI as boss</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-plug-outside-the-system.html'>The plug must be outside the system</a>
+        <a class='ov-nav__subitem' href='/en/7-dim-film/index.html'>The Seven Dimensions — Cinematic Essay</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/dimensions.html'>Three dimensions are not enough — The Open Visor</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Primal Feeling<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class='ov-nav__subitem' href='/en/what-surfaces/where-there-is-a-will.html'>&quot;Where there is a will, there is a way&quot;</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-04-bankier.html'>At banks, the primal sense lost</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-04-communicatie.html'>Communication between primal feelings</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-00-redactie.html'>Editorial introduction</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/first-the-reptile.html'>First the Reptile</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-06-mama.html'>Mama I&#x27;m hungry</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-08-retrospectief.html'>Retrospective</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/manifesto-space-for-the-primal-feeling.html'>Room for the primal feeling</a>
+        <a class='ov-nav__subitem' href='/en/idee.html'>Ten seconds — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-02-ceo.html'>The CEO and the primal sense</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/index.html'>The Human Under the Ice (Edition 3)</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-01-oergevoel.html'>The primal feeling</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-09-oergevoel-in-beroepspraktijk.html'>The primal feeling in professional practice</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-02-zeven-dimensies.html'>The seven dimensions</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-03-drie-lagen.html'>The three brain layers</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-05-wat-we-doen.html'>What we do to children</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/why-i-am-as-i-am.html'>Why I am as I am</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Kosaris<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class='ov-nav__subitem' href='/en/reading-book/index.html'>De Kosaris — The Book of Saint Kosus</a>
+        <a class='ov-nav__subitem' href='/en/kosaris-film/index.html'>The Kosaris — The Film</a>
+        <a class='ov-nav__subitem' href='/en/fairytales/index.html'>The Tale of Jacobus — a fairy tale in sixteen pages</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Politics<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class='ov-nav__subitem' href='/en/stemgedrag.html'>A matrix file as mirror of politics</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/deciding-without-view.html'>Deciding without view</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/france-revolutionary-moment.html'>France — revolutionary moment</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/honesty-makes-government-possible.html'>Honesty makes government possible</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/moet-nederland-ook-volgen.html'>Must the Netherlands Follow Suit</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/on-the-box-or-the-luggage-rack.html'>On the box or the luggage rack</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-anti-immune-disease-of-brussels.html'>The anti-immune disease of Brussels is making us poor</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-autoimmune-disease-strikes.html'>The anti-immune disease of our government strikes</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-dutch-revolution-2033.html'>The Dutch Revolution</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/de-matrix-van-de-uittocht.html'>The Matrix of the Exodus</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plundering-4-politieke-landschap.html'>The Political Landscape</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-press-is-the-arena.html'>The press is the arena</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-tipping-mechanics.html'>The Tipping Mechanics</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/they-already-know.html'>They already know it. And they’re not doing it.</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/trump-als-spiegel.html'>Trump as Mirror</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/nova-democratia.html'>What is wrong with party politics? — The Open Visor</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Climate<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <div class="ov-nav__submenu-groep">Nitrogen crisis</div>
-        <a class="ov-nav__subitem" href="/en/nitrogen-edition/">Nitrogen edition</a>
-        <a class="ov-nav__subitem" href="/en/nitrogen-edition/three-problems-one-answer.html">Three problems — one answer</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/back-to-nature-school.html">To the nature school</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/farmer-and-nature-both-forward.html">Farmer and nature both forward</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/deciding-without-view.html">Deciding without foresight</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-methodologie-van-de-aanpassing.html">The nutrition line</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-op-de-natuur-aangepaste-analyse.html">Nature analysis</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-auto-immuunziekte-slaat-toe.html">Autoimmune disease strikes</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Rapeseed</div>
-        <a class="ov-nav__subitem" href="/en/edition-0/carbon-alert-europe.html">Rapeseed multiplier</a>
-        <a class="ov-nav__subitem" href="/en/germany-edition/">Germany edition</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/farmer-and-nature-both-forward.html">Farmer and nature both forward</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Climate dividend & excess mortality</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/climate-dividend.html">The climate dividend</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/inheritance-wave-240-billion.html">Inheritance wave 240 billion</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/world-belt-2040-2050.html">World belt 2040-2050</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">BiCRS & Carbon-Alert</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-downline.html">The Downline — green recovery path</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/carbon-alert-visie-2036.html">Carbon-Alert vision 2036</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/brusselse-gevolgenkaart-bicrs.html">BiCRS version EU</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/plastic-fine-carbon-credit.html">Plastic fine or carbon-credit</a>
-        <a class="ov-nav__subitem" href="/en/edition-0/carbon-alert-europa.html">Carbon-Alert Europe</a>
-        <a class="ov-nav__subitem" href="/en/edition-0/biomimetic-power-plant.html">Biomimetic power plant</a>
-        <a class="ov-nav__subitem" href="/en/edition-0/">Edition Europe</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Thermostat & physical Earth</div>
-        <a class="ov-nav__subitem" href="/en/edition-2/thermostat.html">The thermostat</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/nepk-fx.html">NEPK-FX</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/nepk-climate-logic.html">NEPK-Climate logic</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-sun-stands-on-the-equator.html">The sun is at the equator</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Tire, plastic, pollution</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-car-tire-is-the-new-cigarette.html">Car-tire cigarette</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-methodologie-van-de-aanpassing.html">The nutrition line</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-op-de-natuur-aangepaste-analyse.html">Nature analysis</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Special editions</div>
-        <a class="ov-nav__subitem" href="/en/climate-edition/">Climate edition</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">What it doesn't see</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/zij-doden-hun-levensader.html">They kill their lifeline</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/they-kill-their-lifelines-brussels.html">They kill their lifelines (Brussels)</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/fusion.html">Nuclear fusion</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/technical-solutions.html">Technical solutions</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/farmer-and-nature-both-forward.html'>Advancing both the farmer and nature</a>
+        <a class='ov-nav__subitem' href='/en/climate-edition/index.html'>Climate Edition</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/deciding-without-view.html'>Deciding without view</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/inheritance-wave-240-billion.html'>Inheritance wave — €240 billion</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/back-to-nature-school.html'>Let the politicians go to nature school first</a>
+        <a class='ov-nav__subitem' href='/en/nitrogen-edition/index.html'>Nitrogen edition</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-autoimmune-disease-strikes.html'>The anti-immune disease of our government strikes</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-car-tire-is-the-new-cigarette.html'>The car tire is the new cigarette</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/climate-dividend.html'>The climate dividend</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-04-methaan-misleiding.html'>The Methane Misdirection</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-methodology-of-adaptation.html'>The supply line</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/world-belt-2040-2050.html'>The World-Belt — climate plan 2040-2050</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/they-already-know.html'>They already know it. And they’re not doing it.</a>
+        <a class='ov-nav__subitem' href='/en/nitrogen-edition/three-problems-one-answer.html'>Three problems, one answer</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/thermostat.html'>Your Thermostat Is Smarter Than Your Minister</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Rapeseed<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-daily-idea-ferrari-juncao.html'>A Ferrari that smells of mown grass</a>
+        <a class='ov-nav__subitem' href='/en/germany-edition/index.html'>Germany edition</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-05-plant-die-verhuist.html'>The Plant That Moves</a>
+        <a class='ov-nav__subitem' href='/en/edition-0/carbon-alert-europe.html'>The Rapeseed Multiplier</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">BiCRS<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class='ov-nav__subitem' href='/en/what-surfaces/activists-build-continents.html'>Activists build continents</a>
+        <a class='ov-nav__subitem' href='/en/edition-0/index.html'>Edition Europe</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/on-the-box-or-the-luggage-rack.html'>On the box or the luggage rack</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/mensen-die-mee-bouwen.html'>People Building Together</a>
+        <a class='ov-nav__subitem' href='/en/edition-0/biomimetic-power-plant.html'>The biomimetic power plant</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/brusselse-gevolgenkaart-bicrs.html'>The Brussels Consequence Map — BiCRS version</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-downline.html'>The Downline, the Green Recovery</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/de-op-de-natuur-aangepaste-analyse.html'>The nature-adapted analysis</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plastic-fine-carbon-credit.html'>The plastic fine that should have been a carbon credit</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/de-dertig-cent-die-europa-omdraait.html'>The thirty cents that turn Europe around</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/carbon-alert-vision-2036.html'>Vision 2036</a>
+        <a class='ov-nav__subitem' href='/en/edition-0/carbon-alert-europa.html'>What Brussels really receives</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Governance<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <div class="ov-nav__submenu-groep">Netherlands</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-downline.html">The Downline — NEPK collapse NL</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/gevolgenkaart-iii-stille-analyse.html">Silent Analysis (NL)</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/we-must-get-back-to-work-ourselves.html">Get to work (NL)</a>
-        <a class="ov-nav__subitem" href="/en/the-first-city-hall/">The first city hall</a>
-        <a class="ov-nav__subitem" href="/en/the-half-city-hall/">The half city hall</a>
-        <a class="ov-nav__subitem" href="/en/toekomst/overheden/nederland/">Netherlands · Future</a>
-        <a class="ov-nav__subitem" href="/en/consequence-nl/">Consequence map Netherlands</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Europe</div>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/europe-need-not-be-a-damage-map.html">Europe opener</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/europe-anew.html">Europe anew</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-brussels-consequence-map.html">Brussels Consequence Map</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-metafoor-auto-immuunziekte.html">Autoimmune disease metaphor</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/het-immuunsysteem-van-organisaties.html">Immune system of organisations</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/open-brief-aan-de-regeringen-van-europa.html">Open letter to the governments</a>
-        <a class="ov-nav__subitem" href="/en/consequence-eu/">Consequence map EU-27</a>
-        <a class="ov-nav__subitem" href="/en/toekomst/overheden/europa/">Europe · Future</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Other countries</div>
-        <a class="ov-nav__subitem" href="/en/consequence-br/">Brazil</a>
-        <a class="ov-nav__subitem" href="/en/consequence-ch/">Switzerland</a>
-        <a class="ov-nav__subitem" href="/en/consequence-cn/">China</a>
-        <a class="ov-nav__subitem" href="/en/consequence-cu/">Cuba</a>
-        <a class="ov-nav__subitem" href="/en/consequence-de/">Germany</a>
-        <a class="ov-nav__subitem" href="/en/consequence-es/">Spain</a>
-        <a class="ov-nav__subitem" href="/en/consequence-il/">Israel</a>
-        <a class="ov-nav__subitem" href="/en/consequence-in/">India</a>
-        <a class="ov-nav__subitem" href="/en/consequence-ir/">Iran</a>
-        <a class="ov-nav__subitem" href="/en/consequence-jp/">Japan</a>
-        <a class="ov-nav__subitem" href="/en/consequence-kr/">South Korea</a>
-        <a class="ov-nav__subitem" href="/en/consequence-se/">Sweden</a>
-        <a class="ov-nav__subitem" href="/en/consequence-sr/">Suriname</a>
-        <a class="ov-nav__subitem" href="/en/consequence-tw/">Taiwan</a>
-        <a class="ov-nav__subitem" href="/en/consequence-uk/">United Kingdom</a>
-        <a class="ov-nav__subitem" href="/en/consequence-us/">United States</a>
-        <a class="ov-nav__subitem" href="/en/consequence-za/">South Africa</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/mappa-tal-konsegwenzi.html">Malta</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-singapore-consequence-map.html">Singapore</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Nova Democratia</div>
-        <a class="ov-nav__subitem" href="/en/edition-6/">Edition 6 — Nova Democratia</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/voorwoord-waarom-dit-moet.html">Foreword — Why this must be</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-00-brussel-als-variabele.html">Brussels as variable</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-01-zes-ordes-van-fasering.html">Six orders of phasing</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-06-zwitserse-spiegel.html">Swiss mirror</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-07-canadese-spiegel.html">Canadian mirror</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-10-uei.html">UEI</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-11-kennislaag-als-bondgenoot.html">Knowledge layer as ally</a>
-        <a class="ov-nav__subitem" href="/en/edition-6/aflevering-12-beste-weg-vooruit.html">Best way forward</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/trump-as-mirror.html">Nova Democratia manifesto</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-actor-is-de-regel.html">The actor is the rule</a>
-        <a class="ov-nav__subitem" href="/en/sovereignty-as-cycle/">Sovereignty as cycle</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/bbp-liegt.html">GDP lies</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Leadership & organisations</div>
-        <a class="ov-nav__subitem" href="/en/edition-4/">Edition 4 — Paper industry</a>
-        <a class="ov-nav__subitem" href="/en/edition-4/artikel-01-wet-papier-industrie.html">Law of the paper industry</a>
-        <a class="ov-nav__subitem" href="/en/edition-4/artikel-02-ceo.html">The CEO and the primal feeling</a>
-        <a class="ov-nav__subitem" href="/en/edition-4/artikel-03-consultant.html">The consultant</a>
-        <a class="ov-nav__subitem" href="/en/edition-4/artikel-04-bankier.html">The banker</a>
-        <a class="ov-nav__subitem" href="/en/edition-4/artikel-05-verzekeraar.html">The insurer</a>
-        <a class="ov-nav__subitem" href="/en/edition-4/artikel-06-toezichthouder.html">The supervisor</a>
-        <a class="ov-nav__subitem" href="/en/edition-4/artikel-07-rechter.html">The judge</a>
-        <a class="ov-nav__subitem" href="/en/leadership-edition/">Leadership edition</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Education</div>
-        <a class="ov-nav__subitem" href="/en/edition-2/education-back-to-the-workbench.html">Education — manifesto</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/education-price-of-the-bloom.html">Price of blooming</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/education.html">Education (Edition 1)</a>
-        <a class="ov-nav__subitem" href="/en/edition-3/artikel-07-ai-onderwijs.html">AI education</a>
-        <a class="ov-nav__subitem" href="/en/child-career-edition/">Child & Career edition</a>
-        <a class="ov-nav__subitem" href="/en/vote-impact-app/opvoeding/">Upbringing · Future</a>
-        <a class="ov-nav__subitem" href="/en/vote-impact-app/scholing/">Schooling · Future</a>
-        <hr>
-        <div class="ov-nav__submenu-groep">Industry, energy, future</div>
-        <a class="ov-nav__subitem" href="/en/toekomst/">Future — portal</a>
-        <a class="ov-nav__subitem" href="/en/vote-impact-app/energie/">Energy · Future</a>
-        <a class="ov-nav__subitem" href="/en/vote-impact-app/industrie/">Industry · Future</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-04-bankier.html'>At banks, the primal sense lost</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/education-back-to-the-workbench.html'>Back to the Workbench, Forward to Thinking</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-00-brussel-als-variabele.html'>Brussels as variable, not as constant</a>
+        <a class='ov-nav__subitem' href='/en/child-career-edition/index.html'>Child &amp; Career edition</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/education-choose-a-side.html'>Choose a Side</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/bbp-liegt.html'>Deciding without sight</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/index.html'>Edition 2</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-00-redactie.html'>Editorial introduction</a>
+        <a class='ov-nav__subitem' href='/en/edition-3/artikel-07-ai-onderwijs.html'>Education in the AI age</a>
+        <a class='ov-nav__subitem' href='/en/vote-impact-app/energie/index.html'>Energy · Future</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/education.html'>From Learning Factory to Workshop — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/toekomst/overheden/index.html'>Governments · Future</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/index.html'>How the paper industry gained power over the actual work</a>
+        <a class='ov-nav__subitem' href='/en/vote-impact-app/industrie/index.html'>Industry · Future</a>
+        <a class='ov-nav__subitem' href='/en/leadership-edition/index.html'>Leadership edition</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-03-media-als-rekstrook.html'>Media as elongation strip</a>
+        <a class='ov-nav__subitem' href='/en/toekomst/overheden/methode/index.html'>Method · Future</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/nova-democratia.html'>Nova Democratia (Edition 2)</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/index.html'>Nova Democratia — Edition 6 (portal)</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/trump-as-mirror.html'>Nova Democratia — manifesto</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-04-ordes-van-bezwaar.html'>Orders of objection</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-09-retrospectief.html'>Retrospective</a>
+        <a class='ov-nav__subitem' href='/en/vote-impact-app/scholing/index.html'>Schooling · Future</a>
+        <a class='ov-nav__subitem' href='/en/sovereignty-as-cycle/index.html'>Sovereignty as cycle</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/de-actor-is-de-regel.html'>The Actor is the Rule</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-12-beste-weg-vooruit.html'>The best way forward</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-07-canadese-spiegel.html'>The Canadian mirror</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-02-ceo.html'>The CEO and the primal sense</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-03-consultant.html'>The consultant at the near-bankrupt company</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-08-diepere-vraag.html'>The deeper question</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-05-verzekeraar.html'>The insurer against life</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-07-rechter.html'>The judge without a compass</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-11-kennislaag-als-bondgenoot.html'>The knowledge layer as ally</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-01-wet-papier-industrie.html'>The law of the paper industry</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/education-price-of-the-bloom.html'>The Price of the Bloom</a>
+        <a class='ov-nav__subitem' href='/en/edition-4/artikel-06-toezichthouder.html'>The regulator who sees nothing</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-01-zes-ordes-van-fasering.html'>The six orders of phasing</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-06-zwitserse-spiegel.html'>The Swiss mirror</a>
+        <a class='ov-nav__subitem' href='/en/toekomst/index.html'>Future</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-05-twintig-bezwaren.html'>Twenty current objections</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-10-uei.html'>UEI — a European counter-power from Switzerland</a>
+        <a class='ov-nav__subitem' href='/en/vote-impact-app/opvoeding/index.html'>Upbringing · Future</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-08-partijen-in-kaart.html'>Where does your party stand?</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-02-pareto-top12.html'>Who blocks, and how heavily?</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-09-pareto-per-actor.html'>Who resists, who helps?</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/voorwoord-waarom-dit-moet.html'>Why this must be — Europe between tsar, jurists and chemist</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Netherlands<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class='ov-nav__subitem' href='/en/consequence-nl/index.html'>Impact Map — Netherlands</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/moet-nederland-ook-volgen.html'>Must the Netherlands Follow Suit</a>
+        <a class='ov-nav__subitem' href='/en/toekomst/overheden/netherlands/index.html'>Netherlands · Future</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/gevolgenkaart-iii-stille-analyse.html'>Stille Analyse</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-dutch-revolution-2033.html'>The Dutch Revolution</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/fenced-cosmetic-economy.html'>The Enclosed Cosmetic Economy</a>
+        <a class='ov-nav__subitem' href='/en/the-first-city-hall/index.html'>The first municipality</a>
+        <a class='ov-nav__subitem' href='/en/the-half-city-hall/index.html'>The half-empty city hall</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/nepk-climate-logic.html'>The NEPK Climate Logic: Self-Reinforcing System Crisis</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/zij-doden-hun-levensader.html'>They Are Killing Their Lifeline</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/we-must-get-back-to-work-ourselves.html'>We Must Get Back to Work Ourselves</a>
+      </div>
+    </div>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">Europe<span class="ov-nav__caret">▾</span></a>
+      <div class="ov-nav__submenu">
+        <a class='ov-nav__subitem' href='/en/what-surfaces/de-metafoor-auto-immuunziekte.html'>A State with an Autoimmune Disease</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-00-brussel-als-variabele.html'>Brussels as variable, not as constant</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/die-konsequenzkarte.html'>Die Konsequenzkarte</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/europe-anew.html'>Europe Anew</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/europe-need-not-be-a-damage-map.html'>Europe Does Not Have to Be a Damage Map</a>
+        <a class='ov-nav__subitem' href='/en/toekomst/overheden/europa/index.html'>Europe · Future</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/five-countries-five-curves.html'>Five countries, five curves</a>
+        <a class='ov-nav__subitem' href='/en/toekomst/overheden/duitsland/index.html'>Germany · Future</a>
+        <a class='ov-nav__subitem' href='/en/consequence-eu/index.html'>Impact Map EU-27</a>
+        <a class='ov-nav__subitem' href='/en/consequence-br/index.html'>Impact Map — Brazil</a>
+        <a class='ov-nav__subitem' href='/en/consequence-cn/index.html'>Impact Map — China</a>
+        <a class='ov-nav__subitem' href='/en/consequence-cu/index.html'>Impact Map — Cuba</a>
+        <a class='ov-nav__subitem' href='/en/consequence-de/index.html'>Impact Map — Germany</a>
+        <a class='ov-nav__subitem' href='/en/consequence-in/index.html'>Impact Map — India</a>
+        <a class='ov-nav__subitem' href='/en/consequence-ir/index.html'>Impact Map — Iran</a>
+        <a class='ov-nav__subitem' href='/en/consequence-il/index.html'>Impact Map — Israel</a>
+        <a class='ov-nav__subitem' href='/en/consequence-jp/index.html'>Impact Map — Japan</a>
+        <a class='ov-nav__subitem' href='/en/consequence-za/index.html'>Impact Map — South Africa</a>
+        <a class='ov-nav__subitem' href='/en/consequence-kr/index.html'>Impact Map — South Korea</a>
+        <a class='ov-nav__subitem' href='/en/consequence-es/index.html'>Impact Map — Spain</a>
+        <a class='ov-nav__subitem' href='/en/consequence-sr/index.html'>Impact Map — Suriname</a>
+        <a class='ov-nav__subitem' href='/en/consequence-se/index.html'>Impact Map — Sweden</a>
+        <a class='ov-nav__subitem' href='/en/consequence-ch/index.html'>Impact Map — Switzerland</a>
+        <a class='ov-nav__subitem' href='/en/consequence-tw/index.html'>Impact Map — Taiwan</a>
+        <a class='ov-nav__subitem' href='/en/consequence-uk/index.html'>Impact Map — United Kingdom</a>
+        <a class='ov-nav__subitem' href='/en/consequence-us/index.html'>Impact Map — United States</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/mappa-tal-konsegwenzi.html'>Mappa tal-Konsegwenzi</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/open-letter-to-the-governments-of-europe.html'>Open letter to the governments of Europe</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-anti-immune-disease-of-brussels.html'>The anti-immune disease of Brussels is making us poor</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-brussels-consequence-map.html'>The Brussels Consequence Map</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/brusselse-gevolgenkaart-bicrs.html'>The Brussels Consequence Map — BiCRS version</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/het-immuunsysteem-van-organisaties.html'>The immune system that attacks healthy cells</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plastic-fine-carbon-credit.html'>The plastic fine that should have been a carbon credit</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-singapore-consequence-map.html'>The Singaporean Consequence Map</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-sun-stands-on-the-equator.html'>The Sun is at the Equator</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-swiss-consequence-map.html'>The Swiss Consequence Map</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/de-dertig-cent-die-europa-omdraait.html'>The thirty cents that turn Europe around</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/they-kill-their-lifelines-brussels.html'>They kill their lifelines</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/trump-als-spiegel.html'>Trump as Mirror</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/aflevering-10-uei.html'>UEI — a European counter-power from Switzerland</a>
+        <a class='ov-nav__subitem' href='/en/edition-0/carbon-alert-europa.html'>What Brussels really receives</a>
+        <a class='ov-nav__subitem' href='/en/edition-6/voorwoord-waarom-dit-moet.html'>Why this must be — Europe between tsar, jurists and chemist</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Revolution<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="/en/edition-5/">Edition 5 — The forgotten order</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-00-brief-aan-lezer.html">Letter to the reader</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-01-zeven-gereedschappen.html">七つ道具 — Seven tools</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-02-succesformule.html">The success formula</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-03-vergeten-orde.html">The forgotten order</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-04-methaan-misleiding.html">Methane deception</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-05-plant-die-verhuist.html">The plant that moves</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-06-zeven-van-bern.html">The seven of Bern</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-07-afwijkers.html">The dissenters</a>
-        <a class="ov-nav__subitem" href="/en/edition-5/artikel-08-eis-aan-lezer.html">The demand on the reader</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/resilience-and-selection.html">Resilience and selection</a>
-        <a class="ov-nav__subitem" href="/en/edition-1/">Edition 1</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/fusion.html'>A fusion reactor without a magnetic cage — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/index.html'>Edition 1 — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/index.html'>Edition 5 — portal</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-00-brief-aan-lezer.html'>Letter to the reader</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/resilience-and-selection.html'>Resilience and Selection</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-08-eis-aan-lezer.html'>The demand on the reader</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-07-afwijkers.html'>The Dissidents</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-03-vergeten-orde.html'>The forgotten order</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-04-methaan-misleiding.html'>The Methane Misdirection</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-05-plant-die-verhuist.html'>The Plant That Moves</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-06-zeven-van-bern.html'>The Seven of Bern</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-02-succesformule.html'>The success formula we have unlearned</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/technical-solutions.html'>What is already on the shelf — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/edition-5/artikel-01-zeven-gereedschappen.html'>七つ道具 — Seven tools</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Taxation<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="/en/what-surfaces/vote-mining.html">Stemmetjeswinning</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/de-grote-plundering.html">The Great Plunder</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/plundering-1-diagnose.html">Plunder 1: diagnosis</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/plundering-2-mechaniek.html">Plunder 2: mechanics</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/plundering-3-afloop.html">Plunder 3: outcome</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/in-the-end-we-have-nothing-left.html">Nothing left at the end</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/hole-in-the-ground.html">€450m — hole in the ground</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-daily-idea-ferrari-juncao.html">Ferrari Juncao</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/what-i-leave-behind-vmb-esg.html">VMB ESG</a>
-        <a class="ov-nav__subitem" href="/en/what-surfaces/the-consequence-map.html">Consequence map — manifesto</a>
-        <a class="ov-nav__subitem" href="/en/edition-2/policy-advice-attract.html">From Taxing to Attracting</a>
+        <a class='ov-nav__subitem' href='/en/driving-out-the-builders/index.html'>A country that drives out its builders</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/the-consequence-map.html'>The Consequence Map</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plundering-1-diagnose.html'>Diagnosis</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plundering-0-eerst-plukken-dan-oordelen.html'>First Pluck, Then Judge</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/hole-in-the-ground.html'>Four Hundred and Fifty Million for a Hole in the Ground</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/policy-advice-attract.html'>From Taxing to Attracting</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/honesty-makes-government-possible.html'>Honesty makes government possible</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/in-the-end-we-have-nothing-left.html'>In the end we have nothing left</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/inheritance-wave-240-billion.html'>Inheritance wave — €240 billion</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plundering-2-mechaniek.html'>Mechanics</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plunder-iv-guided-projectile.html'>Plundering IV: the guided projectile</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plundering-3-afloop.html'>The Aftermath</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/climate-dividend.html'>The climate dividend</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/de-grote-plundering.html'>The Great Plundering</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/plundering-4-politieke-landschap.html'>The Political Landscape</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/vote-mining.html'>Vote-mining</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/what-i-leave-behind-vmb-esg.html'>What I leave behind</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Research<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="/en/dossiers/">Dossiers</a>
-        <a class="ov-nav__subitem" href="/en/dossiers/vortex-hair.html">Vortex-Hair™ Golf ball</a>
-        <a class="ov-nav__subitem" href="/en/research/">Behind the Numbers</a>
-        <a class="ov-nav__subitem" href="/en/onderzoek/eu-multiplicator.html">EU multiplier</a>
-        <a class="ov-nav__subitem" href="/en/onderzoek/ontwikkelingslandstatus.html">Developing-country status?</a>
-        <a class="ov-nav__subitem" href="/en/research/">Research — portal</a>
+        <a class='ov-nav__subitem' href='/en/onderzoek/index.html'>Behind the Numbers</a>
+        <a class='ov-nav__subitem' href='/en/dossiers/index.html'>Dossiers</a>
+        <a class='ov-nav__subitem' href='/en/onderzoek/eu-multiplicator.html'>EU: GDP, Real Wages and the Government Multiplier</a>
+        <a class='ov-nav__subitem' href='/en/research/gevoelsconnectiesysteem-volledig.html'>GCS — full plan</a>
+        <a class='ov-nav__subitem' href='/en/research/krantbriefing.html'>GCS — press briefing</a>
+        <a class='ov-nav__subitem' href='/en/onderzoek/ontwikkelingslandstatus.html'>Is the Netherlands Heading Toward Developing Country Status?</a>
+        <a class='ov-nav__subitem' href='/en/edition-2/nepk-fx.html'>NEPK-FX — Neural Prediction of Exchange Rates</a>
+        <a class='ov-nav__subitem' href='/en/research/gevoelsconnectiesysteem.html'>The feeling-connection system</a>
+        <a class='ov-nav__subitem' href='/en/dossiers/vortex-hair.html'>Vortex-Hair™ Adaptive Dimple Golf Ball</a>
       </div>
     </div>
     <div class="ov-nav__dropdown">
       <a class="ov-nav__item" href="#">Colophon<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="/en/colofon.html">Colophon</a>
-        <a class="ov-nav__subitem" href="/en/about.html">About this paper</a>
-        <a class="ov-nav__subitem" href="/en/archive.html">Archive</a>
-        <a class="ov-nav__subitem" href="../../nl/op-de-hoogte.html">Keep informed</a>
-        <a class="ov-nav__subitem" href="/en/structuur.html">Structure — Admin</a>
-        <a class="ov-nav__subitem" href="/en/navigatie.html">Navigation</a>
+        <a class='ov-nav__subitem' href='/en/about.html'>About this paper</a>
+        <a class='ov-nav__subitem' href='/en/archive.html'>Archive — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/delen.html'>Carrying The Open Visor further</a>
+        <a class='ov-nav__subitem' href='/en/colofon.html'>Colophon — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/index-klassiek.html'>Home (classic)</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/discussion.html'>How to join the conversation — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/op-de-hoogte.html'>Keep me informed — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/navigatie.html'>Navigatie</a>
+        <a class='ov-nav__subitem' href='/en/verkennen.html'>Overview</a>
+        <a class='ov-nav__subitem' href='/en/structuur.html'>Structuur — Beheer</a>
+        <a class='ov-nav__subitem' href='/en/bedankt.html'>Thank you — check your inbox — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/index.html'>The Open Visor — a newspaper about thinking without blinkers</a>
+        <a class='ov-nav__subitem' href='/en/what-surfaces/index.html'>What surfaces — The Open Visor</a>
+        <a class='ov-nav__subitem' href='/en/edition-1/foreword.html'>Why this newspaper? — The Open Visor</a>
       </div>
     </div>
-    <div class="ov-nav__dropdown ov-deel" data-ov-deel data-msg-copied="Link copied" data-msg-copy-prompt="Copy this link:" data-mail-subject="Article from Het Open Vizier: " data-mail-footer="Shared via openvizier.org" data-pdf-building="Building PDF…" data-pdf-done="PDF downloaded" data-pdf-fail="PDF failed — try Cmd+P" data-pdf-source="Source" data-pdf-note="Shared via openvizier.org — the multilingual opinion paper." data-msg-instagram-copied="Link copied — paste into Instagram bio or Story" data-msg-tik-tok-copied="Link copied — paste into TikTok bio or comment" data-x-via="openvizier" data-gate-title="Access code" data-gate-body="Enter your access code to download articles as PDF." data-gate-submit="Unlock" data-gate-cancel="Cancel" data-gate-checking="Checking…" data-gate-invalid="Enter a valid code." data-gate-wrong="Incorrect or expired code." data-gate-server-error="Could not verify code. Please try again later." data-gate-note="No code yet? Contact Het Open Vizier.">
-      <a class="ov-nav__item" href="#">Share<span class="ov-nav__caret">▾</span></a>
+    <a class="ov-nav__item ov-nav__delen-trigger" href="#" data-ov-deel-trigger>Share<span class="ov-nav__caret">▾</span></a>
+    <div class="ov-nav__dropdown">
+      <a class="ov-nav__item" href="#">⌂ Language<span class="ov-nav__caret">▾</span></a>
       <div class="ov-nav__submenu">
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="pdf"><span class="ov-deel-label">🔒 Download PDF</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="facebook"><span class="ov-deel-label">Share on Facebook</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="x"><span class="ov-deel-label">Share on X (Twitter)</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="linkedin"><span class="ov-deel-label">Share on LinkedIn</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="whatsapp"><span class="ov-deel-label">Send via WhatsApp</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="telegram"><span class="ov-deel-label">Share on Telegram</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="instagram"><span class="ov-deel-label">Link for Instagram</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="tiktok"><span class="ov-deel-label">Link for TikTok</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="copy"><span class="ov-deel-label">Copy link</span></a>
-        <a class="ov-nav__subitem" href="#" data-ov-deel-action="email"><span class="ov-deel-label">Send by email</span></a>
+        <a class='ov-nav__subitem' href='/nl/'>Nederlands</a>
+        <a class='ov-nav__subitem' href='/en/'>English</a>
+        <a class='ov-nav__subitem' href='/de/'>Deutsch</a>
+        <a class='ov-nav__subitem' href='/ru/'>Русский</a>
+        <a class='ov-nav__subitem' href='/fr/'>Français</a>
+        <a class='ov-nav__subitem' href='/es/'>Español</a>
+        <a class='ov-nav__subitem' href='/it/'>Italiano</a>
+        <a class='ov-nav__subitem' href='/pt/'>Português</a>
       </div>
     </div>
-    <a class="ov-nav__item ov-nav__lang" href="/en/index-talenring.html" style="margin-left:auto;">⌂ Language</a>
   </div>
 </nav>
 
 <section class="article-tools">
   <div class="article-tools__inner">
     <div class="version-switch" role="group" aria-label="Versie">
-      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Long read</button>
-      <button type="button" class="version-switch__btn" data-version="kort">In brief</button>
+      <button type="button" class="version-switch__btn version-switch__btn--active" data-version="lang">Uitgebreid</button>
+      <button type="button" class="version-switch__btn" data-version="kort">In het kort</button>
     </div>
     <div class="audio-player">
       <span class="audio-player__label">🎧</span>
-      <button type="button" class="audio-player__btn" data-pause-label="Pause" data-resume-label="Resume">
+      <button type="button" class="audio-player__btn" data-pause-label="Pauzeren" data-resume-label="Hervatten">
         <svg class="audio-player__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
           <path class="icon-play" d="M8 5v14l11-7z"/>
           <path class="icon-pause" d="M6 5h4v14H6zm8 0h4v14h-4z" style="display:none"/>
         </svg>
-        <span class="audio-player__label-text">Read aloud</span>
+        <span class="audio-player__label-text">Voorlezen</span>
       </button>
-      <audio class="audio-player__el" src="../../assets/audio-editie-5/editie5_07_afwijkers_en.mp3" preload="none"></audio>
+      <audio class="audio-player__el" src="../../assets/audio-editie-5/editie5_07_afwijkers_nl.mp3" preload="none"></audio>
     </div>
   </div>
 </section>
@@ -1163,138 +1256,138 @@
 <div class="version-content__lang">
 <section class="slide slide--split">
   <div class="slide__text">
-    <span class="slide__tag">Edition 5 — July 2026 · 07</span>
-    <h2 class="slide__heading">The dissenters</h2>
+    <span class="slide__tag">Editie 5 — Juli 2026 · 07</span>
+    <h2 class="slide__heading">The dissidents</h2>
     <p class="slide__lead">Sandra Palmen-Schlangen, Eva González Pérez, Ad Bos — three verified compass-bearers.</p>
-    <p class="slide__meta">Portraits · 15 min read</p>
+    <p class="slide__meta">Profiles · 15 min read</p>
     <div class="download-buttons">
-      <a class="download-btn" href="../../assets/downloads-editie-5/editie5_07_afwijkers_en.pdf">PDF</a>
-      <a class="download-btn download-btn--secondary" href="../../assets/downloads-editie-5/editie5_07_afwijkers_en.docx">Word</a>
+      <a class="download-btn" href="../../assets/downloads-editie-5/editie5_07_afwijkers_nl.pdf">PDF</a>
+      <a class="download-btn download-btn--secondary" href="../../assets/downloads-editie-5/editie5_07_afwijkers_nl.docx">Word</a>
     </div>
   </div>
-  <div class="slide__visual"><img src="../../assets/articles-editie-5/H_artikel_06.jpg" alt=""></div>
+  <div class="slide__visual"><img src="../../assets/articles-editie-5/H_artikel_07.jpg" alt=""></div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <p>What the previous two dossiers reveal is a systematic inversion of weight in press and government. The question then is: are there people who, within that inversion, nonetheless kept the first order in view? The answer is yes. They are rare, they are usually not famous, and when they do become famous it is because the system has tried to break them.</p>
-    <p>Here are three of them. Not as heroes. As people who still possessed a lost compass.</p>
+    <p>What the previous two dossiers show is a systematic inversion of gravity in the press and in government. The question, then, is this: are there people who, amid that inversion, nevertheless continued to distinguish the first order? The answer is yes. They are rare, they are usually not famous, and when they do become famous, it is because the system has tried to break them.</p>
+    <p>Here are three of them. Not as heroes. As the keepers of a lost compass.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <h3 class="slide__subheading">Sandra Palmen-Schlangen — <em>the memo that disappeared</em></h3>
-    <p>In March 2017 Sandra Palmen-Schlangen, at that time the senior legal officer in the Toeslagen division of the Dutch tax authority (Belastingdienst), wrote an internal memorandum. Her superior had asked her to examine the CAF-11 file — a group of parents whose childcare benefit had been collectively suspended. The Council of State had already ruled that the tax authority had not acted in accordance with the law.</p>
-    <p>Palmen's conclusion was blunt: the suspension had been based on a legally incorrect ground, parents had been denied the legal protection the law guaranteed them, and the tax authority had acted reprehensibly. Her recommendation: stop litigating, offer compensation through a settlement agreement.</p>
-    <p>What she saw was first order. What the system presented to her was third order dressed up as procedure. The law as applied was denying people what the law formally granted them. Collective fraud enforcement through risk models was legally sanctioned — in practice it violated the rule of law.</p>
-    <p>Her memo was discussed in two official internal meetings and rejected. Shortly afterwards Palmen was transferred from Toeslagen to the customs authority. The memo vanished into the organisation — so thoroughly that eight separate investigations were required to recover it. The accountancy firm PwC concluded in October 2021 that the disappearance of the memo remained unresolved. When the memo resurfaced in 2020 — Palmen had kept a copy on her own laptop — it became a key document in the parliamentary inquiry into childcare benefit. Three senior civil servants were found to have known of the memo while swearing under oath that they did not. The national criminal investigation department opened a perjury investigation.</p>
-    <p>In 2024 Palmen was appointed State Secretary for Benefits Restitution. "I am now allowed to complete the circle," she said at her hearing in the House of Representatives, "from sounding the alarm about injustice at the start of the benefits scandal to working towards its conclusion." Seven years between writing the memo and recognition. For the twenty thousand families on whose behalf she had requested compensation, seven years too late.</p>
-    <p><em>Sources: Tweedekamer.nl, dossier memo-Palmen (<a href="https://www.tweedekamer.nl/debat_en_vergadering/uitgelicht/onderzoek-memo-toeslagen-memo-palmen">research overview</a>); <a href="https://www.nporadio1.nl/nieuws/binnenland/114b2c20-92e1-421e-8992-aefdc75810ba/schrijfster-cruciale-memo-toeslagenaffaire-dacht-echt-dat-ze-mijn-advies-zouden-opvolgen">NPO Radio 1 interview, 15 December 2022</a>; <a href="https://www.accountancyvanmorgen.nl/2021/10/28/pwc-kan-mysterie-rond-memo-palmen-niet-oplossen/">Accountancy van Morgen, PwC report on the Palmen memo, 28 October 2021</a>; <a href="https://www.rijksoverheid.nl/regering/bewindspersonen/sandra-palmen-schlangen">Rijksoverheid, ministers and state secretaries page</a>.</em></p>
+    <h3 class="slide__subheading">Sandra Palmen-Schlangen — the memo that vanished</h3>
+    <p>In March 2017, Sandra Palmen-Schlangen, at the time the highest-ranking legal official in the Tax Administration’s Benefits Division, wrote an internal advisory. Her supervisor had asked her to examine the CAF-11 case file — a group of parents whose childcare benefits had been collectively halted. The Council of State had already ruled that the Service had failed to comply with the law.</p>
+    <p>Palmen’s conclusion was stark: the suspension was based on an incorrect legal basis, parents had been denied the legal protection guaranteed to them by law, and the Service had acted culpably. Her advice: stop pursuing the case through the courts and offer compensation through a settlement agreement.</p>
+    <p>What she saw was first order. What the system held up before her was third order dressed up as procedure. The law, as it was applied, denied people what the law formally granted them. Collective anti-fraud enforcement based on risk models was legally covered — in reality, it violated the rule of law.</p>
+    <p>Her memo was discussed and rejected in two official meetings. Shortly afterward, Palmen was transferred from Benefits to Customs. The memo vanished into the organization — so thoroughly that eight separate investigations were needed to find it again. The accountancy firm PwC concluded in October 2021 that the disappearance of the memo remained unresolved. When the memo finally resurfaced in 2020 — Palmen still had it on her laptop — it became a key document in the parliamentary inquiry into childcare benefits. Three senior civil servants turned out to have known about the memo while testifying under oath that they knew nothing. The National Criminal Investigation Department opened a perjury investigation.</p>
+    <p>In 2024, Palmen was appointed State Secretary for Benefits Recovery. “Now I’m allowed to close the circle,” she said at her hearing in the House of Representatives, “from warning about injustice at the beginning of the benefits scandal to working on its conclusion.” Seven years between writing the memo and its acknowledgment. For the twenty thousand families for whom she had called for compensation at the time, seven years too late.</p>
+    <p>Sources: Tweedekamer.nl, Palmen memo dossier (research overview); NPO Radio 1 interview, 15 December 2022; Accountancy van Morgen, PwC report on the Palmen memo, 28 October 2021; Rijksoverheid, government ministers and state secretaries page.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <h3 class="slide__subheading">Eva González Pérez — <em>the lawyer in Helmond</em></h3>
-    <p>Eva González Pérez did not discover the benefits scandal through a tip-off, but through her husband's letterbox. He ran a childminding agency; his clients were receiving letters from the tax authority informing them that their benefit was being suspended. González Pérez, a lawyer in Helmond, took on the first case in 2014. She thought: send everything in and it will be resolved quickly. It was not.</p>
-    <p>What she saw was, again, first order. The tax authority was treating childcare benefit as a mass-processing operation; applications were assessed collectively on risk models; when suspicion arose, benefit was suspended en masse and the recipient was required to prove entitlement — not the other way round. Legally this appeared to be sanctioned by the Fraud Act. In practice it was a reversal of the burden of proof that the rule of law does not permit.</p>
-    <p>In 2016 she discovered the so-called inclusion and exclusion lists — data files containing more than two hundred and sixty thousand names that the tax authority used internally and shared with other government agencies. She established that selection was being made on the basis of nationality. A third-order criterion, dual nationality, had been elevated to a first-order trigger for exclusion. A ranking inversion of textbook quality — the same inversion described throughout this entire edition — but applied to a dossier in which families were destroyed rather than headlines distorted.</p>
-    <p>González Pérez lost more cases than she won for years. She worked from a small office on fees that bore no relation to the hours involved. "It was shocking and demoralising to discover that a government body was itself breaking the law," she said later at Utrecht University.</p>
-    <p>On 16 November 2020 she was the first witness to be heard by the parliamentary inquiry committee into childcare benefit. Her work contributed directly to the conclusion that "the fundamental principles of the rule of law" had been violated. The Rutte III cabinet resigned in January 2021. González Pérez received the Gouden Zandloper in 2021, a royal honour in 2022, and in 2024 handed the work on to the approximately three hundred lawyers now engaged in settling the cases.</p>
-    <p>What distinguishes her from the professional average is not talent or courage. It is perseverance in a ranking that no one around her was taking seriously. For ten years she held to what her colleagues had waved away as procedural triviality. At the end of those ten years, the procedural triviality proved to be a first-order violation of the rule of law.</p>
-    <p><em>Sources: <a href="https://www.uu.nl/organisatie/alumni/de-loopbaan-van-eva-gonzalez-perez">Utrecht University, alumni portrait</a>; <a href="https://www.advocatie.nl/nieuws/eva-gonzalez-perez-wil-zich-na-10-jaar-toeslagenaffaire-focussen-op-andere-zaken/">Advocatie.nl interview, 10 September 2024</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_ondervraging_Kinderopvangtoeslag">Wikipedia, Parliamentary inquiry into childcare benefit</a>.</em></p>
+    <h3 class="slide__subheading">Eva González Pérez — the lawyer in Helmond</h3>
+    <p>Eva González Pérez discovered the benefits scandal not through a tip, but through her husband’s mailbox. He ran a childminding agency; his clients received letters from the Tax Administration informing them that their benefits were being stopped. González Pérez, a lawyer in Helmond, took on the first case in 2014. She thought: send everything in, and it will be resolved quickly. It wasn’t.</p>
+    <p>What she saw was once again first order. The Tax Administration treated childcare benefits as a mass process; applications were assessed collectively using risk models; when suspicion arose, benefits were stopped across entire groups and the recipient had to prove their entitlement to payment — not the other way around. Legally, this appeared to be covered by the Fraud Act. In reality, it was a reversal of the burden of proof that the rule of law does not permit.</p>
+    <p>In 2016, she discovered the so-called inclusion and exclusion lists — databases containing more than two hundred and sixty thousand names that the Service used internally and shared with other government agencies. She established that selection was based on nationality. A third-order criterion, dual nationality, had been turned into a first-order reason for exclusion. A textbook-quality inversion of hierarchy, the same inversion described throughout this edition, but in a case file where families were destroyed instead of headlines.</p>
+    <p>For years, González Pérez lost more cases than she won. She worked from a small office, on fees out of all proportion to the hours involved. “It was shocking and demoralizing to discover that a government institution itself was violating the law,” she later said at Utrecht University.</p>
+    <p>On 16 November 2020, she was the first witness heard by the parliamentary inquiry committee on childcare benefits. Her work contributed directly to the conclusion that “the fundamental principles of the rule of law” had been violated. The Rutte III cabinet resigned in January 2021. González Pérez received the Golden Hourglass in 2021, a royal decoration in 2022, and in 2024 handed the work over to the approximately three hundred lawyers by then involved in its resolution.</p>
+    <p>What distinguishes her from the professional average is neither talent nor courage. It is persistence in a hierarchy that no one around her took seriously. For ten years, she endured what her colleagues had dismissed as procedural triviality. At the end of those ten years, the procedural triviality turned out to be a first-order violation of the rule of law.</p>
+    <p>Sources: Utrecht University, alumni profile; Advocatie.nl interview, 10 September 2024; Wikipedia, Parliamentary inquiry into childcare benefits.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <h3 class="slide__subheading">Ad Bos — <em>the accounts on the doorstep</em></h3>
-    <p>In 1998 Ad Bos, former technical director of the Groningen construction firm Koop Tjuchem, found two bin bags at his front door. Inside: the company's shadow accounts — a set of records showing how Dutch construction firms settled costs among themselves under a system of prohibited price-fixing agreements. He first followed the official path: reporting the matter to multiple authorities, including the public prosecutor's office. In July 2001 he received a letter from the prosecution service saying that nothing would be done with the case. He then gave the television programme Zembla the go-ahead. The broadcast went out on 9 November 2001.</p>
-    <p>What he saw was first order. A system of price-fixing arrangements that had been maintained for ten years with the knowledge of senior civil servants and clients — among them Rijkswaterstaat. On average 8.8 per cent too much was charged to clients, costing the Dutch state hundreds of millions of euros. Six hundred companies were found to be involved. The parliamentary inquiry that began in August 2002 concluded that there had been large-scale fraud, cartel-like structures, and wholly failed oversight. Minister Benk Korthals resigned.</p>
-    <p>Bos lost almost everything. Persona non grata in the construction world, no more work in his field, the family home sold, three years living with his wife in a camper van. Meanwhile he himself was prosecuted. In 2005 he was convicted and given a suspended prison sentence for bribing a civil servant — a matter for which, as a director, he bore co-responsibility, but which was now being used against him. On appeal in 2008, the prosecution was ruled inadmissible because he had not received a fair trial. After a settlement in 2009, the state continued to pursue him in court. "The dark side of government has continued to litigate against us," said Bos in 2023. More than two decades after his report, he is still fighting for recognition.</p>
-    <p>The 2022 private member's bill on whistleblower protection names Bos as a cautionary example of what can go wrong when a system punishes its own unmasking. What his case means for this edition is grimmer than that: even those who correctly identify the first order can be ground down by the system, because the procedural machinery has no intake for the notification that it itself is built on the third order. Bos was not an official with the latitude to dissent; he was an outsider who forced the system to look at itself. The price for that was, and remains, his life.</p>
-    <p><em>Sources: <a href="https://www.bnnvara.nl/artikelen/bouwfraude-klokkenluider-ad-bos-de-donkere-kant-van-de-overheid-is-doorgegaan-met-procederen-tegen-ons">BNNVARA, interview with Ad Bos 25 years after the construction fraud, 15 May 2023</a>; <a href="https://www.transparency.nl/nieuws/2021/11/20-jaar-na-bouwfraude-affaire/">Transparency International, 20 years after the construction fraud affair, 20 November 2021</a>; <a href="https://www.tweedekamer.nl/kamerstukken/detail?id=2022Z07589&did=2022D15359">Tweedekamer.nl, private member's bill on whistleblowers 2022</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_enqu%C3%AAte_naar_bouwfraude">Wikipedia, Parliamentary inquiry into construction fraud</a>.</em></p>
+    <h3 class="slide__subheading">Ad Bos — the accounts left at the front door</h3>
+    <p>In 1998, Ad Bos, former technical director of the Groningen construction company Koop Tjuchem, found two garbage bags outside his front door. Inside was the company’s shadow accounting — records showing how Dutch construction firms settled costs among themselves as part of prohibited price-fixing agreements. He initially followed the official route: reporting the matter to several authorities, including the Public Prosecution Service. In July 2001, he received a letter from the Public Prosecution Service stating that nothing would be done with the case. He then gave Zembla the green light. The broadcast aired on 9 November 2001.</p>
+    <p>What he saw was first order. A system of price-fixing agreements that had been maintained for ten years with the knowledge of senior civil servants and commissioning authorities — including Rijkswaterstaat. On average, clients were charged 8.8 percent too much, costing the Dutch state hundreds of millions of euros. Six hundred companies turned out to be involved. The parliamentary inquiry that began in August 2002 concluded that there had been large-scale fraud, cartel-like structures, and completely failed oversight. Minister Benk Korthals resigned.</p>
+    <p>Bos lost almost everything. Persona non grata in the construction world, no more work in his field, his villa sold, three years living with his wife in a camper van. Meanwhile, he was the one prosecuted. In 2005, he was given a suspended prison sentence for bribing a civil servant — an offense for which, as a director, he bore joint responsibility, but which was now being used against him. On appeal in 2008, the Public Prosecution Service was declared inadmissible because he had not received a fair trial. After a settlement in 2009, the state continued to litigate against him. “The dark side of the government has carried on litigating against us,” Bos said in 2023. More than two decades after his report, he is still fighting for recognition.</p>
+    <p>The 2022 private member’s bill on whistleblower protection cites Bos as a cautionary example of what can go wrong when a system punishes its own exposure. What his case means for this edition is more brutal than that: even those who correctly identify the first order can be ground down by the system because the procedural machine has no entry point for the message that it itself is built on the third order. Bos was not a civil servant who was permitted to deviate; he was an outsider who forced the system to look at itself. The price was, and remains, his life.</p>
+    <p>Sources: BNNVARA, interview with Ad Bos 25 years after the construction fraud, 15 May 2023; Transparency International, 20 years after the construction fraud, 20 November 2021; Tweedekamer.nl, 2022 private member’s bill on whistleblowers; Wikipedia, Parliamentary inquiry into construction fraud.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
     <h3 class="slide__subheading">What they have in common</h3>
-    <p>None of these three describes themselves as courageous. Ask them and you receive variations on the same answer: I had no choice. That sounds like modesty, but it is precise. For those who can still see the first order, looking away is a mutilating act. Not mutilating yourself is no heroism — it is self-preservation. What should astonish us most is not that some people act this way, but that so few do.</p>
-    <p>Their shared characteristic is not courage, not political conviction, not ideology. It is that at the decisive moment they were able to separate their gaze from the paper before them and look at what the procedure was concealing. A ranking instinct that our society possessed broadly in the twentieth century, and has systematically unlearned in the twenty-first.</p>
-    <p>That is why Edition 5 is not only a diagnosis. It is also a tribute — to people who, in a world with its order inverted, nonetheless took the trouble to see the first order.</p>
-    <p>They could not care less about this tribute. That is precisely why they receive it.</p>
+    <p>None of these three calls themselves brave. Ask them and you get variations on the same answer: I had no choice. That sounds like modesty, but it is exact. For those who can still see the first order, looking away is a mutilating act. Not mutilating is not heroism — it is self-preservation. What should astonish us most is not that some people act this way, but that so few do.</p>
+    <p>Their shared characteristic is neither courage, political conviction, nor ideology. It is that, at the decisive moment, they were able to detach their gaze from the paper before them and look at what the procedure concealed. A hierarchy instinct that our society broadly possessed in the twentieth century, and has systematically unlearned in the twenty-first.</p>
+    <p>That is why Edition 5 is not merely a diagnosis. It is also a tribute. To people who, in an order-inverted world, nevertheless took the trouble to see the first order.</p>
+    <p>They couldn’t care less about this tribute. That is precisely why they receive it.</p>
   </div>
 </section>
 </div>
 <div class="version-content__kort" style="display:none">
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <p>What the previous two dossiers reveal is a systematic inversion of weight in press and government. The question then is: are there people who, within that inversion, nonetheless kept the first order in view? The answer is yes. They are rare, they are usually not famous, and when they do become famous it is because the system has tried to break them.</p>
-    <p>Here are three of them. Not as heroes. As people who still possessed a lost compass.</p>
+    <p>What the previous two dossiers show is a systematic inversion of gravity in the press and in government. The question, then, is this: are there people who, amid that inversion, nevertheless continued to distinguish the first order? The answer is yes. They are rare, they are usually not famous, and when they do become famous, it is because the system has tried to break them.</p>
+    <p>Here are three of them. Not as heroes. As the keepers of a lost compass.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <h3 class="slide__subheading">Sandra Palmen-Schlangen — <em>the memo that disappeared</em></h3>
-    <p>In March 2017 Sandra Palmen-Schlangen, at that time the senior legal officer in the Toeslagen division of the Dutch tax authority (Belastingdienst), wrote an internal memorandum. Her superior had asked her to examine the CAF-11 file — a group of parents whose childcare benefit had been collectively suspended. The Council of State had already ruled that the tax authority had not acted in accordance with the law.</p>
-    <p>Palmen's conclusion was blunt: the suspension had been based on a legally incorrect ground, parents had been denied the legal protection the law guaranteed them, and the tax authority had acted reprehensibly. Her recommendation: stop litigating, offer compensation through a settlement agreement.</p>
-    <p>What she saw was first order. What the system presented to her was third order dressed up as procedure. The law as applied was denying people what the law formally granted them. Collective fraud enforcement through risk models was legally sanctioned — in practice it violated the rule of law.</p>
-    <p>Her memo was discussed in two official internal meetings and rejected. Shortly afterwards Palmen was transferred from Toeslagen to the customs authority. The memo vanished into the organisation — so thoroughly that eight separate investigations were required to recover it. The accountancy firm PwC concluded in October 2021 that the disappearance of the memo remained unresolved. When the memo resurfaced in 2020 — Palmen had kept a copy on her own laptop — it became a key document in the parliamentary inquiry into childcare benefit. Three senior civil servants were found to have known of the memo while swearing under oath that they did not. The national criminal investigation department opened a perjury investigation.</p>
-    <p>In 2024 Palmen was appointed State Secretary for Benefits Restitution. "I am now allowed to complete the circle," she said at her hearing in the House of Representatives, "from sounding the alarm about injustice at the start of the benefits scandal to working towards its conclusion." Seven years between writing the memo and recognition. For the twenty thousand families on whose behalf she had requested compensation, seven years too late.</p>
-    <p><em>Sources: Tweedekamer.nl, dossier memo-Palmen (<a href="https://www.tweedekamer.nl/debat_en_vergadering/uitgelicht/onderzoek-memo-toeslagen-memo-palmen">research overview</a>); <a href="https://www.nporadio1.nl/nieuws/binnenland/114b2c20-92e1-421e-8992-aefdc75810ba/schrijfster-cruciale-memo-toeslagenaffaire-dacht-echt-dat-ze-mijn-advies-zouden-opvolgen">NPO Radio 1 interview, 15 December 2022</a>; <a href="https://www.accountancyvanmorgen.nl/2021/10/28/pwc-kan-mysterie-rond-memo-palmen-niet-oplossen/">Accountancy van Morgen, PwC report on the Palmen memo, 28 October 2021</a>; <a href="https://www.rijksoverheid.nl/regering/bewindspersonen/sandra-palmen-schlangen">Rijksoverheid, ministers and state secretaries page</a>.</em></p>
+    <h3 class="slide__subheading">Sandra Palmen-Schlangen — the memo that vanished</h3>
+    <p>In March 2017, Sandra Palmen-Schlangen, at the time the highest-ranking legal official in the Tax Administration’s Benefits Division, wrote an internal advisory. Her supervisor had asked her to examine the CAF-11 case file — a group of parents whose childcare benefits had been collectively halted. The Council of State had already ruled that the Service had failed to comply with the law.</p>
+    <p>Palmen’s conclusion was stark: the suspension was based on an incorrect legal basis, parents had been denied the legal protection guaranteed to them by law, and the Service had acted culpably. Her advice: stop pursuing the case through the courts and offer compensation through a settlement agreement.</p>
+    <p>What she saw was first order. What the system held up before her was third order dressed up as procedure. The law, as it was applied, denied people what the law formally granted them. Collective anti-fraud enforcement based on risk models was legally covered — in reality, it violated the rule of law.</p>
+    <p>Her memo was discussed and rejected in two official meetings. Shortly afterward, Palmen was transferred from Benefits to Customs. The memo vanished into the organization — so thoroughly that eight separate investigations were needed to find it again. The accountancy firm PwC concluded in October 2021 that the disappearance of the memo remained unresolved. When the memo finally resurfaced in 2020 — Palmen still had it on her laptop — it became a key document in the parliamentary inquiry into childcare benefits. Three senior civil servants turned out to have known about the memo while testifying under oath that they knew nothing. The National Criminal Investigation Department opened a perjury investigation.</p>
+    <p>In 2024, Palmen was appointed State Secretary for Benefits Recovery. “Now I’m allowed to close the circle,” she said at her hearing in the House of Representatives, “from warning about injustice at the beginning of the benefits scandal to working on its conclusion.” Seven years between writing the memo and its acknowledgment. For the twenty thousand families for whom she had called for compensation at the time, seven years too late.</p>
+    <p>Sources: Tweedekamer.nl, Palmen memo dossier (research overview); NPO Radio 1 interview, 15 December 2022; Accountancy van Morgen, PwC report on the Palmen memo, 28 October 2021; Rijksoverheid, government ministers and state secretaries page.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <h3 class="slide__subheading">Eva González Pérez — <em>the lawyer in Helmond</em></h3>
-    <p>Eva González Pérez did not discover the benefits scandal through a tip-off, but through her husband's letterbox. He ran a childminding agency; his clients were receiving letters from the tax authority informing them that their benefit was being suspended. González Pérez, a lawyer in Helmond, took on the first case in 2014. She thought: send everything in and it will be resolved quickly. It was not.</p>
-    <p>What she saw was, again, first order. The tax authority was treating childcare benefit as a mass-processing operation; applications were assessed collectively on risk models; when suspicion arose, benefit was suspended en masse and the recipient was required to prove entitlement — not the other way round. Legally this appeared to be sanctioned by the Fraud Act. In practice it was a reversal of the burden of proof that the rule of law does not permit.</p>
-    <p>In 2016 she discovered the so-called inclusion and exclusion lists — data files containing more than two hundred and sixty thousand names that the tax authority used internally and shared with other government agencies. She established that selection was being made on the basis of nationality. A third-order criterion, dual nationality, had been elevated to a first-order trigger for exclusion. A ranking inversion of textbook quality — the same inversion described throughout this entire edition — but applied to a dossier in which families were destroyed rather than headlines distorted.</p>
-    <p>González Pérez lost more cases than she won for years. She worked from a small office on fees that bore no relation to the hours involved. "It was shocking and demoralising to discover that a government body was itself breaking the law," she said later at Utrecht University.</p>
-    <p>On 16 November 2020 she was the first witness to be heard by the parliamentary inquiry committee into childcare benefit. Her work contributed directly to the conclusion that "the fundamental principles of the rule of law" had been violated. The Rutte III cabinet resigned in January 2021. González Pérez received the Gouden Zandloper in 2021, a royal honour in 2022, and in 2024 handed the work on to the approximately three hundred lawyers now engaged in settling the cases.</p>
-    <p>What distinguishes her from the professional average is not talent or courage. It is perseverance in a ranking that no one around her was taking seriously. For ten years she held to what her colleagues had waved away as procedural triviality. At the end of those ten years, the procedural triviality proved to be a first-order violation of the rule of law.</p>
-    <p><em>Sources: <a href="https://www.uu.nl/organisatie/alumni/de-loopbaan-van-eva-gonzalez-perez">Utrecht University, alumni portrait</a>; <a href="https://www.advocatie.nl/nieuws/eva-gonzalez-perez-wil-zich-na-10-jaar-toeslagenaffaire-focussen-op-andere-zaken/">Advocatie.nl interview, 10 September 2024</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_ondervraging_Kinderopvangtoeslag">Wikipedia, Parliamentary inquiry into childcare benefit</a>.</em></p>
+    <h3 class="slide__subheading">Eva González Pérez — the lawyer in Helmond</h3>
+    <p>Eva González Pérez discovered the benefits scandal not through a tip, but through her husband’s mailbox. He ran a childminding agency; his clients received letters from the Tax Administration informing them that their benefits were being stopped. González Pérez, a lawyer in Helmond, took on the first case in 2014. She thought: send everything in, and it will be resolved quickly. It wasn’t.</p>
+    <p>What she saw was once again first order. The Tax Administration treated childcare benefits as a mass process; applications were assessed collectively using risk models; when suspicion arose, benefits were stopped across entire groups and the recipient had to prove their entitlement to payment — not the other way around. Legally, this appeared to be covered by the Fraud Act. In reality, it was a reversal of the burden of proof that the rule of law does not permit.</p>
+    <p>In 2016, she discovered the so-called inclusion and exclusion lists — databases containing more than two hundred and sixty thousand names that the Service used internally and shared with other government agencies. She established that selection was based on nationality. A third-order criterion, dual nationality, had been turned into a first-order reason for exclusion. A textbook-quality inversion of hierarchy, the same inversion described throughout this edition, but in a case file where families were destroyed instead of headlines.</p>
+    <p>For years, González Pérez lost more cases than she won. She worked from a small office, on fees out of all proportion to the hours involved. “It was shocking and demoralizing to discover that a government institution itself was violating the law,” she later said at Utrecht University.</p>
+    <p>On 16 November 2020, she was the first witness heard by the parliamentary inquiry committee on childcare benefits. Her work contributed directly to the conclusion that “the fundamental principles of the rule of law” had been violated. The Rutte III cabinet resigned in January 2021. González Pérez received the Golden Hourglass in 2021, a royal decoration in 2022, and in 2024 handed the work over to the approximately three hundred lawyers by then involved in its resolution.</p>
+    <p>What distinguishes her from the professional average is neither talent nor courage. It is persistence in a hierarchy that no one around her took seriously. For ten years, she endured what her colleagues had dismissed as procedural triviality. At the end of those ten years, the procedural triviality turned out to be a first-order violation of the rule of law.</p>
+    <p>Sources: Utrecht University, alumni profile; Advocatie.nl interview, 10 September 2024; Wikipedia, Parliamentary inquiry into childcare benefits.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
-    <h3 class="slide__subheading">Ad Bos — <em>the accounts on the doorstep</em></h3>
-    <p>In 1998 Ad Bos, former technical director of the Groningen construction firm Koop Tjuchem, found two bin bags at his front door. Inside: the company's shadow accounts — a set of records showing how Dutch construction firms settled costs among themselves under a system of prohibited price-fixing agreements. He first followed the official path: reporting the matter to multiple authorities, including the public prosecutor's office. In July 2001 he received a letter from the prosecution service saying that nothing would be done with the case. He then gave the television programme Zembla the go-ahead. The broadcast went out on 9 November 2001.</p>
-    <p>What he saw was first order. A system of price-fixing arrangements that had been maintained for ten years with the knowledge of senior civil servants and clients — among them Rijkswaterstaat. On average 8.8 per cent too much was charged to clients, costing the Dutch state hundreds of millions of euros. Six hundred companies were found to be involved. The parliamentary inquiry that began in August 2002 concluded that there had been large-scale fraud, cartel-like structures, and wholly failed oversight. Minister Benk Korthals resigned.</p>
-    <p>Bos lost almost everything. Persona non grata in the construction world, no more work in his field, the family home sold, three years living with his wife in a camper van. Meanwhile he himself was prosecuted. In 2005 he was convicted and given a suspended prison sentence for bribing a civil servant — a matter for which, as a director, he bore co-responsibility, but which was now being used against him. On appeal in 2008, the prosecution was ruled inadmissible because he had not received a fair trial. After a settlement in 2009, the state continued to pursue him in court. "The dark side of government has continued to litigate against us," said Bos in 2023. More than two decades after his report, he is still fighting for recognition.</p>
-    <p>The 2022 private member's bill on whistleblower protection names Bos as a cautionary example of what can go wrong when a system punishes its own unmasking. What his case means for this edition is grimmer than that: even those who correctly identify the first order can be ground down by the system, because the procedural machinery has no intake for the notification that it itself is built on the third order. Bos was not an official with the latitude to dissent; he was an outsider who forced the system to look at itself. The price for that was, and remains, his life.</p>
-    <p><em>Sources: <a href="https://www.bnnvara.nl/artikelen/bouwfraude-klokkenluider-ad-bos-de-donkere-kant-van-de-overheid-is-doorgegaan-met-procederen-tegen-ons">BNNVARA, interview with Ad Bos 25 years after the construction fraud, 15 May 2023</a>; <a href="https://www.transparency.nl/nieuws/2021/11/20-jaar-na-bouwfraude-affaire/">Transparency International, 20 years after the construction fraud affair, 20 November 2021</a>; <a href="https://www.tweedekamer.nl/kamerstukken/detail?id=2022Z07589&did=2022D15359">Tweedekamer.nl, private member's bill on whistleblowers 2022</a>; <a href="https://nl.wikipedia.org/wiki/Parlementaire_enqu%C3%AAte_naar_bouwfraude">Wikipedia, Parliamentary inquiry into construction fraud</a>.</em></p>
+    <h3 class="slide__subheading">Ad Bos — the accounts left at the front door</h3>
+    <p>In 1998, Ad Bos, former technical director of the Groningen construction company Koop Tjuchem, found two garbage bags outside his front door. Inside was the company’s shadow accounting — records showing how Dutch construction firms settled costs among themselves as part of prohibited price-fixing agreements. He initially followed the official route: reporting the matter to several authorities, including the Public Prosecution Service. In July 2001, he received a letter from the Public Prosecution Service stating that nothing would be done with the case. He then gave Zembla the green light. The broadcast aired on 9 November 2001.</p>
+    <p>What he saw was first order. A system of price-fixing agreements that had been maintained for ten years with the knowledge of senior civil servants and commissioning authorities — including Rijkswaterstaat. On average, clients were charged 8.8 percent too much, costing the Dutch state hundreds of millions of euros. Six hundred companies turned out to be involved. The parliamentary inquiry that began in August 2002 concluded that there had been large-scale fraud, cartel-like structures, and completely failed oversight. Minister Benk Korthals resigned.</p>
+    <p>Bos lost almost everything. Persona non grata in the construction world, no more work in his field, his villa sold, three years living with his wife in a camper van. Meanwhile, he was the one prosecuted. In 2005, he was given a suspended prison sentence for bribing a civil servant — an offense for which, as a director, he bore joint responsibility, but which was now being used against him. On appeal in 2008, the Public Prosecution Service was declared inadmissible because he had not received a fair trial. After a settlement in 2009, the state continued to litigate against him. “The dark side of the government has carried on litigating against us,” Bos said in 2023. More than two decades after his report, he is still fighting for recognition.</p>
+    <p>The 2022 private member’s bill on whistleblower protection cites Bos as a cautionary example of what can go wrong when a system punishes its own exposure. What his case means for this edition is more brutal than that: even those who correctly identify the first order can be ground down by the system because the procedural machine has no entry point for the message that it itself is built on the third order. Bos was not a civil servant who was permitted to deviate; he was an outsider who forced the system to look at itself. The price was, and remains, his life.</p>
+    <p>Sources: BNNVARA, interview with Ad Bos 25 years after the construction fraud, 15 May 2023; Transparency International, 20 years after the construction fraud, 20 November 2021; Tweedekamer.nl, 2022 private member’s bill on whistleblowers; Wikipedia, Parliamentary inquiry into construction fraud.</p>
   </div>
 </section>
 
 <section class="slide">
   <div class="slide__inner slide__inner--narrow">
     <h3 class="slide__subheading">What they have in common</h3>
-    <p>None of these three describes themselves as courageous. Ask them and you receive variations on the same answer: I had no choice. That sounds like modesty, but it is precise. For those who can still see the first order, looking away is a mutilating act. Not mutilating yourself is no heroism — it is self-preservation. What should astonish us most is not that some people act this way, but that so few do.</p>
-    <p>Their shared characteristic is not courage, not political conviction, not ideology. It is that at the decisive moment they were able to separate their gaze from the paper before them and look at what the procedure was concealing. A ranking instinct that our society possessed broadly in the twentieth century, and has systematically unlearned in the twenty-first.</p>
-    <p>That is why Edition 5 is not only a diagnosis. It is also a tribute — to people who, in a world with its order inverted, nonetheless took the trouble to see the first order.</p>
-    <p>They could not care less about this tribute. That is precisely why they receive it.</p>
+    <p>None of these three calls themselves brave. Ask them and you get variations on the same answer: I had no choice. That sounds like modesty, but it is exact. For those who can still see the first order, looking away is a mutilating act. Not mutilating is not heroism — it is self-preservation. What should astonish us most is not that some people act this way, but that so few do.</p>
+    <p>Their shared characteristic is neither courage, political conviction, nor ideology. It is that, at the decisive moment, they were able to detach their gaze from the paper before them and look at what the procedure concealed. A hierarchy instinct that our society broadly possessed in the twentieth century, and has systematically unlearned in the twenty-first.</p>
+    <p>That is why Edition 5 is not merely a diagnosis. It is also a tribute. To people who, in an order-inverted world, nevertheless took the trouble to see the first order.</p>
+    <p>They couldn’t care less about this tribute. That is precisely why they receive it.</p>
   </div>
 </section>
 </div>
 </div>
 <!-- NAV_BOTTOM_BEGIN -->
-<nav class="navbar-bottom" aria-label="Front page">
-  <a href="index.html" class="navbar__terug">← Back to Edition 5</a>
-  <a href="../../en/" class="navbar__home">⌂ Front page</a>
-  <a href="../../en/verkennen.html" class="navbar__verk">↻ Explore</a>
+<nav class="navbar-bottom" aria-label="Voorpagina">
+  <a href="../../nl/editie-5/index.html" class="navbar__terug">← Terug naar Editie 5</a>
+  <a href="../../nl/" class="navbar__home">⌂ Voorpagina</a>
+  <a href="../../nl/verkennen.html" class="navbar__verk">↻ Verkennen</a>
 </nav>
 <!-- NAV_BOTTOM_END -->
 </main>
 
 <footer class="footer">
   <div class="footer__inner">
-    <p>Het Open Vizier · Edition 5 — July 2026 · <a href="../../../en/">to home</a></p>
+    <p>Het Open Vizier · Editie 5 — Juli 2026 · <a href="../../../nl/">naar voorpagina</a></p>
   </div>
 </footer>
 
