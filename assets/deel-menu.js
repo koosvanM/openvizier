@@ -418,8 +418,56 @@
     promptCode(config).then(function() { renderPdf(config, btn); }).catch(function() { /* geannuleerd */ });
   }
 
+  // ---------- Auto-generate submenu voor kale triggers ----------
+  var LABELS = {
+    nl: {copy:'Link kopi\u00ebren', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'Per e-mail', pdf:'PDF downloaden'},
+    en: {copy:'Copy link', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'Send by email', pdf:'Download PDF'},
+    de: {copy:'Link kopieren', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'Per E-Mail', pdf:'PDF herunterladen'},
+    ru: {copy:'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0441\u0441\u044b\u043b\u043a\u0443', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'\u041f\u043e e-mail', pdf:'\u0421\u043a\u0430\u0447\u0430\u0442\u044c PDF'},
+    fr: {copy:'Copier le lien', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'Par e-mail', pdf:'T\u00e9l\u00e9charger le PDF'},
+    es: {copy:'Copiar enlace', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'Por correo', pdf:'Descargar PDF'},
+    it: {copy:'Copia link', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'Per e-mail', pdf:'Scarica PDF'},
+    pt: {copy:'Copiar liga\u00e7\u00e3o', whatsapp:'WhatsApp', x:'X (Twitter)', linkedin:'LinkedIn', facebook:'Facebook', email:'Por e-mail', pdf:'Descarregar PDF'}
+  };
+  function detectLang() {
+    var m = window.location.pathname.match(/^\/([a-z]{2})\//);
+    return (m && LABELS[m[1]]) ? m[1] : 'nl';
+  }
+  function autogenerate() {
+    var triggers = document.querySelectorAll('[data-ov-deel-trigger]');
+    triggers.forEach(function(trg) {
+      if (trg.parentNode.querySelector('[data-ov-deel]')) return;
+      var lang = detectLang();
+      var lab = LABELS[lang];
+      var acts = ['copy','whatsapp','x','linkedin','facebook','email','pdf'];
+      var menu = document.createElement('div');
+      menu.className = 'ov-nav__submenu';
+      menu.setAttribute('data-ov-deel', '');
+      acts.forEach(function(a) {
+        var link = document.createElement('a');
+        link.className = 'ov-nav__subitem';
+        link.href = '#';
+        link.setAttribute('data-ov-deel-action', a);
+        link.textContent = lab[a] || a;
+        menu.appendChild(link);
+      });
+      // Insert direct na trigger
+      if (trg.nextSibling) trg.parentNode.insertBefore(menu, trg.nextSibling);
+      else trg.parentNode.appendChild(menu);
+      // Wrap trigger + menu in ov-nav__dropdown zodat hover/tap-toggle werkt
+      if (trg.parentNode.classList && !trg.parentNode.classList.contains('ov-nav__dropdown')) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'ov-nav__dropdown';
+        trg.parentNode.insertBefore(wrapper, trg);
+        wrapper.appendChild(trg);
+        wrapper.appendChild(menu);
+      }
+    });
+  }
+
   // ---------- Init ----------
   function init() {
+    autogenerate();
     document.querySelectorAll('[data-ov-deel]').forEach(function(menu) {
       var config = {};
       Object.keys(menu.dataset).forEach(function(k) { config[k] = menu.dataset[k]; });
