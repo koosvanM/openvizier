@@ -132,6 +132,111 @@ aanneemt welke code een editie heeft in een andere taal.
 
 ---
 
+## 1B. Twee menu-systemen op de site
+
+Belangrijke aanvulling op §0 en §1: de site heeft **twee onafhankelijke
+menu-lagen** die niet uit dezelfde bron komen. §0 zegt "de matrix bepaalt het
+menu"; dat klopt voor de matrix-navigatie, maar het **hoofdmenu** wordt
+buitenom onderhouden.
+
+### 1B.1 Hoofdmenu (`.ov-nav`) — hard-coded HTML per pagina
+
+- Bron: `<div class="ov-nav">` met `<div class="ov-nav__submenu">` per dropdown,
+  ingebouwd in elke HTML-pagina.
+- Bevat de dropdowns Kosaris, Filosofie, Politiek, Democratie, Klimaat, enz.
+- Staat op elke pagina van elke taal (nl, en, de, ru, fr, es, it, pt).
+- **Wordt NIET uit `vizier.xlsx` gebouwd.**
+- Wijzigen betekent: `.ov-nav__submenu`-blokken in ALLE HTML-pagina's van die
+  taal patchen (typisch ±210 nl-bestanden).
+
+### 1B.2 Matrix-navigatie — dynamisch uit xlsx
+
+- Bron: `nl/_data/vizier.xlsx` → `nl/_data/tabellen/*.json` (via GitHub Action).
+- Bevat: `<taal>/verkennen.html`, `<taal>/verkennen-embed.html`,
+  cirkelnavigatie, artikellijsten, `nl/structuur.html`.
+- Wijzigen: xlsx bewerken en pushen; de Action doet de rest.
+
+### 1B.3 Kruistabel — wanneer welke actie
+
+| Doel | Xlsx | HTML `.ov-nav` | HTML `.dgk-top` |
+|------|------|----------------|-----------------|
+| Nieuw artikel op verkennen/cirkel | ✅ | — | — |
+| Nieuw item in hoofdmenu (dropdown) | ✅ (voor consistentie) | ✅ | — |
+| Nieuwe dagkrant-banner op voorpagina | — | — | ✅ (alleen `<taal>/index.html`) |
+| Volledig nieuw artikel dat overal moet verschijnen | ✅ | ✅ | ✅ |
+
+### 1B.4 Regex-patroon voor hoofdmenu-injectie
+
+Voor een nieuw item onder een bestaande dropdown gebruik je op elk taal-HTML
+bestand deze twee patronen:
+
+```python
+# Item toevoegen aan het EINDE van een dropdown (vlak voor </div>):
+kosaris_re = re.compile(
+    r'(>Kosaris<span[^<]+</span></a>\s*<div class="ov-nav__submenu">.*?)(\s*</div>)',
+    re.DOTALL
+)
+
+# Of item VOOR een specifieke bestaande regel invoegen (alfabetische plek):
+html = html.replace(
+    "        <a class='ov-nav__subitem' href='/nl/7-dim-film/'>De Zeven Dimensies …",
+    "        <a class='ov-nav__subitem' href='/nl/nieuwe-slug/'>Nieuwe titel</a>\n" +
+    "        <a class='ov-nav__subitem' href='/nl/7-dim-film/'>De Zeven Dimensies …",
+    1
+)
+```
+
+## 1C. `<taal>/index.html` heeft een dubbele rol
+
+Naast het hoofdmenu bevat `<taal>/index.html` ook de **dagkrant-banners**
+(`.dgk-top` na `</nav>`, zie §4.1) die géén onderdeel zijn van de matrix. Deze
+banners zijn hand-geplaatste voorpagina-highlights en worden buiten de xlsx om
+beheerd.
+
+### 1C.1 Kritieke regel — nooit blind overschrijven
+
+Als je bij een hoofdmenu-wijziging (§1B) een oude lokale kopie van
+`<taal>/index.html` naar live pusht, gaan de dagkrant-banners die daarna zijn
+toegevoegd verloren. Dat is fout gegaan bij het toevoegen van de "Denk aan de
+natuur"-banners in augustus 2026: die stonden alleen live op `nl/index.html` en
+verdwenen toen een oude lokale kopie werd gedeployed.
+
+### 1C.2 Werkwijze bij menu-injectie op `<taal>/index.html`
+
+**Stap 1 — Ververs eerst de lokale kopie vanaf live:**
+
+```bash
+curl -s https://openvizier.org/nl/ > <lokaal>/nl__index.html
+```
+
+**Stap 2 — Patch alleen het `.ov-nav__submenu` in dat vers gedownloade bestand.**
+
+**Stap 3 — Verifieer VÓÓR deploy dat de dagkrant-banners nog aanwezig zijn:**
+
+```python
+assert 'Denk aan de natuur' in html   # of andere recent geplaatste banner
+assert '<a class="dgk-top"' in html
+```
+
+**Stap 4 — Pas dan pushen.**
+
+### 1C.3 Alternatief: sla `<taal>/index.html` over
+
+Als je alleen menu-items toevoegt en géén updates aan de voorpagina zelf hoeft
+te doen, sla `<taal>/index.html` gewoon over in de bulk-injectie. Het menu-item
+blijft bereikbaar via elke andere pagina van die taal.
+
+### 1C.4 Verboden
+
+- **NOOIT** een lokale kopie van `<taal>/index.html` die niet ververst is vanaf
+  live naar main pushen. De dagkrant leeft daar en jij weet niet wat er sinds
+  je laatste snapshot is bijgekomen.
+- **NOOIT** aannemen dat `.dgk-top`-banners uit de matrix komen — ze staan
+  alleen in de HTML-source van `<taal>/index.html`.
+
+
+---
+
 ## 2. Kolommen per tabel (JSON-schema)
 
 ### 2.1 `1_knopen.json`
