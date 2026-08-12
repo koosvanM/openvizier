@@ -248,7 +248,7 @@
     var url = 'https://twitter.com/intent/tweet'
             + '?text=' + encodeURIComponent(text)
             + '&url='  + encodeURIComponent(canonicalUrl())
-            + '&via='  + encodeURIComponent(config.xVia || 'openvizier');
+            + '&via='  + encodeURIComponent(config.xVia || 'KMerksteij62968');
     openSharePopup(url, 'ov-x-share', 550, 420);
   }
 
