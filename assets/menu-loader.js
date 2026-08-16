@@ -65,7 +65,7 @@
     
     const [knopenData, routesData, tekstenData] = await Promise.all([
       loadJson(JSON_BASE + '1_knopen.json'),
-      loadJson(JSON_BASE + '2_routes_' + TAAL_CODE + '.json'),
+      loadJson(JSON_BASE + '2_routes.json'),  // Gecombineerd, alle codes
       loadJson(JSON_BASE + '4_teksten_' + TAAL_CODE + '.json'),
     ]);
     
