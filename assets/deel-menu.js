@@ -467,7 +467,7 @@
 
   // ---------- Init ----------
   function init() {
-    autogenerate();
+    // autogenerate() uitgeschakeld — items komen uit de xlsx via menu-loader.js
     // Extra: als menu-loader.js heeft al data-ov-deel-action op subitems gezet zonder [data-ov-deel]-wrapper, wrap ze
     document.querySelectorAll('[data-ov-deel-trigger]').forEach(function(trg) {
       var dropdown = trg.closest('.ov-nav__dropdown');
