@@ -127,16 +127,6 @@
       if (!naam) continue;
       
       const subs = kinderen(code);
-      const DELEN_NAMEN = ['delen','teilen','share','поделиться','partager','compartir','condividi','partilhar'];
-      const isDelen = DELEN_NAMEN.includes((naam || '').toLowerCase().trim());
-      
-      if (isDelen) {
-        // Delen: alleen de trigger renderen, deel-menu.js vult de submenu-items in via autogenerate
-        html += '<div class="ov-nav__dropdown">';
-        html += '<a class="ov-nav__item" href="#" data-ov-deel-trigger onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
-        html += '</div>';
-        continue;
-      }
       
       if (subs.length === 0) {
         // Top-level link
@@ -146,7 +136,12 @@
       } else {
         html += '<div class="ov-nav__dropdown">';
         html += '<a class="ov-nav__item" href="#" onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
-        html += '<div class="ov-nav__submenu">';
+        // Als submenu action:xxx items heeft, markeer als data-ov-deel voor deel-menu.js init
+        const hasActions = subs.some(s => {
+          const r = routeByCode[String(s.code)];
+          return r && r.url && String(r.url).startsWith('action:');
+        });
+        html += '<div class="ov-nav__submenu"' + (hasActions ? ' data-ov-deel' : '') + '>';
         let subCount = 0;
         for (const sub of subs) {
           const subCode = String(sub.code);
