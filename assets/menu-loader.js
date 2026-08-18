@@ -149,16 +149,18 @@
           const subRoute = routeByCode[subCode];
           const subNaam = subTekst?.naam || '';
           const subUrl = subRoute?.url || '';
-          if (!subNaam || !subUrl) continue;
-          const href = absUrl(TAAL_CODE, subUrl);
-          if (!href) continue;
-          // Delen-acties: href="#action-xxx" wordt data-ov-deel-action="xxx"
-          const actionMatch = String(subUrl).match(/^#action-(.+)$/);
+          if (!subNaam) continue;
+          // Delen-acties: URL beginnend met 'action:' wordt data-ov-deel-action
+          const actionMatch = String(subUrl).match(/^action:(.+)$/);
           if (actionMatch) {
             html += '<a class="ov-nav__subitem" href="#" data-ov-deel-action="' + esc(actionMatch[1]) + '" onclick="event.preventDefault()">' + esc(subNaam) + '</a>';
-          } else {
-            html += '<a class="ov-nav__subitem" href="' + esc(href) + '">' + esc(subNaam) + '</a>';
+            subCount++;
+            continue;
           }
+          if (!subUrl) continue;
+          const href = absUrl(TAAL_CODE, subUrl);
+          if (!href) continue;
+          html += '<a class="ov-nav__subitem" href="' + esc(href) + '">' + esc(subNaam) + '</a>';
           subCount++;
         }
         html += '</div></div>';
