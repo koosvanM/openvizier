@@ -127,18 +127,15 @@
       if (!naam) continue;
       
       const subs = kinderen(code);
-      const DELEN_NAMEN = ['delen','teilen','share','поделиться','partager','compartir','condividi','partilhar'];
-      const isDelen = DELEN_NAMEN.includes((naam || '').toLowerCase().trim());
       
-      if (subs.length === 0 && !isDelen) {
+      if (subs.length === 0) {
         // Top-level link
         const route = routeByCode[code];
         const href = route?.url ? absUrl(TAAL_CODE, route.url) : ('/' + TAAL_CODE + '/');
         html += '<a class="ov-nav__item" href="' + esc(href) + '">' + esc(naam) + '</a>';
       } else {
         html += '<div class="ov-nav__dropdown">';
-        const delenAttr = isDelen ? ' data-ov-deel-trigger' : '';
-        html += '<a class="ov-nav__item" href="#"' + delenAttr + ' onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
+        html += '<a class="ov-nav__item" href="#" onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
         html += '<div class="ov-nav__submenu">';
         let subCount = 0;
         for (const sub of subs) {
