@@ -139,7 +139,8 @@
         html += '<div class="ov-nav__dropdown">';
         const delenAttr = isDelen ? ' data-ov-deel-trigger' : '';
         html += '<a class="ov-nav__item" href="#"' + delenAttr + ' onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
-        html += '<div class="ov-nav__submenu">';
+        // Submenu: als Delen, markeer als data-ov-deel zodat deel-menu.js niet dupliceert
+        html += '<div class="ov-nav__submenu"' + (isDelen ? ' data-ov-deel' : '') + '>';
         let subCount = 0;
         for (const sub of subs) {
           const subCode = String(sub.code);
