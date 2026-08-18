@@ -489,6 +489,9 @@
       });
     });
   }
+  // Ook luisteren op menu-loader.js dat via CustomEvent aangeeft dat de nav klaar is
+  document.addEventListener('ov-nav-ready', init);
+  
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else { init(); }

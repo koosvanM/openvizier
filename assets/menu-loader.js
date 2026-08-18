@@ -135,7 +135,10 @@
         html += '<a class="ov-nav__item" href="' + esc(href) + '">' + esc(naam) + '</a>';
       } else {
         html += '<div class="ov-nav__dropdown">';
-        html += '<a class="ov-nav__item" href="#" onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
+        const DELEN_NAMEN = ['delen','teilen','share','поделиться','partager','compartir','condividi','partilhar'];
+        const isDelen = DELEN_NAMEN.includes((naam || '').toLowerCase().trim());
+        const delenAttr = isDelen ? ' data-ov-deel-trigger' : '';
+        html += '<a class="ov-nav__item" href="#"' + delenAttr + ' onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
         html += '<div class="ov-nav__submenu">';
         let subCount = 0;
         for (const sub of subs) {
@@ -169,6 +172,9 @@
     
     root.className = 'ov-nav';
     root.innerHTML = '<div class="ov-nav__inner">' + html + '</div>';
+    
+    // Signaleer aan deel-menu.js dat de nav klaar is
+    document.dispatchEvent(new CustomEvent('ov-nav-ready'));
     
     if (typeof window.initOvNavToggle === 'function') window.initOvNavToggle();
   }
