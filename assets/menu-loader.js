@@ -127,6 +127,16 @@
       if (!naam) continue;
       
       const subs = kinderen(code);
+      const DELEN_NAMEN = ['delen','teilen','share','поделиться','partager','compartir','condividi','partilhar'];
+      const isDelen = DELEN_NAMEN.includes((naam || '').toLowerCase().trim());
+      
+      if (isDelen) {
+        // Delen: alleen de trigger renderen, deel-menu.js vult de submenu-items in via autogenerate
+        html += '<div class="ov-nav__dropdown">';
+        html += '<a class="ov-nav__item" href="#" data-ov-deel-trigger onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
+        html += '</div>';
+        continue;
+      }
       
       if (subs.length === 0) {
         // Top-level link
@@ -169,6 +179,8 @@
     
     root.className = 'ov-nav';
     root.innerHTML = '<div class="ov-nav__inner">' + html + '</div>';
+    // Signaleer dat de dynamische nav klaar is (zodat deel-menu.js kan autogenereren)
+    document.dispatchEvent(new CustomEvent('ov-nav-ready'));
     
     // Signaleer aan deel-menu.js dat de nav klaar is
     document.dispatchEvent(new CustomEvent('ov-nav-ready'));
