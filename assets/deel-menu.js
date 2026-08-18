@@ -489,11 +489,6 @@
       });
     });
   }
-  // Expose autogenerate zodat menu-loader.js het opnieuw kan aanroepen na dynamische nav-build
-  window.initOvDeelAutogenerate = init;
-  // Luister ook naar het 'ov-nav-ready' event dat menu-loader.js dispatcht
-  document.addEventListener('ov-nav-ready', init);
-  
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else { init(); }
