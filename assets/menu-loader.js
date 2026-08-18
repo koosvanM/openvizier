@@ -159,6 +159,11 @@
       }
     }
     
+    // Delen-dropdown trigger (deel-menu.js vult de items in)
+    const DELEN_LABEL = {nl:'Delen',de:'Teilen',en:'Share',ru:'Поделиться',fr:'Partager',es:'Compartir',it:'Condividi',pt:'Partilhar'};
+    const delenNaam = DELEN_LABEL[TAAL_CODE] || 'Delen';
+    html += '<a class="ov-nav__item" href="#" data-ov-deel-trigger onclick="event.preventDefault()">' + esc(delenNaam) + '<span class="ov-nav__caret">▾</span></a>';
+    
     // Taal-schakelaar
     const talen = [['nl','Nederlands'],['en','English'],['de','Deutsch'],['ru','Русский'],['fr','Français'],['es','Español'],['it','Italiano'],['pt','Português']];
     html += '<div class="ov-nav__dropdown">';
@@ -169,6 +174,14 @@
     
     root.className = 'ov-nav';
     root.innerHTML = '<div class="ov-nav__inner">' + html + '</div>';
+    
+    // Trigger deel-menu.js autogenerate (die luistert op DOMContentLoaded — te vroeg voor onze dynamische nav)
+    if (typeof window.initOvDeelAutogenerate === 'function') {
+      window.initOvDeelAutogenerate();
+    } else {
+      // Fallback: dispatch een event zodat een geluister-script kan reageren
+      document.dispatchEvent(new CustomEvent('ov-nav-ready'));
+    }
     
     if (typeof window.initOvNavToggle === 'function') window.initOvNavToggle();
   }
