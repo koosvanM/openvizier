@@ -468,6 +468,16 @@
   // ---------- Init ----------
   function init() {
     autogenerate();
+    // Extra: als menu-loader.js heeft al data-ov-deel-action op subitems gezet zonder [data-ov-deel]-wrapper, wrap ze
+    document.querySelectorAll('[data-ov-deel-trigger]').forEach(function(trg) {
+      var dropdown = trg.closest('.ov-nav__dropdown');
+      if (dropdown) {
+        var submenu = dropdown.querySelector('.ov-nav__submenu');
+        if (submenu && !submenu.hasAttribute('data-ov-deel')) {
+          submenu.setAttribute('data-ov-deel', '');
+        }
+      }
+    });
     document.querySelectorAll('[data-ov-deel]').forEach(function(menu) {
       var config = {};
       Object.keys(menu.dataset).forEach(function(k) { config[k] = menu.dataset[k]; });

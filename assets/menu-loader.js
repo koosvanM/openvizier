@@ -127,16 +127,16 @@
       if (!naam) continue;
       
       const subs = kinderen(code);
+      const DELEN_NAMEN = ['delen','teilen','share','поделиться','partager','compartir','condividi','partilhar'];
+      const isDelen = DELEN_NAMEN.includes((naam || '').toLowerCase().trim());
       
-      if (subs.length === 0) {
+      if (subs.length === 0 && !isDelen) {
         // Top-level link
         const route = routeByCode[code];
         const href = route?.url ? absUrl(TAAL_CODE, route.url) : ('/' + TAAL_CODE + '/');
         html += '<a class="ov-nav__item" href="' + esc(href) + '">' + esc(naam) + '</a>';
       } else {
         html += '<div class="ov-nav__dropdown">';
-        const DELEN_NAMEN = ['delen','teilen','share','поделиться','partager','compartir','condividi','partilhar'];
-        const isDelen = DELEN_NAMEN.includes((naam || '').toLowerCase().trim());
         const delenAttr = isDelen ? ' data-ov-deel-trigger' : '';
         html += '<a class="ov-nav__item" href="#"' + delenAttr + ' onclick="event.preventDefault()">' + esc(naam) + '<span class="ov-nav__caret">▾</span></a>';
         html += '<div class="ov-nav__submenu">';
@@ -150,7 +150,13 @@
           if (!subNaam || !subUrl) continue;
           const href = absUrl(TAAL_CODE, subUrl);
           if (!href) continue;
-          html += '<a class="ov-nav__subitem" href="' + esc(href) + '">' + esc(subNaam) + '</a>';
+          // Delen-acties: href="#action-xxx" wordt data-ov-deel-action="xxx"
+          const actionMatch = String(subUrl).match(/^#action-(.+)$/);
+          if (actionMatch) {
+            html += '<a class="ov-nav__subitem" href="#" data-ov-deel-action="' + esc(actionMatch[1]) + '" onclick="event.preventDefault()">' + esc(subNaam) + '</a>';
+          } else {
+            html += '<a class="ov-nav__subitem" href="' + esc(href) + '">' + esc(subNaam) + '</a>';
+          }
           subCount++;
         }
         html += '</div></div>';
@@ -162,13 +168,7 @@
       }
     }
     
-    // Taal-schakelaar
-    const talen = [['nl','Nederlands'],['en','English'],['de','Deutsch'],['ru','Русский'],['fr','Français'],['es','Español'],['it','Italiano'],['pt','Português']];
-    html += '<div class="ov-nav__dropdown">';
-    html += '<a class="ov-nav__item" href="#" onclick="event.preventDefault()">⌂<span class="ov-nav__caret">▾</span></a>';
-    html += '<div class="ov-nav__submenu">';
-    for (const [tc, tn] of talen) html += '<a class="ov-nav__subitem" href="/' + tc + '/">' + esc(tn) + '</a>';
-    html += '</div></div>';
+    // Taal-schakelaar komt uit xlsx (1.17)
     
     root.className = 'ov-nav';
     root.innerHTML = '<div class="ov-nav__inner">' + html + '</div>';
