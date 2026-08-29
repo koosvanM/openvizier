@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Consequences Map — Het Open Vizier</title>
+  <meta name="description" content="Why the voting-aid tool will never tell you what you are actually voting for — and what must take its place.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/nl/wat-opkomt/die-folgenkarte.html">
+  <meta property="og:title" content="The Consequences Map">
+  <meta property="og:description" content="Why the voting-aid tool will never tell you what you are actually voting for — and what must take its place.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_gevolgenkaart.jpg">
+  <meta property="og:site_name" content="The Open Visor">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Consequences Map">
+  <meta name="twitter:description" content="Why the voting-aid tool will never tell you what you are actually voting for — and what must take its place.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_gevolgenkaart.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: var(--font-serif, Georgia, serif); font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.2; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.05rem, 2.3vw, 1.2rem); margin: 0.5rem auto 2rem auto; max-width: 600px; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #1c5760; margin: 2.5rem auto; }
+    .wo-artikel__inhoud { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud h2 { font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; }
+    .wo-artikel__inhoud em { font-style: italic; }
+    .wo-artikel__inhoud strong { font-weight: 700; }
+    .wo-artikel__inhoud .sep { text-align: center; color: #6b7280; letter-spacing: 0.5em; margin: 2rem 0; font-size: 1.2rem; }
+    .wo-artikel__inhoud blockquote { background: #faf8f3; border-left: 4px solid #1c5760; padding: 1.5rem 1.75rem; margin: 2rem 0; font-size: 0.98rem; line-height: 1.7; }
+    .wo-artikel__inhoud blockquote p { margin: 0 0 0.9rem 0; }
+    .wo-artikel__inhoud blockquote p:last-child { margin-bottom: 0; }
+    .wo-artikel__inhoud blockquote ul { margin: 0 0 1rem 0; padding-left: 1.5rem; }
+    .wo-artikel__inhoud blockquote li { margin: 0 0 0.5rem 0; line-height: 1.6; }
+    .wo-artikel__inhoud ul { margin: 0 0 1.5rem 0; padding-left: 1.5rem; }
+    .wo-artikel__inhoud li { margin: 0 0 0.6rem 0; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #1c5760; text-decoration: none; font-size: 0.95rem; }
+    .auteursblok { max-width: 1280px; margin: 4rem auto 2rem auto; padding: 1.5rem 1.5rem; border-top: 1px solid #d4d1ca; display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; align-items: center; }
+    .auteursblok__foto img { width: 100px; height: 100px; border-radius: 50%; display: block; object-fit: cover; border: 1px solid #d4d1ca; }
+    .auteursblok__naam { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin: 0 0 0.3rem 0; }
+    .auteursblok__plaats { font-size: 0.9rem; color: #6b7280; margin: 0 0 0.5rem 0; font-style: italic; }
+    .auteursblok__intro { font-family: var(--serif, Georgia, serif); font-size: 0.95rem; color: #4a5263; margin: 0 0 0.5rem 0; }
+    .auteursblok__link { font-size: 0.9rem; color: #1c5760; text-decoration: none; }
+    @media (max-width: 500px) { .auteursblok { grid-template-columns: 70px 1fr; gap: 1rem; } .auteursblok__foto img { width: 70px; height: 70px; } }
+
+    .wo-artikel__hero { width: 100%; max-width: 100%; margin: 0 0 2rem 0; padding: 0; position: relative; text-align: center; }
+    .wo-artikel__hero img { display: inline-block; width: auto; max-width: 100%; height: auto; max-height: 82vh; object-fit: contain; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); background: #f7f5ef; }
+    .wo-artikel__heroCaption { max-width: 1280px; margin: 0.8rem auto 0 auto; padding: 0 1.25rem; text-align: center; font-family: var(--font-serif, Georgia, serif); font-size: 0.92rem; color: #6b7280; font-style: italic; line-height: 1.55; }
+  
+    /* Brede content fix: tekst leesbaar, visuals vol */
+    .wo-artikel__inhoud > p,
+    .wo-artikel__inhoud > h2,
+    .wo-artikel__inhoud > h3,
+    .wo-artikel__inhoud > h4,
+    .wo-artikel__inhoud > ul,
+    .wo-artikel__inhoud > ol,
+    .wo-artikel__inhoud > blockquote { max-width: 1280px; margin-left: auto; margin-right: auto; }
+    .wo-artikel__hero { max-width: 100%; }
+    figure, .wo-artikel__inhoud img, .wo-artikel__inhoud table { max-width: 100%; margin-left: auto; margin-right: auto; display: block; }
+  
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__hero img { max-height: 60vh; }
+      .wo-artikel__heroCaption { padding: 0 1rem; font-size: 0.85rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+    @media (max-width: 480px) {
+      .wo-artikel__hero img { max-height: 50vh; }
+    }
+  </style>
+<link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+<script src="../../assets/ov-nav.js" defer></script>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+  <link rel="canonical" href="https://openvizier.org/en/wat-opkomt/de-gevolgenkaart.html">
+</head>
+<body>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Language">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Language</span>
+    <span class="masthead__taal__cur">· English</span>
+  </a>
+  <div class="masthead__date">What is emerging</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">The Open Visor</a></h1>
+  <p class="masthead__tagline">A newspaper about thinking without blinkers</p>
+</header>
+
+
+<div class="gratis-band">Free information sheet without advertising<span class="gratis-band__sep"> — </span><strong class="gratis-band__mid">Onafhankelijk, geen mening, geen verkoop van gegevens</strong><span class="gratis-band__sep"> — </span><a class='gratis-band__cta' href='/en/op-de-hoogte'>Keep me informed →</a></div>
+
+<nav id="ov-nav-root" aria-label="Main menu"></nav>
+<script src="/assets/menu-loader.js" defer></script>
+<div class="verkennen-crumb" data-code="1.2.1.1.1" style="max-width:1280px;margin:1rem auto 0;padding:0 1.25rem;
+     font-family:Georgia,serif;font-size:0.85rem;color:#6b7280;letter-spacing:.02em;">
+  <a href='/en/verkennen' style='color:#1c5760;text-decoration:none;border-bottom:1px solid rgba(28,87,96,0.3);'>Explore</a>
+  <span style="opacity:.5;margin:0 .35em;">›</span>
+  <a href='/en/verkennen#code=1.2' style='color:#1c5760;text-decoration:none;border-bottom:1px solid rgba(28,87,96,0.3);'>Verdiepen</a>
+  <span style="opacity:.5;margin:0 .35em;">›</span>
+  <a href='/en/verkennen#code=1.2.1' style='color:#1c5760;text-decoration:none;border-bottom:1px solid rgba(28,87,96,0.3);'>Gevolgenkaarten</a>
+  <span style="opacity:.5;margin:0 .35em;">›</span>
+  <a href='/en/verkennen#code=1.2.1.1' style='color:#1c5760;text-decoration:none;border-bottom:1px solid rgba(28,87,96,0.3);'>Fundament</a>
+  <span style="opacity:.5;margin:0 .35em;">›</span>
+  <span style="color:#1a1a1a;font-style:italic;">Manifest</span>
+</div>
+
+<main class="wo-artikel">
+
+<p class="wo-artikel__meta">What is emerging · Malta, June 2026</p>
+
+<figure class="wo-artikel__hero">
+  <img decoding="async" src="../../assets/wat-opkomt/H_gevolgenkaart.jpg" alt="An apothecary's bottle with an unrolled leaflet beside a quill pen and scales — engraved illustration" loading="lazy">
+</figure>
+
+<h1 class="wo-artikel__titel">The Consequences Map</h1>
+<p class="wo-artikel__subtitle">Why the voting-aid tool will never tell you what you are actually voting for — and what must take its place</p>
+<p class="wo-artikel__auteur">Jacobus van Merksteijn · Malta, June 2026</p>
+
+<div class="wo-artikel__streep"></div>
+
+<div class="wo-artikel__inhoud">
+
+<p><strong>Four million Dutch voters fill in a digital voting-aid tool at every election. They think the instrument helps them choose. It does something else. It hides what they are choosing.</strong></p>
+
+<p>When you have answered thirty statements on StemWijzer, you get to see which party "suits you best". What you do not get to see is what that party has done in recent years with your assets, your pension, your energy bill or your safety. Not a word about the exit tax that chases your substantial-interest shareholding to the grave. Not a word about the actual-yield tax that plucks your savings annually. Not a word about the pension cuts coming at you when the productive base has evaporated.</p>
+
+<p>You get a recommendation. Not a leaflet.</p>
+
+<p>That must change. This piece explains why, and what must take its place.</p>
+
+<h2>What StemWijzer actually does</h2>
+
+<p>Start with what StemWijzer is, without polemic. The instrument has been managed since 1998 by ProDemos, a foundation that presents itself as independent and neutral. Every election an editorial board chooses thirty statements out of hundreds possible. Political parties are asked at each statement to fill in "agree", "disagree" or "no opinion", with a short motivation. The user answers the same thirty statements. An algorithm matches his answers with those of the parties and presents a recommendation.</p>
+
+<p>Sounds reasonable. Four million Dutch voters think so. Four million Dutch voters are mistaken, and the mistake sits in four places.</p>
+
+<h2>First mistake — the statements choose the frame</h2>
+
+<p>Whoever formulates the statements determines what the debate is about. What is not in the thirty does not exist as a political issue for the average user.</p>
+
+<p>Search in StemWijzer 2023 or 2025 for statements about the exit tax on your substantial-interest shareholding. About the preservation-assessment that remains standing indefinitely. About the Wegzugsteuer equivalent that Brussels wants to introduce for the whole Union. About the CARF directive that has automatically shared all your accounts with 76 jurisdictions since January 2026. Not a word. The European plundering architecture that hits hundreds of thousands of entrepreneurs per year and indirectly millions of employees does not appear in the instrument that thirteen million Dutch voters use to determine their vote.</p>
+
+<p>In its place: statements about symbolic topics that have been on the talk shows. Whether men should take longer parental leave. Whether the healthcare premium should go up. Whether school should start later. Nothing unimportant, but nothing fundamental. The topics that really touch you — why the factory in Roermond closed, why your son is moving to Texas, why your pension will soon be twenty per cent less — are not in there.</p>
+
+<h2>Second mistake — the statements are morally framed</h2>
+
+<p>A typical StemWijzer statement: "The richest five per cent should pay more tax to keep healthcare affordable."</p>
+
+<p>That sounds neutral. It is not. The statement presupposes four things, all four debatable: that healthcare in its current form must remain affordable, that additional tax is the solution for that, that the richest five per cent pays too low a share, and that "the rich" is a fixed, identifiable group. A statement that hides these four assumptions forces every party to take a position within the frame — not outside it.</p>
+
+<p>Try a statement like: "The welfare state as we know it is structurally unaffordable; we must choose between producing more or distributing less." That statement is never in StemWijzer. It is considered "too ideological". But the earlier one — about the richest five per cent — apparently is not. The frame itself has become invisible, and what is invisible is never put up for debate.</p>
+
+<h2>Third mistake — the parties position themselves</h2>
+
+<p>ProDemos asks every party at every statement to fill in "agree" or "disagree", with a short motivation. The parties know that StemWijzer has thirteen million users. So they formulate their answer in such a way that it appeals to their broader voter public — not to honestly describe their position.</p>
+
+<p>A party that will in reality push through an increase in box 3 can simply answer "disagree" in StemWijzer on a statement about wealth tax, because the statement is narrow enough to allow that evasion. Political marketing instead of political reality. The user reads "disagree" and thinks his assets are safe. Three years later he pays €5,400 extra per year.</p>
+
+<h2>Fourth mistake — the outcome gives an illusion of rationality</h2>
+
+<p>When StemWijzer says at the end "you suit party X best", the user thinks that this is the objective result of a neutral algorithm. It is not. It is the result of thirty pre-selected statements, thirty pre-formulated framings, and thirty pre-given party answers — all three manipulated by interested parties.</p>
+
+<p>The user feels enlightened. He thinks: now I know who to vote for. In reality he has let his vote be determined by three parties that have an interest in the outcome: the editorial team of ProDemos (who chose the frame), the political parties (who formulated their position as favourably as possible), and — most fundamentally — the whole European welfare-state establishment that is challenged in no StemWijzer.</p>
+
+<h2>How StemWijzer amplifies the plundering</h2>
+
+<p>Here comes the deeper point, which is in no media analysis. StemWijzer is not only imperfect. It <strong>amplifies</strong> the plundering that I described in the six parts of "The Great Plundering", in three ways.</p>
+
+<h2>One — it normalises the existing frame</h2>
+
+<p>By putting on the same thirty topics every year — healthcare, education, climate, migration, income difference — the political debate is implicitly limited to those topics. Everything that falls outside the selection falls outside the voting process.</p>
+
+<p>That is how the productivity crisis, the industrial exodus, the fiscal encirclement and the pension crisis appear in no recent StemWijzer. Thirteen million Dutch voters vote on the basis of an agenda that hides the real crisis. And the parties are gradually trained to think only within that agenda, because everything outside it is no longer electorally visible.</p>
+
+<h2>Two — it forces moral framing</h2>
+
+<p>Almost every StemWijzer statement is morally formulated, not factually. "Should the rich pay more?" Moral. "Should the minimum wage go up?" Moral. "Should healthcare become more accessible?" Moral. Every frame presupposes a right answer and a wrong answer. A party that votes "against" places itself morally badly.</p>
+
+<p>As a result all parties gradually shift towards the moral "right" — which in practice comes down to more plundering. The CDA voter of 2017 votes in 2027 for a CDA turned much more to the left. Not because CDA has consciously changed, but because it is asked every year at StemWijzer and on talk shows to take moral positions it cannot refuse without being labelled antisocial. The frame drags every party to the left.</p>
+
+<h2>Three — it hides the consequences</h2>
+
+<p>StemWijzer never shows what its recommendation means. When the instrument says to four million Dutch voters "vote GroenLinks-PvdA" or "vote D66", it is never shown what that vote means after four years for the exit tax, the retirement age, the electricity price, the productive exodus. The relation between vote and consequence is broken. The user gets a recommendation without consequence.</p>
+
+<p>In that respect StemWijzer does what advertising does: it sells the product without showing the leaflet. A medicine advertisement that says nothing about side effects is not allowed in the Netherlands. A political recommendation that says nothing about the consequences for the voter is. What is more — it is recommended by the government, financed by the Ministry of the Interior, and taught in every classroom as a democratic aid.</p>
+
+<h2>What must take its place</h2>
+
+<p>StemWijzer departs from <strong>identity</strong>: which party suits who you are? It asks for your opinions, projects them on the political landscape, and says: you suit party X best.</p>
+
+<p>What must take its place departs from <strong>consequence</strong>: which outcome do you get if you vote? Not opinion projection, but consequence projection. Not your identity is mirrored, but the concrete outcome of your vote in the real world over four years.</p>
+
+<p>That is not an improvement of StemWijzer. That is a fundamentally different instrument. The difference is as great as between a horoscope and a weather forecast. The first validates who you think you are. The second helps you decide what to do.</p>
+
+<p>I call this instrument <strong>the Consequences Map</strong>. It rests on three principles that are all three the opposite of what StemWijzer does.</p>
+
+<h2>Principle one — fact above morality</h2>
+
+<p>The Consequences Map asks no moral questions. It does not ask whether you think the rich should pay more. It asks where you are considering voting, and then shows you what the party of your choice has really done in the past three years on your most important topics. With date. With source. With quote.</p>
+
+<p>No recommendation. No value judgement. Only reality. The user determines himself whether that reality suits him.</p>
+
+<h2>Principle two — consequence above identity</h2>
+
+<p>The Consequences Map does not ask who you are. It asks what you get. For every party you are considering voting for, it shows three types of consequences — for your assets, for your pension, for your safety, for your tax bill, for your children.</p>
+
+<p>Not abstract. Concrete. "A vote for X in 2027 means for you, with your income and your situation, these three changes in the coming four years." No ideology. A bill.</p>
+
+<h2>Principle three — transparency above algorithm magic</h2>
+
+<p>The Consequences Map has no hidden algorithm. It does not do "matching". It shows what parties have voted, with the vote explanation next to it. It shows what parties promise, with the page reference next to it. It shows what the consequences are, with the calculation next to it.</p>
+
+<p>Every user can check every conclusion himself. Every source is included. Every calculation can be redone. When the Consequences Map says "this costs you €5,400 per year", it explains below how that amount is built up, which law is the basis, and which assumption for your situation has been used. No trust in the author. Trust in the facts.</p>
+
+<h2>How it actually looks</h2>
+
+<p>Enough theory. A concrete example. Suppose — you are considering voting for GroenLinks-PvdA at the next Second Chamber election. You are 58 years old, married, homeowner, have €280,000 savings and €145,000 in your supplementary pension. You have a small BV with €120,000 business assets from which in seven years you want to transfer to your son.</p>
+
+<p>What would the Consequences Map show you?</p>
+
+<blockquote>
+<h2>EXAMPLE — CONSEQUENCES MAP FOR A VOTE ON GROENLINKS-PVDA, THEME ASSETS</h2>
+<p>WHAT GROENLINKS-PVDA HAS DONE (2023-2026)</p>
+<ul>
+<li>On 12 February 2026 GroenLinks-PvdA voted in the Second Chamber for the Actual-Yield Box 3 Act, which enters into force in 2028. Source: Proceedings Second Chamber 2026-Z02134.</li>
+<li>On 4 June 2026 party leader Jesse Klaver made a plea for "a fair tax on high profits and large assets". Source: NOS, Second Chamber debate 4 June 2026.</li>
+<li>In the 2023 election manifesto, chapter 7, paragraph 3, it reads: wealth tax of 2% per year on assets above €1 million net, own-home overvalue included.</li>
+</ul>
+<p>WHAT GROENLINKS-PVDA PROMISES FOR 2027-2031</p>
+<ul>
+<li>Continuation of the actual-yield box 3 system, with tightened rates above €500,000.</li>
+<li>Introduction of a progressive substantial-interest tax (from 26.9% to 33% for profits above €250,000).</li>
+<li>Limitation of the business-succession scheme (BOR) from 75% to 50% exemption.</li>
+</ul>
+<p>WHAT THAT MEANS FOR YOU — 58 YEARS OLD, HOMEOWNER, BV</p>
+<ul>
+<li>On your savings (€280,000): annual box 3 tax rises from about €1,700 to an estimated €4,200 per year.</li>
+<li>On your own home (overvalue €420,000 above purchase price): is included in box 3 under the GL-PvdA proposal, annual burden estimated €2,500 extra.</li>
+<li>On your BV (€120,000 business assets): on transfer to your son in 7 years — business-succession scheme limited to 50%. One-off extra tax estimated €18,000.</li>
+<li>On your supplementary pension (€145,000): no direct consequences, because pension falls outside box 3.</li>
+</ul>
+<p>TOTAL FOR YOU OVER FOUR YEARS (2027-2031)</p>
+<p>Annually: approximately €5,000 extra tax on your assets.</p>
+<p>One-off at business succession: estimated €18,000 extra.</p>
+<p>Four years total: approximately €38,000 extra tax in four years' time.</p>
+</blockquote>
+
+<p>No polemic. No moral condemnation. No recommendation to vote or not vote for GroenLinks-PvdA. Only facts, with sources, translated to your situation.</p>
+
+<p>You decide for yourself. Perhaps you find €38,000 over four years a fair contribution for a fairer Netherlands. Then you vote GroenLinks-PvdA with your head held high. Perhaps you find it unacceptable. Then you vote otherwise. In both cases you have one thing the StemWijzer user did not have: you know what you are voting for.</p>
+
+<p>That is the consequences map. No more and no less.</p>
+
+<h2>What must happen to build this</h2>
+
+<p>This is no instrument that is built in a week. It requires three things that are all currently missing.</p>
+
+<h2>One — an editorial team that processes the facts</h2>
+
+<p>For every party, for every theme, someone must go through the Chamber votes, the election manifestos, the party documents and extract the facts. With source and date. That is journalistic work of an order that no volunteer can carry. It requires three to four serious editors who each manage a political dossier — taxation, energy, pension, safety — and keep it up to date over the years.</p>
+
+<h2>Two — a calculation infrastructure that translates the consequences</h2>
+
+<p>The Consequences Map shows consequences for different types of Dutch citizens. For a retiree of 70 with state pension and €40,000 savings. For a DGA of 55 with BV and own home. For a thirty-something with rental home, average income, two children. For every proposed change a calculation model must be able to show what the effect is for every type of reader.</p>
+
+<p>That requires a tax specialist working with the editorial team, and a developer who builds the models into a browser tool so the user can enter his own situation. Not complicated, but meticulous.</p>
+
+<h2>Three — a legal shell that provides protection</h2>
+
+<p>When the Consequences Map becomes successful — and it will become successful, because it fills an obvious gap — political parties will attack it. Not openly, because it rests on facts. But via detours: complaints to the Advertising Code Commission, questions to supervisors, lobbying attempts to get legislation amended.</p>
+
+<p>For that a legal shell is needed — a media-law lawyer on retainer, a well-documented protocol on how every conclusion is substantiated, and a foundation structure that spreads liability. Not complicated, but necessary.</p>
+
+<h2>An invitation to whoever sees this</h2>
+
+<p>Het Open Vizier has been publishing in four languages since 2024. An independent newspaper, carried by one author, with a growing readership seeking the counter-narrative that is missing in the established media.</p>
+
+<p>The Consequences Map is the next step. Not a sequel to the six-part "The Great Plundering", but its practical execution. Because what was described in the six parts — a Europe that chases away its productive class, with the consent of the majority of voters — can only change when voters start to see what their vote really produces.</p>
+
+<p>To you, entrepreneur, inventor, wealth-holder, who reads this text and shares the diagnosis: this is a work I cannot carry alone. It requires three to five hundred thousand euros per year for a professional team of five people — three editors, a tax specialist, a developer — for the three years needed to make the Consequences Map into an instrument that can do its work in 2029 or 2030 during the Second Chamber elections.</p>
+
+<p>No lobby fund. No party contribution. No advertising for your company. An independent publication, an instrument that shows the Dutch voter what he gets for his vote, and nothing more.</p>
+
+<p>What you get back for it:</p>
+
+<blockquote>
+<h2>WHAT THE CONTRIBUTING ENTREPRENEUR DOES GET</h2>
+<ul>
+<li>A Dutch voice that for the first time shows the ordinary voter what his vote really does.</li>
+<li>Public recognition as founder of the instrument, if desired.</li>
+<li>No influence on the editorial team. Independence is the value.</li>
+<li>A network of co-founders who share the same insight.</li>
+<li>The knowledge that you are building something that may protect your children.</li>
+</ul>
+<h2>WHAT THE CONTRIBUTING ENTREPRENEUR DOES NOT GET</h2>
+<ul>
+<li>No advertising, no preferential treatment, no editorial influence.</li>
+<li>No tax advantage — this is no deductible gift, this is an investment in public space.</li>
+<li>No guarantee that the instrument succeeds. This is an attempt, not a certainty.</li>
+</ul>
+</blockquote>
+
+<p>Whoever is interested writes a letter — no form, a real letter — to the correspondence address on openvizier.org. Tell who you are, what your company does, why this touches you. I answer everyone who writes. We meet each other afterwards in Malta, Milan, Zürich or wherever fits, and from those encounters the network is built that makes this project possible.</p>
+
+<p>Not all entrepreneurs are welcome. But everyone who shares the diagnosis and accepts the construction task is.</p>
+
+<h2>Closing</h2>
+
+<p>StemWijzer is no conspiracy. There is no malicious editor who plots every evening at ProDemos plans to mislead the Dutch voter. There is a well-intentioned foundation that does its work within the frame it has inherited, and which unconsciously lets itself be used to keep that frame in place.</p>
+
+<p>What I have described in this manifesto is no attack on ProDemos. It is an attack on the illusion that one single instrument, made by one single club, with thirty pre-determined statements, can cover the complete need of four million Dutch voters. It cannot. It never could.</p>
+
+<p>What must come is something more honest. Not a recommendation, but a leaflet. Not a matching algorithm, but a consequences map. Not "you suit X", but "if you vote X, you get this".</p>
+
+<p>Four million Dutch voters deserve this. Not as luxury. As their democratic right.</p>
+
+<p><strong>We are going to build it. Today it starts.</strong></p>
+
+<ul>
+<li>• •</li>
+</ul>
+
+<p><em>— Jacobus van Merksteijn</em></p>
+
+<p>Malta, June 2026</p>
+
+<p>Appears shortly on stemgevolgen.nl, gevolgenkaart.nl and politiekebijsluiter.nl</p>
+
+</div>
+
+<div class="auteursblok">
+  <div class="auteursblok__foto"><img decoding="async" src="../../assets/auteur/jvm_studio.jpg" alt="Jacobus van Merksteijn" loading="lazy"></div>
+  <div class="auteursblok__tekst">
+    <p class="auteur-naam">Jacobus van Merksteijn</p>
+    <p>Editor-in-chief of Het Open Vizier. Entrepreneur, developer of industrial and governance innovations (Carbon-Alert Ltd, TerraClean Ltd, GuardSkin Ltd). Writes about economic, ecological and political system questions from experience with the Brussels and The Hague decision-making machinery.</p>
+  </div>
+</div>
+
+<!-- NAV_BOTTOM_BEGIN -->
+<nav class="navbar-bottom" aria-label="Front page">
+  <a class='navbar__terug' href='/en/wat-opkomt/'>← Back to What is emerging</a>
+  <a href="../../en/" class="navbar__home">⌂ Front page</a>
+  <a class='navbar__verk' href='/en/verkennen'>↻ Explore</a>
+</nav>
+<!-- NAV_BOTTOM_END -->
+
+</main>
+
+<script src="../../assets/nav-mobile.js" defer></script>
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>
