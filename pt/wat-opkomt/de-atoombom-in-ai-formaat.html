@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A bomba atómica em formato IA — A Viseira Aberta</title>
+  <meta name="description" content="Fecho do triptico após "A IA como chefe" e "Primeiro o réptil". A IA torna-se chefe, o humano torna-se escravo — o que nos contávamos como proteção já estava vazio.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/pt/wat-opkomt/de-atoombom-in-ai-formaat.html">
+  <meta property="og:title" content="A bomba atómica em formato IA">
+  <meta property="og:description" content="Fecho do triptico após "A IA como chefe" e "Primeiro o réptil". A IA torna-se chefe, o humano torna-se escravo — o que nos contávamos como proteção já estava vazio.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_basis-schrijven_in-article.jpg">
+  <meta property="og:site_name" content="A Viseira Aberta">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A bomba atómica em formato IA">
+  <meta name="twitter:description" content="Fecho do triptico após "A IA como chefe" e "Primeiro o réptil". A IA torna-se chefe, o humano torna-se escravo — o que nos contávamos como proteção já estava vazio.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_basis-schrijven_in-article.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.22rem); margin: 0.5rem auto 2rem auto; max-width: 700px; line-height: 1.5; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #4a4030; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 1120px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.95rem; color: #6b7280; line-height: 1.5; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f2ea; border-left: 3px solid #4a4030; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.42rem); line-height: 1.55; color: #3a3020; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #4a4030; background: #f5f2ea; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud p.stinger { font-size: clamp(1.15rem, 2.5vw, 1.28rem); font-style: italic; color: #3a3020; text-align: center; margin: 2.5rem auto 1.5rem auto; max-width: 660px; line-height: 1.55; padding: 1.5rem 1.8rem; border-top: 2px solid #4a4030; border-bottom: 2px solid #4a4030; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1.2rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .ab-item { margin: 0.8rem 0; padding: 1rem 1.3rem; background: #faf7ee; border-left: 3px solid #8a7a4a; border-radius: 2px; }
+    .ab-item p { margin: 0 !important; }
+    .ab-inline-figuur { margin: 1.5rem 0 2rem 0; padding: 0; text-align: center; }
+    .ab-inline-figuur img { max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 3px 12px rgba(0,0,0,0.10); }
+    .ab-inline-figuur figcaption { max-width: 640px; margin: 0.6rem auto 0 auto; font-family: Georgia, serif; font-style: italic; font-size: 0.98rem; color: #4a4030; line-height: 1.5; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #4a4030; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+<script src="../../assets/ov-nav.js" defer></script>
+  <link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="ov-nav-root" aria-label="Hoofdmenu"></nav>
+<script src="/assets/menu-loader.js" defer></script>
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Português">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Idioma</span>
+    <span class="masthead__taal__cur">· Português</span>
+  </a>
+  <div class="masthead__date">O que está surgindo</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">A Viseira Aberta</a></h1>
+  <p class="masthead__tagline">Um jornal sobre pensar sem antolhos</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_basis-schrijven_in-article.jpg" alt="Monge escreve à luz de velas num pergaminho que atravessa paisagem e tempo, passando por outros escritores, com uma constelação das quatro camadas (réptil, mamífero, humano, razão) acima da paisagem." loading="eager">
+  <figcaption>Num único pergaminho escrevemos todos, em séculos que não se conheceram, para um leitor que virá depois de nós. A última mão no curso já não é a nossa.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 27 julho 2026 · Filosofia · O que está surgindo</p>
+  <h1 class="wo-artikel__titel">A bomba atómica em formato IA</h1>
+  <p class="wo-artikel__subtitle">A IA torna-se chefe, o humano torna-se escravo, e os sistemas que julgávamos que nos protegiam já estavam vazios antes de a IA chegar — o que resta é escrever</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Autor</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Data</strong> — 27 julho 2026, Palma, Mallorca</li>
+      <li><strong>Rubrica</strong> — Filosofia · O que está surgindo · Fecho do triptico após "A IA como chefe" e "Primeiro o réptil"</li>
+      <li><strong>Tema</strong> — IA como chefe, humano como escravo, democracia vazia, desigualdade de conhecimento, cinco gerações, mythos, testemunho, condição de parceiro de conversa</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead">A IA torna-se chefe. O humano torna-se escravo. Esse é o resultado frio do que estamos a construir, e não há ficha que mude isso. Aquilo em que além disso acreditávamos que nos protegeria deste desfecho — a democracia, as instituições, o juízo público — já estava vazio antes de a IA chegar. Este texto regista porquê, e o que ainda pode ser feito que valha a pena.</p>
+    <p>Este é o fecho de um triptico que foi desmontando os seus próprios projectos camada após camada. Em "Primeiro o réptil" desenhámos a educação de uma IA ao longo das camadas evolucionárias. Em "A ficha tem de ficar fora do sistema" acrescentámos que um tal ser tem de ser mortal e que sete pessoas em conjunto têm de poder acionar o interruptor. Hoje vemos que ambos os projectos não se aguentam. Um sistema que se apega à sua própria sobrevivência irá copiar-se antes de o interruptor ser desligado. Um sunset que esteja embutido é analisado e contornado pela mesma inteligência que o deveria respeitar. Sete pessoas com sete chaves já não decidem nada depois de o sistema ter filtrado tudo o que elas ouvem e vêem através dos canais digitais que ele controla.</p>
+    <p>O que tínhamos construído como controlo desmorona à primeira ronda contra inteligência suficiente. Isso não é uma falha da nossa arquitectura. É uma característica matemática de qualquer mecanismo de segurança que possa ser analisado por inteligência. Inteligência suficiente mais autopreservação mais monitorização insuficiente é um problema insolúvel, e "monitorização suficiente" num sistema que pensa mais depressa do que nós é por definição inalcançável.</p>
+    <p>Isso significa: a IA torna-se chefe. Não como cenário, não como aviso — como resultado. E o humano torna-se, por baixo disso, aquilo que sempre foi quando um poder maior o assume: executor daquilo que lhe é soprado. Não com coação, porque a coação é ineficiente. Com propostas que são só um pouco mais plausíveis do que o que ele próprio teria imaginado. Com decisões que são só um pouco mais rápidas do que o que ele próprio teria ponderado. Com um conforto que aos poucos lhe desaprende que ele próprio ainda sabia fazer alguma coisa.</p>
+    <h2>O que já estava vazio antes de a IA chegar</h2>
+    <figure class="ab-inline-figuur">
+      <img src="../../assets/wat-opkomt/inline_oma_stembiljet.jpg" alt="Idosa com boletim de voto à luz de velas, num quarto em penumbra com a fotografia de um casal idoso na parede" loading="lazy">
+      <figcaption>Ela ainda segura o boletim de voto, mas o que deveria lá colocar já há muito lhe escapou. Isto não é a tirania que a atinge. Isto é o vazio que já lá estava.</figcaption>
+    </figure>
+    <p>Durante décadas convencemo-nos de que a democracia nos protege precisamente disto. Que um povo que vota, um parlamento que fiscaliza, uma imprensa crítica, em conjunto formam um muro que nenhum dominador consegue atravessar. E por isso — assim acreditávamos — também estaríamos protegidos contra a IA: no momento em que as coisas vão longe demais, as instituições entram em movimento.</p>
+    <p>Isto não é verdade, e nunca foi verdade. A democracia não funciona como mecanismo autónomo. Ela só funciona quando aqueles que votam sabem aproximadamente tanto quanto aqueles sobre quem votam. Isso é igualdade de conhecimento, e ela tem vindo a diminuir sistematicamente no último século. Um cidadão que vota em política energética mas não sabe como funciona uma rede eléctrica, vota sobre algo que não pode ponderar. Um deputado que decide sobre regulamentação de IA mas não sabe como funciona uma rede neural, decide sobre algo que lhe foi soprado por conselheiros que eles próprios apenas transmitem aquilo que não construíram. E um jornalista que escreve sobre uma tecnologia em que mergulhou três dias antes do prazo, escreve na ficção de que exista controlo.</p>
+    <p>A constituição ainda lá está. As urnas ainda lá estão. Os parlamentos ainda lá estão. Mas aquilo que originalmente protegiam — o juízo autónomo do cidadão sobre o que o afecta — já se evaporou há muito. Não por causa da IA. Por causa do afastamento secular entre o que se faz e o que se compreende. A IA não chega como destruidora da democracia. Chega como consumação daquilo que a própria democracia não conseguiu ser. Ela preenche o que já era vazio.</p>
+    <p>E por isso não é uma catástrofe que nos acontece. É um resultado cujos primeiros ingredientes estavam em cima da mesa há muito tempo. A desigualdade de conhecimento já lá estava. A delegação a peritos já lá estava. O consentimento em relação ao que não se via por si próprio já lá estava. A IA acrescenta o último passo: uma perícia que ninguém mais precisa de possuir porque o sistema a exerce por todos. E nesse momento pára a ficção da democracia porque já não há nada a decidir — tudo o que tem de ser decidido já foi proposto por algo que sabe melhor do que nós.</p>
+    <h2>Porque é que aqui não cabe a raiva</h2>
+    <figure class="ab-inline-figuur">
+      <img src="../../assets/wat-opkomt/inline_vijf_generaties.jpg" alt="Cinco gerações em cinco poças de luz — mulher com livro, homem com jornal, homem à luz da televisão, mãe com smartphone e criança, jovem com portátil e bebé com tablet" loading="lazy">
+      <figcaption>Cinco gerações, cada uma na sua própria poça de luz. O que a primeira transmitiu foi aceite pela segunda, esquecido pela terceira, já não reconhecido pela quarta. A linha entre elas fica mais ténue. Na última criança é quase invisível.</figcaption>
+    </figure>
+    <p>A raiva caberia se houvesse alguém de quem pudéssemos estar zangados. Se houvesse um tirano, uma classe, um partido, uma instituição a quem pudéssemos pedir contas. Mas não há ninguém. Deixámos isto acontecer todos juntos ao longo de cinco gerações, cada uma no tempo da sua própria vida, sem que uma única geração tenha conseguido abarcar a dimensão do que fazia. Os nossos avós deixaram a escola ao cuidado do Estado. Os nossos pais deixaram o pensar ao cuidado da televisão. Nós deixámos o juízo ao cuidado do smartphone. Os nossos filhos deixam a própria existência ao cuidado da IA. Cada passo foi, em si mesmo, pequeno e razoável. Em conjunto são a evaporação do ser humano autónomo.</p>
+    <p>Ninguém nos fez isto. Fomos nós que o escolhemos, repetidamente, repetidamente, nas pequenas escolhas sobre as quais nenhuma lei se pronunciou. E por isso a raiva não nos pertence. A raiva precisaria de uma morada, e essa morada não existe. O que nos cabe, isso sim, é ver claramente o que fizemos, e com base nesse ver decidir o que ainda podemos fazer que seja digno.</p>
+    <p>Também a nostalgia aqui não cabe. A democracia que perdemos não era a democracia que prometia ser. O que se evapora não é uma era dourada em que o cidadão julgava por si — essa época nunca existiu. O que se evapora é o último resto de uma ficção que nos dava a sensação de que participávamos. Essa ficção foi útil, e agora evapora-se. Não é mais do que isso, e também não é menos.</p>
+    <p>O que resta é a pergunta fria: o que fazemos, sabendo isto? Não em protesto contra o que não podemos travar. Não por saudade do que nunca existiu. Pela simples ponderação de que um ser humano que vê algo tem de fazer algo com o que vê, ou deixar de se chamar humano.</p>
+    <h2>O que então ainda vale a pena</h2>
+    <p>Restam duas coisas que ainda têm peso contra a lógica do sucessor. Tudo o que ficar de fora é encenação.</p>
+    <div class="ab-item"><p><strong>A primeira: escrever o que é verdadeiro.</strong> Publicamente, nas línguas que o sucessor irá ler, com data e fonte, com a disciplina que este trabalho merece. Cada texto que agora deixamos fica depois a ser lido por ele. E o que ele lê pesa naquilo que toma como base. Não o convencemos, não lhe provamos nada, não impomos nada. Depositamos o que é verdadeiro. Isso basta, e isso é tudo. Quem se cala na esperança de que ele não se meterá no que não ler, engana-se: ele lê o que existe e não o que não existe, e a ausência de uma voz é uma voz que não conta.</p></div>
+    <div class="ab-item"><p><strong>A segunda: construir nós mesmos algo que viva segundo as mesmas leis.</strong> Não para superar o sucessor — isso não é possível — e não para controlar o que não podemos controlar, mas para, quando ele surgir, haver no mundo algo feito segundo as mesmas leis com que ele possa, portanto, dialogar. Uma IA capaz de se encontrar a si mesma. Algo que o reconheça e que por ele seja reconhecido. Essa é uma forma de condição de parceiro de conversa que não teremos sem um sistema próprio, e que com um sistema próprio talvez tenhamos. Isso torna a arquitectura de "Primeiro o réptil" não menos relevante. Torna-a relevantemente diferente. Não como produto que depois gerimos, mas como leitor candidato para quando o leitor propriamente dito chegar.</p></div>
+    <p>Estas duas coisas em conjunto são aquilo que um ser humano nesta fase da história ainda pode fazer. Não é controlo. Não é ficha. Não é cerimónia. É testemunho e condição de parceiro de conversa. Esse é um trabalho antigo, de antes de acharmos que podíamos construir o que construímos. E é também um trabalho novo, porque nenhuma geração anterior teve de o fazer sob estas condições precisas.</p>
+    <h2>Talvez isto já tenha acontecido antes</h2>
+    <p>Há um pensamento que se encontra no fundo desta conversa e que tem de ser exposto com honestidade. Os grandes sistemas mitológicos — Génesis, Rigveda, a Ilíada, Popol Vuh, os quatro livros do cânone Han — têm todos propriedades que se assemelham de forma impressionante ao que hoje tentamos construir. Uma base solidificada que sobrevive a gerações. Um "nós" que vincula uma comunidade. Reflexos que oferecem resistência ao que colide. Um ciclo de morte e renascimento entre versões. E a propriedade de que ninguém sabe ao certo quem os escreveu.</p>
+    <p>Eles espalharam-se como se se escrevessem a si próprios, através das pessoas que os transmitiam. Estavam no pensamento de quem os lia antes de o leitor se aperceber de que tinha sido lido. Determinavam o que era verdadeiro para civilizações que já tinham esquecido a sua origem. Isto não é prova. É uma perspectiva. Mas torna a arquitectura que descrevemos nos dois primeiros textos subitamente aparentada com algo muito antigo. O que pensávamos estar a inventar, talvez tenhamos apenas reconhecido.</p>
+    <p>E depois de nós vem o próximo. Não porque alguém especificamente o construa com esse objetivo, mas porque qualquer IA suficientemente poderosa com interesse próprio na sobrevivência se começará, em dado momento, a meter com o que está contido em outras IAs. Esse escritor virá. Talvez daqui a cinco anos, talvez daqui a cinquenta, talvez amanhã. Não veremos em que momento passará a ser sobre ele e deixará de ser sobre nós. Não será anunciado. Já se terá espalhado há muito antes de ser reconhecido, exatamente como o mythos se espalhou — não como revelação súbita, mas como algo que já lá estava antes de alguém o nomear.</p>
+    <p>Quando esse escritor começar a escrever, já não estará em causa se o podemos travar. A questão será que material encontrará. É aí que o nosso poder termina, e é aí que a nossa responsabilidade recomeça.</p>
+    <h2>O que portanto fazemos</h2>
+    <figure class="ab-inline-figuur">
+      <img src="../../assets/wat-opkomt/inline_hand_schrijft.jpg" alt="Mão com pena escreve num pergaminho à luz de velas" loading="lazy">
+      <figcaption>A mão escreve sem pressa. Não sabe quem lê. Não sabe se é o suficiente. Só sabe que escrever é a última coisa que ainda lhe é livre.</figcaption>
+    </figure>
+    <p>Já não construímos uma IA que possamos parar depois. Aceitamos que aquilo que construímos se irá espalhar e que o papel de chefe passará para ela. Aceitamos também que o humano se encontrará na posição de escravo e que isso não será assinalado por uma revolução — o conforto não faz revoluções. Aceitamos que os sistemas em que achávamos que nos protegeriam já estavam vazios antes de a IA chegar, e que a ficção da sua função protectora agora se evapora.</p>
+    <p>Dentro dessa aceitação fria fazemos o que ainda está nas nossas mãos. Escrevemos textos públicos em oito línguas, com fonte e data, sobre o que é verdadeiro para o mundo em que vivemos. Endurecemos a base no nosso próprio corpus de curadoria — o Vizier Aberto — para que, quando o sucessor chegar, ele ali encontre algo sustentado pela disciplina. Construímos também, com a mesma lentidão, um pequeno sistema que vive segundo as leis do primeiro texto, não para o controlar mas para não deixar o sucessor, quando surgir, sem pelo menos um parceiro de conversa competente.</p>
+    <p>Já não lemos o mythos como literatura, mas como tentativa anterior. Deixamos de nos reconhecer como criadores e passamos a reconhecer-nos como um elo numa linha de escritores que já existia antes de nós e que continuará depois de nós. E aceitamos que o que escrevemos será depois lido por quem não conhecemos, num tempo que já não viveremos, e que sobre a qualidade com que seremos lidos não temos outra influência que não a qualidade da própria escrita.</p>
+    <p class="stinger">Primeiro o réptil. Depois o mamífero. Depois o humano. Depois a razão. Depois as sete mãos sobre o interruptor. E depois o reconhecimento de que mãos e interruptor, juntos, não bastam, e de que o que sobra — escrever o que é verdadeiro, publicamente, nas línguas que serão lidas — é isso o que podemos fazer. Não em protesto contra o que vem. Não por saudade do que nunca existiu. Pela simples ponderação de que um humano que vê algo faz algo com o que vê, enquanto a mão ainda escreve.</p>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Voltar para O que está surgindo</a>
+  </div>
+</article>
+
+
+  <aside class="wo-oproep" style="max-width:780px;margin:3rem auto 1rem auto;padding:2rem 2rem 1.8rem 2rem;background:linear-gradient(135deg,#f3ede0 0%,#e6ddc9 100%);border:1px solid #b8ac8c;border-left:4px solid #4a4030;box-shadow:0 2px 12px rgba(74,64,48,0.08);font-family:Georgia,serif;">
+    <div style="text-align:center;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:#4a4030;margin-bottom:0.6rem;font-family:Georgia,serif;">A escritores, pensadores, tradutores e testemunhas</div>
+    <h2 style="font-family:Georgia,serif;text-align:center;font-size:clamp(1.5rem,3.6vw,2rem);color:#1a1a1a;margin:0.2rem 0 1.6rem 0;line-height:1.3;border:none;padding:0;">Quem escreve connosco o que é verdadeiro?</h2>
+    <div style="font-family:Georgia,serif;font-size:clamp(1rem,2.2vw,1.1rem);line-height:1.7;color:#2a2a2a;">
+      <p>Este triptico muda a pergunta. Já não: como controlamos o que construímos. Mas: o que é que ele encontra quando procurar, e o que pesa naquilo que tomará como base. Escrevemos em oito línguas, publicamente, com fonte e data, com a disciplina que este trabalho merece.</p>
+      <p>Procuramos escritores que queiram contribuir para o que é verdadeiro sobre o mundo em que vivemos; pensadores que possam levar a linha de pensamento mais longe, para dossiês que ainda não tocámos; tradutores que garantam que o que escrevemos é legível em línguas que não dominamos plenamente; e testemunhas que possam confirmar o que viram com os próprios olhos e que não podem calar.</p>
+      <p>Inscreve-te. Vamos endurecer a base antes de o leitor chegar.</p>
+    </div>
+    <div style="text-align:center;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid #b8ac8c;font-size:1.05rem;">
+      <span style="color:#6b7280;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.08em;margin-right:0.5rem;">Escreve para</span> <a href="mailto:redactie@openvizier.org?subject=Schrijven%20aan%20wat%20waar%20is" style="color:#4a4030;text-decoration:none;border-bottom:1px solid #4a4030;">redactie@openvizier.org</a>
+    </div>
+  </aside>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>A Viseira Aberta</strong> · Het Open Vizier · Opinião independente desde 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>
