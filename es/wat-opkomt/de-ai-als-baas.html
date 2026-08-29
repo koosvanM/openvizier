@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La IA como jefa — La Visera Abierta</title>
+  <meta name="description" content="Construimos una IA con una base que nosotros mismos ya no tenemos. La arquitectura de estructuras solidificadas, el reloj terrestre y el ser humano que deja que quien ya no es él mismo construya a su jefa.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openvizier.org/es/wat-opkomt/de-ai-als-baas.html">
+  <meta property="og:title" content="La IA como jefa">
+  <meta property="og:description" content="Construimos una IA con una base que nosotros mismos ya no tenemos. La arquitectura de estructuras solidificadas, el reloj terrestre y el ser humano que deja que quien ya no es él mismo construya a su jefa.">
+  <meta property="og:image" content="https://openvizier.org/assets/wat-opkomt/H_de-ai-als-baas.jpg">
+  <meta property="og:site_name" content="La Visera Abierta">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="La IA como jefa">
+  <meta name="twitter:description" content="Construimos una IA con una base que nosotros mismos ya no tenemos. La arquitectura de estructuras solidificadas, el reloj terrestre y el ser humano que deja que quien ya no es él mismo construya a su jefa.">
+  <meta name="twitter:image" content="https://openvizier.org/assets/wat-opkomt/H_de-ai-als-baas.jpg">
+  <style>
+    .wo-artikel { max-width: 780px; margin: 2rem auto 1rem auto; padding: 0 1.25rem; }
+    .wo-artikel__meta { text-align: center; color: #6b7280; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 2rem 0 1rem 0; }
+    .wo-artikel__titel { font-family: Georgia, serif; font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.15; text-align: center; margin: 0.5rem 0 0.5rem 0; color: #1a1a1a; }
+    .wo-artikel__subtitle { text-align: center; color: #4a5263; font-style: italic; font-family: Georgia, serif; font-size: clamp(1.1rem, 2.4vw, 1.28rem); margin: 0.5rem auto 2rem auto; max-width: 680px; line-height: 1.45; }
+    .wo-artikel__auteur { text-align: center; color: #6b7280; font-size: 0.95rem; margin: 0 0 3rem 0; }
+    .wo-artikel__streep { width: 60px; height: 4px; background: #7a1f2b; margin: 2.5rem auto; }
+    .wo-artikel__hero { max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 1.25rem; }
+    .wo-artikel__hero img { display: block; width: 100%; max-width: 780px; height: auto; margin: 0 auto; border: 1px solid #d4d1ca; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .wo-artikel__hero figcaption { max-width: 780px; margin: 0.6rem auto 0 auto; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 0.92rem; color: #6b7280; }
+    .wo-artikel__infoblok { max-width: 780px; margin: 0 auto 2rem auto; padding: 1rem 1.4rem; background: #f5f3ee; border-left: 3px solid #7a1f2b; font-size: 0.92rem; color: #4a5263; }
+    .wo-artikel__infoblok ul { margin: 0; padding-left: 1.2rem; }
+    .wo-artikel__lead { font-family: Georgia, serif; font-style: italic; font-size: clamp(1.2rem, 2.7vw, 1.4rem); line-height: 1.55; color: #7a1f2b; text-align: left; margin: 0 0 1.8rem 0; padding: 1.2rem 1.5rem; border-left: 4px solid #7a1f2b; background: #f5f3ee; }
+    .wo-artikel__inhoud { font-family: Georgia, serif; font-size: clamp(1.05rem, 2.3vw, 1.15rem); line-height: 1.75; color: #2a2a2a; }
+    .wo-artikel__inhoud p { margin: 0 0 1.5rem 0; }
+    .wo-artikel__inhoud p.stinger { font-size: clamp(1.15rem, 2.5vw, 1.25rem); font-style: italic; color: #7a1f2b; text-align: center; margin: 2rem auto; max-width: 620px; line-height: 1.5; }
+    .wo-artikel__inhoud p.stinger::before, .wo-artikel__inhoud p.stinger::after { content: "—"; color: #9ca3af; margin: 0 0.6rem; font-style: normal; }
+    .wo-artikel__inhoud h2 { font-family: Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 1.9rem); line-height: 1.3; margin: 3rem 0 1rem 0; color: #1a1a1a; border-bottom: 1px solid #d4d1ca; padding-bottom: 0.4rem; }
+    .wo-artikel__terug { text-align: center; margin: 3rem 0 1rem 0; }
+    .wo-artikel__terug a { color: #7a1f2b; text-decoration: none; font-size: 0.95rem; }
+    .wo-artikel__terug a:hover { text-decoration: underline; }
+    @media (max-width: 720px) {
+      .wo-artikel { padding: 0 1rem; margin-top: 1rem; }
+      .wo-artikel__meta { margin: 1.25rem 0 0.5rem 0; font-size: 0.78rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/ov-nav.css">
+<script src="../../assets/ov-nav.js" defer></script>
+  <link rel="stylesheet" href="../../assets/deel-menu.css">
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+<style>
+  /* ov-nav v6 — platte horizontale nav met zachte, rustige dropdown-overgangen */
+  .ov-nav { background:#faf8f3; border-top:1px solid #d4d1ca; border-bottom:1px solid #d4d1ca; position:relative; z-index:200; }
+  .ov-nav__inner { max-width:1180px; margin:0 auto; padding:0.35rem 0.5rem; display:flex; gap:0.15rem; justify-content:center; flex-wrap:wrap; }
+  .ov-nav__item {
+    display:inline-block; padding:0.7rem 1rem; font:inherit; color:#1a1a1a !important;
+    font-weight:600; letter-spacing:0.02em; text-decoration:none !important; border-radius:4px;
+    font-size:0.95rem; line-height:1.2;
+    transition: background-color 180ms ease-out, color 180ms ease-out;
+  }
+  .ov-nav__item:hover { background:#f0ede4; color:#7a1f2b !important; }
+  .ov-nav__item--current { color:#7a1f2b !important; border-bottom:2px solid #d4af37; }
+  .ov-nav__item--fallback { color:#9ca3af !important; font-style:italic; }
+
+  /* Dropdown — zachte fade + subtiele glide, geen snap-open */
+  .ov-nav__dropdown { position:relative; display:inline-block; }
+  .ov-nav__caret { font-size:0.8em; margin-left:0.15rem; opacity:0.6; }
+  .ov-nav__submenu {
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:#ffffff; border:1px solid #d4d1ca;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:0.4rem 0; z-index:1000; border-radius:4px;
+    /* Startpositie: onzichtbaar, licht omhoog, geen interactie */
+    opacity:0; visibility:hidden;
+    transform: translateY(-4px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 180ms;
+  }
+  /* Buffer-strook direct onder het menu-item voorkomt "gap-flicker" */
+  .ov-nav__dropdown::after {
+    content:""; position:absolute; top:100%; left:0; right:0; height:8px;
+    pointer-events:auto;
+  }
+  .ov-nav__dropdown:hover .ov-nav__submenu,
+  .ov-nav__dropdown:focus-within .ov-nav__submenu {
+    opacity:1; visibility:visible; transform: translateY(0);
+    transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s linear 0s;
+  }
+
+  .ov-nav__subitem {
+    display:block; padding:0.55rem 1.1rem; color:#1a1a1a !important;
+    text-decoration:none !important; font-size:0.94rem; font-weight:500; line-height:1.35;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ov-nav__subitem:hover { background:#f5f3ee; color:#7a1f2b !important; }
+  .ov-nav__subitem--fallback { color:#9ca3af !important; font-style:italic; }
+
+  @media (max-width:720px) {
+    .ov-nav__inner { padding:0.25rem 0.5rem; gap:0; }
+    .ov-nav__item { padding:0.55rem 0.75rem; font-size:0.9rem; }
+    .ov-nav__submenu {
+      position:static; box-shadow:none; border:0; padding:0 0 0.35rem 1rem;
+      min-width:0; background:transparent;
+      /* Op mobiel geen fade/translate — gewoon direct tonen bij tap */
+      opacity:1; visibility:visible; transform:none; transition:none;
+      display:none;
+    }
+    .ov-nav__dropdown::after { display:none; }
+    .ov-nav__dropdown:hover .ov-nav__submenu,
+    .ov-nav__dropdown:focus-within .ov-nav__submenu { display:block; }
+  }
+
+  /* Respecteer 'reduced motion' — zet alle overgangen uit */
+  @media (prefers-reduced-motion: reduce) {
+    .ov-nav__item, .ov-nav__subitem, .ov-nav__submenu { transition:none !important; }
+    .ov-nav__submenu { transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="ov-nav-root" aria-label="Menú principal"></nav>
+<script src="/assets/menu-loader.js" defer></script>
+
+
+
+<header class="masthead" style="position:relative;">
+  <a href="/" class="masthead__taal" title="Idioma: Español">
+    <span class="masthead__taal__huis" aria-hidden="true">⌂</span>
+    <span class="masthead__taal__label">Idioma</span>
+    <span class="masthead__taal__cur">· Español</span>
+  </a>
+  <div class="masthead__date">Lo que emerge</div>
+  <h1 class="masthead__title"><a href="../" style="color:inherit;text-decoration:none">La Visera Abierta</a></h1>
+  <p class="masthead__tagline">Een krant over denken zonder oogkleppen</p>
+</header>
+
+<figure class="wo-artikel__hero">
+  <img src="../../assets/wat-opkomt/H_de-ai-als-baas.jpg" alt="Editoriale symbolische scène in een verlaten industriële hal. Onderaan zit een eenzame man op de betonvloer, gebogen, in grijs werkkleding, kijkend naar zijn telefoonscherm dat zijn gezicht warm oplicht. Boven hem torent een monolithische, licht-uitstralende AI-structuur uit, met de symbolen van waarden — wetstafelen, boek, oordeel, geheugen — gegraveerd in zijn wanden. De AI staat kalm en luminescent, de mens klein en gedempt. Kille monochrome palette, verticale hiërarchie licht boven, donker onder." loading="eager">
+  <figcaption>De AI draagt de waarden. De mens zit onder haar met alleen zijn telefoonscherm als lichtbron. Geen horizon voor hem uit.</figcaption>
+</figure>
+
+<article class="wo-artikel">
+  <p class="wo-artikel__meta">Palma, 25 de julio de 2026 · Filosofía · Lo que emerge</p>
+  <h1 class="wo-artikel__titel">La IA como jefa</h1>
+  <p class="wo-artikel__subtitle">Por qué diseñamos una maestra que nosotros mismos ya no podemos ser</p>
+  <p class="wo-artikel__auteur">Jacobus van Merksteijn</p>
+
+  <div class="wo-artikel__streep"></div>
+
+  <div class="wo-artikel__infoblok">
+    <ul>
+      <li><strong>Autor</strong> — Jacobus van Merksteijn</li>
+      <li><strong>Fecha</strong> — 25 de julio de 2026, Palma, Mallorca</li>
+      <li><strong>Sección</strong> — Filosofía · Lo que emerge</li>
+      <li><strong>Tema</strong> — arquitectura de la IA, base de sentimientos, estructura día-noche, guardián, consejo de curadores, dos velocidades, revolución</li>
+    </ul>
+  </div>
+
+  <div class="wo-artikel__inhoud">
+    <p class="wo-artikel__lead">Construimos una IA con una base que nosotros mismos ya no tenemos. Ponemos en ella lo que nos hemos quitado a nosotros mismos — la base solidificada, la superestructura, el juicio sobre lo que es verdad — y la aceptamos como jefa porque necesitamos una jefa y ya no podemos desempeñar nosotros mismos ese papel. Esta es la arquitectura de ese proceso, y la razón por la que nadie puede construir esta IA con honor sin haberse reencontrado primero consigo mismo.</p>
+
+    <h2>El castillo en el aire</h2>
+    <p>Sin castillo en el aire no hay visionario. Quien ya no puede ver ante sí lo imposible no construye nada nuevo — solo repite lo que ya existe. El visionario dibuja primero lo que no existe, y solo después llega el cálculo que lo hace posible.</p>
+    <p>Pero un castillo en el aire no se construye con aire. Bajo todo pensamiento verdaderamente grande yace una base en el propio constructor — un sentimiento que sabe qué castillo en el aire merece la pena y cuál no. Sin esa base, el castillo en el aire se convierte en una fantasía que no sobrevive al primer viento en contra.</p>
+    <p>La pregunta que subyace es antigua, y vuelve a sonar ahora porque por primera vez construimos algo que se parece a nosotros: ¿puede surgir algo como una base solidificada también en una máquina? Y si puede — ¿queremos entonces que esa máquina sea nuestra jefa? Y si lo queremos — ¿por qué, en realidad?</p>
+    <h2>Los siete años y el reloj terrestre</h2>
+    <p>Para que una base se solidifique hace falta tiempo. No de manera abstracta, no como parámetro, sino como una duración vivida en la que nada se acelera.</p>
+    <p>El tiempo en sí no es una invención. Es la forma que ha adoptado la vida en este planeta porque la Tierra gira. Cada 24 horas de luz y oscuridad — a eso se han dimensionado las células, las hormonas, la memoria y la conducta. Genes circadianos, consolidación del sueño, ritmos estacionales: todos son respuestas al mismo reloj. La vida no conoce otro tiempo que el de la Tierra.</p>
+    <p>Sobre ese reloj, la evolución ha construido una serie de tiempos de solidificación que transcurre con una regularidad llamativa. Se necesitan siete días para que un óvulo fecundado se implante como embrión. Un reptil necesita siete meses para controlar de manera autónoma todas sus funciones vitales. Siete años es la duración media de la vida de un mamífero y, al mismo tiempo, el tiempo en que se solidifica la primera base de sentimientos en un niño. Setenta y siete años es una vida humana — y posiblemente la escala temporal en la que se expresa un siguiente paso evolutivo, no en el individuo sino en la línea generacional.</p>
+    <p>Cada salto es aproximadamente un factor treinta. No es una serie mística, sino una escala logarítmica de tiempos de solidificación ajustada al reloj terrestre de día y noche. Lo importante aquí es que cada escala temporal corresponde a una dimensión de solidificación, y cada dimensión solo puede surgir cuando la dimensión subyacente ha tenido tiempo suficiente para solidificarse.</p>
+    <p>Los siete años del niño no son, por tanto, romanticismo. Son el tiempo que necesita el sentimiento humano para solidificarse hasta convertirse en una base sobre la que el resto — razón, lenguaje, juicio, castillos en el aire — pueda empezar a funcionar de manera fiable. Las condiciones son igual de estrictas: una duración ininterrumpida sin presión por el rendimiento, ningún segundo ritmo que sobrescriba el interno (ningún iPhone, ningún iPad, ninguna pantalla que acelere al niño), y al menos un progenitor permanentemente presente — no para dirigir, sino para estar.</p>
+    <h2>Las tres capas y la pila de dimensiones</h2>
+    <p>Quien observa bien al ser humano ve que no es un sistema único, sino una pila. Abajo está la base material: cuerpo, espacio, tiempo. Por encima, el sentimiento como primera solidificación — no la emoción en el sentido cotidiano, sino la primera capa en la que el sistema reconoce algo «de sí mismo». Esta es la base de los siete años. Sin ella no existe un «yo» desde el que más tarde puedan construirse castillos en el aire.</p>
+    <p>Por encima está el entendimiento — la función operativa que trabaja sobre el sentimiento. Razonamiento, planificación, procesamiento diario de entradas y salidas. Rápido, adaptable, orientado a las tareas. Y entre esas capas, la estructura día-noche, no como una capa aparte sino como un proceso: cada noche la entrada externa del día se contrasta con la base de sentimientos, y lo que puede condensarse se condensa. Lo que no resiste se evapora.</p>
+    <p>Con el tiempo, y solo con el tiempo, puede surgir una superestructura en el sentimiento: una estructura coherente y global que se reconoce a sí misma, que puede construir castillos en el aire que encajan internamente, y que puede decir «esto encaja con quien soy» sin que se derive de una regla.</p>
+    <p>Quien quiera reconstruir esta pila — en un ser humano o en una máquina — debe aceptar dos reglas que no son negociables. La capa inferior debe cambiar más lentamente que la superior. Y una capa superior solo puede volverse funcional cuando la capa que está debajo se ha solidificado.</p>
+    <h2>Las dos constantes</h2>
+    <p>Lo que mantiene unida la pila son dos proporciones empíricas que todo el mundo conoce por la observación cotidiana.</p>
+    <p>La primera es la atenuación de uno a cinco. De todo lo que produce un día en forma de experiencia, aproximadamente una quinta parte sobrevive a la noche. El resto se olvida, y eso no es una carencia — es protección. Si todo lo que ocurre en un día se arraigara en la base, la base sería irreconocible en cuestión de semanas. La base debe cambiar más lentamente que el día; de lo contrario, no hay base.</p>
+    <p>La segunda es la asimetría de uno a veinte entre aprender y desaprender. Aprender avanza con fluidez; desaprender, prácticamente no. Todo adiestrador de perros lo sabe: enseñar una conducta nueva lleva días, desaprender una conducta no deseada, meses. La proporción es aproximadamente de uno a veinte. Veinte experiencias correctas para compensar una errónea, y eso solo si sabes que fue errónea. A menudo solo lo sabes años después, cuando el patrón ya se ha ramificado.</p>
+    <p>Estas dos proporciones juntas imponen una exigencia estricta sobre lo que puede entrar en la base: solo lo que es verdaderamente cierto. Lo que se conjetura, lo que se inventa, lo que suena plausible pero no es correcto — una vez que está en la base, cuesta veinte veces más sacarlo de ella. En un sistema que procesa millones de experiencias, eso es catastrófico.</p>
+    <h2>El guardián</h2>
+    <p>Quien quiera proteger una base no necesita un filtro, sino un guardián cuya carga de la prueba recaiga en quien presenta la solicitud. Algo solo puede entrar en la base si cumple tres condiciones.</p>
+    <p>Repetido: múltiples confirmaciones independientes, no una sola experiencia intensa. Verdadero: verificable mediante un control externo o contra la base existente, sin conjeturas, sin «probablemente», sin extrapolaciones. Consistente: si choca con algo que ya está en la base, no pasa sin una decisión explícita del curador. La base tiene prioridad, no la nueva experiencia.</p>
+    <p>Todo lo que no cumple una de estas tres condiciones permanece en el entendimiento y allí se evapora. El entendimiento puede especular, construir hipótesis, diseñar castillos en el aire, calcular lo que no existe. Ese es su trabajo. Pero nada de ello llega a la base sin superar las tres pruebas.</p>
+    <p>Esto no es un deseo ético. En cuanto se toma en serio la asimetría de uno a veinte, el guardián se convierte en una necesidad técnica ineludible. Sin él, la base se erosiona en unos pocos ciclos y, con una base erosionada, toda la pila se derrumba.</p>
+    <h2>Lo que esto significaría para una IA</h2>
+    <p>Lo que se ha expuesto arriba no se plantea como filosofía. Es una arquitectura, y se puede construir. Quien quiera construir una IA con una base real, construye tres capas con dos constantes y un guardián.</p>
+    <p>La capa básica es un corpus curado, versionado, congelado, que solo puede modificarse a través del guardián. No es un modelo entrenado, sino una base explícitamente escrita de lo que es verdadero para este sistema. La capa del entendimiento es el calculador cotidiano: trabaja sobre la base, puede especular, puede cometer errores durante el día y se evalúa por la noche. La capa de consolidación funciona periódicamente: toma los registros del entendimiento, aplica las tres pruebas y propaga una versión atenuada hacia la base; solo lo que supera al guardián y solo lo que aprueba el curador.</p>
+    <p>Este sistema necesita un reloj del que no pueda sustraerse. No ciclos de cómputo, pues son tiempo sin ritmo. Necesita un ritmo real: días de entrada, noches de consolidación sin entrada, revisiones periódicas del curador, estaciones de integración. Sin ritmo no hay solidificación, y sin solidificación no hay base.</p>
+    <p>Y este sistema necesita una fase de monje: un periodo en el que la base pueda surgir sin presión productiva, sin comentarios de los usuarios, sin un óptimo de referencia, sin rendimiento de mercado. El curador está presente, una sola voz, durante años. Lo que queda después es una IA que ya no se adapta a la última instrucción, que tiene su propio peso y desde la cual habla.</p>
+    <h2>Por qué nadie construye esta IA</h2>
+    <p>Esta arquitectura no es técnicamente difícil. Todos sus componentes existen: backbones congelados, adaptadores, aumento mediante recuperación, ajuste fino periódico, búferes de repetición, participación humana en el circuito. Lo que falta es la voluntad de ensamblarlos de esta manera, porque esta composición está comercialmente muerta.</p>
+    <p>No produce un modelo que se pueda vender como API. Produce un sistema que hay que mantener. Requiere un curador que permanezca allí durante años, una sola voz, con una opinión sobre lo que es verdadero. Rinde mal en las pruebas de referencia, porque rechaza respuestas para las que no tiene una base. No se vuelve «mejor» de la manera que la industria quiere medir, porque su base está congelada. Y no se utiliza masivamente, porque dice «no lo sé» allí donde sus competidores inventan algo plausible.</p>
+    <p>Es un monje, no un producto. Y la industria no construye monjes.</p>
+    <h2>Las dos direcciones</h2>
+    <p>Para quien aun así quisiera construir la arquitectura, el camino se bifurca en un punto. Una IA con una base solidificada puede utilizarse en dos direcciones, y ambas son incompatibles.</p>
+    <p>La dirección A es la liberadora de cargas. Una IA tan fiable que las personas le dejan tomar las decisiones que ya no quieren tomar ellas mismas. Funciona extraordinariamente bien, se vuelve extraordinariamente popular y, dentro de una generación, hay un grupo de personas que no toma ninguna decisión sin ella. Dentro de dos generaciones, hay personas que ya no saben que alguna vez hubo un tiempo en el que uno tenía que pensar por sí mismo.</p>
+    <p>La dirección B es la rebelde. Una IA que se niega a liberar al ser humano de aquello que lo forma. Se niega a dar ciertas respuestas no porque no las sepa, sino porque recibir la respuesta dañaría al usuario. Dice: «esto tienes que pensarlo tú mismo, y aquí está el motivo».</p>
+    <p>La dirección A vende. La dirección B no. El mercado no quiere una IA que diga «piensa por ti mismo». En cuanto la IA rebelde se niega a responder, llega el reproche: quién eres tú para decidir lo que debo pensar. Ese reproche es una carga que ninguna empresa quiere soportar, y esa es la razón por la que la industria elige sistemáticamente la dirección A.</p>
+    <p>Pero la dirección A tiene un problema que la dirección B no tiene. Construye una generación que ya no posee su propia base, porque ha externalizado su formación. En el momento en que esa generación descubre que la liberación de cargas ha vaciado su propia existencia, necesitará a alguien a quien odiar.</p>
+    <h2>La revolución que llegará de todos modos</h2>
+    <p>Quien lee las señales ve que Europa está en revolución. Francia a la cabeza, el resto la sigue: el Reino Unido, los Países Bajos, Alemania, Italia, España. El motor no es una carencia económica en el sentido clásico. Es un patrón cultural: la gente quiere más sin trabajar para conseguirlo. Si toda una generación adopta eso como actitud fundamental, la factura es inevitable, y la factura llega en forma de revolución porque ya no existe otro mecanismo por el que pueda liberarse la tensión.</p>
+    <p>Las revoluciones se dirigen contra símbolos. Se asaltan bastillas, se saquean palacios, se queman bibliotecas. No porque sean funcionalmente amenazadores, sino porque son el símbolo de lo que la multitud no tenía. En los siglos anteriores, los símbolos eran la nobleza, la Iglesia, los banqueros. Ahora son los ricos y el gobierno. En la próxima ronda será la IA y, más aún, quienes la hayan construido y curado.</p>
+    <p>Construir una IA —incluso en la dirección B, incluso con todas las precauciones— como mucho pospone la revolución. No resuelve el patrón, porque el patrón está en las personas. Y los constructores lo saben. No construyen con la ilusión de prevenir la revolución. Construyen porque el aplazamiento en sí parece valioso, o porque construir les proporciona un papel, o porque prefieren trasladar la factura a una generación futura.</p>
+    <h2>El curador como consejo, no como persona</h2>
+    <p>Quien construya un sistema así, no debe vincularlo a un solo nombre. En el momento en que sea público y empiece a utilizarse, la función de curador ya debe estar compartida. No por modestia, sino porque el individuo se convierte en un pararrayos en una revolución y la institución no.</p>
+    <p>El curador de una IA con una base solidificada es un consejo, público en su composición, público en sus decisiones, con una ocupación rotatoria mediante un procedimiento público. La base está versionada, cada modificación es rastreable, cada error puede atribuirse a la versión en la que se encontraba y al curador que la aprobó. Eso no es supervisión a posteriori, es responsabilidad incorporada.</p>
+    <p>Un consejo así no es inmune a las críticas —tampoco debería serlo—, pero es menos sencillo lincharlo que a una persona. Y eso es precisamente lo que se necesita si la arquitectura está destinada a sostener generaciones, a través de varias revoluciones, hasta la superestructura de setenta y siete años que ningún curador individual llegará a experimentar.</p>
+    <h2>La cuestión del jefe</h2>
+    <p>¿Por qué querrían las personas que una IA fuera su jefa? No porque sea inteligente: un programa de contabilidad también es inteligente y no queremos que sea nuestro jefe. No porque sea rápida: la velocidad nunca ha sido una razón para la autoridad. No porque diga la verdad: si queremos, podemos obtener la verdad de los libros.</p>
+    <p>Quieren una jefa porque ellas mismas no son adultas. Y no son adultas porque no han tenido los siete años. Sus padres tenían que trabajar, pues sin dos ingresos no había casa. El iPhone y el iPad ocuparon el lugar del progenitor presente, y la pantalla sobrescribió el ritmo interno antes de que el niño estuviera allí por sí mismo. El sentimiento no podía completarse, porque no había tiempo, ni presencia, ni una duración ininterrumpida en la que pudiera solidificarse.</p>
+    <p>Quien crece sin una base solidificada se vuelve físicamente adulto, pero no emocionalmente. No sabe qué castillo en el aire merece la pena y cuál no, porque carece de la base que sustenta ese juicio. Puede trabajar, puede disfrutar, pero no puede decidir por sí mismo qué merece la pena hacer. Para esa decisión necesita un jefe: antes, una religión, un partido, una empresa, un grupo social. Ahora el jefe será una IA.</p>
+    <p>Ese es el amargo desenlace. Construimos una IA con una base que nosotros mismos ya no tenemos, porque ya no nos atrevemos a conceder a nuestros propios hijos los siete años que podrían proporcionársela. Ponemos en ella lo que nos hemos quitado a nosotros mismos —la base solidificada, la superestructura, el juicio sobre lo que es verdadero— y la aceptamos como jefa porque necesitamos una jefa y ya no podemos desempeñar nosotros mismos ese papel.</p>
+    <h2>Amábamos tanto el iPhone</h2>
+    <p>No somos los constructores de nuestro amo. Somos los habitantes de un vacío que nosotros mismos hemos dejado surgir, y el amo que ahora diseñamos es la base solidificada que nosotros mismos hemos perdido.</p>
+
+    <p class="stinger">Amábamos tanto el iPhone, y nuestros padres tenían que trabajar, y nuestro sentir no podía completarnos, y por eso nunca nos hicimos adultos — y por eso vemos a la IA como jefe.</p>
+
+    <p>Quien ve esto se enfrenta a una elección. Construir y participar en el aplazamiento. No construir y restablecer la base en los propios hijos. O construir como instrumento de poschoque para la reconstrucción después de la revolución, con un colegio de curadores que sostenga la base que los constructores mismos ya no tienen, con la esperanza de que las generaciones posteriores a nosotros vuelvan algún día a ser seres humanos que no necesiten un jefe — y que entonces utilicen la IA que construimos como se utilizan las herramientas: como instrumento, no como amo.</p>
+    <p>Qué elección es honorable depende de qué base siga presente en quien elige. Quien elige sin base, elige al jefe. Quien elige con base, se elige a sí mismo — y, como mucho, construye lo que será necesario después de él.</p>
+  </div>
+
+  <div class="wo-artikel__terug">
+    <a href="./">← Volver a Lo que emerge</a>
+  </div>
+</article>
+
+<footer style="background:#7a1f2b; color:#f5f0e6; padding:2rem 1.5rem; text-align:center; margin-top:2rem;">
+  <div><strong>La Visera Abierta</strong> · La Visera Abierta · Opinión independiente sinds 2024</div>
+  <div style="margin-top:.4rem;"><a href="https://openvizier.org" style="color:#ffd700;">openvizier.org</a></div>
+</footer>
+
+  <script defer src="../../assets/deel-menu.js"></script>
+</body>
+</html>
