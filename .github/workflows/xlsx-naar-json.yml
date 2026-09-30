@@ -22,10 +22,13 @@ jobs:
           python-version: '3.11'
 
       - name: openpyxl installeren
-        run: pip install openpyxl
+        run: pip install openpyxl beautifulsoup4
 
       - name: Excel omzetten naar JSON-tabellen
         run: python3 scripts/xlsx_naar_json.py
+
+      - name: Artikelen en voorpagina-highlights uit Excel opbouwen
+        run: python3 scripts/bouw_xlsx_artikelen.py
 
       - name: Kaart-menu-pagina's genereren uit matrix
         run: python3 scripts/genereer_kaart_menus.py
@@ -35,6 +38,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add nl/_data/tabellen/ nl/stemgedrag.html de/wahlfolgen.html en/vote-impact.html
+          git add nl/wat-opkomt/ nl/index.html
           if git diff --staged --quiet; then
             echo "Geen wijzigingen."
           else
