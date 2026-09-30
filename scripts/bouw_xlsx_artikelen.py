@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build registered Dutch article pages from the Artikelinhoud sheet.
+"""Build registered multilingual article pages from the canonical workbook.
 
 Article prose and publication metadata come only from vizier.xlsx.
 Only marked front-page/list blocks and the registered article are written.
@@ -8,7 +8,7 @@ Existing text, articles, menus and banners are otherwise preserved.
 from pathlib import Path
 from html import escape
 from datetime import datetime
-import re
+import re, json
 import openpyxl
 from bs4 import BeautifulSoup
 
@@ -24,6 +24,19 @@ for row in wb["Artikelinhoud"].iter_rows(min_row=3, values_only=True):
     if row[1]:
         articles.setdefault(row[1], []).append((int(row[2]), row[3], row[4]))
 template = (REPO / "scripts/templates/xlsx-artikel.html").read_text()
+settings = {}
+if "Artikeltaal" in wb.sheetnames:
+    for lang, slug, raw in wb["Artikeltaal"].iter_rows(min_row=3, max_col=3, values_only=True):
+        if slug:
+            settings[slug] = (lang, json.loads(raw))
+LANGUAGE_NAMES={"nl":"Nederlands","en":"English","de":"Deutsch","fr":"Français",
+                "es":"Español","it":"Italiano","pt":"Português","ru":"Русский"}
+published={}
+for slug in articles:
+    matching=[r for r in rows if str(r.get("URL","")).endswith("/"+slug+".html")
+              and r.get("Status")=="live" and r.get("Actief") is not False]
+    if matching:
+        published[slug]=matching[0]
 
 def replace_marked(path, key, markup, anchor):
     text = path.read_text()
@@ -38,11 +51,21 @@ def replace_marked(path, key, markup, anchor):
 
 for slug, blocks in articles.items():
     assert re.fullmatch(r"[a-z0-9-]+", slug), "Unsafe article slug"
-    matching = [r for r in rows if r.get("Taal") == "nl" and r.get("URL") == f"wat-opkomt/{slug}.html"]
+    matching = [r for r in rows if str(r.get("URL","")).endswith("/"+slug+".html")]
     assert matching, f"No matrix row for {slug}"
     record = matching[0]
     if record.get("Status") != "live" or record.get("Actief") is False:
         continue
+    lang,ui=settings[slug]
+    assert lang==record["Taal"]
+    route=record["URL"]
+    assert re.fullmatch(r"[a-z0-9/-]+\.html",route)
+    family=[r for r in published.values() if r.get("Extra 1")==record.get("Extra 1")]
+    family.sort(key=lambda r:list(LANGUAGE_NAMES).index(r["Taal"]))
+    alternates="\n".join(f'<link rel="alternate" hreflang="{r["Taal"]}" href="https://openvizier.org/{r["Taal"]}/{r["URL"]}">' for r in family)
+    language_links=" ".join(f'<a href="/{r["Taal"]}/{r["URL"]}" lang="{r["Taal"]}" hreflang="{r["Taal"]}"'
+        +(' aria-current="page"' if r["Taal"]==lang else '')
+        +f'>{LANGUAGE_NAMES[r["Taal"]]}</a>' for r in family)
     blocks.sort()
     first = {slot: html for _, slot, html in blocks if slot != "body"}
     raw_body = "\n".join(html for _, slot, html in blocks if slot == "body")
@@ -59,7 +82,7 @@ for slug, blocks in articles.items():
             heading.name = "h2" if heading.get("id") == "leeswijzer" else "h3"
     for table in body.find_all("table"):
         wrap = body.new_tag("div", attrs={"class": "table-scroll", "tabindex": "0", "role": "region",
-            "aria-label": "Tabel; horizontaal verschuifbaar op smalle schermen"})
+            "aria-label": ui["table_aria"]})
         table.wrap(wrap)
     in_sources = False
     for el in list(body.children):
@@ -87,46 +110,48 @@ for slug, blocks in articles.items():
     title = record["Naam"]
     subtitle = record.get("Ondertitel") or ""
     hero = str(record["Hero"]).replace("../", "/", 1)
-    url = f"https://openvizier.org/nl/wat-opkomt/{slug}.html"
+    url = f"https://openvizier.org/{lang}/{route}"
     values = {
         "TITLE": escape(title), "DESCRIPTION": escape(subtitle, quote=True), "CANONICAL": url,
         "HERO": hero, "HERO_ABSOLUTE": "https://openvizier.org" + hero,
         "SUBTITLE": first["subtitle"], "DATE": first["date"], "BODY": str(body),
         "TOC": "\n".join(toc), "PUBLICATION_DATE": str(record["Datum publicatie"]),
         "AUTHOR": escape(record.get("Auteur") or ""),
+        "LANG":lang, "ALTERNATES":alternates, "LANGUAGE_LINKS":language_links,
+        **{"UI_"+k.upper():escape(v,quote=True) for k,v in ui.items()},
     }
     page = template
     for key, value in values.items():
         page = page.replace("{{" + key + "}}", value)
     assert "{{" not in page
-    (REPO / "nl/wat-opkomt" / f"{slug}.html").write_text(page)
-    day = datetime.strptime(str(record["Datum publicatie"]), "%Y-%m-%d")
-    months = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"]
-    label = f"{day.day} {months[day.month-1]} {day.year}"
-    banner = f'''<a class="dgk-top" href="/nl/wat-opkomt/{slug}.html" style="background:#1a3347;border-left-color:#bf9b56;">
+    output=REPO/lang/route
+    output.parent.mkdir(parents=True,exist_ok=True)
+    output.write_text(page)
+    label=ui["date"]
+    banner = f'''<a class="dgk-top" href="/{lang}/{route}" style="background:#1a3347;border-left-color:#bf9b56;">
   <div class="dgk-top__grid">
     <div class="dgk-top__img"><img src="{hero}" alt="{escape(title)}" loading="eager" decoding="async"></div>
     <div class="dgk-top__txt">
-      <p class="dgk-top__tag">NIEUW · VOORSPELLING · {label.upper()}</p>
+      <p class="dgk-top__tag">{escape(ui["new"])} · {escape(ui["forecast"].upper())} · {escape(label.upper())}</p>
       <h2 class="dgk-top__h">{escape(title)}</h2>
       <p class="dgk-top__l">{escape(subtitle)}</p>
-      <span class="dgk-top__k">Lees de voorspelling →</span>
+      <span class="dgk-top__k">{escape(ui["read"])} →</span>
     </div>
   </div>
 </a>'''
-    replace_marked(REPO / "nl/index.html", slug, banner,
+    replace_marked(REPO / lang / "index.html", slug, banner,
         '<script src="/assets/menu-loader.js" defer></script>')
     listing = f'''<article class="wo-item">
   <div class="wo-item__layout">
     <div class="wo-item__visual"><a href="{slug}.html"><img src="{hero}" alt="{escape(title)}" loading="eager"></a></div>
     <div class="wo-item__tekst">
-      <p class="wo-item__datum">{label} · Voorspelling</p>
+      <p class="wo-item__datum">{escape(label)} · {escape(ui["forecast"])}</p>
       <h2 class="wo-item__titel"><a href="{slug}.html">{escape(title)}</a></h2>
       <p class="wo-item__lead">{escape(subtitle)}</p>
     </div>
   </div>
 </article>'''
-    listing_path = REPO / "nl/wat-opkomt/index.html"
+    listing_path = output.parent / "index.html"
     match = re.search(r'<(?:section|div)\b[^>]*class=["\'][^"\']*\bwo-lijst\b[^"\']*["\'][^>]*>', listing_path.read_text())
     assert match, "Missing chronological article list"
     replace_marked(listing_path, slug, listing, match.group())
