@@ -38,11 +38,17 @@ for slug in articles:
     if matching:
         published[slug]=matching[0]
 
-def replace_marked(path, key, markup, anchor):
+def replace_marked(path, key, markup, anchor, relocate=False):
     text = path.read_text()
     start, end = f"<!-- XLSX {key} START -->", f"<!-- XLSX {key} END -->"
     block = f"{start}\n{markup}\n{end}"
-    if start in text:
+    if relocate:
+        # A script tag may sit below many old stories in translated front pages.
+        # Reposition the marked block after the actual navigation on every build.
+        text = re.sub(re.escape(start) + r".*?" + re.escape(end) + r"\n?", "", text, flags=re.S)
+        assert anchor in text, f"Missing publication anchor in {path}"
+        text = text.replace(anchor, anchor + "\n" + block, 1)
+    elif start in text:
         text = re.sub(re.escape(start) + r".*?" + re.escape(end), lambda _: block, text, flags=re.S)
     else:
         assert anchor in text, f"Missing insertion anchor in {path}"
@@ -66,6 +72,22 @@ for slug, blocks in articles.items():
     language_links=" ".join(f'<a href="/{r["Taal"]}/{r["URL"]}" lang="{r["Taal"]}" hreflang="{r["Taal"]}"'
         +(' aria-current="page"' if r["Taal"]==lang else '')
         +f'>{LANGUAGE_NAMES[r["Taal"]]}</a>' for r in family)
+    # Put exact, matrix-backed translations beside the entry point, not only
+    # inside the article. Sibling navigation avoids nested links in the banner.
+    translation_links=" ".join(
+        f'<a href="/{r["Taal"]}/{r["URL"]}" lang="{r["Taal"]}" hreflang="{r["Taal"]}"'
+        f' title="{escape(r["Naam"], quote=True)}">{LANGUAGE_NAMES[r["Taal"]]}</a>'
+        for r in family)
+    translation_bar=f'''<style>
+.xlsx-article-translations{{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem;max-width:1180px;box-sizing:border-box;margin:.5rem auto 1.5rem;padding:1rem;background:#f5f1e8;border:1px solid #d8d6cd;color:#1a3347;font:400 14px/1.5 Arial,sans-serif}}
+.xlsx-article-translations strong{{margin-right:.5rem}}
+.xlsx-article-translations a{{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.25rem .75rem;border:1px solid #a7afb5;border-radius:3px;background:#fdfbf7;color:#1a3347;text-decoration:underline;text-underline-offset:3px}}
+.xlsx-article-translations a:hover,.xlsx-article-translations a:focus-visible{{background:#1a3347;color:#fff}}
+.xlsx-article-translations a:focus-visible{{outline:3px solid #bf9b56;outline-offset:3px}}
+@media(max-width:600px){{.xlsx-article-translations{{margin-inline:1rem}}.xlsx-article-translations strong{{flex-basis:100%;text-align:center}}}}
+</style>
+<nav class="xlsx-article-translations" aria-label="{escape(record['Naam'],quote=True)} · {escape(ui['languages'],quote=True)}">
+<strong>{escape(ui['languages'])}:</strong>{translation_links}</nav>'''
     blocks.sort()
     first = {slot: html for _, slot, html in blocks if slot != "body"}
     raw_body = "\n".join(html for _, slot, html in blocks if slot == "body")
@@ -138,9 +160,15 @@ for slug, blocks in articles.items():
       <span class="dgk-top__k">{escape(ui["read"])} →</span>
     </div>
   </div>
-</a>'''
-    replace_marked(REPO / lang / "index.html", slug, banner,
-        '<script src="/assets/menu-loader.js" defer></script>')
+</a>
+{translation_bar}'''
+    frontpage = REPO / lang / "index.html"
+    nav_anchor = re.search(r'<nav\b[^>]*\bid=["\']ov-nav-root["\'][^>]*>\s*</nav>', frontpage.read_text())
+    assert nav_anchor, f"Missing top navigation on {frontpage}"
+    replace_marked(frontpage, slug, banner, nav_anchor.group(), relocate=True)
+    front_soup = BeautifulSoup(frontpage.read_text(), "html.parser")
+    first_banner = front_soup.select_one("a.dgk-top")
+    assert first_banner and first_banner["href"] == f"/{lang}/{route}", f"Article not first on {frontpage}"
     listing = f'''<article class="wo-item">
   <div class="wo-item__layout">
     <div class="wo-item__visual"><a href="{slug}.html"><img src="{hero}" alt="{escape(title)}" loading="eager"></a></div>
@@ -150,7 +178,8 @@ for slug, blocks in articles.items():
       <p class="wo-item__lead">{escape(subtitle)}</p>
     </div>
   </div>
-</article>'''
+</article>
+{translation_bar}'''
     listing_path = output.parent / "index.html"
     match = re.search(r'<(?:section|div)\b[^>]*class=["\'][^"\']*\bwo-lijst\b[^"\']*["\'][^>]*>', listing_path.read_text())
     assert match, "Missing chronological article list"
