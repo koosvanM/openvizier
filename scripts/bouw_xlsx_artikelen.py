@@ -124,7 +124,8 @@ for slug, blocks in articles.items():
         "TOC": "\n".join(toc), "PUBLICATION_DATE": str(record["Datum publicatie"]),
         "AUTHOR": escape(record.get("Auteur") or ""),
         "LANG":lang, "ALTERNATES":alternates, "LANGUAGE_LINKS":language_links,
-        **{"UI_"+k.upper():escape(v,quote=True) for k,v in ui.items()},
+        "HERO_WIDTH":str(ui.get("hero_width",1672)), "HERO_HEIGHT":str(ui.get("hero_height",941)),
+        **{"UI_"+k.upper():escape(str(v),quote=True) for k,v in ui.items()},
     }
     page = template
     for key, value in values.items():
