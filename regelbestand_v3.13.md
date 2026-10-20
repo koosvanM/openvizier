@@ -42,6 +42,8 @@ Behouden zoals vastgesteld in v3.7 t/m v3.11. Zie `regelbestand_v3.11.md`. De be
 
 ### Regel 116 — Canonieke vier-factor NEPK-formule
 
+> **Vervangen per 20 oktober 2026:** zie [`regelbestand/vaste_definities_NEPK_NTPK_PBW.md`](regelbestand/vaste_definities_NEPK_NTPK_PBW.md) voor het bindende factorcontract. De factorwaarden in regels 116–117 vallen buiten dat contract.
+
 De Netto Externe Productieve Kern wordt berekend als een multiplicatief product van vier onafhankelijke factoren:
 
 $$\text{NEPK}\% = E_{tv} \times \alpha \times (1 - \tau) \times \varphi$$

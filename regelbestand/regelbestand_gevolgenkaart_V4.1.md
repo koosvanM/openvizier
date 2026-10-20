@@ -107,6 +107,8 @@ Wijzigingen ten opzichte van V4:
 
 ## 3. NEPK-definitie — openvizier.org canoniek
 
+> **Vervangen per 20 oktober 2026:** de bindende definities en het vaste factorcontract staan in [`vaste_definities_NEPK_NTPK_PBW.md`](vaste_definities_NEPK_NTPK_PBW.md). De factorbronnen en ankers in § 3.2–3.4 hieronder vallen buiten dat contract en worden niet met de vaste reeks verbonden.
+
 **Bron:** [openvizier.org/nl/editie-2/nepk-klimaatlogica](https://openvizier.org/nl/editie-2/nepk-klimaatlogica) (Editie 2 "NEPK-Klimaatlogica")
 
 ### 3.1 Formule (bindend)
