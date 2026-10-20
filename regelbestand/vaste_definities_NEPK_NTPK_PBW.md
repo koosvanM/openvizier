@@ -58,18 +58,32 @@ Lege cellen: factorwaarden per jaar nog in het bronregister vast te leggen.
 PBW = (BBP − TH − FISIM) × (W / B) − U − (u − u*) × β × BBP
 ```
 
-| Component | Betekenis | Vaste bron |
+| Component | Betekenis | Vaste bron (CBS StatLine) |
 |---|---|---|
-| BBP | Officieel bruto binnenlands product, lopende prijzen | CBS nationale rekeningen |
-| TH | Geïmputeerde (toegerekende) huur eigen woning, als productie | CBS nationale rekeningen |
-| FISIM | Indirect gemeten financiële diensten | CBS nationale rekeningen |
-| W / B | Werkzame beroepsbevolking gedeeld door beroepsbevolking | CBS |
-| U | Sociale uitkeringen in geld | CBS nationale rekeningen |
-| Okun-correctie | −(u − u*) × β × BBP, met u = werkloosheidspercentage (CBS, jaar), u* = 0,03, β = 2 | Okun (1962); vaste parameters |
+| BBP | Bruto binnenlands product, werkelijke prijzen | 85865NED, BrutoBinnenlandsProduct_21 |
+| TH | Huurwaarde eigen woning (toegerekende huur) | 85873NED, HuurwaardeVanDeWoning_29 |
+| FISIM | Productie van indirect gemeten diensten van financiële intermediairs (IGDFI), totale binnenlandse sectoren | 85882NED, ProductieVanIGDFI_9 |
+| W / B | Werkzame beroepsbevolking / beroepsbevolking, 15–75 jaar | 85264NED, WerkzameBeroepsbevolking_3 / Beroepsbevolking_2 |
+| U | Sociale uitkeringen in geld ontvangen door huishoudens (ESA D.62: sociale zekerheid + overige sociale verzekering + sociale voorziening) | 85882NED, kolommen 53 + 54 + 55, sector huishoudens incl. IZW |
+| u | Werkloosheidspercentage, 15–75 jaar | 85264NED, Werkloosheidspercentage_21 |
+| Okun-correctie | (u − u*) × β × BBP, met u* = 0,03 en β = 2 | vaste parameters (Okun, 1962) |
 
-**Correctie 20 oktober 2026:** de oorspronkelijke PBW-berekening (juli 2026) gebruikte TH = €97 miljard voor 2024. Die waarde heeft geen bron. Het CBS geeft voor 2024 een geïmputeerde huur van €54 miljard. De waarden PBW 2024 = €709 miljard (62,9%) en de schuldlagen op PBW (68% / 104% / 400% / 170%) vervallen daarmee als referentie.
+Reproduceerbaar script: [`scripts/pbw_berekening.py`](../scripts/pbw_berekening.py) haalt alle invoer rechtstreeks bij het CBS op.
 
-**Voorlopige herberekening 2024 (assistentberekening):** BBP €1.122,5 mld (CBS) − TH €54 mld − FISIM €40 mld = €1.028,5 mld; × W/B 0,963 = €990,4 mld; − U €229,9 mld; − Okun (0,7 pp × 2 × BBP) €15,7 mld = **PBW ≈ €745 mld = 66,4% van het BBP**. Schuldlagen op deze PBW: 67% / 99% / 380% / 167%. FISIM, U en W/B zijn de juliwaarden en moeten nog bij het CBS worden nagecontroleerd voordat dit de vaste referentie wordt.
+### Referentiewaarden PBW (CBS-stand 23 september 2026, mln euro)
+
+| Jaar | BBP | TH | FISIM | W/B | U | u | Okun | PBW | PBW % BBP |
+|---|---|---|---|---|---|---|---|---|---|
+| 2022 | 993.820 | 49.578 | 25.830 | 0,9646 | 154.721 | 3,5% | 9.938 | 721.277 | 72,6% |
+| 2023 | 1.050.133 | 51.578 | 23.725 | 0,9644 | 173.537 | 3,6% | 12.602 | 754.028 | 71,8% |
+| 2024 | 1.115.252 | 54.362 | 22.040 | 0,9634 | 186.424 | 3,7% | 15.614 | 798.813 | 71,6% |
+| 2025 | 1.170.579 | 57.531 | 23.964 | 0,9613 | 197.287 | 3,9% | 21.070 | 828.564 | 70,8% |
+
+Controle: script en een onafhankelijke handberekening met dezelfde CBS-waarden geven identieke uitkomsten.
+
+**Vervallen waarden (juli 2026):** PBW 2024 = €709 mld (62,9%) rustte op TH €97 mld, FISIM €40 mld en U €229,9 mld zonder traceerbare bron, en op een inmiddels herzien BBP (€1.128,2 mld). Die waarden en de schuldlagen op PBW (68% / 104% / 400% / 170%) vervallen.
+
+**Bekende beperking FISIM:** alleen het deel van FISIM dat in finale bestedingen terechtkomt, zit in het BBP. Aftrek van de totale productie van IGDFI corrigeert daarom iets te veel (maximaal circa 2% van het BBP).
 
 ## 6. Afwijkende contracten (niet conform, niet mengen)
 
@@ -92,4 +106,4 @@ Deze waarden blijven zichtbaar in de bestaande publicaties, maar worden niet met
 
 ## Nog te doen
 
-> **Controle PBW-invoer 2024.** FISIM, sociale uitkeringen in geld en W/B nacontroleren bij het CBS; daarna wordt de herberekening in § 5 de vaste referentie en worden de PBW-cijfers in "Eerlijkheid maakt regeren mogelijk" aangepast.
+> **Artikel bijwerken.** De PBW-cijfers en de schuldlagen op PBW in "Eerlijkheid maakt regeren mogelijk" aanpassen aan § 5.
