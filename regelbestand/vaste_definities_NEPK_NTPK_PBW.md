@@ -27,11 +27,11 @@ PBW  = (BBP − TH − FISIM) × (W / B) − U + Okun-correctie
 | E_tv | Binnenlandse toegevoegde waarde in de export, als deel van het BBP | OESO TiVA 2025-editie: EXGR_DVA / VALU (NLD, alle activiteiten, partner wereld), omgerekend naar BBP met CBS 85865NED (bruto toegevoegde waarde basisprijzen / BBP) | decimaal van BBP |
 | α | Toegevoegde waarde van industrie, inclusief bouw en energie, als deel van het BBP | Wereldbank NV.IND.TOTL.ZS | decimaal van BBP |
 | τ | Belastingen plus sociale premies, als deel van het BBP | OESO Revenue Statistics (DSD_REV_COMP_OECD@DF_RSOECD, TAX_REV, S13, totaal, % BBP) | decimaal van BBP |
-| φ | Aandeel toegevoegde waarde onder binnenlandse zeggenschap | 2015–2020: CBS 81358ned (B-N excl. K): 1 − TW buitenland / TW totaal. 2021–2024: Eurostat fats_activ = CBS IFATS (B-S excl. O en S94): TW binnenlands / TW alle landen; 2024 identiek aan CBS 85821NED | decimaal |
+| φ | Aandeel toegevoegde waarde onder binnenlandse zeggenschap, bedrijven B-N excl. K | 2015–2020: CBS 81358ned: 1 − TW buitenland / TW totaal. 2021–2024: Eurostat fats_activ (= CBS IFATS), som van secties B t/m N excl. K: TW binnenlands / TW alle landen; vertrouwelijke secties aan beide kanten weggelaten | decimaal |
 
 Reproduceerbaar script: [`scripts/nepk_reeks.py`](../scripts/nepk_reeks.py).
 
-**Methodebreuk φ in 2021:** het CBS stapte over van juridische eenheid naar onderneming en verbreedde de sectordekking. Waarden vóór en na 2021 worden niet tot één dalingssnelheid verbonden.
+**Breuk φ in 2021:** de sectordekking is gelijk gehouden (B-N excl. K). Alleen de statistische eenheid wijzigde (juridische eenheid → onderneming); de aansluiting 2020 → 2021 (0,715 → 0,702) wijst niet op een groot niveau-effect.
 
 Geen andere bron of maatstaf per factor. Een waarde verandert alleen als een van deze vier bronnen nieuwe cijfers publiceert.
 
@@ -54,16 +54,18 @@ Geen andere bron of maatstaf per factor. Een waarde verandert alleen als een van
 | 2018 | 0,3639 | 0,1732 | 0,3814 | 0,6995 | 3,90% | 2,73% |
 | 2019 | 0,3566 | 0,1711 | 0,3847 | 0,6958 | 3,76% | 2,61% |
 | 2020 | 0,3460 | 0,1738 | 0,3902 | 0,7153 | 3,67% | 2,62% |
-| 2021* | 0,3586 | 0,1771 | 0,3826 | 0,8171 | 3,92% | 3,20% |
-| 2022* | 0,3547 | 0,1866 | 0,3807 | 0,7342 | 4,10% | 3,01% |
-| 2023 | n.b. | 0,1816 | 0,3926 | 0,7438 | n.b. | n.b. |
-| 2024 | n.b. | 0,1754 | 0,3854 | 0,7425 | n.b. | n.b. |
+| 2021 | 0,3586 | 0,1771 | 0,3826 | 0,7023 | 3,92% | 2,75% |
+| 2022 | 0,3547 | 0,1866 | 0,3807 | 0,6817 | 4,10% | 2,79% |
+| 2023 | n.b. | 0,1816 | 0,3926 | 0,6854 | n.b. | n.b. |
+| 2024 | n.b. | 0,1754 | 0,3854 | 0,6805 | n.b. | n.b. |
 
-\* na methodebreuk φ. n.b. = E_tv nog niet gepubliceerd (TiVA 2025-editie loopt tot 2022).
+n.b. = E_tv nog niet gepubliceerd (TiVA 2025-editie loopt tot 2022).
 
-Extrapolatie (assistent, aanname E_tv = waarde 2022): 2023 NTPK 3,91% / NEPK 2,91%; 2024 NTPK 3,82% / NEPK 2,84%.
+Extrapolatie (assistent, aanname E_tv = waarde 2022): 2023 NTPK 3,91% / NEPK 2,68%; 2024 NTPK 3,82% / NEPK 2,60%.
 
-Controle: de eerdere samengestelde stand (E_tv 2022, α 2025, τ 2024, φ 2024 = 0,7425) gaf NTPK 3,86% / NEPK 2,87%; die blijft een samengestelde stand, geen jaarwaarde.
+Trend 2015–2024 (assistent, lineair): NEPK −0,005 procentpunt per jaar; φ −0,0036 per jaar (buitenlands-eigendom-schil van 28% naar 32% van de kern).
+
+Correctie samengestelde stand: de eerdere 2,87% gebruikte φ = 0,7425 op een bredere sectordekking (B-S excl. O en S94). Met de vaste dekking B-N excl. K (φ 2024 = 0,6805) wordt die stand 2,63%.
 
 ## 5. PBW-componenten
 
@@ -119,7 +121,7 @@ Reproduceerbaar script: [`scripts/schuldlagen.py`](../scripts/schuldlagen.py). G
 | 2021, mld € | 450,2 | 773,4 | 2.638,3 | 2.205,5 | 1.513,7 |
 | 2021, % BBP / % PBW | 51 / 74 | 87 / 126 | 296 / 431 | 247 / 360 | 170 / 247 |
 
-Niet gemeten: impliciete verplichtingen langdurige zorg (geen officiële accrued-to-date-maat); AOW-rechten na 2021 (eerstvolgende verplichte meting: 2024).
+Langdurige zorg en andere vergrijzingskosten: niet als voorraad gemeten, wel als officiële houdbaarheidsmaat. Europese Commissie, Debt Sustainability Monitor 2025: S2 = 3,9% BBP (begroting 1,0; vergrijzing 2,8, waarvan pensioenen 1,0, zorg 0,6, langdurige zorg 1,6). AOW-rechten na 2021: eerstvolgende verplichte meting 2024.
 
 ## 6. Afwijkende contracten (niet conform, niet mengen)
 

@@ -9,9 +9,9 @@ Bronnen (alle rechtstreeks opgehaald):
   alpha Wereldbank NV.IND.TOTL.ZS (industrie incl. bouw en energie, % bbp)
   tau   OESO Revenue Statistics (DSD_REV_COMP_OECD@DF_RSOECD): totale belastingopbrengst, % bbp
   phi   2015-2020: CBS 81358ned, B-N excl. K incl. 95: 1 - TW buitenland / TW totaal
-        2021-2024: Eurostat fats_activ (= CBS IFATS; 2024 identiek aan CBS 85821NED), B-S excl. O en S94:
+        2021-2024: Eurostat fats_activ (= CBS IFATS), som van secties B-N excl. K (zelfde dekking):
                    TW binnenlandse zeggenschap / TW alle landen
-        Methodebreuk 2021 (juridische eenheid -> onderneming, bredere sectordekking).
+        Resterende breuk 2021: statistische eenheid juridische eenheid -> onderneming.
 Gebruik: python3 scripts/nepk_reeks.py
 """
 import csv
@@ -66,22 +66,29 @@ def phi():
     for y, x in t.items():
         if y >= 2015:
             out[y] = (1 - x["A042601"] / x["T001047"], "CBS 81358ned B-N excl. K")
+    secs = ["B", "C", "D", "E", "F", "G", "H", "I", "J", "L", "M", "N"]  # B-N excl. K, gelijk aan CBS 81358ned
+    q = "".join(f"&nace_r2={n}" for n in secs)
     e = json.loads(fetch("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/fats_activ?"
-                         "geo=NL&nace_r2=B-S_X_O_S94&indic_sbs=AV_MEUR&c_ctrl=DOM&c_ctrl=WORLD&format=JSON"))
+                         "geo=NL&indic_sbs=AV_MEUR&c_ctrl=DOM&c_ctrl=WORLD&format=JSON" + q))
     dims, sizes = e["id"], e["size"]
     lab = {k: e["dimension"][k]["category"]["index"] for k in dims}
 
-    def g(c, t_):
+    def g(n, c, t_):
         sel = {k: 0 for k in dims}
-        sel["c_ctrl"], sel["time"] = lab["c_ctrl"][c], lab["time"][t_]
+        sel["nace_r2"], sel["c_ctrl"], sel["time"] = lab["nace_r2"][n], lab["c_ctrl"][c], lab["time"][t_]
         i = 0
-        for k, s in zip(dims, sizes):
-            i = i * s + sel[k]
+        for k, s_ in zip(dims, sizes):
+            i = i * s_ + sel[k]
         return e["value"].get(str(i))
     for t_ in lab["time"]:
-        dom, wld = g("DOM", t_), g("WORLD", t_)
-        if dom and wld:
-            out[int(t_)] = (dom / wld, "Eurostat fats_activ B-S excl. O, S94")
+        dom = wld = 0.0
+        for n in secs:
+            a_, b_ = g(n, "DOM", t_), g(n, "WORLD", t_)
+            if a_ is None or b_ is None:  # vertrouwelijke cel: sectie aan beide kanten weglaten
+                continue
+            dom += a_
+            wld += b_
+        out[int(t_)] = (dom / wld, "Eurostat fats_activ B-N excl. K (som secties)")
     return out
 
 
