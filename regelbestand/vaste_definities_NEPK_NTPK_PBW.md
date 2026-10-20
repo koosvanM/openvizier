@@ -54,18 +54,22 @@ Lege cellen: factorwaarden per jaar nog in het bronregister vast te leggen.
 
 ## 5. PBW-componenten
 
-| Component | Betekenis | Bron |
+```
+PBW = (BBP − TH − FISIM) × (W / B) − U − (u − u*) × β × BBP
+```
+
+| Component | Betekenis | Vaste bron |
 |---|---|---|
-| BBP | Officieel bruto binnenlands product, lopende prijzen | CBS |
-| TH | Toegerekende huur van eigenaar-bewoners | CBS nationale rekeningen |
-| FISIM | Indirect gemeten bankdiensten | CBS nationale rekeningen |
+| BBP | Officieel bruto binnenlands product, lopende prijzen | CBS nationale rekeningen |
+| TH | Geïmputeerde (toegerekende) huur eigen woning, als productie | CBS nationale rekeningen |
+| FISIM | Indirect gemeten financiële diensten | CBS nationale rekeningen |
 | W / B | Werkzame beroepsbevolking gedeeld door beroepsbevolking | CBS |
-| U | Uitkeringen | CBS |
-| Okun-correctie | Correctie voor de productiekosten van werkloosheid (Okun, 1962) | zie open blok |
+| U | Sociale uitkeringen in geld | CBS nationale rekeningen |
+| Okun-correctie | −(u − u*) × β × BBP, met u = werkloosheidspercentage (CBS, jaar), u* = 0,03, β = 2 | Okun (1962); vaste parameters |
 
-Artikelwaarden 2024: TH €97 of €54 miljard (zie open blok 2), FISIM €40 miljard, U €230 miljard.
+**Correctie 20 oktober 2026:** de oorspronkelijke PBW-berekening (juli 2026) gebruikte TH = €97 miljard voor 2024. Die waarde heeft geen bron. Het CBS geeft voor 2024 een geïmputeerde huur van €54 miljard. De waarden PBW 2024 = €709 miljard (62,9%) en de schuldlagen op PBW (68% / 104% / 400% / 170%) vervallen daarmee als referentie.
 
-Referentie: PBW 2024 = €709 miljard = 62,9% van het officiële BBP (bron: "Eerlijkheid maakt regeren mogelijk"). Schuldlagen op PBW: 68% / 104% / 400% / 170%.
+**Voorlopige herberekening 2024 (assistentberekening):** BBP €1.122,5 mld (CBS) − TH €54 mld − FISIM €40 mld = €1.028,5 mld; × W/B 0,963 = €990,4 mld; − U €229,9 mld; − Okun (0,7 pp × 2 × BBP) €15,7 mld = **PBW ≈ €745 mld = 66,4% van het BBP**. Schuldlagen op deze PBW: 67% / 99% / 380% / 167%. FISIM, U en W/B zijn de juliwaarden en moeten nog bij het CBS worden nagecontroleerd voordat dit de vaste referentie wordt.
 
 ## 6. Afwijkende contracten (niet conform, niet mengen)
 
@@ -79,14 +83,13 @@ Deze waarden blijven zichtbaar in de bestaande publicaties, maar worden niet met
 
 ---
 
-## Open blokken
+## Vastgestelde namen
 
-> **Open 1 — Okun-correctie.** De operationele rekenregel (welke werkloosheidsmaat, welke Okun-coëfficiënt, welk teken) staat niet in de bron. Vast te leggen vóór herberekening van PBW.
+- **NEPK** — Nederlandse Economische Productie Kern
+- **NTPK** — Netto Totale ProductieKern
+- **PBW** — Productieve Brede Welvaart
+- **NPK** valt buiten deze vaste definities zolang ψ geen vaste bron heeft.
 
-> **Open 2 — Toegerekende huur.** Het artikel "Eerlijkheid maakt regeren mogelijk" noemt voor TH zowel €97 miljard als €54 miljard. Eén waarde en bron vast te leggen.
+## Nog te doen
 
-> **Open 3 — PBW-aandeel 2024.** Hetzelfde artikel noemt 62,9% en "richting 64%" voor 2024. Eén waarde vast te leggen.
-
-> **Open 4 — Uitgeschreven namen.** NEPK verschijnt als "Nederlandse Economische Productie Kern" en als "Netto Economisch Productiekapitaal"; NTPK als "Netto Totale ProductieKern" en (V4.1) "Nationaal Tetsuo Productief Kapitaal". Eén naam per maat vast te stellen door de auteur.
-
-> **Open 5 — NPK.** `NPK = NTPK × (1 + ψ)` valt buiten deze vaste definities zolang ψ geen vaste bron heeft.
+> **Controle PBW-invoer 2024.** FISIM, sociale uitkeringen in geld en W/B nacontroleren bij het CBS; daarna wordt de herberekening in § 5 de vaste referentie en worden de PBW-cijfers in "Eerlijkheid maakt regeren mogelijk" aangepast.
