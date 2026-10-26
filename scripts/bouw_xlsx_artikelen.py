@@ -8,7 +8,7 @@ Existing text, articles, menus and banners are otherwise preserved.
 from pathlib import Path
 from html import escape
 from datetime import datetime
-import re, json
+import re, json, os
 import openpyxl
 from bs4 import BeautifulSoup
 
@@ -60,6 +60,9 @@ for slug, blocks in articles.items():
     matching = [r for r in rows if str(r.get("URL","")).endswith("/"+slug+".html")]
     assert matching, f"No matrix row for {slug}"
     record = matching[0]
+    family_filter = os.environ.get("OPENVIZIER_ARTICLE_FAMILY")
+    if family_filter and record.get("Extra 1") != family_filter:
+        continue
     if record.get("Status") != "live" or record.get("Actief") is False:
         continue
     lang,ui=settings[slug]
