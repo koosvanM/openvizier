@@ -150,12 +150,23 @@ for slug, blocks in articles.items():
   </div>
 </a>'''
     frontpage = REPO / lang / "index.html"
-    nav_anchor = re.search(r'<nav\b[^>]*\bid=["\']ov-nav-root["\'][^>]*>\s*</nav>', frontpage.read_text())
-    assert nav_anchor, f"Missing top navigation on {frontpage}"
-    replace_marked(frontpage, slug, banner, nav_anchor.group(), relocate=True)
-    front_soup = BeautifulSoup(frontpage.read_text(), "html.parser")
-    first_banner = front_soup.select_one("a.dgk-top")
-    assert first_banner and first_banner["href"] == f"/{lang}/{route}", f"Article not first on {frontpage}"
+    if ui.get("hide_frontpage_for_slug") == slug:
+        # Keep the live article, menu placements and chronological archive.
+        # Persist this choice in Artikeltaal so later builds cannot restore it.
+        # Scope it to the slug: copying UI defaults must not hide a new article.
+        start, end = f"<!-- XLSX {slug} START -->", f"<!-- XLSX {slug} END -->"
+        text = frontpage.read_text()
+        text = re.sub(re.escape(start) + r".*?" + re.escape(end) + r"\n?", "", text, flags=re.S)
+        frontpage.write_text(text)
+        front_soup = BeautifulSoup(text, "html.parser")
+        assert not any(a.get("href") == f"/{lang}/{route}" for a in front_soup.select("a.dgk-top"))
+    else:
+        nav_anchor = re.search(r'<nav\b[^>]*\bid=["\']ov-nav-root["\'][^>]*>\s*</nav>', frontpage.read_text())
+        assert nav_anchor, f"Missing top navigation on {frontpage}"
+        replace_marked(frontpage, slug, banner, nav_anchor.group(), relocate=True)
+        front_soup = BeautifulSoup(frontpage.read_text(), "html.parser")
+        first_banner = front_soup.select_one("a.dgk-top")
+        assert first_banner and first_banner["href"] == f"/{lang}/{route}", f"Article not first on {frontpage}"
     listing = f'''<article class="wo-item">
   <div class="wo-item__layout">
     <div class="wo-item__visual"><a href="{slug}.html"><img src="{hero}" alt="{escape(title)}" loading="eager"></a></div>
